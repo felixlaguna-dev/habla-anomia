@@ -1,4 +1,4 @@
-@import './theme.css';
+@import './lib/styles/theme.css';
 
 /* Global resets and base styles */
 * {

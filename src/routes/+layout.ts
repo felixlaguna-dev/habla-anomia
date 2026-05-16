@@ -1,2 +1,1 @@
-export const prerender = true;
-export const ssr = false; // Client-side only for IndexedDB access
+export const ssr = false;

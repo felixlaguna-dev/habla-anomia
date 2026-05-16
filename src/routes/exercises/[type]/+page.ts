@@ -1,1 +1,1 @@
-export const prerender = false;
+// Dynamic exercise route — no prerender needed for SPA mode

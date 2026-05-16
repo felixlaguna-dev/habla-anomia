@@ -62,8 +62,8 @@
 
   onMount(initExercise);
 
-  async function handleComplete(e: { correct: number; total: number }) {
-    const { correct, total } = e;
+  async function handleComplete(e: { score: number; total: number }) {
+    const { score: correct, total } = e;
     const accuracy = total > 0 ? Math.round((correct / total) * 100) : 0;
 
     results = { correct, total, accuracy };

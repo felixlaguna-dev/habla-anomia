@@ -5,13 +5,15 @@
   import type { Word, Language, ExerciseType } from '$lib/types';
 
   type Props = {
-    categories: string[];
-    items: Word[];
+    words: Word[];
     language: Language;
     onComplete?: (results: { score: number; total: number; details: Array<{ word: Word; correct: boolean; selectedCategory: string }> }) => void;
   };
 
-  let { categories, items, language = 'es' as Language, onComplete }: Props = $props();
+  let { words, language = 'es' as Language, onComplete }: Props = $props();
+
+  // Derive categories from the word list
+  let categories = $derived([...new Set(words.map(w => w.category))]);
 
   // Shuffle items on init
   let shuffledItems = $state<Word[]>([]);
@@ -28,7 +30,7 @@
 
   // Initialize
   $effect(() => {
-    shuffledItems = [...items].sort(() => Math.random() - 0.5);
+    shuffledItems = [...words].sort(() => Math.random() - 0.5);
     const bins: Record<string, Word[]> = {};
     for (const cat of categories) {
       bins[cat] = [];

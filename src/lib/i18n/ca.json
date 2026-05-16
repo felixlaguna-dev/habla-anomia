@@ -1,0 +1,176 @@
+{
+  "app": {
+    "name": "Habla Anomia",
+    "tagline": "El teu company de rehabilitació del llenguatge"
+  },
+  "nav": {
+    "home": "Inici",
+    "exercises": "Exercicis",
+    "progress": "Progrés",
+    "settings": "Ajustos"
+  },
+  "dashboard": {
+    "welcome": {
+      "morning": "Bon dia",
+      "afternoon": "Bona tarda",
+      "evening": "Bona nit"
+    },
+    "today_practice": "Pràctica d'avui",
+    "daily_streak": "Ratxa diària",
+    "days": "dies",
+    "quick_start": "Començar ràpid",
+    "last_session": "Última sessió",
+    "no_sessions_yet": "Encara no hi ha sessions. Comença la teva primera pràctica!",
+    "words_practiced": "Paraules practicades",
+    "accuracy": "Precisió"
+  },
+  "exercises": {
+    "title": "Exercicis",
+    "select_exercise": "Selecciona un exercici",
+    "picture_naming": {
+      "name": "Anomenar imatges",
+      "description": "Mira la imatge i digues o escriu què és",
+      "what_is_this": "Què és això?",
+      "type_answer": "Escriu la teva resposta",
+      "speak_answer": "Parla la teva resposta",
+      "hint": "Pista",
+      "hints": {
+        "category": "Categoria: {value}",
+        "first_letter": "Comença amb la lletra: {value}",
+        "syllables": "Té {value} síl·labes",
+        "rhymes_with": "Rima amb: {value}",
+        "answer_is": "La resposta és: {value}"
+      }
+    },
+    "semantic_features": {
+      "name": "Característiques semàntiques",
+      "description": "Descriu l'objecte abans d'anomenar-lo",
+      "category_prompt": "A quina categoria pertany?",
+      "function_prompt": "Per a què serveix?",
+      "location_prompt": "On es troba?",
+      "properties_prompt": "Com és? (color, forma, mida)",
+      "associations_prompt": "Amb què ho associes?",
+      "now_name_it": "Ara intenta anomenar-lo"
+    },
+    "phonological_cueing": {
+      "name": "Pistes fonològiques",
+      "description": "Rep pistes de so per endevinar la paraula",
+      "first_sound": "Primera síl·laba: {value}",
+      "syllable_count": "Nombre de síl·labes: {value}",
+      "rhyming_word": "Rima amb: {value}",
+      "first_phonemes": "Primers sons: {value}",
+      "full_word": "Paraula completa: {value}",
+      "another_hint": "Una altra pista",
+      "try_now": "Intentar-ho ara"
+    },
+    "category_sorting": {
+      "name": "Classificar per categories",
+      "description": "Classifica les paraules en la seva categoria correcta",
+      "sort_into": "Classifica en: {category}",
+      "correct": "Correcte!",
+      "wrong": "Prova amb una altra categoria"
+    },
+    "generative_naming": {
+      "name": "Anomenar per categoria",
+      "description": "Anomena totes les paraules que puguis d'una categoria",
+      "name_all": "Anomena tot el que puguis de: {category}",
+      "time_left": "Temps restant",
+      "seconds": "segons",
+      "words_found": "Paraules trobades",
+      "add_word": "Afegir paraula",
+      "results_title": "Resultats",
+      "you_found": "Has trobat {count} paraules",
+      "well_done": "Molt bé!"
+    },
+    "word_matching": {
+      "name": "Relacionar paraules",
+      "description": "Relaciona cada paraula amb el seu significat",
+      "match_definition": "Relaciona la paraula amb la seva definició",
+      "match_word": "Relaciona la definició amb la seva paraula",
+      "select_answer": "Selecciona la resposta correcta"
+    },
+    "sentence_completion": {
+      "name": "Completar frases",
+      "description": "Completa la frase amb la paraula adequada",
+      "fill_blank": "Omple l'espai en blanc",
+      "complete_sentence": "Completa la frase"
+    },
+    "opposites_synonyms": {
+      "name": "Oposats i sinònims",
+      "description": "Troba paraules oposades o amb significat semblant",
+      "opposite_of": "Quin és l'oposat de?",
+      "synonym_of": "Quina paraula significa el mateix que?",
+      "what_means_same": "Quina paraula significa el mateix?"
+    }
+  },
+  "feedback": {
+    "correct": "Correcte!",
+    "incorrect": "No és exactament això",
+    "try_again": "Torna-ho a intentar",
+    "well_done": "Molt bé!",
+    "excellent": "Excel·lent!",
+    "keep_going": "Segueix així!",
+    "almost": "Gairebé ho tens!",
+    "great_effort": "Bon esforç!",
+    "the_answer_was": "La resposta era: {answer}",
+    "exercise_complete": "Exercici completat",
+    "score": "Puntuació"
+  },
+  "progress": {
+    "title": "Progrés",
+    "overall_accuracy": "Precisió general",
+    "by_category": "Per categoria",
+    "by_exercise": "Per exercici",
+    "words_mastered": "Paraules dominades",
+    "words_in_progress": "Paraules en progrés",
+    "new_words": "Paraules noves",
+    "session_history": "Historial de sessions",
+    "no_data": "Encara no hi ha dades. Completa un exercici per veure el teu progrés!",
+    "export": "Exportar dades",
+    "import": "Importar dades",
+    "clear_data": "Esborrar dades",
+    "confirm_clear": "Segur que vols esborrar totes les dades de progrés?"
+  },
+  "settings": {
+    "title": "Ajustos",
+    "language": "Idioma",
+    "text_size": "Mida del text",
+    "theme": "Tema visual",
+    "dark": "Fosc",
+    "light": "Clar",
+    "speech_recognition": "Reconeixement de veu",
+    "speech_rate": "Velocitat de veu",
+    "sound_effects": "Efectes de so",
+    "haptic_feedback": "Vibració",
+    "normal": "Normal",
+    "large": "Gran",
+    "extra_large": "Molt gran",
+    "about": "Quant a",
+    "version": "Versió"
+  },
+  "onboarding": {
+    "welcome": "Benvingut a Habla Anomia",
+    "welcome_message": "Aquesta aplicació t'ajudarà a practicar el llenguatge amb exercicis senzills i divertits. Anem a configurar-la junts.",
+    "choose_language": "Tria el teu idioma",
+    "choose_text_size": "Tria la mida del text",
+    "lets_start": "Comencem!",
+    "step": "Pas {current} de {total}"
+  },
+  "about": {
+    "title": "Quant a Habla Anomia",
+    "what_is_anomia": "Què és l'anomia?",
+    "anomia_description": "L'anomia és una dificultat per trobar les paraules adequades en parlar. És freqüent després d'un accident cerebrovascular o una lesió cerebral. Amb pràctica i exercicis, es pot millorar molt.",
+    "exercises_help": "Els exercicis d'aquesta aplicació estan dissenyats per ajudar-te a practicar el llenguatge de forma divertida, al teu ritme i sense pressió."
+  },
+  "common": {
+    "start": "Començar",
+    "next": "Següent",
+    "back": "Enrere",
+    "finish": "Acabar",
+    "skip": "Ometre",
+    "close": "Tancar",
+    "loading": "Carregant...",
+    "of": "de",
+    "cancel": "Cancel·lar"
+  }
+}

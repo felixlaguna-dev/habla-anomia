@@ -1,0 +1,176 @@
+{
+  "app": {
+    "name": "Habla Anomia",
+    "tagline": "Tu compañero de rehabilitación del lenguaje"
+  },
+  "nav": {
+    "home": "Inicio",
+    "exercises": "Ejercicios",
+    "progress": "Progreso",
+    "settings": "Ajustes"
+  },
+  "dashboard": {
+    "welcome": {
+      "morning": "Buenos días",
+      "afternoon": "Buenas tardes",
+      "evening": "Buenas noches"
+    },
+    "today_practice": "Práctica de hoy",
+    "daily_streak": "Racha diaria",
+    "days": "días",
+    "quick_start": "Comenzar rápido",
+    "last_session": "Última sesión",
+    "no_sessions_yet": "Aún no hay sesiones. ¡Empieza tu primera práctica!",
+    "words_practiced": "Palabras practicadas",
+    "accuracy": "Precisión"
+  },
+  "exercises": {
+    "title": "Ejercicios",
+    "select_exercise": "Selecciona un ejercicio",
+    "picture_naming": {
+      "name": "Nombrar imágenes",
+      "description": "Mira la imagen y di o escribe qué es",
+      "what_is_this": "¿Qué es esto?",
+      "type_answer": "Escribe tu respuesta",
+      "speak_answer": "Habla tu respuesta",
+      "hint": "Pista",
+      "hints": {
+        "category": "Categoría: {value}",
+        "first_letter": "Empieza con la letra: {value}",
+        "syllables": "Tiene {value} sílabas",
+        "rhymes_with": "Rima con: {value}",
+        "answer_is": "La respuesta es: {value}"
+      }
+    },
+    "semantic_features": {
+      "name": "Características semánticas",
+      "description": "Describe el objeto antes de nombrarlo",
+      "category_prompt": "¿A qué categoría pertenece?",
+      "function_prompt": "¿Para qué sirve?",
+      "location_prompt": "¿Dónde se encuentra?",
+      "properties_prompt": "¿Cómo es? (color, forma, tamaño)",
+      "associations_prompt": "¿Con qué lo asocias?",
+      "now_name_it": "Ahora intenta nombrarlo"
+    },
+    "phonological_cueing": {
+      "name": "Pistas fonológicas",
+      "description": "Recibe pistas de sonido para adivinar la palabra",
+      "first_sound": "Primera sílaba: {value}",
+      "syllable_count": "Número de sílabas: {value}",
+      "rhyming_word": "Rima con: {value}",
+      "first_phonemes": "Primeros sonidos: {value}",
+      "full_word": "Palabra completa: {value}",
+      "another_hint": "Otra pista",
+      "try_now": "Intentar ahora"
+    },
+    "category_sorting": {
+      "name": "Clasificar por categorías",
+      "description": "Clasifica las palabras en su categoría correcta",
+      "sort_into": "Clasifica en: {category}",
+      "correct": "¡Correcto!",
+      "wrong": "Intenta con otra categoría"
+    },
+    "generative_naming": {
+      "name": "Nombrar por categoría",
+      "description": "Nombra todas las palabras que puedas de una categoría",
+      "name_all": "Nombra todo lo que puedas de: {category}",
+      "time_left": "Tiempo restante",
+      "seconds": "segundos",
+      "words_found": "Palabras encontradas",
+      "add_word": "Añadir palabra",
+      "results_title": "Resultados",
+      "you_found": "Has encontrado {count} palabras",
+      "well_done": "¡Muy bien!"
+    },
+    "word_matching": {
+      "name": "Relacionar palabras",
+      "description": "Relaciona cada palabra con su significado",
+      "match_definition": "Relaciona la palabra con su definición",
+      "match_word": "Relaciona la definición con su palabra",
+      "select_answer": "Selecciona la respuesta correcta"
+    },
+    "sentence_completion": {
+      "name": "Completar frases",
+      "description": "Completa la frase con la palabra adecuada",
+      "fill_blank": "Completa el espacio en blanco",
+      "complete_sentence": "Completa la frase"
+    },
+    "opposites_synonyms": {
+      "name": "Opuestos y sinónimos",
+      "description": "Encuentra palabras opuestas o con significado parecido",
+      "opposite_of": "¿Cuál es lo opuesto de?",
+      "synonym_of": "¿Qué palabra significa lo mismo que?",
+      "what_means_same": "¿Qué palabra significa lo mismo?"
+    }
+  },
+  "feedback": {
+    "correct": "¡Correcto!",
+    "incorrect": "No es exactamente eso",
+    "try_again": "Inténtalo de nuevo",
+    "well_done": "¡Muy bien!",
+    "excellent": "¡Excelente!",
+    "keep_going": "¡Sigue así!",
+    "almost": "¡Casi lo tienes!",
+    "great_effort": "¡Gran esfuerzo!",
+    "the_answer_was": "La respuesta era: {answer}",
+    "exercise_complete": "Ejercicio completado",
+    "score": "Puntuación"
+  },
+  "progress": {
+    "title": "Progreso",
+    "overall_accuracy": "Precisión general",
+    "by_category": "Por categoría",
+    "by_exercise": "Por ejercicio",
+    "words_mastered": "Palabras dominadas",
+    "words_in_progress": "Palabras en progreso",
+    "new_words": "Palabras nuevas",
+    "session_history": "Historial de sesiones",
+    "no_data": "Aún no hay datos. ¡Completa un ejercicio para ver tu progreso!",
+    "export": "Exportar datos",
+    "import": "Importar datos",
+    "clear_data": "Borrar datos",
+    "confirm_clear": "¿Seguro que quieres borrar todos los datos de progreso?"
+  },
+  "settings": {
+    "title": "Ajustes",
+    "language": "Idioma",
+    "text_size": "Tamaño del texto",
+    "theme": "Tema visual",
+    "dark": "Oscuro",
+    "light": "Claro",
+    "speech_recognition": "Reconocimiento de voz",
+    "speech_rate": "Velocidad de voz",
+    "sound_effects": "Efectos de sonido",
+    "haptic_feedback": "Vibración",
+    "normal": "Normal",
+    "large": "Grande",
+    "extra_large": "Muy grande",
+    "about": "Acerca de",
+    "version": "Versión"
+  },
+  "onboarding": {
+    "welcome": "Bienvenido a Habla Anomia",
+    "welcome_message": "Esta aplicación te ayudará a practicar el lenguaje con ejercicios sencillos y divertidos. Vamos a configurarla juntos.",
+    "choose_language": "Elige tu idioma",
+    "choose_text_size": "Elige el tamaño del texto",
+    "lets_start": "¡Empecemos!",
+    "step": "Paso {current} de {total}"
+  },
+  "about": {
+    "title": "Acerca de Habla Anomia",
+    "what_is_anomia": "¿Qué es la anomia?",
+    "anomia_description": "La anomia es una dificultad para encontrar las palabras adecuadas al hablar. Es común después de un accidente cerebrovascular o una lesión cerebral. Con práctica y ejercicios, se puede mejorar mucho.",
+    "exercises_help": "Los ejercicios de esta aplicación están diseñados para ayudarte a practicar el lenguaje de forma divertida, a tu ritmo y sin presión."
+  },
+  "common": {
+    "start": "Empezar",
+    "next": "Siguiente",
+    "back": "Atrás",
+    "finish": "Terminar",
+    "skip": "Saltar",
+    "close": "Cerrar",
+    "loading": "Cargando...",
+    "of": "de",
+    "cancel": "Cancelar"
+  }
+}

@@ -1,0 +1,123 @@
+// Core types for Habla Anomia
+
+export type Language = 'es' | 'ca' | 'eu' | 'en';
+
+export type ExerciseType =
+  | 'picture-naming'
+  | 'semantic-features'
+  | 'phonological-cueing'
+  | 'category-sorting'
+  | 'generative-naming'
+  | 'word-matching'
+  | 'sentence-completion'
+  | 'opposites-synonyms';
+
+export type DifficultyLevel = 1 | 2 | 3 | 4 | 5;
+
+export type Category =
+  | 'animals'
+  | 'food'
+  | 'household'
+  | 'body-parts'
+  | 'clothing'
+  | 'vehicles'
+  | 'tools'
+  | 'professions'
+  | 'colors'
+  | 'actions'
+  | 'places'
+  | 'emotions'
+  | 'nature'
+  | 'family'
+  | 'weather';
+
+export interface SemanticFeatures {
+  category: string;
+  function: string;
+  location: string;
+  properties: string;
+  associations: string;
+}
+
+export interface PhoneticCues {
+  first_sound: string;
+  syllables: number;
+  rhyming_word: string;
+  first_phonemes: string;
+}
+
+export interface Word {
+  id: string;
+  word: string;
+  category: Category;
+  language: Language;
+  image_url: string;
+  definition: string;
+  features: SemanticFeatures;
+  phonetic: PhoneticCues;
+  difficulty: DifficultyLevel;
+  tags: string[];
+  sentence?: string;
+  opposite?: string;
+  synonyms?: string[];
+}
+
+export interface Attempt {
+  id?: number;
+  word_id: string;
+  exercise_type: ExerciseType;
+  correct: boolean;
+  response: string;
+  cue_level_used?: number;
+  response_time_ms?: number;
+  timestamp: Date;
+  language: Language;
+}
+
+export interface Session {
+  id?: number;
+  started_at: Date;
+  ended_at?: Date;
+  exercises_completed: number;
+  accuracy: number;
+  language: Language;
+  exercise_types: ExerciseType[];
+}
+
+export interface SpacedRepetitionEntry {
+  id?: number;
+  word_id: string;
+  next_review: Date;
+  interval: number;
+  ease_factor: number;
+  repetitions: number;
+  language: Language;
+}
+
+export interface AppSettings {
+  language: Language;
+  text_size: 'normal' | 'large' | 'xlarge';
+  theme: 'dark' | 'light';
+  speech_enabled: boolean;
+  speech_rate: number;
+  sound_enabled: boolean;
+  haptic_enabled: boolean;
+  onboarding_complete: boolean;
+}
+
+export interface ExerciseConfig {
+  type: ExerciseType;
+  title_key: string;
+  description_key: string;
+  icon: string;
+  estimated_minutes: number;
+}
+
+export interface DailyStats {
+  date: string;
+  sessions: number;
+  exercises: number;
+  accuracy: number;
+  words_practiced: number;
+  streak: number;
+}

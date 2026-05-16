@@ -1,0 +1,507 @@
+<script lang="ts">
+  import { t } from '$lib/i18n';
+  import { onMount } from 'svelte';
+  import { Card, Button, Modal, ProgressBar } from '$lib/components/ui';
+  import {
+    getAllSettings,
+    getSessions
+  } from '$lib/db';
+  import {
+    getWeeklySummary,
+    getCategoryBreakdown,
+    getExerciseBreakdown,
+    calculateImprovementTrend
+  } from '$lib/engine/statistics';
+  import { browser } from '$app/environment';
+  import type { Language, Session, AppSettings } from '$lib/types';
+
+  let loading = $state(true);
+  let settings = $state<AppSettings | null>(null);
+  let overallAccuracy = $state(0);
+  let totalSessions = $state(0);
+  let totalWords = $state(0);
+  let categoryBreakdown = $state<{ category: string; accuracy: number; attempts: number }[]>([]);
+  let exerciseBreakdown = $state<{ exercise: string; accuracy: number; attempts: number }[]>([]);
+  let recentSessions = $state<Session[]>([]);
+  let showClearModal = $state(false);
+
+  // Words mastery buckets (placeholder — would need spaced repetition data)
+  let wordsMastered = $state(0);
+  let wordsInProgress = $state(0);
+  let wordsNew = $state(0);
+
+  async function loadData() {
+    if (!browser) return;
+    const s = await getAllSettings();
+    settings = s;
+
+    // Weekly summary
+    const weekly = await getWeeklySummary(s.language);
+    overallAccuracy = weekly.overallAccuracy;
+    totalSessions = weekly.totalSessions;
+    totalWords = weekly.wordsPracticed;
+
+    // Category breakdown
+    categoryBreakdown = await getCategoryBreakdown(s.language);
+
+    // Exercise breakdown
+    exerciseBreakdown = await getExerciseBreakdown(s.language);
+
+    // Recent sessions
+    recentSessions = await getSessions(s.language, 15);
+
+    loading = false;
+  }
+
+  onMount(loadData);
+
+  function formatAccuracy(acc: number): string {
+    return `${Math.round(acc)}%`;
+  }
+
+  function formatDate(date: Date): string {
+    const d = date instanceof Date ? date : new Date(date);
+    return d.toLocaleDateString(undefined, { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' });
+  }
+
+  function accuracyColor(acc: number): string {
+    if (acc >= 80) return 'var(--success)';
+    if (acc >= 50) return 'var(--warning)';
+    return 'var(--error)';
+  }
+
+  function getExerciseName(type: string): string {
+    const key = `exercises.${type.replace(/-/g, '_')}.name`;
+    // Accessing $t at render time is fine since it's reactive
+    return key;
+  }
+
+  async function handleClearData() {
+    if (!browser) return;
+    // Import db to clear collections
+    const { db } = await import('$lib/db/database');
+    await db.attempts.clear();
+    await db.sessions.clear();
+    await db.spacedRepetition.clear();
+    showClearModal = false;
+    await loadData();
+  }
+
+  async function handleExport() {
+    if (!browser) return;
+    const { db } = await import('$lib/db/database');
+    const data = {
+      attempts: await db.attempts.toArray(),
+      sessions: await db.sessions.toArray(),
+      spacedRepetition: await db.spacedRepetition.toArray(),
+      settings: await db.settings.toArray(),
+      exportedAt: new Date().toISOString()
+    };
+    const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `habla-anomia-export-${new Date().toISOString().split('T')[0]}.json`;
+    a.click();
+    URL.revokeObjectURL(url);
+  }
+
+  async function handleImport() {
+    if (!browser) return;
+    const input = document.createElement('input');
+    input.type = 'file';
+    input.accept = '.json';
+    input.onchange = async () => {
+      const file = input.files?.[0];
+      if (!file) return;
+      try {
+        const text = await file.text();
+        const data = JSON.parse(text);
+        const { db } = await import('$lib/db/database');
+        if (data.attempts) await db.attempts.bulkAdd(data.attempts);
+        if (data.sessions) await db.sessions.bulkAdd(data.sessions);
+        if (data.spacedRepetition) await db.spacedRepetition.bulkAdd(data.spacedRepetition);
+        if (data.settings) {
+          for (const s of data.settings) {
+            await db.settings.put(s);
+          }
+        }
+        await loadData();
+      } catch (e) {
+        console.error('Import failed:', e);
+      }
+    };
+    input.click();
+  }
+</script>
+
+<svelte:head>
+  <title>{$t('progress.title')} · {$t('app.name')}</title>
+</svelte:head>
+
+{#if loading}
+  <div class="loading-container">
+    <p class="loading-text">{$t('common.loading')}</p>
+  </div>
+{:else}
+  <section class="progress-page">
+    <header class="page-header">
+      <h1 class="page-title">{$t('progress.title')}</h1>
+    </header>
+
+    {#if totalSessions === 0 && categoryBreakdown.length === 0}
+      <Card>
+        <p class="no-data">{$t('progress.no_data')}</p>
+      </Card>
+    {:else}
+      <!-- Overall accuracy -->
+      <section class="overall-section">
+        <Card>
+          <div class="overall-content">
+            <span class="overall-value" style="color: {accuracyColor(overallAccuracy)}">
+              {formatAccuracy(overallAccuracy)}
+            </span>
+            <span class="overall-label">{$t('progress.overall_accuracy')}</span>
+          </div>
+        </Card>
+      </section>
+
+      <!-- Word mastery counters -->
+      <section class="counters-section">
+        <div class="counters-row">
+          <Card>
+            <div class="counter-item">
+              <span class="counter-value" style="color: var(--success)">{wordsMastered}</span>
+              <span class="counter-label">{$t('progress.words_mastered')}</span>
+            </div>
+          </Card>
+          <Card>
+            <div class="counter-item">
+              <span class="counter-value" style="color: var(--warning)">{wordsInProgress}</span>
+              <span class="counter-label">{$t('progress.words_in_progress')}</span>
+            </div>
+          </Card>
+          <Card>
+            <div class="counter-item">
+              <span class="counter-value" style="color: var(--primary)">{wordsNew}</span>
+              <span class="counter-label">{$t('progress.new_words')}</span>
+            </div>
+          </Card>
+        </div>
+      </section>
+
+      <!-- Accuracy by category -->
+      {#if categoryBreakdown.length > 0}
+        <section class="breakdown-section">
+          <h2 class="section-title">{$t('progress.by_category')}</h2>
+          <Card>
+            <div class="breakdown-list">
+              {#each categoryBreakdown as item}
+                <div class="breakdown-item">
+                  <div class="breakdown-header">
+                    <span class="breakdown-name">{item.category}</span>
+                    <span class="breakdown-value" style="color: {accuracyColor(item.accuracy)}">
+                      {formatAccuracy(item.accuracy)}
+                    </span>
+                  </div>
+                  <div class="breakdown-bar-bg">
+                    <div
+                      class="breakdown-bar"
+                      style="width: {item.accuracy}%; background: {accuracyColor(item.accuracy)}"
+                    ></div>
+                  </div>
+                  <span class="breakdown-attempts">{$t('nav.exercises').toLowerCase()}: {item.attempts}</span>
+                </div>
+              {/each}
+            </div>
+          </Card>
+        </section>
+      {/if}
+
+      <!-- Accuracy by exercise -->
+      {#if exerciseBreakdown.length > 0}
+        <section class="breakdown-section">
+          <h2 class="section-title">{$t('progress.by_exercise')}</h2>
+          <Card>
+            <div class="breakdown-list">
+              {#each exerciseBreakdown as item}
+                <div class="breakdown-item">
+                  <div class="breakdown-header">
+                    <span class="breakdown-name">{$t(getExerciseName(item.exercise))}</span>
+                    <span class="breakdown-value" style="color: {accuracyColor(item.accuracy)}">
+                      {formatAccuracy(item.accuracy)}
+                    </span>
+                  </div>
+                  <div class="breakdown-bar-bg">
+                    <div
+                      class="breakdown-bar"
+                      style="width: {item.accuracy}%; background: {accuracyColor(item.accuracy)}"
+                    ></div>
+                  </div>
+                </div>
+              {/each}
+            </div>
+          </Card>
+        </section>
+      {/if}
+
+      <!-- Session history -->
+      {#if recentSessions.length > 0}
+        <section class="history-section">
+          <h2 class="section-title">{$t('progress.session_history')}</h2>
+          <div class="history-list">
+            {#each recentSessions as session}
+              <Card>
+                <div class="history-item">
+                  <div class="history-info">
+                    <span class="history-date">
+                      {session.started_at ? formatDate(session.started_at) : ''}
+                    </span>
+                    <span class="history-exercises">
+                      {session.exercises_completed} {$t('nav.exercises').toLowerCase()}
+                    </span>
+                  </div>
+                  <span class="history-accuracy" style="color: {accuracyColor(session.accuracy)}">
+                    {formatAccuracy(session.accuracy)}
+                  </span>
+                </div>
+              </Card>
+            {/each}
+          </div>
+        </section>
+      {/if}
+
+      <!-- Data management -->
+      <section class="data-section">
+        <h2 class="section-title">{$t('settings.title')}</h2>
+        <div class="data-buttons">
+          <Button variant="secondary" fullWidth onclick={handleExport}>
+            {$t('progress.export')}
+          </Button>
+          <Button variant="secondary" fullWidth onclick={handleImport}>
+            {$t('progress.import')}
+          </Button>
+          <Button variant="danger" fullWidth onclick={() => (showClearModal = true)}>
+            {$t('progress.clear_data')}
+          </Button>
+        </div>
+      </section>
+    {/if}
+  </section>
+{/if}
+
+{#if showClearModal}
+  <Modal onclose={() => (showClearModal = false)}>
+    <div class="modal-content">
+      <p class="modal-text">{$t('progress.confirm_clear')}</p>
+      <div class="modal-actions">
+        <Button variant="secondary" onclick={() => (showClearModal = false)}>
+          {$t('common.cancel')}
+        </Button>
+        <Button variant="danger" onclick={handleClearData}>
+          {$t('progress.clear_data')}
+        </Button>
+      </div>
+    </div>
+  </Modal>
+{/if}
+
+<style>
+  .loading-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 60vh;
+  }
+
+  .loading-text {
+    color: var(--text-dim);
+    font-size: var(--font-size-lg);
+  }
+
+  .progress-page {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-lg);
+    padding-bottom: var(--space-xl);
+  }
+
+  .page-header {
+    margin-bottom: var(--space-sm);
+  }
+
+  .page-title {
+    font-size: var(--font-size-2xl);
+    font-weight: 700;
+    color: var(--text);
+  }
+
+  .no-data {
+    color: var(--text-dim);
+    text-align: center;
+    line-height: 1.6;
+    padding: var(--space-lg) 0;
+  }
+
+  /* Overall */
+  .overall-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-xs);
+    padding: var(--space-lg) 0;
+  }
+
+  .overall-value {
+    font-size: var(--font-size-4xl);
+    font-weight: 700;
+  }
+
+  .overall-label {
+    font-size: var(--font-size-base);
+    color: var(--text-dim);
+  }
+
+  /* Counters */
+  .counters-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-sm);
+  }
+
+  .counter-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-xs);
+    padding: var(--space-sm);
+  }
+
+  .counter-value {
+    font-size: var(--font-size-2xl);
+    font-weight: 700;
+  }
+
+  .counter-label {
+    font-size: var(--font-size-sm);
+    color: var(--text-dim);
+    text-align: center;
+  }
+
+  /* Section titles */
+  .section-title {
+    font-size: var(--font-size-xl);
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: var(--space-sm);
+  }
+
+  /* Breakdown */
+  .breakdown-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-md);
+  }
+
+  .breakdown-item {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xs);
+  }
+
+  .breakdown-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .breakdown-name {
+    font-size: var(--font-size-base);
+    color: var(--text);
+    font-weight: 500;
+    text-transform: capitalize;
+  }
+
+  .breakdown-value {
+    font-weight: 600;
+    font-size: var(--font-size-base);
+  }
+
+  .breakdown-bar-bg {
+    height: 8px;
+    background: var(--surface-3);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+
+  .breakdown-bar {
+    height: 100%;
+    border-radius: 4px;
+    transition: width var(--transition-base);
+  }
+
+  .breakdown-attempts {
+    font-size: var(--font-size-sm);
+    color: var(--text-muted);
+  }
+
+  /* History */
+  .history-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm);
+  }
+
+  .history-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .history-info {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .history-date {
+    font-size: var(--font-size-sm);
+    color: var(--text-dim);
+  }
+
+  .history-exercises {
+    font-size: var(--font-size-base);
+    color: var(--text);
+  }
+
+  .history-accuracy {
+    font-size: var(--font-size-xl);
+    font-weight: 700;
+  }
+
+  /* Data section */
+  .data-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm);
+  }
+
+  /* Modal */
+  .modal-content {
+    text-align: center;
+    padding: var(--space-lg);
+  }
+
+  .modal-text {
+    font-size: var(--font-size-lg);
+    color: var(--text);
+    margin-bottom: var(--space-lg);
+    line-height: 1.5;
+  }
+
+  .modal-actions {
+    display: flex;
+    gap: var(--space-md);
+    justify-content: center;
+  }
+</style>

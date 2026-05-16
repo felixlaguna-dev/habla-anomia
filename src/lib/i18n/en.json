@@ -1,0 +1,176 @@
+{
+  "app": {
+    "name": "Habla Anomia",
+    "tagline": "Your language rehabilitation companion"
+  },
+  "nav": {
+    "home": "Home",
+    "exercises": "Exercises",
+    "progress": "Progress",
+    "settings": "Settings"
+  },
+  "dashboard": {
+    "welcome": {
+      "morning": "Good morning",
+      "afternoon": "Good afternoon",
+      "evening": "Good evening"
+    },
+    "today_practice": "Today's practice",
+    "daily_streak": "Daily streak",
+    "days": "days",
+    "quick_start": "Quick start",
+    "last_session": "Last session",
+    "no_sessions_yet": "No sessions yet. Start your first practice!",
+    "words_practiced": "Words practiced",
+    "accuracy": "Accuracy"
+  },
+  "exercises": {
+    "title": "Exercises",
+    "select_exercise": "Select an exercise",
+    "picture_naming": {
+      "name": "Picture naming",
+      "description": "Look at the picture and say or write what it is",
+      "what_is_this": "What is this?",
+      "type_answer": "Type your answer",
+      "speak_answer": "Speak your answer",
+      "hint": "Hint",
+      "hints": {
+        "category": "Category: {value}",
+        "first_letter": "Starts with the letter: {value}",
+        "syllables": "Has {value} syllables",
+        "rhymes_with": "Rhymes with: {value}",
+        "answer_is": "The answer is: {value}"
+      }
+    },
+    "semantic_features": {
+      "name": "Semantic features",
+      "description": "Describe the object before naming it",
+      "category_prompt": "What category does it belong to?",
+      "function_prompt": "What is it used for?",
+      "location_prompt": "Where is it found?",
+      "properties_prompt": "What does it look like? (color, shape, size)",
+      "associations_prompt": "What do you associate it with?",
+      "now_name_it": "Now try to name it"
+    },
+    "phonological_cueing": {
+      "name": "Phonological cueing",
+      "description": "Get sound clues to guess the word",
+      "first_sound": "First syllable: {value}",
+      "syllable_count": "Number of syllables: {value}",
+      "rhyming_word": "Rhymes with: {value}",
+      "first_phonemes": "First sounds: {value}",
+      "full_word": "Full word: {value}",
+      "another_hint": "Another hint",
+      "try_now": "Try now"
+    },
+    "category_sorting": {
+      "name": "Category sorting",
+      "description": "Sort words into their correct category",
+      "sort_into": "Sort into: {category}",
+      "correct": "Correct!",
+      "wrong": "Try another category"
+    },
+    "generative_naming": {
+      "name": "Generative naming",
+      "description": "Name as many words as you can from a category",
+      "name_all": "Name all you can from: {category}",
+      "time_left": "Time left",
+      "seconds": "seconds",
+      "words_found": "Words found",
+      "add_word": "Add word",
+      "results_title": "Results",
+      "you_found": "You found {count} words",
+      "well_done": "Well done!"
+    },
+    "word_matching": {
+      "name": "Word matching",
+      "description": "Match each word with its meaning",
+      "match_definition": "Match the word with its definition",
+      "match_word": "Match the definition with its word",
+      "select_answer": "Select the correct answer"
+    },
+    "sentence_completion": {
+      "name": "Sentence completion",
+      "description": "Complete the sentence with the right word",
+      "fill_blank": "Fill in the blank",
+      "complete_sentence": "Complete the sentence"
+    },
+    "opposites_synonyms": {
+      "name": "Opposites and synonyms",
+      "description": "Find opposite words or words with similar meanings",
+      "opposite_of": "What is the opposite of?",
+      "synonym_of": "What word means the same as?",
+      "what_means_same": "What word means the same?"
+    }
+  },
+  "feedback": {
+    "correct": "Correct!",
+    "incorrect": "Not quite",
+    "try_again": "Try again",
+    "well_done": "Well done!",
+    "excellent": "Excellent!",
+    "keep_going": "Keep going!",
+    "almost": "Almost there!",
+    "great_effort": "Great effort!",
+    "the_answer_was": "The answer was: {answer}",
+    "exercise_complete": "Exercise complete",
+    "score": "Score"
+  },
+  "progress": {
+    "title": "Progress",
+    "overall_accuracy": "Overall accuracy",
+    "by_category": "By category",
+    "by_exercise": "By exercise",
+    "words_mastered": "Words mastered",
+    "words_in_progress": "Words in progress",
+    "new_words": "New words",
+    "session_history": "Session history",
+    "no_data": "No data yet. Complete an exercise to see your progress!",
+    "export": "Export data",
+    "import": "Import data",
+    "clear_data": "Clear data",
+    "confirm_clear": "Are you sure you want to clear all progress data?"
+  },
+  "settings": {
+    "title": "Settings",
+    "language": "Language",
+    "text_size": "Text size",
+    "theme": "Theme",
+    "dark": "Dark",
+    "light": "Light",
+    "speech_recognition": "Speech recognition",
+    "speech_rate": "Speech rate",
+    "sound_effects": "Sound effects",
+    "haptic_feedback": "Vibration",
+    "normal": "Normal",
+    "large": "Large",
+    "extra_large": "Extra large",
+    "about": "About",
+    "version": "Version"
+  },
+  "onboarding": {
+    "welcome": "Welcome to Habla Anomia",
+    "welcome_message": "This app will help you practice language with simple and fun exercises. Let's set it up together.",
+    "choose_language": "Choose your language",
+    "choose_text_size": "Choose text size",
+    "lets_start": "Let's get started!",
+    "step": "Step {current} of {total}"
+  },
+  "about": {
+    "title": "About Habla Anomia",
+    "what_is_anomia": "What is anomia?",
+    "anomia_description": "Anomia is a difficulty finding the right words when speaking. It is common after a stroke or brain injury. With practice and exercises, significant improvement is possible.",
+    "exercises_help": "The exercises in this app are designed to help you practice language in a fun way, at your own pace and without pressure."
+  },
+  "common": {
+    "start": "Start",
+    "next": "Next",
+    "back": "Back",
+    "finish": "Finish",
+    "skip": "Skip",
+    "close": "Close",
+    "loading": "Loading...",
+    "of": "of",
+    "cancel": "Cancel"
+  }
+}

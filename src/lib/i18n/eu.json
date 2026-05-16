@@ -1,0 +1,176 @@
+{
+  "app": {
+    "name": "Habla Anomia",
+    "tagline": "Zure hizkuntza-errehabilitazioko laguna"
+  },
+  "nav": {
+    "home": "Hasiera",
+    "exercises": "Ariketak",
+    "progress": "Aurrerapena",
+    "settings": "Ezarpenak"
+  },
+  "dashboard": {
+    "welcome": {
+      "morning": "Egun on",
+      "afternoon": "Arratsalde on",
+      "evening": "Gabon"
+    },
+    "today_practice": "Gaurko praktika",
+    "daily_streak": "Eguneroko seriea",
+    "days": "egun",
+    "quick_start": "Azkar hasi",
+    "last_session": "Azken saioa",
+    "no_sessions_yet": "Oraindik ez dago saiorik. Hasi zure lehen praktika!",
+    "words_practiced": "Praktikatutako hitzak",
+    "accuracy": "Zehaztasuna"
+  },
+  "exercises": {
+    "title": "Ariketak",
+    "select_exercise": "Hautatu ariketa bat",
+    "picture_naming": {
+      "name": "Irudiak izendatu",
+      "description": "Begiratu irudia eta esan edo idatzi zer den",
+      "what_is_this": "Zer da hau?",
+      "type_answer": "Idatzi zure erantzuna",
+      "speak_answer": "Esan zure erantzuna",
+      "hint": "Pista",
+      "hints": {
+        "category": "Kategoria: {value}",
+        "first_letter": "Honekin hasten da: {value}",
+        "syllables": "{value} silaba ditu",
+        "rhymes_with": "Honekin errimatzen da: {value}",
+        "answer_is": "Erantzuna da: {value}"
+      }
+    },
+    "semantic_features": {
+      "name": "Ezaugarri semantikoak",
+      "description": "Deskribatu objektua izendatu aurretik",
+      "category_prompt": "Zein kategoriatakoa da?",
+      "function_prompt": "Zertarako balio du?",
+      "location_prompt": "Non aurkitzen da?",
+      "properties_prompt": "Nolakoa da? (kolorea, forma, tamaina)",
+      "associations_prompt": "Zerekin lotzen duzu?",
+      "now_name_it": "Orain saiatu izendatzen"
+    },
+    "phonological_cueing": {
+      "name": "Pista fonologikoak",
+      "description": "Jaso soinu-pistak hitza asmatzeko",
+      "first_sound": "Lehen silaba: {value}",
+      "syllable_count": "Silaba kopurua: {value}",
+      "rhyming_word": "Honekin errimatzen da: {value}",
+      "first_phonemes": "Lehen soinuak: {value}",
+      "full_word": "Hitz osoa: {value}",
+      "another_hint": "Beste pista bat",
+      "try_now": "Saiatu orain"
+    },
+    "category_sorting": {
+      "name": "Kategoriaka sailkatu",
+      "description": "Sailkatu hitzak bere kategoria zuzenean",
+      "sort_into": "Sailkatu hemen: {category}",
+      "correct": "Zuzena!",
+      "wrong": "Saiatu beste kategoria batekin"
+    },
+    "generative_naming": {
+      "name": "Kategoriaka izendatu",
+      "description": "Izendatu kategoria bateko hitz ahalik eta gehien",
+      "name_all": "Izendatu ahal duzun guztia hemendik: {category}",
+      "time_left": "Geratzen den denbora",
+      "seconds": "segundo",
+      "words_found": "Aurkitutako hitzak",
+      "add_word": "Gehitu hitza",
+      "results_title": "Emaitzak",
+      "you_found": "{count} hitz aurkitu dituzu",
+      "well_done": "Oso ondo!"
+    },
+    "word_matching": {
+      "name": "Hitzak lotu",
+      "description": "Lotu hitz bakoitza bere esanahiarekin",
+      "match_definition": "Lotu hitza bere definizioarekin",
+      "match_word": "Lotu definizioa bere hitzarekin",
+      "select_answer": "Hautatu erantzun zuzena"
+    },
+    "sentence_completion": {
+      "name": "Esaldiak osatu",
+      "description": "Osatu esaldia hitz egokiarekin",
+      "fill_blank": "Bete hutsunea",
+      "complete_sentence": "Osatu esaldia"
+    },
+    "opposites_synonyms": {
+      "name": "Aurkakoak eta sinonimoak",
+      "description": "Bilatu hitz aurkakoak edo antzeko esanahia dutenak",
+      "opposite_of": "Zein da honen aurkakoa?",
+      "synonym_of": "Zein hitzek esan nahi du gauza bera?",
+      "what_means_same": "Zein hitzek esan nahi du gauza bera?"
+    }
+  },
+  "feedback": {
+    "correct": "Zuzena!",
+    "incorrect": "Ez da guztiz hori",
+    "try_again": "Saiatu berriro",
+    "well_done": "Oso ondo!",
+    "excellent": "Bikain!",
+    "keep_going": "Horrela jarraitu!",
+    "almost": "Ia-ia!",
+    "great_effort": "Ahalgai handia!",
+    "the_answer_was": "Erantzuna hau zen: {answer}",
+    "exercise_complete": "Ariketa amaituta",
+    "score": "Puntuazioa"
+  },
+  "progress": {
+    "title": "Aurrerapena",
+    "overall_accuracy": "Zehaztasun orokorra",
+    "by_category": "Kategoriaren arabera",
+    "by_exercise": "Ariketaren arabera",
+    "words_mastered": "Menperatutako hitzak",
+    "words_in_progress": "Aurrerapenean dauden hitzak",
+    "new_words": "Hitz berriak",
+    "session_history": "Saioen historia",
+    "no_data": "Oraindik ez dago daturik. Osatu ariketa bat zure aurrerapena ikusteko!",
+    "export": "Esportatu datuak",
+    "import": "Inportatu datuak",
+    "clear_data": "Ezabatu datuak",
+    "confirm_clear": "Ziur aurrerapenaren datu guztiak ezabatu nahi dituzula?"
+  },
+  "settings": {
+    "title": "Ezarpenak",
+    "language": "Hizkuntza",
+    "text_size": "Testuaren tamaina",
+    "theme": "Itxura",
+    "dark": "Iluna",
+    "light": "Argia",
+    "speech_recognition": "Ahots-ezagutza",
+    "speech_rate": "Ahots-abiadura",
+    "sound_effects": "Soinu-efektuak",
+    "haptic_feedback": "Bibrazioa",
+    "normal": "Normala",
+    "large": "Handia",
+    "extra_large": "Oso handia",
+    "about": "Honi buruz",
+    "version": "Bertsioa"
+  },
+  "onboarding": {
+    "welcome": "Ongi etorri Habla Anomiara",
+    "welcome_message": "Aplikazio honek hizkuntza praktikatzen lagunduko dizu ariketa sinple eta dibertigarriekin. Elkarrekin konfiguratzen dugu.",
+    "choose_language": "Aukeratu zure hizkuntza",
+    "choose_text_size": "Aukeratu testuaren tamaina",
+    "lets_start": "Has gaitezen!",
+    "step": "{total}. urratsetik {current}. urratsa"
+  },
+  "about": {
+    "title": "Habla Anomiari buruz",
+    "what_is_anomia": "Zer da anomia?",
+    "anomia_description": "Anomia hitz egitean hitz egokiak aurkitzeko zailtasuna da. Istripu zerebrobaskular baten edo burmuineko lesio baten ondoren ohikoa da. Praktika eta ariketekin, asko hobetu daiteke.",
+    "exercises_help": "Aplikazio honetako ariketak hizkuntza modu dibertigarrian praktikatzen laguntzeko diseinatuta daude, zure erritmoan eta presiorik gabe."
+  },
+  "common": {
+    "start": "Hasi",
+    "next": "Hurrengoa",
+    "back": "Atzera",
+    "finish": "Amaitu",
+    "skip": "Saltatu",
+    "close": "Itxi",
+    "loading": "Kargatzen...",
+    "of": "-(e)tik",
+    "cancel": "Utzi"
+  }
+}

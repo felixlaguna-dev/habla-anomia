@@ -1,0 +1,7 @@
+services:
+  app:
+    build: .
+    container_name: habla-anomia
+    ports:
+      - "3020:80"
+    restart: unless-stopped

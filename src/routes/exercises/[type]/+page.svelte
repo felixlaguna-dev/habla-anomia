@@ -5,6 +5,7 @@
   import { goto } from '$app/navigation';
   import { base } from '$app/paths';
   import { getAllSettings, startSession, endSession, updateStreak } from '$lib/db';
+  import { awaitSeedReady } from '$lib/db/words';
   import { generateSession } from '$lib/engine/session-generator';
   import { browser } from '$app/environment';
   import type { ExerciseType, Language, Word, AppSettings } from '$lib/types';
@@ -52,6 +53,8 @@
 
   async function initExercise() {
     if (!browser) return;
+    // Wait for DB to finish seeding words before querying
+    await awaitSeedReady();
     const s = await getAllSettings();
     settings = s;
 

@@ -5,7 +5,7 @@
   import { t, locale } from '$lib/i18n';
   import { onMount } from 'svelte';
   import { getAllSettings, initDefaults } from '$lib/db/settings';
-  import { seedWords } from '$lib/db/words';
+  import { seedWords, resolveSeedReady } from '$lib/db/words';
   import { WORDS_ES } from '$lib/data/words-es';
   import BottomNav from '$lib/components/ui/BottomNav.svelte';
   import InstallPrompt from '$lib/components/ui/InstallPrompt.svelte';
@@ -27,6 +27,7 @@
 
     locale.set(settings.language);
     await seedWords(WORDS_ES);
+    resolveSeedReady();
   });
 
   function getFontScaleClass(textSize: string): string {
@@ -55,6 +56,7 @@
 </script>
 
 <svelte:head>
+  <title>Habla Anomia — {$t('app.tagline')}</title>
   <link rel="manifest" href="/manifest.json" />
   <meta name="theme-color" content="#4f46e5" />
 </svelte:head>
@@ -94,10 +96,12 @@
   .main-content {
     flex: 1;
     padding: 1rem;
-    padding-bottom: 5rem;
+    padding-bottom: 6rem;
     max-width: 768px;
     width: 100%;
     margin: 0 auto;
     overflow-x: hidden;
+    position: relative;
+    z-index: 1;
   }
 </style>

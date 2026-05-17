@@ -28,6 +28,36 @@ export async function generateSession(
   const selectedIds = new Set<string>();
   const words: Word[] = [];
 
+  // ── Special handling for category-sorting: need ≥2 categories ──
+  if (exerciseType === 'category-sorting') {
+    const categories = await pickCategories(language, Math.min(4, wordCount));
+    if (categories.length < 2) {
+      return { exerciseType, words: [] };
+    }
+    const perCat = Math.max(2, Math.ceil(wordCount / categories.length));
+    const sortingWords: Word[] = [];
+    for (const cat of categories) {
+      const catWords = shuffleArray(await getWordsByCategory(cat, language)).slice(0, perCat);
+      sortingWords.push(...catWords);
+    }
+    return { exerciseType, words: shuffleArray(sortingWords).slice(0, wordCount) };
+  }
+
+  // ── Special handling for generative-naming: need a category ──
+  if (exerciseType === 'generative-naming') {
+    const allCats = await getAllPopulatedCategories(language);
+    if (allCats.length === 0) {
+      return { exerciseType, words: [] };
+    }
+    const cat = allCats[Math.floor(Math.random() * allCats.length)];
+    const catWords = await getWordsByCategory(cat, language);
+    return {
+      exerciseType,
+      words: shuffleArray(catWords).slice(0, wordCount),
+      category: cat
+    };
+  }
+
   // ── 1. Priority: due words from spaced repetition ────────────────────
   const dueIds = await getDueWords(language, wordCount);
   for (const id of dueIds) {

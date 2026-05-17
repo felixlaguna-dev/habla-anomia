@@ -46,9 +46,9 @@
 
   function getGreeting(): string {
     const hour = new Date().getHours();
-    if (hour >= 5 && hour < 12) return $t('greetings.morning');
-    if (hour >= 12 && hour < 20) return $t('greetings.afternoon');
-    return $t('greetings.evening');
+    if (hour >= 5 && hour < 12) return $t('dashboard.welcome.morning');
+    if (hour >= 12 && hour < 20) return $t('dashboard.welcome.afternoon');
+    return $t('dashboard.welcome.evening');
   }
 
   function getGreetingEmoji(): string {

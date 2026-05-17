@@ -2,6 +2,27 @@ import { db } from './database';
 import type { Word, Language, Category } from '$lib/types';
 
 /**
+ * Global promise that resolves once the word bank has been seeded.
+ * Layout calls resolveSeedReady() after seeding.
+ * Exercise pages call awaitSeedReady() before querying words.
+ */
+let seedReadyResolve: () => void;
+const seedReadyPromise = new Promise<void>((resolve) => {
+  seedReadyResolve = resolve;
+});
+
+export function resolveSeedReady(): void {
+  seedReadyResolve();
+}
+
+export async function awaitSeedReady(timeout = 15000): Promise<void> {
+  const timer = new Promise<void>((_, reject) =>
+    setTimeout(() => reject(new Error('DB seed timeout')), timeout)
+  );
+  await Promise.race([seedReadyPromise, timer]);
+}
+
+/**
  * Get all words in a given category for a language.
  */
 export async function getWordsByCategory(
@@ -134,7 +155,6 @@ export async function searchWords(
   language: Language
 ): Promise<Word[]> {
   const lowerQuery = query.toLowerCase();
-
   return db.words
     .where('language')
     .equals(language)

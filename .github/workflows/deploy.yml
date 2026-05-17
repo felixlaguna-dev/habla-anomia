@@ -40,8 +40,13 @@ jobs:
           docker cp $CONTAINER:/app/build ./build
           docker rm $CONTAINER
 
+      - name: Prepare for GitHub Pages
+        run: |
+          # GitHub Pages needs index.html, but SvelteKit SPA outputs 200.html
+          cp build/200.html build/index.html
+
       - name: Verify build output
-        run: test -f build/200.html && echo "Build OK" || (echo "Build failed — no 200.html" && exit 1)
+        run: test -f build/index.html && echo "Build OK" || (echo "Build failed — no index.html" && exit 1)
 
       - name: Setup Pages
         uses: actions/configure-pages@v5

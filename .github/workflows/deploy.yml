@@ -34,7 +34,11 @@ jobs:
           command: docker build -t habla-anomia-deploy -f Dockerfile.dev .
 
       - name: Build application
-        run: docker run --rm -v "$PWD/build:/app/build" habla-anomia-deploy npm run build
+        run: |
+          CONTAINER=$(docker create habla-anomia-deploy npm run build)
+          docker start -a $CONTAINER
+          docker cp $CONTAINER:/app/build ./build
+          docker rm $CONTAINER
 
       - name: Verify build output
         run: test -f build/200.html && echo "Build OK" || (echo "Build failed — no 200.html" && exit 1)

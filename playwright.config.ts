@@ -11,7 +11,11 @@ export default defineConfig({
   workers: 1,
   reporter: [['list'], ['json', { outputFile: 'test-results/results.json' }]],
   use: {
-    baseURL,
+    // MUST end with trailing slash so page.goto('./') resolves correctly
+    // for GitHub Pages sub-path deployments (e.g. /habla-anomia/)
+    baseURL: baseURL.endsWith('/') ? baseURL : baseURL + '/',
+    bypassCSP: true,
+    ignoreHTTPSErrors: true,
     trace: 'on-first-retry',
     screenshot: 'only-on-failure',
     video: 'retain-on-failure',

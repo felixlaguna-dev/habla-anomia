@@ -1,0 +1,35 @@
+name: CI
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  ci:
+    runs-on: self-hosted
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Build Docker image
+        uses: nick-fields/retry@v3
+        with:
+          timeout_minutes: 10
+          max_attempts: 3
+          command: docker build -t habla-anomia-ci -f Dockerfile.dev .
+
+      - name: Build application
+        run: docker run --rm -v "$PWD/build:/app/build" habla-anomia-ci npm run build
+
+      - name: Verify build output
+        run: test -f build/200.html && echo "Build OK" || (echo "Build failed — no 200.html" && exit 1)

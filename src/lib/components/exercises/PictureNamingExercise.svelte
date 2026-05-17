@@ -1,5 +1,6 @@
 <script lang="ts">
   import { t } from '$lib/i18n';
+  import { base } from '$app/paths';
   import { recordAttempt } from '$lib/db/attempts';
   import { updateAfterAttempt } from '$lib/engine/spaced-repetition';
   import SpeechInput from '$lib/components/speech/SpeechInput.svelte';
@@ -162,6 +163,13 @@
     imageError = true;
   }
 
+  // Resolve image URL with base path for GitHub Pages subdirectory
+  function resolveImageUrl(url: string): string {
+    if (!url) return '';
+    if (base && url.startsWith('/')) return base + url;
+    return url;
+  }
+
   // Encouragement messages
   const encouragementMessages = [
     'feedback.correct',
@@ -191,7 +199,7 @@
     <div class="image-area" class:correct-flash={feedbackState === 'correct'} class:shake={feedbackState === 'incorrect'}>
       {#if !imageError}
         <img
-          src={currentWord.image_url}
+          src={resolveImageUrl(currentWord.image_url)}
           alt={$t('exercises.picture_naming.what_is_this')}
           role="img"
           class="exercise-image"

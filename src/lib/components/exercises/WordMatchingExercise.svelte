@@ -3,6 +3,7 @@
   import { recordAttempt } from '$lib/db/attempts';
   import { updateAfterAttempt } from '$lib/engine/spaced-repetition';
   import { ProgressBar } from '$lib/components/ui';
+  import { base } from '$app/paths';
   import type { Word, Language, ExerciseType } from '$lib/types';
 
   type MatchingMode = 'word-to-definition' | 'definition-to-word' | 'image-to-word';
@@ -194,6 +195,12 @@
     'feedback.keep_going',
   ];
   let encouragement = $derived(encouragementKeys[Math.floor(Math.random() * encouragementKeys.length)]);
+
+  function resolveImageUrl(url: string): string {
+    if (!url) return '';
+    if (base && url.startsWith('/')) return base + url;
+    return url;
+  }
 </script>
 
 {#if words.length === 0}
@@ -212,7 +219,7 @@
     <div class="prompt-area">
       {#if mode === 'image-to-word'}
         <img
-          src={currentWord.image_url}
+          src={resolveImageUrl(currentWord.image_url)}
           alt={$t('exercises.word_matching.select_answer')}
           class="prompt-image"
           onerror={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}

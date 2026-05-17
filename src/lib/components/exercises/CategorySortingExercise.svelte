@@ -1,8 +1,9 @@
 <script lang="ts">
-  import { t } from '$lib/i18n';
-  import { recordAttempt } from '$lib/db/attempts';
-  import { updateAfterAttempt } from '$lib/engine/spaced-repetition';
-  import type { Word, Language, ExerciseType } from '$lib/types';
+ import { t } from '$lib/i18n';
+ import { recordAttempt } from '$lib/db/attempts';
+ import { updateAfterAttempt } from '$lib/engine/spaced-repetition';
+ import { base } from '$app/paths';
+ import type { Word, Language, ExerciseType } from '$lib/types';
 
   type Props = {
     words: Word[];
@@ -145,11 +146,17 @@
     return `background:${c.bg};border-color:${isCorrect ? '#22c55e' : c.border};`;
   }
 
-  function translateCategory(category: string): string {
-    const key = `categories.${category}`;
-    const translated = $t(key);
-    // If no translation found, return the original category name
-    return translated === key ? category : translated;
+ function translateCategory(category: string): string {
+   const key = `categories.${category}`;
+   const translated = $t(key);
+   // If no translation found, return the original category name
+   return translated === key ? category : translated;
+ }
+
+  function resolveImageUrl(url: string): string {
+    if (!url) return '';
+    if (base && url.startsWith('/')) return base + url;
+    return url;
   }
 </script>
 
@@ -187,10 +194,10 @@
 
     <!-- Current item card -->
     <div class="item-card" class:shake={feedbackState === 'incorrect'} class:correct-flash={feedbackState === 'correct'}>
-      <div class="item-image-wrapper">
-        <img
-          src={currentItem.image_url}
-          alt=""
+     <div class="item-image-wrapper">
+       <img
+          src={resolveImageUrl(currentItem.image_url)}
+         alt=""
           class="item-image"
           onerror={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
         />

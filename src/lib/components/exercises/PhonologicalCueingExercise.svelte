@@ -4,6 +4,7 @@
   import { updateAfterAttempt } from '$lib/engine/spaced-repetition';
   import { SpeechSynthesisService } from '$lib/speech/speech-synthesis';
   import SpeechInput from '$lib/components/speech/SpeechInput.svelte';
+  import { base } from '$app/paths';
   import type { Word, Language, ExerciseType } from '$lib/types';
 
   type Props = {
@@ -178,6 +179,12 @@
     imageError = true;
   }
 
+  function resolveImageUrl(url: string): string {
+    if (!url) return '';
+    if (base && url.startsWith('/')) return base + url;
+    return url;
+  }
+
   // Encouragement messages
   const encouragementPool = [
     'feedback.correct',
@@ -207,7 +214,7 @@
     <div class="image-area" class:correct-flash={feedbackState === 'correct'} class:shake={feedbackState === 'incorrect'}>
       {#if !imageError}
         <img
-          src={currentWord.image_url}
+          src={resolveImageUrl(currentWord.image_url)}
           alt=""
           class="exercise-image"
           onerror={handleImageError}

@@ -3,6 +3,7 @@
   import { recordAttempt } from '$lib/db/attempts';
   import { updateAfterAttempt } from '$lib/engine/spaced-repetition';
   import SpeechInput from '$lib/components/speech/SpeechInput.svelte';
+  import { base } from '$app/paths';
   import type { Word, Language, ExerciseType } from '$lib/types';
 
   type Props = {
@@ -175,6 +176,12 @@
     imageError = true;
   }
 
+  function resolveImageUrl(url: string): string {
+    if (!url) return '';
+    if (base && url.startsWith('/')) return base + url;
+    return url;
+  }
+
   // Simple Levenshtein distance for fuzzy matching
   function levenshtein(a: string, b: string): number {
     const matrix: number[][] = [];
@@ -213,7 +220,7 @@
     <div class="image-area" class:correct-flash={namingCorrect === true} class:shake={namingCorrect === false}>
       {#if !imageError}
         <img
-          src={currentWord.image_url}
+          src={resolveImageUrl(currentWord.image_url)}
           alt=""
           class="exercise-image"
           onerror={handleImageError}

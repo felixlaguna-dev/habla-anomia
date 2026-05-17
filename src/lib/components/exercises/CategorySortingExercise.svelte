@@ -185,7 +185,7 @@
     <p class="error-text">{$t('exercises.category_sorting.need_more_categories')}</p>
   </div>
 {:else if !isFinished && currentItem}
-  <div class="exercise-container" role="region" aria-label={$t('exercises.category_sorting.correct')}>
+  <div class="exercise-container" role="region" aria-label={$t('exercises.category_sorting.name') + ': ' + (currentItem ? currentItem.word : '')}>
     <!-- Progress bar -->
     <div class="progress-bar-container">
       <div class="progress-bar" style="width: {progress}%"></div>
@@ -242,7 +242,9 @@
           style={getCategoryStyle(i)}
           onclick={() => selectCategory(category)}
           disabled={feedbackState === 'correct'}
-          class:selected={selectedCategory === category && feedbackState === 'incorrect'}
+          class:selected={selectedCategory === category && feedbackState === 'none'}
+          class:correct-btn={feedbackState === 'correct' && currentItem.category === category}
+          class:incorrect-btn={feedbackState === 'incorrect' && selectedCategory === category}
           aria-label={translateCategory(category)}
         >
           <span class="btn-text">{translateCategory(category)}</span>
@@ -510,7 +512,22 @@
   }
 
   .category-btn.selected {
-    animation: shake 0.4s ease-in-out;
+    border-color: var(--primary, #3b82f6);
+    background: var(--primary-light, #eff6ff);
+  }
+
+  .category-btn.correct-btn {
+    border-color: var(--success, #22c55e);
+    background: var(--success, #22c55e);
+    color: #fff;
+    animation: correctPulse 0.6s ease;
+  }
+
+  .category-btn.incorrect-btn {
+    border-color: var(--error, #ef4444);
+    background: rgba(239, 68, 68, 0.15);
+    color: var(--error, #ef4444);
+    animation: shake 0.5s ease-in-out;
   }
 
   .btn-text {
@@ -558,6 +575,12 @@
     40% { transform: translateX(8px); }
     60% { transform: translateX(-4px); }
     80% { transform: translateX(4px); }
+  }
+
+  @keyframes correctPulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
   }
 
   /* Summary */

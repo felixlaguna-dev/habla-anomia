@@ -280,14 +280,11 @@
   <!-- Results screen -->
   <div class="exercise-container summary">
     <div class="summary-icon">🎉</div>
-    <h2 class="summary-title">{$t('exercises.generative_naming.results_title')}</h2>
+    <h2 class="summary-title">{$t('feedback.exercise_complete')}</h2>
 
-    <div class="score-display">
-      <span class="score-number">{validWordsFound.length}</span>
-      <span class="score-label">
-        {$t('exercises.generative_naming.you_found', { count: String(validWordsFound.length) })}
-      </span>
-    </div>
+    <p class="summary-score">
+      {$t('feedback.score')}: {validWordsFound.length} / {words.length}
+    </p>
 
     {#if validWordsFound.length > 0}
       <div class="found-words">
@@ -560,6 +557,13 @@
     font-size: var(--font-size-2xl, 28px);
     font-weight: 800;
     color: var(--text, #1f2937);
+    margin: 0;
+  }
+
+  .summary-score {
+    font-size: var(--font-size-xl, 24px);
+    font-weight: 700;
+    color: var(--primary, #3b82f6);
     margin: 0;
   }
 

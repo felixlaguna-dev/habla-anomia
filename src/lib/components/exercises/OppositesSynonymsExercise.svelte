@@ -20,15 +20,23 @@
   let {
     words: rawWords,
     language = 'es' as Language,
-    mode = 'opposites',
+    mode: modeProp = 'opposites' as ExerciseMode,
     inputMode = 'choice',
     onComplete,
   }: Props = $props();
 
+  // Auto-detect mode based on available word data
+  let mode = $derived.by(() => {
+    const hasOpposites = rawWords.some(w => w.opposite && w.opposite !== '');
+    if (modeProp === 'opposites' && !hasOpposites) return 'synonyms';
+    if (modeProp === 'synonyms' && !rawWords.some(w => w.synonyms && w.synonyms.length > 0)) return 'opposites';
+    return modeProp;
+  });
+
   // Filter out words without required fields depending on mode
   let words = $derived.by(() => {
     if (mode === 'opposites') {
-      return rawWords.filter(w => w.opposite);
+      return rawWords.filter(w => w.opposite && w.opposite !== '');
     } else {
       return rawWords.filter(w => w.synonyms && w.synonyms.length > 0);
     }

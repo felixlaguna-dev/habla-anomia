@@ -43,6 +43,36 @@ export async function generateSession(
     return { exerciseType, words: shuffleArray(sortingWords).slice(0, wordCount) };
   }
 
+  // ── Special handling for opposites-synonyms: need words with opposite data ──
+  if (exerciseType === 'opposites-synonyms') {
+    // Prefer words with opposites (core exercise), fall back to words with synonyms
+    const withOpposite = await db.words
+      .where('language')
+      .equals(language)
+      .filter(w => w.opposite && w.opposite !== '')
+      .toArray();
+
+    if (withOpposite.length >= 3) {
+      return { exerciseType, words: shuffleArray(withOpposite).slice(0, wordCount) };
+    }
+
+    // Fallback: use words with synonyms
+    const withSynonyms = await db.words
+      .where('language')
+      .equals(language)
+      .filter(w => w.synonyms && w.synonyms.length > 0)
+      .toArray();
+
+    if (withSynonyms.length === 0) {
+      return { exerciseType, words: [] };
+    }
+
+    return {
+      exerciseType,
+      words: shuffleArray(withSynonyms).slice(0, wordCount)
+    };
+  }
+
   // ── Special handling for generative-naming: need a category ──
   if (exerciseType === 'generative-naming') {
     const allCats = await getAllPopulatedCategories(language);

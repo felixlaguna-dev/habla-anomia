@@ -72,10 +72,11 @@
       const sessions = await getSessions(language, 100);
       totalSessions = sessions.length;
 
-      // Today's completed sessions
+      // Today's completed sessions (sessions that actually finished)
       const today = new Date().toISOString().split('T')[0];
-      todayCompleted = sessions.filter(s => {
-        const d = s.started_at instanceof Date ? s.started_at : new Date(s.started_at);
+      const completedSessions = sessions.filter(s => s.ended_at);
+      todayCompleted = completedSessions.filter(s => {
+        const d = s.ended_at instanceof Date ? s.ended_at : new Date(s.ended_at);
         return d.toISOString().split('T')[0] === today;
       }).length;
 

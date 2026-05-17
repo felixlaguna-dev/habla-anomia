@@ -200,14 +200,19 @@
       <Card>
         <div class="setting-content">
           <div class="toggle-row">
-            <span class="toggle-status" aria-atomic="true">{settings.high_contrast ? '✓' : '✗'}</span>
-            <Button
-              variant={settings.high_contrast ? 'primary' : 'secondary'}
+            <button
+              class="toggle-switch"
+              class:toggle-on={settings.high_contrast}
               onclick={() => updateSetting('high_contrast', !settings!.high_contrast)}
+              role="switch"
+              aria-checked={settings.high_contrast}
               aria-label={$t('settings.high_contrast')}
             >
-              {settings.high_contrast ? $t('common.finish') : $t('common.start')}
-            </Button>
+              <span class="toggle-track">
+                <span class="toggle-thumb"></span>
+              </span>
+              <span class="toggle-label-text">{settings.high_contrast ? 'Sí' : 'No'}</span>
+            </button>
           </div>
         </div>
       </Card>
@@ -219,14 +224,19 @@
       <Card>
         <div class="setting-content">
           <div class="toggle-row">
-            <span class="toggle-status" aria-atomic="true">{settings.speech_enabled ? '✓' : '✗'}</span>
-            <Button
-              variant={settings.speech_enabled ? 'primary' : 'secondary'}
+            <button
+              class="toggle-switch"
+              class:toggle-on={settings.speech_enabled}
               onclick={() => updateSetting('speech_enabled', !settings!.speech_enabled)}
+              role="switch"
+              aria-checked={settings.speech_enabled}
               aria-label={$t('settings.speech_recognition')}
             >
-              {settings.speech_enabled ? $t('common.finish') : $t('common.start')}
-            </Button>
+              <span class="toggle-track">
+                <span class="toggle-thumb"></span>
+              </span>
+              <span class="toggle-label-text">{settings.speech_enabled ? 'Sí' : 'No'}</span>
+            </button>
           </div>
         </div>
       </Card>
@@ -260,14 +270,19 @@
       <Card>
         <div class="setting-content">
           <div class="toggle-row">
-            <span class="toggle-status" aria-atomic="true">{settings.sound_enabled ? '✓' : '✗'}</span>
-            <Button
-              variant={settings.sound_enabled ? 'primary' : 'secondary'}
+            <button
+              class="toggle-switch"
+              class:toggle-on={settings.sound_enabled}
               onclick={() => updateSetting('sound_enabled', !settings!.sound_enabled)}
+              role="switch"
+              aria-checked={settings.sound_enabled}
               aria-label={$t('settings.sound_effects')}
             >
-              {settings.sound_enabled ? $t('common.finish') : $t('common.start')}
-            </Button>
+              <span class="toggle-track">
+                <span class="toggle-thumb"></span>
+              </span>
+              <span class="toggle-label-text">{settings.sound_enabled ? 'Sí' : 'No'}</span>
+            </button>
           </div>
         </div>
       </Card>
@@ -279,14 +294,19 @@
       <Card>
         <div class="setting-content">
           <div class="toggle-row">
-            <span class="toggle-status" aria-atomic="true">{settings.haptic_enabled ? '✓' : '✗'}</span>
-            <Button
-              variant={settings.haptic_enabled ? 'primary' : 'secondary'}
+            <button
+              class="toggle-switch"
+              class:toggle-on={settings.haptic_enabled}
               onclick={() => updateSetting('haptic_enabled', !settings!.haptic_enabled)}
+              role="switch"
+              aria-checked={settings.haptic_enabled}
               aria-label={$t('settings.haptic_feedback')}
             >
-              {settings.haptic_enabled ? $t('common.finish') : $t('common.start')}
-            </Button>
+              <span class="toggle-track">
+                <span class="toggle-thumb"></span>
+              </span>
+              <span class="toggle-label-text">{settings.haptic_enabled ? 'Sí' : 'No'}</span>
+            </button>
           </div>
         </div>
       </Card>
@@ -409,13 +429,75 @@
   .toggle-row {
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: flex-end;
   }
 
-  .toggle-status {
-    font-size: var(--font-size-xl);
-    font-weight: 700;
-    color: var(--text);
+  /* Toggle switch button */
+  .toggle-switch {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-sm);
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: var(--space-xs);
+    min-height: var(--touch-min);
+    font-family: var(--font-family);
+    touch-action: manipulation;
+    -webkit-user-select: none;
+    user-select: none;
+  }
+
+  .toggle-track {
+    position: relative;
+    display: inline-block;
+    width: 52px;
+    height: 28px;
+    background: var(--surface-3);
+    border-radius: 14px;
+    transition: background var(--transition-fast);
+    border: 2px solid var(--border);
+    flex-shrink: 0;
+  }
+
+  .toggle-on .toggle-track {
+    background: var(--primary);
+    border-color: var(--primary);
+  }
+
+  .toggle-thumb {
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: var(--text-dim);
+    transition: transform var(--transition-fast), background var(--transition-fast);
+    box-shadow: var(--shadow-sm);
+  }
+
+  .toggle-on .toggle-thumb {
+    transform: translateX(24px);
+    background: #ffffff;
+  }
+
+  .toggle-label-text {
+    font-size: var(--font-size-base);
+    font-weight: 600;
+    color: var(--text-dim);
+    min-width: 2ch;
+    text-align: center;
+  }
+
+  .toggle-on .toggle-label-text {
+    color: var(--primary);
+  }
+
+  .toggle-switch:focus-visible {
+    outline: 3px solid var(--primary-light);
+    outline-offset: 2px;
+    border-radius: var(--radius-sm);
   }
 
   /* Slider */

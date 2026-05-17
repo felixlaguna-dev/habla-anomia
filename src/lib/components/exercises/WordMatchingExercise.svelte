@@ -286,7 +286,7 @@
     </div>
 
     <!-- Skip button -->
-    <button class="skip-button" onclick={skipWord} aria-label="Skip">
+    <button class="skip-button" onclick={skipWord} aria-label={$t('common.skip')}>
       ⏭️ {$t('common.skip')}
     </button>
   </div>

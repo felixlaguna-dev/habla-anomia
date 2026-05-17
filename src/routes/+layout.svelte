@@ -96,7 +96,7 @@
   .main-content {
     flex: 1;
     padding: 1rem;
-    padding-bottom: 6rem;
+    padding-bottom: calc(64px + var(--safe-bottom, 0px) + 5rem);
     max-width: 768px;
     width: 100%;
     margin: 0 auto;

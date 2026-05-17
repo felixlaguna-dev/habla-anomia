@@ -37,7 +37,7 @@
   <!-- How exercises help -->
   <section class="about-section">
     <Card>
-      <h2 class="section-heading">{$t('about.exercises_help')}</h2>
+      <p class="section-heading section-intro">{$t('about.exercises_help')}</p>
       <div class="exercise-list stagger-children">
         {#each exerciseDescriptions as exercise}
           <div class="exercise-item">
@@ -114,6 +114,13 @@
     font-size: var(--font-size-base);
     color: var(--text-dim);
     line-height: 1.7;
+  }
+
+  .section-intro {
+    color: var(--text-dim);
+    font-weight: 400;
+    font-size: var(--font-size-base);
+    line-height: 1.6;
   }
 
   /* Exercise list */

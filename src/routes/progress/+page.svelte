@@ -338,21 +338,6 @@
         </section>
       {/if}
 
-      <!-- Data management -->
-      <section class="data-section">
-        <h2 class="section-title">{$t('settings.title')}</h2>
-        <div class="data-buttons">
-          <Button variant="secondary" fullWidth onclick={handleExport}>
-            {$t('progress.export')}
-          </Button>
-          <Button variant="secondary" fullWidth onclick={handleImport}>
-            {$t('progress.import')}
-          </Button>
-          <Button variant="danger" fullWidth onclick={() => (showClearModal = true)}>
-            {$t('progress.clear_data')}
-          </Button>
-        </div>
-      </section>
     {/if}
   </section>
 {/if}

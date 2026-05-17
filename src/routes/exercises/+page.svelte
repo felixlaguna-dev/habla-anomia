@@ -144,15 +144,15 @@
    font-weight: 600;
    color: var(--text);
    line-height: 1.3;
-   overflow: hidden;
-   text-overflow: ellipsis;
- }
+}
 
   .exercise-desc {
    font-size: var(--font-size-sm);
    color: var(--text-dim);
    line-height: 1.4;
-   overflow: hidden;
-   text-overflow: ellipsis;
- }
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
 </style>

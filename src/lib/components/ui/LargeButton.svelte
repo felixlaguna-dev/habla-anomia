@@ -81,7 +81,5 @@
   .btn-label {
     line-height: 1.2;
     overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
   }
 </style>

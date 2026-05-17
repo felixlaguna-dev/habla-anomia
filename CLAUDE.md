@@ -30,6 +30,10 @@ Free, open-source PWA for anomia (aphasia) rehabilitation.
 - All user-facing strings via `$t('key')` from i18n
 - Language: code/comments in English, UI in Spanish
 
+## Wiki
+- Entity page: `~/wiki/entities/habla-anomia.md`
+- Concepts: `~/wiki/concepts/svelte-5-pitfalls.md`
+
 ## Adding exercises
 1. Create component in `src/lib/components/exercises/`
 2. Add to barrel export `index.ts`

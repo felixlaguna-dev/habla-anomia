@@ -15,7 +15,7 @@ test.describe('Exercises List Page', () => {
       'Nombrar por categoría',
       'Relacionar palabras',
       'Completar frases',
-      'Asociación de palabras',
+      'Opuestos y sinónimos',
     ];
     for (const name of names) {
       await expect(page.locator(`text=${name}`).first()).toBeVisible({ timeout: 5000 });

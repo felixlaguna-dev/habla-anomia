@@ -426,7 +426,7 @@ export const WORDS_ES: Word[] = [
   },
 
   // ==========================================
-  // FOOD (25 words)
+  // FOOD (71 words)
   // ==========================================
   {
     id: 'es-food-001',
@@ -953,9 +953,975 @@ export const WORDS_ES: Word[] = [
     opposite: '',
     synonyms: ['cloruro de sodio', 'salmuera']
   },
+  {
+    id: 'es-food-026',
+    word: 'pimiento',
+    category: 'food',
+    language: 'es',
+    image_url: '/images/words/pimiento.webp',
+    definition: 'Hortaliza de forma alargada y hueca, generalmente de color rojo, verde o amarillo.',
+    features: {
+      category: 'verdura',
+      function: 'condimentar, cocinar',
+      location: 'huerto, mercado, cocina',
+      properties: 'es alargado, hueco, de colores vivos',
+      associations: 'pimentón, ensalada, guarnición, verdura'
+    },
+    phonetic: { first_sound: '/p/', syllables: 3, rhyming_word: 'cimiento', first_phonemes: '/pi/' },
+    difficulty: 2,
+    tags: ['verdura', 'hortaliza'],
+    sentence: 'El _____ rojo le da mucho sabor a la ensalada.',
+    opposite: '',
+    synonyms: ['pimentón', 'ají']
+  },
+  {
+    id: 'es-food-027',
+    word: 'pepino',
+    category: 'food',
+    language: 'es',
+    image_url: '/images/words/pepino.webp',
+    definition: 'Hortaliza alargada de piel verde y carne acuosa, se come crudo o en ensalada.',
+    features: {
+      category: 'verdura',
+      function: 'alimentar, refrescar',
+      location: 'huerto, mercado, cocina',
+      properties: 'es alargado, verde, refrescante',
+      associations: 'ensalada, gazpacho, verdura, huerto'
+    },
+    phonetic: { first_sound: '/p/', syllables: 3, rhyming_word: 'destino', first_phonemes: '/pe/' },
+    difficulty: 2,
+    tags: ['verdura', 'crudo'],
+    sentence: 'El _____ en rodajas es perfecto para la ensalada.',
+    opposite: '',
+    synonyms: ['cohombro']
+  },
+  {
+    id: 'es-food-028',
+    word: 'calabacín',
+    category: 'food',
+    language: 'es',
+    image_url: '/images/words/calabacin.webp',
+    definition: 'Hortaliza alargada de piel verde clara, muy versátil en la cocina.',
+    features: {
+      category: 'verdura',
+      function: 'cocinar, guarnición',
+      location: 'huerto, mercado, cocina',
+      properties: 'es alargado, verde claro, suave',
+      associations: 'calabaza, pisto, verdura, huerto'
+    },
+    phonetic: { first_sound: '/k/', syllables: 3, rhyming_word: 'fin', first_phonemes: '/ka/' },
+    difficulty: 2,
+    tags: ['verdura', 'hortaliza'],
+    sentence: 'Rallé el _____ para hacer una tortilla.',
+    opposite: '',
+    synonyms: ['zucchini']
+  },
+  {
+    id: 'es-food-029',
+    word: 'berenjena',
+    category: 'food',
+    language: 'es',
+    image_url: '/images/words/berenjena.webp',
+    definition: 'Hortaliza alargada de piel morada oscura y carne esponjosa.',
+    features: {
+      category: 'verdura',
+      function: 'cocinar, guarnición',
+      location: 'huerto, mercado, cocina',
+      properties: 'es alargada, morada, esponjosa',
+      associations: 'pisto, escalivada, verdura, huerto'
+    },
+    phonetic: { first_sound: '/b/', syllables: 4, rhyming_word: 'lena', first_phonemes: '/be/' },
+    difficulty: 3,
+    tags: ['verdura', 'hortaliza'],
+    sentence: 'La _____ asada con aceite está deliciosa.',
+    opposite: '',
+    synonyms: []
+  },
+  {
+    id: 'es-food-030',
+    word: 'brócoli',
+    category: 'food',
+    language: 'es',
+    image_url: '/images/words/brocoli.webp',
+    definition: 'Verdura de color verde con ramificaciones en forma de pequeño árbol.',
+    features: {
+      category: 'verdura',
+      function: 'alimentar, guarnición',
+      location: 'huerto, mercado, cocina',
+      properties: 'es verde, ramificado, nutritivo',
+      associations: 'coliflor, verdura, vapor, salud'
+    },
+    phonetic: { first_sound: '/b/', syllables: 3, rhyming_word: 'cóqui', first_phonemes: '/bro/' },
+    difficulty: 2,
+    tags: ['verdura', 'saludable'],
+    sentence: 'El _____ al vapor es muy sano.',
+    opposite: '',
+    synonyms: ['bróculi']
+  },
+  {
+    id: 'es-food-031',
+    word: 'coliflor',
+    category: 'food',
+    language: 'es',
+    image_url: '/images/words/coliflor.webp',
+    definition: 'Verdura de color blanco con forma de flor compacta.',
+    features: {
+      category: 'verdura',
+      function: 'alimentar, guarnición',
+      location: 'huerto, mercado, cocina',
+      properties: 'es blanca, compacta, en forma de flor',
+      associations: 'brócoli, verdura, bechamel, horno'
+    },
+    phonetic: { first_sound: '/k/', syllables: 3, rhyming_word: 'flor', first_phonemes: '/ko/' },
+    difficulty: 2,
+    tags: ['verdura', 'saludable'],
+    sentence: 'La _____ con bechamel está riquísima.',
+    opposite: '',
+    synonyms: []
+  },
+  {
+    id: 'es-food-032',
+    word: 'champiñón',
+    category: 'food',
+    language: 'es',
+    image_url: '/images/words/champinon.webp',
+    definition: 'Hongo comestible de sombrero redondo y pie corto, de color blanco o marrón.',
+    features: {
+      category: 'verdura',
+      function: 'cocinar, condimentar',
+      location: 'campo, mercado, cocina',
+      properties: 'es redondo, suave, de tierra',
+      associations: 'seta, pizza, salsa, bosque'
+    },
+    phonetic: { first_sound: '/tʃ/', syllables: 3, rhyming_word: 'miñón', first_phonemes: '/tʃa/' },
+    difficulty: 2,
+    tags: ['verdura', 'seta'],
+    sentence: 'Los champiñones salteados con ajo son un acompañamiento perfecto.',
+    opposite: '',
+    synonyms: ['seta', 'hongo']
+  },
+  {
+    id: 'es-food-033',
+    word: 'espárrago',
+    category: 'food',
+    language: 'es',
+    image_url: '/images/words/esparrago.webp',
+    definition: 'Brote tierno de la planta del espárrago, largo y delgado, de color verde o blanco.',
+    features: {
+      category: 'verdura',
+      function: 'alimentar, guarnición',
+      location: 'huerto, mercado, cocina',
+      properties: 'es largo, delgado, verde o blanco',
+      associations: 'mayonesa, verdura, primavera, huerto'
+    },
+    phonetic: { first_sound: '/e/', syllables: 4, rhyming_word: 'lago', first_phonemes: '/es/' },
+    difficulty: 3,
+    tags: ['verdura', 'gourmet'],
+    sentence: 'Los _____s trigueros a la plancha están riquísimos.',
+    opposite: '',
+    synonyms: []
+  },
+  {
+    id: 'es-food-034',
+    word: 'apio',
+    category: 'food',
+    language: 'es',
+    image_url: '/images/words/apio.webp',
+    definition: 'Planta hortaliza de tallos largos y verdes, crujiente y de sabor intenso.',
+    features: {
+      category: 'verdura',
+      function: 'alimentar, condimentar',
+      location: 'huerto, mercado, cocina',
+      properties: 'es verde, crujiente, fibroso',
+      associations: 'ensalada, sopa, verdura, dieta'
+    },
+    phonetic: { first_sound: '/a/', syllables: 2, rhyming_word: 'copio', first_phonemes: '/a/' },
+    difficulty: 2,
+    tags: ['verdura', 'dieta'],
+    sentence: 'El _____ crudo es un snack saludable.',
+    opposite: '',
+    synonyms: []
+  },
+  {
+    id: 'es-food-035',
+    word: 'maíz',
+    category: 'food',
+    language: 'es',
+    image_url: '/images/words/maiz.webp',
+    definition: 'Planta de grano amarillo que crece en mazorcas.',
+    features: {
+      category: 'cereal',
+      function: 'alimentar, cocinar',
+      location: 'campo, mercado, cocina',
+      properties: 'es amarillo, en mazorca, dulce',
+      associations: 'palomitas, tortilla, choclo, cereal'
+    },
+    phonetic: { first_sound: '/m/', syllables: 1, rhyming_word: 'lais', first_phonemes: '/ma/' },
+    difficulty: 2,
+    tags: ['cereal', 'básico'],
+    sentence: 'El _____ dulce es un gran acompañamiento.',
+    opposite: '',
+    synonyms: ['choclo', 'mazorca']
+  },
+  {
+    id: 'es-food-036',
+    word: 'guisante',
+    category: 'food',
+    language: 'es',
+    image_url: '/images/words/guisante.webp',
+    definition: 'Semilla verde redonda que crece en vainas.',
+    features: {
+      category: 'legumbre',
+      function: 'alimentar, guarnición',
+      location: 'huerto, mercado, cocina',
+      properties: 'es pequeño, redondo, verde',
+      associations: 'zanahoria, jamón, legumbre, huerto'
+    },
+    phonetic: { first_sound: '/g/', syllables: 3, rhyming_word: ' tante', first_phonemes: '/gi/' },
+    difficulty: 2,
+    tags: ['legumbre', 'verdura'],
+    sentence: 'Los _____s con jamón son un plato clásico.',
+    opposite: '',
+    synonyms: ['arveja', 'chícharo']
+  },
+  {
+    id: 'es-food-037',
+    word: 'judía',
+    category: 'food',
+    language: 'es',
+    image_url: '/images/words/judia.webp',
+    definition: 'Legumbre de vaina verde alargada, también llamada judía verde.',
+    features: {
+      category: 'legumbre',
+      function: 'alimentar, guarnición',
+      location: 'huerto, mercado, cocina',
+      properties: 'es alargada, verde, tierna',
+      associations: 'alubia, legumbre, menestra, huerto'
+    },
+    phonetic: { first_sound: '/x/', syllables: 3, rhyming_word: 'ría', first_phonemes: '/xu/' },
+    difficulty: 2,
+    tags: ['legumbre', 'verdura'],
+    sentence: 'Las _____s verdes salteadas están muy buenas.',
+    opposite: '',
+    synonyms: ['alubia verde', 'habichuela']
+  },
+  {
+    id: 'es-food-038',
+    word: 'pera',
+    category: 'food',
+    language: 'es',
+    image_url: '/images/words/pera.webp',
+    definition: 'Fruta jugosa de forma alargada y piel verde o amarilla.',
+    features: {
+      category: 'fruta',
+      function: 'alimentar',
+      location: 'frutero, mercado, cocina',
+      properties: 'es alargada, jugosa, dulce',
+      associations: 'manzana, fruta, postre, zumo'
+    },
+    phonetic: { first_sound: '/p/', syllables: 2, rhyming_word: 'cera', first_phonemes: '/pe/' },
+    difficulty: 1,
+    tags: ['fruta', 'fresca'],
+    sentence: 'La _____ está madura y lista para comer.',
+    opposite: '',
+    synonyms: []
+  },
+  {
+    id: 'es-food-039',
+    word: 'melocotón',
+    category: 'food',
+    language: 'es',
+    image_url: '/images/words/melocoton.webp',
+    definition: 'Fruta redonda de piel aterciopelada y carne jugosa de color anaranjado.',
+    features: {
+      category: 'fruta',
+      function: 'alimentar',
+      location: 'frutero, mercado, cocina',
+      properties: 'es redondo, aterciopelado, jugoso',
+      associations: 'nectarina, fruta, postre, zumo'
+    },
+    phonetic: { first_sound: '/m/', syllables: 4, rhyming_word: 'ton', first_phonemes: '/me/' },
+    difficulty: 2,
+    tags: ['fruta', 'verano'],
+    sentence: 'El _____ está muy dulce en verano.',
+    opposite: '',
+    synonyms: ['durazno', 'piesco']
+  },
+  {
+    id: 'es-food-040',
+    word: 'cereza',
+    category: 'food',
+    language: 'es',
+    image_url: '/images/words/cereza.webp',
+    definition: 'Fruta pequeña y redonda de color rojo oscuro con un hueso en el centro.',
+    features: {
+      category: 'fruta',
+      function: 'alimentar',
+      location: 'frutero, mercado, cocina',
+      properties: 'es pequeña, roja, dulce',
+      associations: 'picota, fruta, postre, árbol'
+    },
+    phonetic: { first_sound: '/θ/', syllables: 3, rhyming_word: 'oreja', first_phonemes: '/θe/' },
+    difficulty: 2,
+    tags: ['fruta', 'verano'],
+    sentence: 'Las _____s del árbol están madurando.',
+    opposite: '',
+    synonyms: ['guinda']
+  },
+  {
+    id: 'es-food-041',
+    word: 'sandía',
+    category: 'food',
+    language: 'es',
+    image_url: '/images/words/sandia.webp',
+    definition: 'Fruta grande de piel verde y carne roja y acuosa, muy refrescante.',
+    features: {
+      category: 'fruta',
+      function: 'alimentar, refrescar',
+      location: 'frutero, mercado, nevera',
+      properties: 'es grande, verde por fuera, roja por dentro',
+      associations: 'melón, verano, fruta, picnic'
+    },
+    phonetic: { first_sound: '/s/', syllables: 3, rhyming_word: 'avía', first_phonemes: '/sa/' },
+    difficulty: 2,
+    tags: ['fruta', 'verano'],
+    sentence: 'La _____ fría es perfecta para el verano.',
+    opposite: '',
+    synonyms: []
+  },
+  {
+    id: 'es-food-042',
+    word: 'melón',
+    category: 'food',
+    language: 'es',
+    image_url: '/images/words/melon.webp',
+    definition: 'Fruta grande de piel verde o amarilla y carne anaranjada o blanca, dulce.',
+    features: {
+      category: 'fruta',
+      function: 'alimentar',
+      location: 'frutero, mercado, nevera',
+      properties: 'es grande, dulce, refrescante',
+      associations: 'sandía, jamón, fruta, verano'
+    },
+    phonetic: { first_sound: '/m/', syllables: 2, rhyming_word: 'colón', first_phonemes: '/me/' },
+    difficulty: 1,
+    tags: ['fruta', 'verano'],
+    sentence: 'El _____ con jamón es un entrante delicioso.',
+    opposite: '',
+    synonyms: []
+  },
+  {
+    id: 'es-food-043',
+    word: 'kiwi',
+    category: 'food',
+    language: 'es',
+    image_url: '/images/words/kiwi.webp',
+    definition: 'Fruta pequeña de piel marrón y peluda con carne verde y semillas negras.',
+    features: {
+      category: 'fruta',
+      function: 'alimentar',
+      location: 'frutero, mercado, cocina',
+      properties: 'es pequeño, marrón por fuera, verde por dentro',
+      associations: 'fruta, vitamina C, postre, cuchara'
+    },
+    phonetic: { first_sound: '/k/', syllables: 2, rhyming_word: 'liwi', first_phonemes: '/ki/' },
+    difficulty: 2,
+    tags: ['fruta', 'tropical'],
+    sentence: 'El _____ tiene mucha vitamina C.',
+    opposite: '',
+    synonyms: []
+  },
+  {
+    id: 'es-food-044',
+    word: 'piña',
+    category: 'food',
+    language: 'es',
+    image_url: '/images/words/pina.webp',
+    definition: 'Fruta tropical de piel rugosa y espinosa con carne amarilla y dulce.',
+    features: {
+      category: 'fruta',
+      function: 'alimentar',
+      location: 'frutero, mercado, cocina',
+      properties: 'es rugosa, amarilla por dentro, dulce',
+      associations: 'tropical, cóctel, zumo, postre'
+    },
+    phonetic: { first_sound: '/p/', syllables: 2, rhyming_word: 'niña', first_phonemes: '/pi/' },
+    difficulty: 2,
+    tags: ['fruta', 'tropical'],
+    sentence: 'La _____ natural es mucho mejor que la de lata.',
+    opposite: '',
+    synonyms: ['ananás']
+  },
+  {
+    id: 'es-food-045',
+    word: 'coco',
+    category: 'food',
+    language: 'es',
+    image_url: '/images/words/coco.webp',
+    definition: 'Fruta tropical de cáscara marrón y fibrosa con agua y carne blanca en su interior.',
+    features: {
+      category: 'fruta',
+      function: 'alimentar',
+      location: 'frutero, mercado, cocina',
+      properties: 'es marrón, fibroso, con agua interior',
+      associations: 'tropical, leche, postre, playa'
+    },
+    phonetic: { first_sound: '/k/', syllables: 2, rhyming_word: 'loco', first_phonemes: '/ko/' },
+    difficulty: 2,
+    tags: ['fruta', 'tropical'],
+    sentence: 'El _____ rallado se usa en muchos postres.',
+    opposite: '',
+    synonyms: []
+  },
+  {
+    id: 'es-food-046',
+    word: 'mango',
+    category: 'food',
+    language: 'es',
+    image_url: '/images/words/mango.webp',
+    definition: 'Fruta tropical de piel amarilla o rojiza y carne anaranjada muy dulce.',
+    features: {
+      category: 'fruta',
+      function: 'alimentar',
+      location: 'frutero, mercado, cocina',
+      properties: 'es alargado, dulce, anaranjado',
+      associations: 'tropical, batido, postre, ensalada'
+    },
+    phonetic: { first_sound: '/m/', syllables: 2, rhyming_word: 'tango', first_phonemes: '/ma/' },
+    difficulty: 2,
+    tags: ['fruta', 'tropical'],
+    sentence: 'El _____ maduro es increíblemente dulce.',
+    opposite: '',
+    synonyms: []
+  },
+  {
+    id: 'es-food-047',
+    word: 'ciruela',
+    category: 'food',
+    language: 'es',
+    image_url: '/images/words/ciruela.webp',
+    definition: 'Fruta pequeña de piel morada o amarilla y carne jugosa con un hueso.',
+    features: {
+      category: 'fruta',
+      function: 'alimentar',
+      location: 'frutero, mercado, cocina',
+      properties: 'es pequeña, redonda, jugosa',
+      associations: 'ciruelo, fruta, mermelada, postre'
+    },
+    phonetic: { first_sound: '/θ/', syllables: 3, rhyming_word: 'escuela', first_phonemes: '/θi/' },
+    difficulty: 2,
+    tags: ['fruta', 'fresca'],
+    sentence: 'La _____ madura tiene un sabor dulce intenso.',
+    opposite: '',
+    synonyms: []
+  },
+  {
+    id: 'es-food-048',
+    word: 'frambuesa',
+    category: 'food',
+    language: 'es',
+    image_url: '/images/words/frambuesa.webp',
+    definition: 'Fruta pequeña de color rojo compuesta por muchos granos, de sabor dulce y ácido.',
+    features: {
+      category: 'fruta',
+      function: 'alimentar',
+      location: 'frutero, mercado, cocina',
+      properties: 'es pequeña, roja, formada por granos',
+      associations: 'fresa, mermelada, postre, fruto rojo'
+    },
+    phonetic: { first_sound: '/f/', syllables: 3, rhyming_word: 'mesa', first_phonemes: '/fra/' },
+    difficulty: 3,
+    tags: ['fruta', 'frutos rojos'],
+    sentence: 'Las _____s frescas son ideales para el yogur.',
+    opposite: '',
+    synonyms: []
+  },
+  {
+    id: 'es-food-049',
+    word: 'mandarina',
+    category: 'food',
+    language: 'es',
+    image_url: '/images/words/mandarina.webp',
+    definition: 'Fruta cítrica pequeña de piel anaranjada fácil de pelar, similar a la naranja.',
+    features: {
+      category: 'fruta',
+      function: 'alimentar',
+      location: 'frutero, mercado, cocina',
+      properties: 'es pequeña, anaranjada, fácil de pelar',
+      associations: 'naranja, cítrico, invierno, vitamina C'
+    },
+    phonetic: { first_sound: '/m/', syllables: 4, rhyming_word: 'rina', first_phonemes: '/ma/' },
+    difficulty: 1,
+    tags: ['fruta', 'cítrico'],
+    sentence: 'La _____ es más fácil de pelar que la naranja.',
+    opposite: '',
+    synonyms: ['tangerina']
+  },
+  {
+    id: 'es-food-050',
+    word: 'pomelo',
+    category: 'food',
+    language: 'es',
+    image_url: '/images/words/pomelo.webp',
+    definition: 'Fruta cítrica grande de piel amarilla y carne rosada o amarilla, de sabor amargo.',
+    features: {
+      category: 'fruta',
+      function: 'alimentar',
+      location: 'frutero, mercado, cocina',
+      properties: 'es grande, amarillo, ligeramente amargo',
+      associations: 'naranja, limón, cítrico, desayuno'
+    },
+    phonetic: { first_sound: '/p/', syllables: 3, rhyming_word: 'pelo', first_phonemes: '/po/' },
+    difficulty: 2,
+    tags: ['fruta', 'cítrico'],
+    sentence: 'El _____ rosa tiene un sabor entre dulce y amargo.',
+    opposite: '',
+    synonyms: ['toronja', 'grapefruit']
+  },
+  {
+    id: 'es-food-051',
+    word: 'pasta',
+    category: 'food',
+    language: 'es',
+    image_url: '/images/words/pasta.webp',
+    definition: 'Alimento hecho de harina y agua, con diversas formas, muy popular en la cocina italiana.',
+    features: {
+      category: 'carbohidrato',
+      function: 'alimentar',
+      location: 'cocina, supermercado, despensa',
+      properties: 'es seca, de diversas formas, se cocina en agua',
+      associations: 'espagueti, macarrones, salsa, italiano'
+    },
+    phonetic: { first_sound: '/p/', syllables: 2, rhyming_word: 'casta', first_phonemes: '/pa/' },
+    difficulty: 1,
+    tags: ['carbohidrato', 'básico'],
+    sentence: 'La _____ con tomate es un plato rápido y delicioso.',
+    opposite: '',
+    synonyms: ['fideos', 'macarrones']
+  },
+  {
+    id: 'es-food-052',
+    word: 'aceite',
+    category: 'food',
+    language: 'es',
+    image_url: '/images/words/aceite.webp',
+    definition: 'Líquido graso que se obtiene de las aceitunas o semillas, usado para cocinar.',
+    features: {
+      category: 'graso',
+      function: 'cocinar, aliñar',
+      location: 'cocina, despensa, supermercado',
+      properties: 'es líquido, resbaladizo, dorado',
+      associations: 'oliva, freír, ensalada, sartén'
+    },
+    phonetic: { first_sound: '/a/', syllables: 3, rhyming_word: 'saye', first_phonemes: '/a/' },
+    difficulty: 1,
+    tags: ['básico', 'cocina'],
+    sentence: 'El _____ de oliva virgen extra es el mejor para aliñar.',
+    opposite: '',
+    synonyms: ['óleo']
+  },
+  {
+    id: 'es-food-053',
+    word: 'vinagre',
+    category: 'food',
+    language: 'es',
+    image_url: '/images/words/vinagre.webp',
+    definition: 'Líquido ácido obtenido de la fermentación del vino, usado como condimento.',
+    features: {
+      category: 'condimento',
+      function: 'aliñar, conservar',
+      location: 'cocina, despensa, supermercado',
+      properties: 'es líquido, ácido, de olor fuerte',
+      associations: 'aceite, ensalada, escabeche, vino'
+    },
+    phonetic: { first_sound: '/b/', syllables: 3, rhyming_word: 'hambre', first_phonemes: '/bi/' },
+    difficulty: 2,
+    tags: ['condimento', 'básico'],
+    sentence: 'Echa un chorrito de _____ en la ensalada.',
+    opposite: '',
+    synonyms: []
+  },
+  {
+    id: 'es-food-054',
+    word: 'mantequilla',
+    category: 'food',
+    language: 'es',
+    image_url: '/images/words/mantequilla.webp',
+    definition: 'Producto lácteo graso de color amarillo pálido, usado en cocina y repostería.',
+    features: {
+      category: 'lácteo',
+      function: 'untar, cocinar',
+      location: 'nevera, cocina, supermercado',
+      properties: 'es blanda, amarilla, grasienta',
+      associations: 'pan, tostada, pastel, leche'
+    },
+    phonetic: { first_sound: '/m/', syllables: 4, rhyming_word: 'uña', first_phonemes: '/ma/' },
+    difficulty: 2,
+    tags: ['lácteo', 'básico'],
+    sentence: 'Unta la _____ en la tostada caliente.',
+    opposite: '',
+    synonyms: ['manteca']
+  },
+  {
+    id: 'es-food-055',
+    word: 'yogur',
+    category: 'food',
+    language: 'es',
+    image_url: '/images/words/yogur.webp',
+    definition: 'Producto lácteo fermentado de textura cremosa, generalmente de sabor dulce o natural.',
+    features: {
+      category: 'lácteo',
+      function: 'alimentar',
+      location: 'nevera, supermercado, cocina',
+      properties: 'es cremoso, blanco, ligeramente ácido',
+      associations: 'leche, fruta, desayuno, postre'
+    },
+    phonetic: { first_sound: '/ʎ/', syllables: 2, rhyming_word: 'tour', first_phonemes: '/ʎo/' },
+    difficulty: 1,
+    tags: ['lácteo', 'saludable'],
+    sentence: 'El _____ natural con miel está riquísimo.',
+    opposite: '',
+    synonyms: []
+  },
+  {
+    id: 'es-food-056',
+    word: 'miel',
+    category: 'food',
+    language: 'es',
+    image_url: '/images/words/miel.webp',
+    definition: 'Sustancia dulce y viscosa producida por las abejas.',
+    features: {
+      category: 'edulcorante',
+      function: 'endulzar',
+      location: 'despensa, cocina, supermercado',
+      properties: 'es dorada, viscosa, muy dulce',
+      associations: 'abeja, té, tostada, postre'
+    },
+    phonetic: { first_sound: '/m/', syllables: 1, rhyming_word: 'riel', first_phonemes: '/mi/' },
+    difficulty: 1,
+    tags: ['natural', 'dulce'],
+    sentence: 'La _____ de flores es la más aromática.',
+    opposite: '',
+    synonyms: []
+  },
+  {
+    id: 'es-food-057',
+    word: 'chocolate',
+    category: 'food',
+    language: 'es',
+    image_url: '/images/words/chocolate.webp',
+    definition: 'Dulce de color marrón hecho a partir del cacao, muy popular en repostería.',
+    features: {
+      category: 'dulce',
+      function: 'alimentar, endulzar',
+      location: 'cocina, supermercado, despensa',
+      properties: 'es marrón, dulce, se derrite',
+      associations: 'cacao, caramelo, pastel, bombón'
+    },
+    phonetic: { first_sound: '/tʃ/', syllables: 4, rhyming_word: 'late', first_phonemes: '/tʃo/' },
+    difficulty: 1,
+    tags: ['dulce', 'repostería'],
+    sentence: 'El _____ negro tiene menos azúcar.',
+    opposite: '',
+    synonyms: ['cacao']
+  },
+  {
+    id: 'es-food-058',
+    word: 'helado',
+    category: 'food',
+    language: 'es',
+    image_url: '/images/words/helado.webp',
+    definition: 'Postre congelado de sabor dulce hecho con leche, azúcar y sabores.',
+    features: {
+      category: 'postre',
+      function: 'alimentar, refrescar',
+      location: 'nevera, heladería, supermercado',
+      properties: 'es frío, cremoso, dulce',
+      associations: 'verano, vainilla, chocolate, cono'
+    },
+    phonetic: { first_sound: '/e/', syllables: 3, rhyming_word: 'lado', first_phonemes: '/e/' },
+    difficulty: 1,
+    tags: ['postre', 'verano'],
+    sentence: 'El _____ de vainilla es mi favorito.',
+    opposite: '',
+    synonyms: ['sorbete', 'mantecado']
+  },
+  {
+    id: 'es-food-059',
+    word: 'galleta',
+    category: 'food',
+    language: 'es',
+    image_url: '/images/words/galleta.webp',
+    definition: 'Pequeña pieza de repostería crujiente y dulce, horneada.',
+    features: {
+      category: 'repostería',
+      function: 'alimentar, acompañar',
+      location: 'despensa, cocina, supermercado',
+      properties: 'es crujiente, dulce, horneada',
+      associations: 'café, leche, té, desayuno'
+    },
+    phonetic: { first_sound: '/g/', syllables: 3, rhyming_word: 'meta', first_phonemes: '/ga/' },
+    difficulty: 1,
+    tags: ['repostería', 'desayuno'],
+    sentence: 'Moja la _____ en el café caliente.',
+    opposite: '',
+    synonyms: ['cookie', 'galletita']
+  },
+  {
+    id: 'es-food-060',
+    word: 'pastel',
+    category: 'food',
+    language: 'es',
+    image_url: '/images/words/pastel.webp',
+    definition: 'Preparación dulce horneada, decorada, para ocasiones especiales.',
+    features: {
+      category: 'repostería',
+      function: 'celebrar, alimentar',
+      location: 'pastelería, cocina, nevera',
+      properties: 'es esponjoso, decorado, dulce',
+      associations: 'cumpleaños, vela, nata, chocolate'
+    },
+    phonetic: { first_sound: '/p/', syllables: 2, rhyming_word: 'pastel', first_phonemes: '/pa/' },
+    difficulty: 1,
+    tags: ['repostería', 'celebración'],
+    sentence: 'El _____ de chocolate tiene tres capas.',
+    opposite: '',
+    synonyms: ['tarta', 'bizcocho']
+  },
+  {
+    id: 'es-food-061',
+    word: 'pan tostado',
+    category: 'food',
+    language: 'es',
+    image_url: '/images/words/pan_tostado.webp',
+    definition: 'Rebanada de pan que se ha tostado hasta quedar crujiente.',
+    features: {
+      category: 'pan',
+      function: 'alimentar',
+      location: 'cocina, tostadora, desayuno',
+      properties: 'es crujiente, dorado, seco',
+      associations: 'tostadora, mermelada, mantequilla, desayuno'
+    },
+    phonetic: { first_sound: '/p/', syllables: 4, rhyming_word: 'do', first_phonemes: '/pa/' },
+    difficulty: 1,
+    tags: ['pan', 'desayuno'],
+    sentence: 'El _____ con tomate es un clásico español.',
+    opposite: '',
+    synonyms: ['tostada']
+  },
+  {
+    id: 'es-food-062',
+    word: 'mermelada',
+    category: 'food',
+    language: 'es',
+    image_url: '/images/words/mermelada.webp',
+    definition: 'Conserva dulce de fruta cocida con azúcar.',
+    features: {
+      category: 'conserva',
+      function: 'untar, endulzar',
+      location: 'despensa, cocina, supermercado',
+      properties: 'es dulce, espesa, de fruta',
+      associations: 'tostada, pan, fresa, naranja'
+    },
+    phonetic: { first_sound: '/m/', syllables: 4, rhyming_word: 'ada', first_phonemes: '/me/' },
+    difficulty: 2,
+    tags: ['conserva', 'desayuno'],
+    sentence: 'La _____ de naranja amarga es un clásico.',
+    opposite: '',
+    synonyms: ['confitura', 'jalea']
+  },
+  {
+    id: 'es-food-063',
+    word: 'mostaza',
+    category: 'food',
+    language: 'es',
+    image_url: '/images/words/mostaza.webp',
+    definition: 'Salsa de sabor fuerte hecha de semillas de mostaza molidas.',
+    features: {
+      category: 'condimento',
+      function: 'aliñar, condimentar',
+      location: 'cocina, despensa, supermercado',
+      properties: 'es amarilla, fuerte, picante',
+      associations: 'ketchup, hamburguesa, perrito, salsa'
+    },
+    phonetic: { first_sound: '/m/', syllables: 3, rhyming_word: 'taza', first_phonemes: '/mo/' },
+    difficulty: 2,
+    tags: ['condimento', 'salsa'],
+    sentence: 'La _____ le da un toque picante al bocadillo.',
+    opposite: '',
+    synonyms: []
+  },
+  {
+    id: 'es-food-064',
+    word: 'ketchup',
+    category: 'food',
+    language: 'es',
+    image_url: '/images/words/ketchup.webp',
+    definition: 'Salsa roja y dulce hecha de tomate, vinagre y azúcar.',
+    features: {
+      category: 'salsa',
+      function: 'aliñar, acompañar',
+      location: 'cocina, despensa, supermercado',
+      properties: 'es rojo, dulce, espeso',
+      associations: 'tomate, hamburguesa, patatas, mostaza'
+    },
+    phonetic: { first_sound: '/k/', syllables: 2, rhyming_word: 'chup', first_phonemes: '/ke/' },
+    difficulty: 1,
+    tags: ['salsa', 'acompañamiento'],
+    sentence: 'Pon un poco de _____ en las patatas fritas.',
+    opposite: '',
+    synonyms: ['salsa de tomate']
+  },
+  {
+    id: 'es-food-065',
+    word: 'harina',
+    category: 'food',
+    language: 'es',
+    image_url: '/images/words/harina.webp',
+    definition: 'Polvo fino obtenido de moler el trigo u otros cereales.',
+    features: {
+      category: 'ingrediente',
+      function: 'cocinar, repostería',
+      location: 'despensa, cocina, supermercado',
+      properties: 'es polvo fino, blanca, seca',
+      associations: 'pan, pastel, masa, trigo'
+    },
+    phonetic: { first_sound: '/a/', syllables: 3, rhyming_word: 'rina', first_phonemes: '/a/' },
+    difficulty: 1,
+    tags: ['ingrediente', 'básico'],
+    sentence: 'La _____ de trigo es la base de muchas recetas.',
+    opposite: '',
+    synonyms: []
+  },
+  {
+    id: 'es-food-066',
+    word: 'cereales',
+    category: 'food',
+    language: 'es',
+    image_url: '/images/words/cereales.webp',
+    definition: 'Alimentos elaborados a partir de granos como trigo, avena o maíz, consumidos en el desayuno.',
+    features: {
+      category: 'desayuno',
+      function: 'alimentar',
+      location: 'despensa, supermercado, mesa',
+      properties: 'son crujientes, secos, de grano',
+      associations: 'leche, desayuno, avena, bowl'
+    },
+    phonetic: { first_sound: '/θ/', syllables: 3, rhyming_word: 'sales', first_phonemes: '/θe/' },
+    difficulty: 1,
+    tags: ['desayuno', 'carbohidrato'],
+    sentence: 'Los _____ con leche son el desayuno más rápido.',
+    opposite: '',
+    synonyms: ['copos', 'granola']
+  },
+  {
+    id: 'es-food-067',
+    word: 'embutido',
+    category: 'food',
+    language: 'es',
+    image_url: '/images/words/embutido.webp',
+    definition: 'Carne picada y sazonada introducida en una tripa, como el chorizo o el salchichón.',
+    features: {
+      category: 'carne',
+      function: 'alimentar',
+      location: 'nevera, charcutería, supermercado',
+      properties: 'es de carne, sazonado, curado',
+      associations: 'chorizo, salchichón, jamón, bocadillo'
+    },
+    phonetic: { first_sound: '/e/', syllables: 4, rhyming_word: 'ido', first_phonemes: '/e/' },
+    difficulty: 2,
+    tags: ['carne', 'fiambre'],
+    sentence: 'El _____ se corta en lonchas finas.',
+    opposite: '',
+    synonyms: ['fiambre', 'salchicha']
+  },
+  {
+    id: 'es-food-068',
+    word: 'atún',
+    category: 'food',
+    language: 'es',
+    image_url: '/images/words/atun.webp',
+    definition: 'Pescado azul de carne rosada, muy consumido en conserva.',
+    features: {
+      category: 'pescado',
+      function: 'alimentar',
+      location: 'cocina, supermercado, despensa',
+      properties: 'es de carne rosada, en conserva, aceitoso',
+      associations: 'lata, ensalada, bocadillo, mar'
+    },
+    phonetic: { first_sound: '/a/', syllables: 2, rhyming_word: 'tún', first_phonemes: '/a/' },
+    difficulty: 1,
+    tags: ['pescado', 'conserva'],
+    sentence: 'El _____ en lata es perfecto para una ensalada rápida.',
+    opposite: '',
+    synonyms: []
+  },
+  {
+    id: 'es-food-069',
+    word: 'salmón',
+    category: 'food',
+    language: 'es',
+    image_url: '/images/words/salmon.webp',
+    definition: 'Pescado de carne rosada y rica en omega-3, muy apreciado.',
+    features: {
+      category: 'pescado',
+      function: 'alimentar',
+      location: 'cocina, pescadería, supermercado',
+      properties: 'es rosado, rico en grasa, suave',
+      associations: 'ahumado, sushi, omega-3, río'
+    },
+    phonetic: { first_sound: '/s/', syllables: 2, rhyming_word: 'camón', first_phonemes: '/sa/' },
+    difficulty: 2,
+    tags: ['pescado', 'gourmet'],
+    sentence: 'El _____ ahumado con queso crema es delicioso.',
+    opposite: '',
+    synonyms: []
+  },
+  {
+    id: 'es-food-070',
+    word: 'gambas',
+    category: 'food',
+    language: 'es',
+    image_url: '/images/words/gambas.webp',
+    definition: 'Crustáceos marinos pequeños con caparazón, muy sabrosos.',
+    features: {
+      category: 'marisco',
+      function: 'alimentar',
+      location: 'cocina, pescadería, supermercado',
+      properties: 'son pequeñas, con caparazón, rosadas',
+      associations: 'marisco, paella, cóctel, mar'
+    },
+    phonetic: { first_sound: '/g/', syllables: 2, rhyming_word: 'cambas', first_phonemes: '/ga/' },
+    difficulty: 1,
+    tags: ['marisco', 'común'],
+    sentence: 'Las _____ a la plancha con ajo están riquísimas.',
+    opposite: '',
+    synonyms: ['camarones', 'langostinos']
+  },
+  {
+    id: 'es-food-071',
+    word: 'pulpo',
+    category: 'food',
+    language: 'es',
+    image_url: '/images/words/pulpo.webp',
+    definition: 'Molusco marino con ocho tentáculos, muy apreciado en la gastronomía.',
+    features: {
+      category: 'marisco',
+      function: 'alimentar',
+      location: 'cocina, pescadería, supermercado',
+      properties: 'tiene ocho tentáculos, carnoso, de mar',
+      associations: 'marisco, tentáculo, a la gallega, mar'
+    },
+    phonetic: { first_sound: '/p/', syllables: 2, rhyming_word: 'upo', first_phonemes: '/pu/' },
+    difficulty: 2,
+    tags: ['marisco', 'gourmet'],
+    sentence: 'El _____ a la gallega es un plato típico.',
+    opposite: '',
+    synonyms: []
+  },
 
   // ==========================================
-  // HOUSEHOLD (15 words)
+  // HOUSEHOLD (49 words)
   // ==========================================
   {
     id: 'es-household-001',
@@ -1272,9 +2238,723 @@ export const WORDS_ES: Word[] = [
     opposite: '',
     synonyms: ['horno microondas']
   },
+  {
+    id: 'es-household-016',
+    word: 'lavabo',
+    category: 'household',
+    language: 'es',
+    image_url: '/images/words/lavabo.webp',
+    definition: 'Receptáculo con agua corriente para lavarse las manos y la cara.',
+    features: {
+      category: 'mueble de baño',
+      function: 'lavarse las manos, la cara',
+      location: 'baño, aseo',
+      properties: 'tiene grifo, desagüe, es de cerámica',
+      associations: 'agua, jabón, baño, manos'
+    },
+    phonetic: { first_sound: '/l/', syllables: 3, rhyming_word: 'abo', first_phonemes: '/la/' },
+    difficulty: 1,
+    tags: ['baño', 'mueble'],
+    sentence: 'Me lavo las manos en el _____ con jabón.',
+    opposite: '',
+    synonyms: ['pileta', 'lavamanos']
+  },
+  {
+    id: 'es-household-017',
+    word: 'inodoro',
+    category: 'household',
+    language: 'es',
+    image_url: '/images/words/inodoro.webp',
+    definition: 'Aparato sanitario con descarga de agua para la eliminación de desechos.',
+    features: {
+      category: 'aparato sanitario',
+      function: 'eliminar desechos',
+      location: 'baño, aseo',
+      properties: 'tiene cisterna, taza, descarga',
+      associations: 'papel higiénico, baño, cisterna, agua'
+    },
+    phonetic: { first_sound: '/i/', syllables: 4, rhyming_word: 'coro', first_phonemes: '/i/' },
+    difficulty: 1,
+    tags: ['baño', 'sanitario'],
+    sentence: 'Tira de la cadena del _____ después de usarlo.',
+    opposite: '',
+    synonyms: ['váter', 'retrete', 'taza']
+  },
+  {
+    id: 'es-household-018',
+    word: 'grifo',
+    category: 'household',
+    language: 'es',
+    image_url: '/images/words/grifo.webp',
+    definition: 'Dispositivo que controla la salida de agua en tuberías.',
+    features: {
+      category: 'instalación',
+      function: 'controlar el agua',
+      location: 'baño, cocina, lavadero',
+      properties: 'es metálico, giratorio, controla el flujo',
+      associations: 'agua, lavabo, fregadero, tubería'
+    },
+    phonetic: { first_sound: '/g/', syllables: 2, rhyming_word: 'rifo', first_phonemes: '/gɾi/' },
+    difficulty: 1,
+    tags: ['baño', 'cocina', 'instalación'],
+    sentence: 'Abre el _____ para llenar el vaso de agua.',
+    opposite: '',
+    synonyms: ['llave', 'canilla']
+  },
+  {
+    id: 'es-household-019',
+    word: 'cortina',
+    category: 'household',
+    language: 'es',
+    image_url: '/images/words/cortina.webp',
+    definition: 'Tela colgada que cubre ventanas o separa espacios, como en la ducha.',
+    features: {
+      category: 'textil',
+      function: 'cubrir, separar, decorar',
+      location: 'ventanas, ducha, puertas',
+      properties: 'es de tela, se desliza, cubre',
+      associations: 'ventana, ducha, barra, tela'
+    },
+    phonetic: { first_sound: '/k/', syllables: 3, rhyming_word: 'china', first_phonemes: '/koɾ/' },
+    difficulty: 1,
+    tags: ['textil', 'decoración'],
+    sentence: 'Cierra la _____ de la ducha para no mojar el suelo.',
+    opposite: '',
+    synonyms: ['visillo', 'estor']
+  },
+  {
+    id: 'es-household-020',
+    word: 'lámpara',
+    category: 'household',
+    language: 'es',
+    image_url: '/images/words/lampara.webp',
+    definition: 'Objeto que produce luz artificial mediante una bombilla.',
+    features: {
+      category: 'iluminación',
+      function: 'iluminar',
+      location: 'salón, dormitorio, escritorio',
+      properties: 'tiene bombilla, pantalla, cable',
+      associations: 'luz, bombilla, mesa, noche'
+    },
+    phonetic: { first_sound: '/l/', syllables: 3, rhyming_word: 'ampara', first_phonemes: '/la/' },
+    difficulty: 1,
+    tags: ['iluminación', 'decoración'],
+    sentence: 'Enciende la _____ de la mesita de noche.',
+    opposite: '',
+    synonyms: ['flexo', 'candil']
+  },
+  {
+    id: 'es-household-021',
+    word: 'reloj',
+    category: 'household',
+    language: 'es',
+    image_url: '/images/words/reloj.webp',
+    definition: 'Instrumento que mide y muestra el tiempo.',
+    features: {
+      category: 'medición',
+      function: 'medir el tiempo',
+      location: 'pared, mesita, muñeca',
+      properties: 'tiene agujas o números, marca horas',
+      associations: 'hora, tiempo, pared, campanada'
+    },
+    phonetic: { first_sound: '/r/', syllables: 2, rhyming_word: 'oj', first_phonemes: '/re/' },
+    difficulty: 1,
+    tags: ['medición', 'hogar'],
+    sentence: 'El _____ de pared marca las tres en punto.',
+    opposite: '',
+    synonyms: ['cronómetro', 'horólogo']
+  },
+  {
+    id: 'es-household-022',
+    word: 'televisión',
+    category: 'household',
+    language: 'es',
+    image_url: '/images/words/television.webp',
+    definition: 'Aparato electrónico que recibe y muestra imágenes en movimiento con sonido.',
+    features: {
+      category: 'electrodoméstico',
+      function: 'entretenimiento, información',
+      location: 'salón, dormitorio',
+      properties: 'tiene pantalla, altavoces, mando a distancia',
+      associations: 'mando, serie, película, pantalla'
+    },
+    phonetic: { first_sound: '/t/', syllables: 4, rhyming_word: 'sión', first_phonemes: '/te/' },
+    difficulty: 1,
+    tags: ['electrodoméstico', 'entretenimiento'],
+    sentence: 'Vamos a ver una película en la _____ .',
+    opposite: '',
+    synonyms: ['tele', 'TV', 'televisor']
+  },
+  {
+    id: 'es-household-023',
+    word: 'teléfono',
+    category: 'household',
+    language: 'es',
+    image_url: '/images/words/telefono.webp',
+    definition: 'Dispositivo de comunicación que permite hablar a distancia.',
+    features: {
+      category: 'comunicación',
+      function: 'llamar, comunicar',
+      location: 'salón, oficina, bolsillo',
+      properties: 'tiene teclado, pantalla, altavoz',
+      associations: 'llamada, número, móvil, voz'
+    },
+    phonetic: { first_sound: '/t/', syllables: 4, rhyming_word: 'fono', first_phonemes: '/te/' },
+    difficulty: 1,
+    tags: ['comunicación', 'tecnología'],
+    sentence: 'El _____ está sonando, contéstalo.',
+    opposite: '',
+    synonyms: ['móvil', 'smartphone']
+  },
+  {
+    id: 'es-household-024',
+    word: 'radiador',
+    category: 'household',
+    language: 'es',
+    image_url: '/images/words/radiador.webp',
+    definition: 'Aparato que emite calor para calentar una habitación.',
+    features: {
+      category: 'calefacción',
+      function: 'calentar',
+      location: 'pared, bajo la ventana',
+      properties: 'es metálico, emite calor, tiene aletas',
+      associations: 'calor, invierno, calefacción, termostato'
+    },
+    phonetic: { first_sound: '/r/', syllables: 4, rhyming_word: 'dor', first_phonemes: '/ra/' },
+    difficulty: 2,
+    tags: ['calefacción', 'hogar'],
+    sentence: 'El _____ de la habitación está encendido.',
+    opposite: '',
+    synonyms: ['estufa', 'calefactor']
+  },
+  {
+    id: 'es-household-025',
+    word: 'ventilador',
+    category: 'household',
+    language: 'es',
+    image_url: '/images/words/ventilador.webp',
+    definition: 'Aparato con aspas giratorias que mueve el aire para refrescar.',
+    features: {
+      category: 'electrodoméstico',
+      function: 'refrescar, mover aire',
+      location: 'habitación, techo, escritorio',
+      properties: 'tiene aspas, gira, eléctrico',
+      associations: 'calor, verano, brisa, aspas'
+    },
+    phonetic: { first_sound: '/b/', syllables: 4, rhyming_word: 'dor', first_phonemes: '/be/' },
+    difficulty: 2,
+    tags: ['electrodoméstico', 'verano'],
+    sentence: 'Enciende el _____ que hace mucho calor.',
+    opposite: '',
+    synonyms: []
+  },
+  {
+    id: 'es-household-026',
+    word: 'aspiradora',
+    category: 'household',
+    language: 'es',
+    image_url: '/images/words/aspiradora.webp',
+    definition: 'Máquina eléctrica que aspira el polvo y la suciedad del suelo.',
+    features: {
+      category: 'electrodoméstico',
+      function: 'limpiar, aspirar',
+      location: 'casa, armario, trastero',
+      properties: 'es eléctrica, ruidosa, tiene bolsa',
+      associations: 'polvo, limpieza, suelo, saco'
+    },
+    phonetic: { first_sound: '/a/', syllables: 4, rhyming_word: 'dora', first_phonemes: '/as/' },
+    difficulty: 2,
+    tags: ['electrodoméstico', 'limpieza'],
+    sentence: 'Pasa la _____ por el salón antes de que lleguen.',
+    opposite: '',
+    synonyms: []
+  },
+  {
+    id: 'es-household-027',
+    word: 'escoba',
+    category: 'household',
+    language: 'es',
+    image_url: '/images/words/escoba.webp',
+    definition: 'Instrumento de limpieza formado por un palo y cerdas para barrer.',
+    features: {
+      category: 'limpieza',
+      function: 'barrer, limpiar',
+      location: 'cocina, armario, garaje',
+      properties: 'tiene palo largo y cerdas',
+      associations: 'basura, suelo, barrer, recogedor'
+    },
+    phonetic: { first_sound: '/e/', syllables: 3, rhyming_word: 'boba', first_phonemes: '/es/' },
+    difficulty: 1,
+    tags: ['limpieza', 'básico'],
+    sentence: 'Barreré el patio con la _____ nueva.',
+    opposite: '',
+    synonyms: ['escobón']
+  },
+  {
+    id: 'es-household-028',
+    word: 'fregona',
+    category: 'household',
+    language: 'es',
+    image_url: '/images/words/fregona.webp',
+    definition: 'Instrumento de limpieza con un palo y una tela para fregar suelos.',
+    features: {
+      category: 'limpieza',
+      function: 'fregar, limpiar suelos',
+      location: 'cocina, baño, armario',
+      properties: 'tiene palo largo y mocheta',
+      associations: 'cubo, suelo, agua, lejía'
+    },
+    phonetic: { first_sound: '/f/', syllables: 3, rhyming_word: 'ona', first_phonemes: '/fɾe/' },
+    difficulty: 2,
+    tags: ['limpieza', 'básico'],
+    sentence: 'Echo agua en el cubo y mojo la _____ .',
+    opposite: '',
+    synonyms: ['mopa', 'trapeador']
+  },
+  {
+    id: 'es-household-029',
+    word: 'cubo',
+    category: 'household',
+    language: 'es',
+    image_url: '/images/words/cubo.webp',
+    definition: 'Recipiente con asa usado para contener agua u otros líquidos.',
+    features: {
+      category: 'recipiente',
+      function: 'contener líquidos, fregar',
+      location: 'cocina, lavadero, garaje',
+      properties: 'es de plástico o metal, con asa, abierto',
+      associations: 'agua, fregona, basura, limpieza'
+    },
+    phonetic: { first_sound: '/k/', syllables: 2, rhyming_word: 'tubo', first_phonemes: '/ku/' },
+    difficulty: 1,
+    tags: ['recipiente', 'limpieza'],
+    sentence: 'Llena el _____ de agua para fregar el suelo.',
+    opposite: '',
+    synonyms: ['balde', 'cubo']
+  },
+  {
+    id: 'es-household-030',
+    word: 'papelera',
+    category: 'household',
+    language: 'es',
+    image_url: '/images/words/papelera.webp',
+    definition: 'Recipiente para tirar papeles y basura pequeña.',
+    features: {
+      category: 'recipiente',
+      function: 'recoger basura',
+      location: 'oficina, habitación, baño',
+      properties: 'es pequeño, de plástico o metal, tiene tapa',
+      associations: 'papel, basura, reciclaje, oficina'
+    },
+    phonetic: { first_sound: '/p/', syllables: 4, rhyming_word: 'era', first_phonemes: '/pa/' },
+    difficulty: 1,
+    tags: ['recipiente', 'oficina'],
+    sentence: 'Tira ese papel a la _____ , por favor.',
+    opposite: '',
+    synonyms: ['papelera', 'cesta']
+  },
+  {
+    id: 'es-household-031',
+    word: 'toalla',
+    category: 'household',
+    language: 'es',
+    image_url: '/images/words/toalla.webp',
+    definition: 'Pieza de tela absorbente para secarse el cuerpo.',
+    features: {
+      category: 'textil',
+      function: 'secar',
+      location: 'baño, cocina, gimnasio',
+      properties: 'es de tela, suave, absorbente',
+      associations: 'ducha, baño, secar, agua'
+    },
+    phonetic: { first_sound: '/t/', syllables: 3, rhyming_word: 'malla', first_phonemes: '/to/' },
+    difficulty: 1,
+    tags: ['textil', 'baño'],
+    sentence: 'Seca las manos con la _____ limpia.',
+    opposite: '',
+    synonyms: []
+  },
+  {
+    id: 'es-household-032',
+    word: 'almohada',
+    category: 'household',
+    language: 'es',
+    image_url: '/images/words/almohada.webp',
+    definition: 'Cojín blando que se pone en la cama para apoyar la cabeza al dormir.',
+    features: {
+      category: 'textil',
+      function: 'apoyar la cabeza',
+      location: 'cama, dormitorio',
+      properties: 'es blanda, rellena, rectangular',
+      associations: 'cama, dormir, cabeza, sábanas'
+    },
+    phonetic: { first_sound: '/a/', syllables: 4, rhyming_word: 'ada', first_phonemes: '/a/' },
+    difficulty: 1,
+    tags: ['textil', 'dormitorio'],
+    sentence: 'Esta _____ es demasiado baja para mí.',
+    opposite: '',
+    synonyms: ['cojín', 'almohadilla']
+  },
+  {
+    id: 'es-household-033',
+    word: 'manta',
+    category: 'household',
+    language: 'es',
+    image_url: '/images/words/manta.webp',
+    definition: 'Pieza de tela gruesa y abrigada que se usa para cubrirse.',
+    features: {
+      category: 'textil',
+      function: 'abrigar, cubrir',
+      location: 'cama, sofá, dormitorio',
+      properties: 'es gruesa, abrigada, de lana o tela',
+      associations: 'cama, frío, sofá, invierno'
+    },
+    phonetic: { first_sound: '/m/', syllables: 2, rhyming_word: 'planta', first_phonemes: '/ma/' },
+    difficulty: 1,
+    tags: ['textil', 'dormitorio'],
+    sentence: 'Ponte la _____ que esta noche hace frío.',
+    opposite: '',
+    synonyms: ['cobija', 'frazada']
+  },
+  {
+    id: 'es-household-034',
+    word: 'sábana',
+    category: 'household',
+    language: 'es',
+    image_url: '/images/words/sabana.webp',
+    definition: 'Tela grande que cubre el colchón de la cama.',
+    features: {
+      category: 'textil',
+      function: 'cubrir la cama',
+      location: 'cama, dormitorio, lavadero',
+      properties: 'es grande, fina, de algodón',
+      associations: 'cama, colchón, dormitorio, almohada'
+    },
+    phonetic: { first_sound: '/s/', syllables: 3, rhyming_word: 'gana', first_phonemes: '/sa/' },
+    difficulty: 1,
+    tags: ['textil', 'dormitorio'],
+    sentence: 'Hay que cambiar las _____s de la cama.',
+    opposite: '',
+    synonyms: []
+  },
+  {
+    id: 'es-household-035',
+    word: 'armario',
+    category: 'household',
+    language: 'es',
+    image_url: '/images/words/armario.webp',
+    definition: 'Mueble con puertas y estantes para guardar ropa y otros objetos.',
+    features: {
+      category: 'mueble',
+      function: 'guardar, almacenar',
+      location: 'dormitorio, recibidor',
+      properties: 'tiene puertas, estantes, cajones',
+      associations: 'ropa, puerta, colgador, dormitorio'
+    },
+    phonetic: { first_sound: '/a/', syllables: 3, rhyming_word: 'rio', first_phonemes: '/aɾ/' },
+    difficulty: 1,
+    tags: ['mueble', 'dormitorio'],
+    sentence: 'Guarda los abrigos en el _____ del recibidor.',
+    opposite: '',
+    synonyms: ['ropero', 'placard']
+  },
+  {
+    id: 'es-household-036',
+    word: 'cajón',
+    category: 'household',
+    language: 'es',
+    image_url: '/images/words/cajon.webp',
+    definition: 'Compartimento deslizante de un mueble que sirve para guardar cosas.',
+    features: {
+      category: 'mueble',
+      function: 'guardar objetos',
+      location: 'mesa, armario, cómoda',
+      properties: 'es deslizante, rectangular, con tirador',
+      associations: 'mesa, tirador, ropa, orden'
+    },
+    phonetic: { first_sound: '/k/', syllables: 2, rhyming_word: 'ajón', first_phonemes: '/ka/' },
+    difficulty: 1,
+    tags: ['mueble', 'almacenaje'],
+    sentence: 'Abre el _____ de arriba y saca los calcetines.',
+    opposite: '',
+    synonyms: ['gaveta', 'casetón']
+  },
+  {
+    id: 'es-household-037',
+    word: 'estufa',
+    category: 'household',
+    language: 'es',
+    image_url: '/images/words/estufa.webp',
+    definition: 'Aparato que produce calor para calentar una habitación o cocinar.',
+    features: {
+      category: 'calefacción',
+      function: 'calentar, cocinar',
+      location: 'cocina, salón',
+      properties: 'es metálica, produce calor, tiene quemadores',
+      associations: 'calor, invierno, cocina, gas'
+    },
+    phonetic: { first_sound: '/e/', syllables: 3, rhyming_word: 'bufa', first_phonemes: '/es/' },
+    difficulty: 1,
+    tags: ['calefacción', 'cocina'],
+    sentence: 'Enciende la _____ que hace mucho frío.',
+    opposite: '',
+    synonyms: ['cocina', 'hornilla']
+  },
+  {
+    id: 'es-household-038',
+    word: 'horno',
+    category: 'household',
+    language: 'es',
+    image_url: '/images/words/horno.webp',
+    definition: 'Aparato cerrado que genera calor para cocinar alimentos.',
+    features: {
+      category: 'electrodoméstico',
+      function: 'cocinar, hornear',
+      location: 'cocina',
+      properties: 'es cerrado, caliente, tiene puerta',
+      associations: 'pan, pastel, pizza, calor'
+    },
+    phonetic: { first_sound: '/o/', syllables: 2, rhyming_word: 'torno', first_phonemes: '/oɾ/' },
+    difficulty: 1,
+    tags: ['electrodoméstico', 'cocina'],
+    sentence: 'Precalienta el _____ a 180 grados.',
+    opposite: '',
+    synonyms: []
+  },
+  {
+    id: 'es-household-039',
+    word: 'batidora',
+    category: 'household',
+    language: 'es',
+    image_url: '/images/words/batidora.webp',
+    definition: 'Electrodoméstico que mezcla y bate alimentos.',
+    features: {
+      category: 'electrodoméstico',
+      function: 'batir, mezclar',
+      location: 'cocina',
+      properties: 'tiene aspas o varillas, eléctrica',
+      associations: 'batido, mezcla, cocina, huevo'
+    },
+    phonetic: { first_sound: '/b/', syllables: 4, rhyming_word: 'dora', first_phonemes: '/ba/' },
+    difficulty: 2,
+    tags: ['electrodoméstico', 'cocina'],
+    sentence: 'Usa la _____ para hacer el batido de frutas.',
+    opposite: '',
+    synonyms: ['licuadora', 'mezcladora']
+  },
+  {
+    id: 'es-household-040',
+    word: 'taza',
+    category: 'household',
+    language: 'es',
+    image_url: '/images/words/taza.webp',
+    definition: 'Recipiente pequeño con asa para beber líquidos calientes.',
+    features: {
+      category: 'vajilla',
+      function: 'beber',
+      location: 'cocina, mesa, despensa',
+      properties: 'es pequeña, con asa, de cerámica',
+      associations: 'café, té, leche, azúcar'
+    },
+    phonetic: { first_sound: '/t/', syllables: 2, rhyming_word: 'plaza', first_phonemes: '/ta/' },
+    difficulty: 1,
+    tags: ['vajilla', 'cocina'],
+    sentence: 'Sirve el café en una _____ grande.',
+    opposite: '',
+    synonyms: ['tazón', 'pocillo']
+  },
+  {
+    id: 'es-household-041',
+    word: 'plato',
+    category: 'household',
+    language: 'es',
+    image_url: '/images/words/plato.webp',
+    definition: 'Pieza de vajilla plana y redonda para servir comida.',
+    features: {
+      category: 'vajilla',
+      function: 'servir comida',
+      location: 'cocina, mesa, lavavajillas',
+      properties: 'es plano, redondo, de cerámica',
+      associations: 'comida, mesa, cubierto, sopera'
+    },
+    phonetic: { first_sound: '/p/', syllables: 2, rhyming_word: 'rato', first_phonemes: '/pla/' },
+    difficulty: 1,
+    tags: ['vajilla', 'cocina'],
+    sentence: 'Pon un _____ para cada persona en la mesa.',
+    opposite: '',
+    synonyms: []
+  },
+  {
+    id: 'es-household-042',
+    word: 'vaso',
+    category: 'household',
+    language: 'es',
+    image_url: '/images/words/vaso.webp',
+    definition: 'Recipiente cilíndrico sin asa para beber líquidos.',
+    features: {
+      category: 'vajilla',
+      function: 'beber',
+      location: 'cocina, mesa, nevera',
+      properties: 'es cilíndrico, transparente, sin asa',
+      associations: 'agua, zumo, mesa, cristal'
+    },
+    phonetic: { first_sound: '/b/', syllables: 2, rhyming_word: 'paso', first_phonemes: '/ba/' },
+    difficulty: 1,
+    tags: ['vajilla', 'cocina'],
+    sentence: 'Llena el _____ de agua fresca.',
+    opposite: '',
+    synonyms: ['copa', 'taza']
+  },
+  {
+    id: 'es-household-043',
+    word: 'cuchara',
+    category: 'household',
+    language: 'es',
+    image_url: '/images/words/cuchara.webp',
+    definition: 'Cubierto con una parte cóncava para llevar comida a la boca.',
+    features: {
+      category: 'cubiertería',
+      function: 'comer, servir',
+      location: 'cocina, mesa, cajón',
+      properties: 'tiene mango largo y parte cóncava',
+      associations: 'sopa, cuchillo, tenedor, cocina'
+    },
+    phonetic: { first_sound: '/k/', syllables: 3, rhyming_word: 'chara', first_phonemes: '/ku/' },
+    difficulty: 1,
+    tags: ['cubertería', 'cocina'],
+    sentence: 'Usa la _____ para comer la sopa.',
+    opposite: '',
+    synonyms: ['cucharilla', 'cucharón']
+  },
+  {
+    id: 'es-household-044',
+    word: 'tenedor',
+    category: 'household',
+    language: 'es',
+    image_url: '/images/words/tenedor.webp',
+    definition: 'Cubierto con púas para pinchar y llevar comida a la boca.',
+    features: {
+      category: 'cubertería',
+      function: 'comer, pinchar',
+      location: 'cocina, mesa, cajón',
+      properties: 'tiene púas, mango largo, metálico',
+      associations: 'cuchillo, cuchara, comida, mesa'
+    },
+    phonetic: { first_sound: '/t/', syllables: 3, rhyming_word: 'dor', first_phonemes: '/te/' },
+    difficulty: 1,
+    tags: ['cubertería', 'cocina'],
+    sentence: 'Come la carne con cuchillo y _____ .',
+    opposite: '',
+    synonyms: []
+  },
+  {
+    id: 'es-household-045',
+    word: 'botella',
+    category: 'household',
+    language: 'es',
+    image_url: '/images/words/botella.webp',
+    definition: 'Recipiente de cuello estrecho para contener líquidos.',
+    features: {
+      category: 'recipiente',
+      function: 'contener líquidos',
+      location: 'cocina, nevera, despensa',
+      properties: 'tiene cuello estrecho, cierre, es de plástico o vidrio',
+      associations: 'agua, vino, tapón, cristal'
+    },
+    phonetic: { first_sound: '/b/', syllables: 3, rhyming_word: 'estrella', first_phonemes: '/bo/' },
+    difficulty: 1,
+    tags: ['recipiente', 'cocina'],
+    sentence: 'Abre una _____ de agua para la comida.',
+    opposite: '',
+    synonyms: ['garrafa']
+  },
+  {
+    id: 'es-household-046',
+    word: 'llaves',
+    category: 'household',
+    language: 'es',
+    image_url: '/images/words/llaves_casa.webp',
+    definition: 'Objetos metálicos usados para abrir y cerrar las puertas de una casa.',
+    features: {
+      category: 'seguridad',
+      function: 'abrir, cerrar, asegurar',
+      location: 'bolsillo, bolso, puerta',
+      properties: 'son metálicas, dentadas, pequeñas',
+      associations: 'puerta, casa, cerrojo, llavero'
+    },
+    phonetic: { first_sound: '/ʎ/', syllables: 2, rhyming_word: 'aves', first_phonemes: '/ʎa/' },
+    difficulty: 1,
+    tags: ['seguridad', 'hogar'],
+    sentence: 'No encuentro las _____ para entrar en casa.',
+    opposite: '',
+    synonyms: ['llavero']
+  },
+  {
+    id: 'es-household-047',
+    word: 'interruptor',
+    category: 'household',
+    language: 'es',
+    image_url: '/images/words/interruptor.webp',
+    definition: 'Dispositivo que abre o cierra un circuito eléctrico para encender o apagar la luz.',
+    features: {
+      category: 'instalación eléctrica',
+      function: 'encender, apagar la luz',
+      location: 'pared, junto a la puerta',
+      properties: 'es pequeño, de plástico, en la pared',
+      associations: 'luz, pared, electricidad, bombilla'
+    },
+    phonetic: { first_sound: '/i/', syllables: 4, rhyming_word: 'tor', first_phonemes: '/i/' },
+    difficulty: 1,
+    tags: ['electricidad', 'pared'],
+    sentence: 'Pulsa el _____ para encender la luz del pasillo.',
+    opposite: '',
+    synonyms: ['pulsador', 'tecla']
+  },
+  {
+    id: 'es-household-048',
+    word: 'timbre',
+    category: 'household',
+    language: 'es',
+    image_url: '/images/words/timbre.webp',
+    definition: 'Dispositivo que produce un sonido para avisar cuando alguien llama a la puerta.',
+    features: {
+      category: 'instalación',
+      function: 'avisar, llamar',
+      location: 'puerta, pared, portero',
+      properties: 'es pequeño, hace ruido, en la pared',
+      associations: 'puerta, visita, sonido, casa'
+    },
+    phonetic: { first_sound: '/t/', syllables: 2, rhyming_word: 'cubre', first_phonemes: '/ti/' },
+    difficulty: 1,
+    tags: ['comunicación', 'puerta'],
+    sentence: 'Ha sonado el _____ , ve a abrir la puerta.',
+    opposite: '',
+    synonyms: ['campanilla']
+  },
+  {
+    id: 'es-household-049',
+    word: 'buzón',
+    category: 'household',
+    language: 'es',
+    image_url: '/images/words/buzon.webp',
+    definition: 'Abertura o casilla donde se deposita y recoge el correo.',
+    features: {
+      category: 'mueble',
+      function: 'recibir correo',
+      location: 'portal, calle, puerta',
+      properties: 'es pequeño, con tapa, en la pared',
+      associations: 'carta, correo, portal, llave'
+    },
+    phonetic: { first_sound: '/b/', syllables: 2, rhyming_word: 'uzón', first_phonemes: '/bu/' },
+    difficulty: 1,
+    tags: ['comunicación', 'portal'],
+    sentence: 'Mira si hay cartas en el _____ de la comunidad.',
+    opposite: '',
+    synonyms: ['casilla', 'apartado']
+  },
 
   // ==========================================
-  // BODY PARTS (15 words)
+  // BODY PARTS (25 words)
   // ==========================================
   {
     id: 'es-body-001',
@@ -1591,9 +3271,219 @@ export const WORDS_ES: Word[] = [
     opposite: '',
     synonyms: ['torax', 'tórax']
   },
+  {
+    id: 'es-body-016',
+    word: 'corazón',
+    category: 'body-parts',
+    language: 'es',
+    image_url: '/images/words/corazon.webp',
+    definition: 'Órgano muscular que bombea la sangre por todo el cuerpo.',
+    features: {
+      category: 'órgano interno',
+      function: 'bombea sangre',
+      location: 'pecho, lado izquierdo del tórax',
+      properties: 'es muscular, late, vital',
+      associations: 'pecho, sangre, latido, amor'
+    },
+    phonetic: { first_sound: '/k/', syllables: 3, rhyming_word: 'razón', first_phonemes: '/ko/' },
+    difficulty: 1,
+    tags: ['órgano', 'vital'],
+    sentence: 'El _____ late aproximadamente setenta veces por minuto.',
+    opposite: '',
+    synonyms: []
+  },
+  {
+    id: 'es-body-017',
+    word: 'estómago',
+    category: 'body-parts',
+    language: 'es',
+    image_url: '/images/words/estomago.webp',
+    definition: 'Órgano del sistema digestivo donde se procesan los alimentos.',
+    features: {
+      category: 'órgano interno',
+      function: 'digerir alimentos',
+      location: 'abdomen, parte superior',
+      properties: 'es muscular, en forma de bolsa, ácido',
+      associations: 'comida, digestión, barriga, hambre'
+    },
+    phonetic: { first_sound: '/e/', syllables: 4, rhyming_word: 'lago', first_phonemes: '/es/' },
+    difficulty: 1,
+    tags: ['órgano', 'digestivo'],
+    sentence: 'El _____ me duele después de comer tanto.',
+    opposite: '',
+    synonyms: ['vientre', 'barriga']
+  },
+  {
+    id: 'es-body-018',
+    word: 'diente',
+    category: 'body-parts',
+    language: 'es',
+    image_url: '/images/words/diente.webp',
+    definition: 'Pieza dura y blanca insertada en la mandíbula para masticar.',
+    features: {
+      category: 'parte del cuerpo',
+      function: 'masticar, morder',
+      location: 'boca, mandíbula',
+      properties: 'es duro, blanco, con raíz',
+      associations: 'sonrisa, masticar, boca, muela'
+    },
+    phonetic: { first_sound: '/d/', syllables: 2, rhyming_word: 'caliente', first_phonemes: '/di/' },
+    difficulty: 1,
+    tags: ['cuerpo', 'boca'],
+    sentence: 'Se me cayó un _____ al morder la manzana.',
+    opposite: '',
+    synonyms: ['muela', 'colmillo']
+  },
+  {
+    id: 'es-body-019',
+    word: 'lengua',
+    category: 'body-parts',
+    language: 'es',
+    image_url: '/images/words/lengua.webp',
+    definition: 'Órgano muscular dentro de la boca que sirve para hablar, saborear y tragar.',
+    features: {
+      category: 'órgano',
+      function: 'hablar, saborear, tragar',
+      location: 'boca',
+      properties: 'es muscular, móvil, con papilas gustativas',
+      associations: 'boca, hablar, gusto, sabor'
+    },
+    phonetic: { first_sound: '/l/', syllables: 2, rhyming_word: 'penga', first_phonemes: '/le/' },
+    difficulty: 1,
+    tags: ['órgano', 'boca'],
+    sentence: 'Me mordí la _____ al comer demasiado rápido.',
+    opposite: '',
+    synonyms: []
+  },
+  {
+    id: 'es-body-020',
+    word: 'ceja',
+    category: 'body-parts',
+    language: 'es',
+    image_url: '/images/words/ceja.webp',
+    definition: 'Arco de pelo situado sobre cada ojo.',
+    features: {
+      category: 'parte del cuerpo',
+      function: 'proteger los ojos, expresar',
+      location: 'sobre los ojos, frente',
+      properties: 'es de pelo, arqueada, simétrica',
+      associations: 'ojo, frente, expresión, mirada'
+    },
+    phonetic: { first_sound: '/θ/', syllables: 2, rhyming_word: 'oreja', first_phonemes: '/θe/' },
+    difficulty: 1,
+    tags: ['cuerpo', 'rostro'],
+    sentence: 'Levantó las _____s sorprendido al oír la noticia.',
+    opposite: '',
+    synonyms: []
+  },
+  {
+    id: 'es-body-021',
+    word: 'pestaña',
+    category: 'body-parts',
+    language: 'es',
+    image_url: '/images/words/pestana.webp',
+    definition: 'Pelos cortos y curvados que bordean los párpados.',
+    features: {
+      category: 'parte del cuerpo',
+      function: 'proteger los ojos',
+      location: 'borde de los párpados',
+      properties: 'son cortos, curvados, finos',
+      associations: 'ojo, párpado, mirada, pestañeo'
+    },
+    phonetic: { first_sound: '/p/', syllables: 3, rhyming_word: 'mañana', first_phonemes: '/pe/' },
+    difficulty: 2,
+    tags: ['cuerpo', 'rostro'],
+    sentence: 'Le cayó una _____ en la mejilla.',
+    opposite: '',
+    synonyms: []
+  },
+  {
+    id: 'es-body-022',
+    word: 'codo',
+    category: 'body-parts',
+    language: 'es',
+    image_url: '/images/words/codo.webp',
+    definition: 'Articulación que une el brazo con el antebrazo.',
+    features: {
+      category: 'articulación',
+      function: 'flexionar el brazo',
+      location: 'parte media del brazo',
+      properties: 'es óseo, articulado, puntiagudo',
+      associations: 'brazo, articulación, flexión, mesa'
+    },
+    phonetic: { first_sound: '/k/', syllables: 2, rhyming_word: 'todo', first_phonemes: '/ko/' },
+    difficulty: 1,
+    tags: ['cuerpo', 'articulación'],
+    sentence: 'Me apoyé en el _____ sobre la mesa.',
+    opposite: '',
+    synonyms: []
+  },
+  {
+    id: 'es-body-023',
+    word: 'muñeca',
+    category: 'body-parts',
+    language: 'es',
+    image_url: '/images/words/muneca.webp',
+    definition: 'Articulación que une la mano con el antebrazo.',
+    features: {
+      category: 'articulación',
+      function: 'mover la mano',
+      location: 'entre mano y brazo',
+      properties: 'es articulada, flexible, ósea',
+      associations: 'mano, brazo, reloj, articulación'
+    },
+    phonetic: { first_sound: '/m/', syllables: 3, rhyming_word: 'eca', first_phonemes: '/mu/' },
+    difficulty: 1,
+    tags: ['cuerpo', 'articulación'],
+    sentence: 'Se torció la _____ jugando al tenis.',
+    opposite: '',
+    synonyms: []
+  },
+  {
+    id: 'es-body-024',
+    word: 'tobillo',
+    category: 'body-parts',
+    language: 'es',
+    image_url: '/images/words/tobillo.webp',
+    definition: 'Articulación que une el pie con la pierna.',
+    features: {
+      category: 'articulación',
+      function: 'soportar peso, mover el pie',
+      location: 'entre pie y pierna',
+      properties: 'es articulado, óseo, soporta peso',
+      associations: 'pie, pierna, tobillo, torcedura'
+    },
+    phonetic: { first_sound: '/t/', syllables: 3, rhyming_word: 'nillo', first_phonemes: '/to/' },
+    difficulty: 1,
+    tags: ['cuerpo', 'articulación'],
+    sentence: 'Se torció el _____ bajando las escaleras.',
+    opposite: '',
+    synonyms: []
+  },
+  {
+    id: 'es-body-025',
+    word: 'cabello',
+    category: 'body-parts',
+    language: 'es',
+    image_url: '/images/words/cabello.webp',
+    definition: 'Conjunto de pelos que crecen en la cabeza humana.',
+    features: {
+      category: 'parte del cuerpo',
+      function: 'proteger, adornar',
+      location: 'cabeza',
+      properties: 'es filamento, flexible, de diversos colores',
+      associations: 'pelo, cabeza, peinado, color'
+    },
+    phonetic: { first_sound: '/k/', syllables: 3, rhyming_word: 'bello', first_phonemes: '/ka/' },
+    difficulty: 1,
+    tags: ['cuerpo', 'cabeza'],
+    sentence: 'El _____ le crece un centímetro al mes.',
+    opposite: '',
+    synonyms: ['pelo', 'melena']
+  },
 
   // ==========================================
-  // CLOTHING (12 words)
+  // CLOTHING (20 words)
   // ==========================================
   {
     id: 'es-clothing-001',
@@ -1846,6 +3736,174 @@ export const WORDS_ES: Word[] = [
     sentence: 'Sal con el _____ que hoy hace mucho frío.',
     opposite: '',
     synonyms: ['gabán', 'tapado']
+  },
+  {
+    id: 'es-clothing-013',
+    word: 'camiseta',
+    category: 'clothing',
+    language: 'es',
+    image_url: '/images/words/camiseta.webp',
+    definition: 'Prenda de vestir de manga corta o sin mangas, de tela ligera.',
+    features: {
+      category: 'prenda de vestir',
+      function: 'vestir, cubrir el torso',
+      location: 'armario, cajón, tienda',
+      properties: 'es ligera, de manga corta, informal',
+      associations: 'verano, deporte, ropa, algodón'
+    },
+    phonetic: { first_sound: '/k/', syllables: 3, rhyming_word: 'meta', first_phonemes: '/ka/' },
+    difficulty: 1,
+    tags: ['ropa', 'informal'],
+    sentence: 'Lleva una _____ azul bajo la chaqueta.',
+    opposite: '',
+    synonyms: ['camisola']
+  },
+  {
+    id: 'es-clothing-014',
+    word: 'pijama',
+    category: 'clothing',
+    language: 'es',
+    image_url: '/images/words/pijama.webp',
+    definition: 'Prenda de vestir cómoda usada para dormir.',
+    features: {
+      category: 'prenda de vestir',
+      function: 'vestir para dormir',
+      location: 'armario, cama, dormitorio',
+      properties: 'es cómodo, suave, de dos piezas',
+      associations: 'dormir, cama, noche, descanso'
+    },
+    phonetic: { first_sound: '/p/', syllables: 3, rhyming_word: 'jama', first_phonemes: '/pi/' },
+    difficulty: 1,
+    tags: ['ropa', 'dormir'],
+    sentence: 'Me pongo el _____ antes de acostarme.',
+    opposite: '',
+    synonyms: ['ropa de dormir']
+  },
+  {
+    id: 'es-clothing-015',
+    word: 'bañador',
+    category: 'clothing',
+    language: 'es',
+    image_url: '/images/words/banador.webp',
+    definition: 'Prenda de vestir para nadar o estar en la playa o piscina.',
+    features: {
+      category: 'prenda de vestir',
+      function: 'nadar, tomar el sol',
+      location: 'playa, piscina, armario',
+      properties: 'es de tela elástica, resistente al agua',
+      associations: 'playa, piscina, verano, agua'
+    },
+    phonetic: { first_sound: '/b/', syllables: 3, rhyming_word: 'dor', first_phonemes: '/ba/' },
+    difficulty: 1,
+    tags: ['ropa', 'verano'],
+    sentence: 'No olvides meter el _____ en la maleta.',
+    opposite: '',
+    synonyms: ['traje de baño', 'bikini']
+  },
+  {
+    id: 'es-clothing-016',
+    word: 'botas',
+    category: 'clothing',
+    language: 'es',
+    image_url: '/images/words/botas.webp',
+    definition: 'Calzado que cubre el pie y parte de la pierna, generalmente de cuero.',
+    features: {
+      category: 'calzado',
+      function: 'proteger pies y piernas',
+      location: 'armario, zapatero, puerta',
+      properties: 'son altas, de cuero o goma, cerradas',
+      associations: 'lluvia, nieve, invierno, montaña'
+    },
+    phonetic: { first_sound: '/b/', syllables: 2, rhyming_word: 'notas', first_phonemes: '/bo/' },
+    difficulty: 1,
+    tags: ['calzado', 'invierno'],
+    sentence: 'Ponte las _____ que el suelo está mojado.',
+    opposite: '',
+    synonyms: ['botines']
+  },
+  {
+    id: 'es-clothing-017',
+    word: 'sandalias',
+    category: 'clothing',
+    language: 'es',
+    image_url: '/images/words/sandalias.webp',
+    definition: 'Calzado ligero y abierto que deja los pies al descubierto.',
+    features: {
+      category: 'calzado',
+      function: 'proteger los pies',
+      location: 'armario, zapatero, playa',
+      properties: 'son abiertas, ligeras, de verano',
+      associations: 'verano, playa, calor, pie'
+    },
+    phonetic: { first_sound: '/s/', syllables: 3, rhyming_word: 'alias', first_phonemes: '/sa/' },
+    difficulty: 1,
+    tags: ['calzado', 'verano'],
+    sentence: 'En verano siempre llevo _____ para estar fresco.',
+    opposite: '',
+    synonyms: ['chanclas', 'alpargatas']
+  },
+  {
+    id: 'es-clothing-018',
+    word: 'gafas',
+    category: 'clothing',
+    language: 'es',
+    image_url: '/images/words/gafas.webp',
+    definition: 'Accesorio con cristales que se colocan sobre los ojos para ver mejor o protegerse del sol.',
+    features: {
+      category: 'accesorio',
+      function: 'ver, proteger del sol',
+      location: 'cara, bolsillo, estuche',
+      properties: 'tienen cristales, patillas, montura',
+      associations: 'sol, vista, cristales, montura'
+    },
+    phonetic: { first_sound: '/g/', syllables: 2, rhyming_word: 'cafas', first_phonemes: '/ga/' },
+    difficulty: 1,
+    tags: ['accesorio', 'vista'],
+    sentence: 'No encuentro las _____ de sol en ningún sitio.',
+    opposite: '',
+    synonyms: ['anteojos', 'lentes']
+  },
+  {
+    id: 'es-clothing-019',
+    word: 'reloj de pulsera',
+    category: 'clothing',
+    language: 'es',
+    image_url: '/images/words/reloj_pulsera.webp',
+    definition: 'Reloj pequeño que se lleva atado a la muñeca.',
+    features: {
+      category: 'accesorio',
+      function: 'medir el tiempo',
+      location: 'muñeca, cajón',
+      properties: 'es pequeño, con correa, para la muñeca',
+      associations: 'tiempo, muñeca, hora, pulsera'
+    },
+    phonetic: { first_sound: '/r/', syllables: 5, rhyming_word: 'sera', first_phonemes: '/re/' },
+    difficulty: 2,
+    tags: ['accesorio', 'tiempo'],
+    sentence: 'El _____ se paró porque se acabó la pila.',
+    opposite: '',
+    synonyms: ['reloj']
+  },
+  {
+    id: 'es-clothing-020',
+    word: 'anillo',
+    category: 'clothing',
+    language: 'es',
+    image_url: '/images/words/anillo.webp',
+    definition: 'Joya circular que se lleva en los dedos como adorno.',
+    features: {
+      category: 'accesorio',
+      function: 'adornar',
+      location: 'dedo, mano, joyero',
+      properties: 'es circular, metálico, decorativo',
+      associations: 'boda, dedo, oro, joya'
+    },
+    phonetic: { first_sound: '/a/', syllables: 3, rhyming_word: 'nillo', first_phonemes: '/a/' },
+    difficulty: 2,
+    tags: ['accesorio', 'joya'],
+    sentence: 'Se puso el _____ de boda en el dedo anular.',
+    opposite: '',
+    synonyms: ['sortija', 'alianza']
   },
 
   // ==========================================
@@ -2873,7 +4931,7 @@ export const WORDS_ES: Word[] = [
   },
 
   // ==========================================
-  // ACTIONS (18 words)
+  // ACTIONS (33 words)
   // ==========================================
   {
     id: 'es-action-001',
@@ -3252,6 +5310,321 @@ export const WORDS_ES: Word[] = [
     sentence: 'Voy a _____ el pastel en ocho trozos.',
     opposite: 'unir',
     synonyms: ['dividir', 'seccionar']
+  },
+  {
+    id: 'es-action-019',
+    word: 'abrazar',
+    category: 'actions',
+    language: 'es',
+    image_url: '/images/words/abrazar.webp',
+    definition: 'Acción de rodear con los brazos a alguien como muestra de afecto.',
+    features: {
+      category: 'acción afectiva',
+      function: 'mostrar cariño, consolar',
+      location: 'casa, calle, cualquier lugar',
+      properties: 'usa los brazos, transmite calor',
+      associations: 'beso, cariño, familia, amigo'
+    },
+    phonetic: { first_sound: '/a/', syllables: 3, rhyming_word: 'razar', first_phonemes: '/a/' },
+    difficulty: 1,
+    tags: ['acción', 'afecto'],
+    sentence: 'La madre _____ a su hijo cuando llega a casa.',
+    opposite: '',
+    synonyms: ['estrechar', 'ceñir']
+  },
+  {
+    id: 'es-action-020',
+    word: 'besar',
+    category: 'actions',
+    language: 'es',
+    image_url: '/images/words/besar.webp',
+    definition: 'Acción de tocar con los labios como muestra de amor o afecto.',
+    features: {
+      category: 'acción afectiva',
+      function: 'mostrar amor, saludar',
+      location: 'casa, calle, cualquier lugar',
+      properties: 'usa los labios, transmite afecto',
+      associations: 'abrazo, amor, labios, mejilla'
+    },
+    phonetic: { first_sound: '/b/', syllables: 2, rhyming_word: 'cesar', first_phonemes: '/be/' },
+    difficulty: 1,
+    tags: ['acción', 'afecto'],
+    sentence: 'El padre _____ a su hija en la frente.',
+    opposite: '',
+    synonyms: ['oscular']
+  },
+  {
+    id: 'es-action-021',
+    word: 'llorar',
+    category: 'actions',
+    language: 'es',
+    image_url: '/images/words/llorar.webp',
+    definition: 'Acción de derramar lágrimas por tristeza, dolor o emoción.',
+    features: {
+      category: 'acción emocional',
+      function: 'expresar tristeza, dolor',
+      location: 'casa, hospital, cualquier lugar',
+      properties: 'produce lágrimas, expresión facial',
+      associations: 'lágrima, tristeza, dolor, pañuelo'
+    },
+    phonetic: { first_sound: '/ʎ/', syllables: 2, rhyming_word: 'orar', first_phonemes: '/ʎo/' },
+    difficulty: 1,
+    tags: ['acción', 'emoción'],
+    sentence: 'El niño empezó a _____ cuando se cayó.',
+    opposite: '',
+    synonyms: ['sollozar', 'lamentar']
+  },
+  {
+    id: 'es-action-022',
+    word: 'reír',
+    category: 'actions',
+    language: 'es',
+    image_url: '/images/words/reir.webp',
+    definition: 'Acción de expresar alegría o diversión mediante sonidos y gestos.',
+    features: {
+      category: 'acción emocional',
+      function: 'expresar alegría, divertirse',
+      location: 'casa, parque, cualquier lugar',
+      properties: 'produce sonido, movimiento facial',
+      associations: 'sonrisa, alegría, humor, chiste'
+    },
+    phonetic: { first_sound: '/r/', syllables: 1, rhyming_word: 'leír', first_phonemes: '/re/' },
+    difficulty: 1,
+    tags: ['acción', 'emoción'],
+    sentence: 'Los amigos se _____n con las anécdotas del viaje.',
+    opposite: '',
+    synonyms: ['carcajearse', 'reírse']
+  },
+  {
+    id: 'es-action-023',
+    word: 'pensar',
+    category: 'actions',
+    language: 'es',
+    image_url: '/images/words/pensar.webp',
+    definition: 'Acción de reflexionar o considerar algo con la mente.',
+    features: {
+      category: 'acción mental',
+      function: 'reflexionar, razonar',
+      location: 'cualquier lugar',
+      properties: 'es interna, mental, silenciosa',
+      associations: 'cerebro, idea, mente, razón'
+    },
+    phonetic: { first_sound: '/p/', syllables: 2, rhyming_word: 'tintar', first_phonemes: '/pe/' },
+    difficulty: 1,
+    tags: ['acción', 'mental'],
+    sentence: 'Necesito un momento para _____ antes de decidir.',
+    opposite: '',
+    synonyms: ['reflexionar', 'cavilar']
+  },
+  {
+    id: 'es-action-024',
+    word: 'recordar',
+    category: 'actions',
+    language: 'es',
+    image_url: '/images/words/recordar.webp',
+    definition: 'Acción de traer a la memoria algo del pasado.',
+    features: {
+      category: 'acción mental',
+      function: 'traer a la memoria',
+      location: 'cualquier lugar',
+      properties: 'es mental, involuntaria a veces',
+      associations: 'memoria, pasado, nostalgia, foto'
+    },
+    phonetic: { first_sound: '/r/', syllables: 3, rhyming_word: 'ordar', first_phonemes: '/re/' },
+    difficulty: 1,
+    tags: ['acción', 'mental'],
+    sentence: 'No puedo _____ dónde dejé las llaves.',
+    opposite: '',
+    synonyms: ['memorizar', 'reminiscer']
+  },
+  {
+    id: 'es-action-025',
+    word: 'olvidar',
+    category: 'actions',
+    language: 'es',
+    image_url: '/images/words/olvidar.webp',
+    definition: 'Acción de dejar de recordar algo o no tenerlo en la memoria.',
+    features: {
+      category: 'acción mental',
+      function: 'perder la memoria de algo',
+      location: 'cualquier lugar',
+      properties: 'es mental, a menudo involuntario',
+      associations: 'memoria, recordar, mente, despiste'
+    },
+    phonetic: { first_sound: '/o/', syllables: 3, rhyming_word: 'vidar', first_phonemes: '/o/' },
+    difficulty: 1,
+    tags: ['acción', 'mental'],
+    sentence: 'No vayas a _____ traer el pastel de cumpleaños.',
+    opposite: '',
+    synonyms: ['desmemoriar', 'ignorar']
+  },
+  {
+    id: 'es-action-026',
+    word: 'aprender',
+    category: 'actions',
+    language: 'es',
+    image_url: '/images/words/aprender.webp',
+    definition: 'Acción de adquirir conocimientos o habilidades mediante el estudio o la experiencia.',
+    features: {
+      category: 'acción mental',
+      function: 'adquirir conocimiento',
+      location: 'escuela, casa, trabajo',
+      properties: 'es gradual, mental, activa',
+      associations: 'estudiar, escuela, libro, profesor'
+    },
+    phonetic: { first_sound: '/a/', syllables: 3, rhyming_word: 'ender', first_phonemes: '/a/' },
+    difficulty: 1,
+    tags: ['acción', 'educación'],
+    sentence: 'Los niños _____n nuevos vocablos cada día.',
+    opposite: '',
+    synonyms: ['estudiar', 'asimilar']
+  },
+  {
+    id: 'es-action-027',
+    word: 'enseñar',
+    category: 'actions',
+    language: 'es',
+    image_url: '/images/words/ensenar.webp',
+    definition: 'Acción de transmitir conocimientos o instruir a alguien.',
+    features: {
+      category: 'acción educativa',
+      function: 'instruir, transmitir',
+      location: 'escuela, casa, trabajo',
+      properties: 'es activa, comunicativa, social',
+      associations: 'aprender, profesor, escuela, alumno'
+    },
+    phonetic: { first_sound: '/e/', syllables: 3, rhyming_word: 'señar', first_phonemes: '/e/' },
+    difficulty: 1,
+    tags: ['acción', 'educación'],
+    sentence: 'La profesora _____ matemáticas con mucha paciencia.',
+    opposite: '',
+    synonyms: ['instruir', 'educar']
+  },
+  {
+    id: 'es-action-028',
+    word: 'comprar',
+    category: 'actions',
+    language: 'es',
+    image_url: '/images/words/comprar.webp',
+    definition: 'Acción de adquirir algo a cambio de dinero.',
+    features: {
+      category: 'acción comercial',
+      function: 'adquirir bienes',
+      location: 'tienda, supermercado, mercado',
+      properties: 'involucra dinero, transacción',
+      associations: 'vender, tienda, dinero, carrito'
+    },
+    phonetic: { first_sound: '/k/', syllables: 2, rhyming_word: 'prar', first_phonemes: '/ko/' },
+    difficulty: 1,
+    tags: ['acción', 'comercio'],
+    sentence: 'Voy a _____ pan en la panadería.',
+    opposite: '',
+    synonyms: ['adquirir', 'procurar']
+  },
+  {
+    id: 'es-action-029',
+    word: 'vender',
+    category: 'actions',
+    language: 'es',
+    image_url: '/images/words/vender.webp',
+    definition: 'Acción de transferir algo a cambio de dinero.',
+    features: {
+      category: 'acción comercial',
+      function: 'transferir bienes',
+      location: 'tienda, mercado, online',
+      properties: 'involucra dinero, transacción',
+      associations: 'comprar, tienda, precio, cliente'
+    },
+    phonetic: { first_sound: '/b/', syllables: 2, rhyming_word: 'pender', first_phonemes: '/be/' },
+    difficulty: 1,
+    tags: ['acción', 'comercio'],
+    sentence: 'El frutero _____ naranjas a un euro el kilo.',
+    opposite: '',
+    synonyms: ['comercializar', 'expender']
+  },
+  {
+    id: 'es-action-030',
+    word: 'abrir',
+    category: 'actions',
+    language: 'es',
+    image_url: '/images/words/abrir.webp',
+    definition: 'Acción de mover algo para dejar libre el paso o descubrir lo que estaba cerrado.',
+    features: {
+      category: 'acción física',
+      function: 'descubrir, dejar pasar',
+      location: 'puerta, ventana, caja',
+      properties: 'es opuesta a cerrar, movimiento hacia afuera',
+      associations: 'cerrar, puerta, llave, ventana'
+    },
+    phonetic: { first_sound: '/a/,', syllables: 2, rhyming_word: 'ubrir', first_phonemes: '/a/,' },
+    difficulty: 1,
+    tags: ['acción', 'movimiento'],
+    sentence: '_____ la ventana para que entre aire fresco.',
+    opposite: 'cerrar',
+    synonyms: ['destapar', 'descubrir']
+  },
+  {
+    id: 'es-action-031',
+    word: 'cerrar',
+    category: 'actions',
+    language: 'es',
+    image_url: '/images/words/cerrar.webp',
+    definition: 'Acción de juntar las partes de algo para que no quede abierto.',
+    features: {
+      category: 'acción física',
+      function: 'bloquear, asegurar',
+      location: 'puerta, ventana, caja',
+      properties: 'es opuesta a abrir, movimiento hacia adentro',
+      associations: 'abrir, llave, puerta, seguro'
+    },
+    phonetic: { first_sound: '/θ/', syllables: 2, rhyming_word: 'errar', first_phonemes: '/θe/' },
+    difficulty: 1,
+    tags: ['acción', 'movimiento'],
+    sentence: 'No olvides _____ la puerta con llave al salir.',
+    opposite: 'abrir',
+    synonyms: ['clausurar', 'asegurar']
+  },
+  {
+    id: 'es-action-032',
+    word: 'encender',
+    category: 'actions',
+    language: 'es',
+    image_url: '/images/words/encender.webp',
+    definition: 'Acción de hacer que algo empiece a funcionar o a dar luz.',
+    features: {
+      category: 'acción física',
+      function: 'activar, dar energía',
+      location: 'interruptor, dispositivo, estufa',
+      properties: 'activa un mecanismo, produce luz o calor',
+      associations: 'apagar, luz, interruptor, botón'
+    },
+    phonetic: { first_sound: '/e/,', syllables: 3, rhyming_word: 'ender', first_phonemes: '/e/,' },
+    difficulty: 1,
+    tags: ['acción', 'tecnología'],
+    sentence: '_____ la luz del salón que está oscuro.',
+    opposite: 'apagar',
+    synonyms: ['activar', 'conectar']
+  },
+  {
+    id: 'es-action-033',
+    word: 'apagar',
+    category: 'actions',
+    language: 'es',
+    image_url: '/images/words/apagar.webp',
+    definition: 'Acción de hacer que algo deje de funcionar o de dar luz.',
+    features: {
+      category: 'acción física',
+      function: 'desactivar, quitar energía',
+      location: 'interruptor, dispositivo, estufa',
+      properties: 'desactiva un mecanismo, quita luz o calor',
+      associations: 'encender, luz, interruptor, botón'
+    },
+    phonetic: { first_sound: '/a/,', syllables: 3, rhyming_word: 'pagar', first_phonemes: '/a/,' },
+    difficulty: 1,
+    tags: ['acción', 'tecnología'],
+    sentence: '_____ la televisión antes de irte a dormir.',
+    opposite: 'encender',
+    synonyms: ['desactivar', 'desconectar']
   },
 
   // ==========================================

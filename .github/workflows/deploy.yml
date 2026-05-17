@@ -35,7 +35,7 @@ jobs:
 
       - name: Build application
         run: |
-          CONTAINER=$(docker create habla-anomia-deploy npm run build)
+          CONTAINER=$(docker create -e BASE_PATH=/habla-anomia habla-anomia-deploy npm run build)
           docker start -a $CONTAINER
           docker cp $CONTAINER:/app/build ./build
           docker rm $CONTAINER
@@ -44,6 +44,11 @@ jobs:
         run: |
           # GitHub Pages needs index.html, but SvelteKit SPA outputs 200.html
           cp build/200.html build/index.html
+          # Fix manifest paths for subdirectory deployment
+          if [ -f build/manifest.json ]; then
+            sed -i 's|"start_url": "/"|"start_url": "/habla-anomia/"|' build/manifest.json
+            sed -i 's|"/icons/|"/habla-anomia/icons/|' build/manifest.json
+          fi
 
       - name: Verify build output
         run: test -f build/index.html && echo "Build OK" || (echo "Build failed — no index.html" && exit 1)

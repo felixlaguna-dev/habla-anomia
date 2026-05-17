@@ -2,6 +2,8 @@ import { sveltekit } from '@sveltejs/kit/vite';
 import { defineConfig } from 'vite';
 import { VitePWA } from 'vite-plugin-pwa';
 
+const basePath = process.env.BASE_PATH || '';
+
 export default defineConfig({
   plugins: [
     sveltekit(),
@@ -21,7 +23,7 @@ export default defineConfig({
         ],
         runtimeCaching: [
           {
-            urlPattern: /^\/images\/words\/.*\.webp$/,
+            urlPattern: /\/images\/words\/.*\.webp$/,
             handler: 'CacheFirst',
             options: {
               cacheName: 'word-images',

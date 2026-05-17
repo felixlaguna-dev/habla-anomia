@@ -8,6 +8,9 @@ const config = {
     adapter: adapter({
       fallback: '200.html'
     }),
+    paths: {
+      base: process.env.BASE_PATH || ''
+    },
     alias: {
       '$lib': 'src/lib'
     }

@@ -1,5 +1,6 @@
 <script lang="ts">
   import { SpeechRecognitionService, type SpeechErrorDetail } from '$lib/speech';
+  import { t } from '$lib/i18n';
 
   type Props = {
     language?: string;
@@ -11,7 +12,7 @@
 
   let {
     language = 'es-ES',
-    placeholder = 'Toca para hablar o escribe aquí...',
+    placeholder = $t('speech.placeholder'),
     onresult,
     disabled = false,
     class: className = '',
@@ -42,6 +43,8 @@
         inputText = transcript;
         interimTranscript = '';
         isListening = false;
+        // Auto-submit so parent exercise processes the result immediately
+        onresult?.(transcript);
       });
 
       const unsubInterim = recognition.on('interim', (text: string) => {
@@ -56,7 +59,7 @@
       const unsubError = recognition.on('error', (detail: SpeechErrorDetail) => {
         isListening = false;
         interimTranscript = '';
-        errorMessage = detail.message;
+        errorMessage = $t('speech.errors.' + detail.code);
       });
 
       return () => {
@@ -124,7 +127,7 @@
       value={inputText}
       oninput={handleInput}
       onkeydown={handleKeydown}
-      aria-label="Respuesta"
+      aria-label={$t('speech.answer')}
     />
 
     {#if hasSpeechSupport}
@@ -133,8 +136,8 @@
         class:listening={isListening}
         {disabled}
         onclick={toggleListening}
-        aria-label={isListening ? 'Dejar de escuchar' : 'Hablar'}
-        title={isListening ? 'Dejar de escuchar' : 'Hablar'}
+        aria-label={isListening ? $t('speech.stop_listening') : $t('speech.speak')}
+        title={isListening ? $t('speech.stop_listening') : $t('speech.speak')}
       >
         <svg
           width="28"
@@ -156,8 +159,8 @@
       class="submit-btn"
       {disabled}
       onclick={handleSubmit}
-      aria-label="Enviar respuesta"
-      title="Enviar"
+      aria-label={$t('speech.submit_answer')}
+      title={$t('speech.submit')}
     >
       <svg
         width="24"
@@ -182,7 +185,7 @@
 
   <!-- Listening indicator -->
   {#if isListening}
-    <p class="status">🎙️ Escuchando...</p>
+    <p class="status">🎙️ {$t('speech.listening')}</p>
   {/if}
 
   <!-- Error message -->

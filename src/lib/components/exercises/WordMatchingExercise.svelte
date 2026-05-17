@@ -196,8 +196,12 @@
   let encouragement = $derived(encouragementKeys[Math.floor(Math.random() * encouragementKeys.length)]);
 </script>
 
-{#if !isFinished && currentWord}
+{#if words.length === 0}
   <div class="exercise-container">
+    <p class="error-text">{$t('common.no_words')}</p>
+  </div>
+{:else if !isFinished && currentWord}
+  <div class="exercise-container" role="region" aria-label={$t('exercises.word_matching.select_answer')}>
     <!-- Progress bar -->
     <ProgressBar value={progress} label={`${currentIndex + 1} ${$t('common.of')} ${words.length}`} showPercentage />
 
@@ -269,6 +273,13 @@
 {/if}
 
 <style>
+  .error-text {
+    font-size: var(--font-size-lg, 20px);
+    color: var(--error, #ef4444);
+    text-align: center;
+    margin: 0;
+  }
+
   .exercise-container {
     display: flex;
     flex-direction: column;

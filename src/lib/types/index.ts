@@ -96,8 +96,9 @@ export interface SpacedRepetitionEntry {
 
 export interface AppSettings {
   language: Language;
-  text_size: 'normal' | 'large' | 'xlarge';
+  text_size: 'small' | 'normal' | 'large' | 'xlarge';
   theme: 'dark' | 'light';
+  high_contrast: boolean;
   speech_enabled: boolean;
   speech_rate: number;
   sound_enabled: boolean;

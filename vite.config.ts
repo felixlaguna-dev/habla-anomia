@@ -7,31 +7,41 @@ export default defineConfig({
     sveltekit(),
     VitePWA({
       registerType: 'autoUpdate',
-      includeAssets: ['favicon.svg', 'icons/*.png'],
-      manifest: {
-        name: 'Habla Anomia',
-        short_name: 'Habla',
-        description: 'Ejercicios de rehabilitación para afasia y anomia',
-        theme_color: '#1e40af',
-        background_color: '#0f172a',
-        display: 'standalone',
-        orientation: 'portrait',
-        start_url: '/',
-        icons: [
-          { src: '/icons/icon-192.png', sizes: '192x192', type: 'image/png' },
-          { src: '/icons/icon-512.png', sizes: '512x512', type: 'image/png' },
-          { src: '/icons/icon-512.png', sizes: '512x512', type: 'image/png', purpose: 'maskable' }
-        ]
-      },
+      manifest: false,
+      manifestFilename: 'manifest.json',
+      includeAssets: [
+        'favicon.svg',
+        'icons/*.png',
+        'images/words/*.webp'
+      ],
       workbox: {
-        globPatterns: ['**/*.{js,css,html,svg,png,webp,woff2}'],
+        navigateFallback: '200.html',
+        globPatterns: [
+          '**/*.{js,css,html,svg,png,webp,woff2,ico,json}'
+        ],
         runtimeCaching: [
+          {
+            urlPattern: /^\/images\/words\/.*\.webp$/,
+            handler: 'CacheFirst',
+            options: {
+              cacheName: 'word-images',
+              expiration: { maxEntries: 500, maxAgeSeconds: 60 * 60 * 24 * 365 }
+            }
+          },
           {
             urlPattern: /\.(?:png|jpg|jpeg|svg|webp)$/,
             handler: 'CacheFirst',
             options: {
               cacheName: 'images',
-              expiration: { maxEntries: 500, maxAgeSeconds: 60 * 60 * 24 * 365 }
+              expiration: { maxEntries: 300, maxAgeSeconds: 60 * 60 * 24 * 365 }
+            }
+          },
+          {
+            urlPattern: /\.(?:js|css|woff2)$/,
+            handler: 'StaleWhileRevalidate',
+            options: {
+              cacheName: 'static-assets',
+              expiration: { maxEntries: 200, maxAgeSeconds: 60 * 60 * 24 * 30 }
             }
           }
         ]

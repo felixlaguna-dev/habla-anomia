@@ -22,7 +22,15 @@
     "last_session": "Última sesión",
     "no_sessions_yet": "Aún no hay sesiones. ¡Empieza tu primera práctica!",
     "words_practiced": "Palabras practicadas",
-    "accuracy": "Precisión"
+    "accuracy": "Precisión",
+    "daily_plan": "Plan de hoy",
+    "streak": "Racha",
+    "today_exercises": "Hoy completados",
+    "review_due_words": "{count} palabras que repasar",
+    "practice_weak_category": "Practica tus categorías más débiles",
+    "phonological_practice": "Practica con pistas de sonido",
+    "category_practice": "Clasifica palabras por categoría",
+    "all_done_today": "¡Todo completado por hoy! Gran trabajo."
   },
   "exercises": {
     "title": "Ejercicios",
@@ -61,14 +69,19 @@
       "first_phonemes": "Primeros sonidos: {value}",
       "full_word": "Palabra completa: {value}",
       "another_hint": "Otra pista",
-      "try_now": "Intentar ahora"
+      "try_now": "Intentar ahora",
+      "revealed": "Revelado",
+      "hint_n": "Pista {n}",
+      "playing": "Reproduciendo...",
+      "no_hints": "Sin pistas"
     },
     "category_sorting": {
       "name": "Clasificar por categorías",
       "description": "Clasifica las palabras en su categoría correcta",
       "sort_into": "Clasifica en: {category}",
       "correct": "¡Correcto!",
-      "wrong": "Intenta con otra categoría"
+      "wrong": "Intenta con otra categoría",
+      "need_more_categories": "Se necesitan palabras de al menos 2 categorías diferentes para este ejercicio."
     },
     "generative_naming": {
       "name": "Nombrar por categoría",
@@ -80,7 +93,8 @@
       "add_word": "Añadir palabra",
       "results_title": "Resultados",
       "you_found": "Has encontrado {count} palabras",
-      "well_done": "¡Muy bien!"
+      "well_done": "¡Muy bien!",
+      "already_said": "Esa palabra ya la dijiste"
     },
     "word_matching": {
       "name": "Relacionar palabras",
@@ -93,14 +107,23 @@
       "name": "Completar frases",
       "description": "Completa la frase con la palabra adecuada",
       "fill_blank": "Completa el espacio en blanco",
-      "complete_sentence": "Completa la frase"
+      "complete_sentence": "Completa la frase",
+      "remaining": "restantes",
+      "hints": {
+        "letters": "Letras: {value}",
+        "starts_with": "Empieza con: {value}",
+        "ends_with": "Termina con: {value}",
+        "answer": "La respuesta es: {value}"
+      }
     },
     "opposites_synonyms": {
       "name": "Opuestos y sinónimos",
       "description": "Encuentra palabras opuestas o con significado parecido",
       "opposite_of": "¿Cuál es lo opuesto de?",
       "synonym_of": "¿Qué palabra significa lo mismo que?",
-      "what_means_same": "¿Qué palabra significa lo mismo?"
+      "what_means_same": "¿Qué palabra significa lo mismo?",
+      "opposites": "Opuestos",
+      "synonyms": "Sinónimos"
     }
   },
   "feedback": {
@@ -114,7 +137,9 @@
     "great_effort": "¡Gran esfuerzo!",
     "the_answer_was": "La respuesta era: {answer}",
     "exercise_complete": "Ejercicio completado",
-    "score": "Puntuación"
+    "score": "Puntuación",
+    "incorrect": "Incorrectas",
+    "retry_mistakes": "Reintentar errores"
   },
   "progress": {
     "title": "Progreso",
@@ -129,7 +154,10 @@
     "export": "Exportar datos",
     "import": "Importar datos",
     "clear_data": "Borrar datos",
-    "confirm_clear": "¿Seguro que quieres borrar todos los datos de progreso?"
+    "confirm_clear": "¿Seguro que quieres borrar todos los datos de progreso?",
+    "current_streak": "Racha actual",
+    "longest_streak": "Mejor racha",
+    "attempts": "Intentos"
   },
   "settings": {
     "title": "Ajustes",
@@ -142,11 +170,16 @@
     "speech_rate": "Velocidad de voz",
     "sound_effects": "Efectos de sonido",
     "haptic_feedback": "Vibración",
+    "small": "Pequeño",
     "normal": "Normal",
     "large": "Grande",
     "extra_large": "Muy grande",
+    "high_contrast": "Alto contraste",
     "about": "Acerca de",
     "version": "Versión"
+  },
+  "a11y": {
+    "skip_to_content": "Saltar al contenido"
   },
   "onboarding": {
     "welcome": "Bienvenido a Habla Anomia",
@@ -171,6 +204,41 @@
     "close": "Cerrar",
     "loading": "Cargando...",
     "of": "de",
-    "cancel": "Cancelar"
+    "cancel": "Cancelar",
+    "no_words": "No hay palabras disponibles para este ejercicio."
+  },
+  "categories": {
+    "animals": "Animales",
+    "food": "Alimentos",
+    "nature": "Naturaleza",
+    "body-parts": "Partes del cuerpo",
+    "clothing": "Ropa",
+    "colors": "Colores",
+    "emotions": "Emociones",
+    "family": "Familia",
+    "household": "Hogar",
+    "places": "Lugares",
+    "professions": "Profesiones",
+    "tools": "Herramientas",
+    "vehicles": "Vehículos",
+    "weather": "Clima",
+    "actions": "Acciones"
+  },
+  "speech": {
+    "placeholder": "Toca para hablar o escribe aquí...",
+    "answer": "Respuesta",
+    "stop_listening": "Dejar de escuchar",
+    "speak": "Hablar",
+    "listening": "Escuchando...",
+    "submit": "Enviar",
+    "submit_answer": "Enviar respuesta",
+    "errors": {
+      "no-speech": "No se detectó voz. Intenta de nuevo.",
+      "audio-capture": "No se encontró micrófono. Verifica tu dispositivo.",
+      "not-allowed": "Permiso de micrófono denegado. Actívalo en ajustes.",
+      "network": "Error de red. Verifica tu conexión a internet.",
+      "aborted": "Reconocimiento cancelado.",
+      "unknown": "Error desconocido en el reconocimiento de voz."
+    }
   }
 }

@@ -17,6 +17,11 @@ export class HablaAnomiaDB extends Dexie {
       spacedRepetition: '++id, word_id, next_review, language',
       settings: 'key'
     });
+
+    // v2: add compound index for efficient SR lookups
+    this.version(2).stores({
+      spacedRepetition: '++id, word_id, next_review, language, [word_id+language]'
+    });
   }
 }
 

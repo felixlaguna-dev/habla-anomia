@@ -60,7 +60,7 @@
     const correct = cleaned === target ||
       cleaned.includes(target) ||
       target.includes(cleaned) ||
-      levenshtein(cleaned, target) <= 2;
+      levenshtein(cleaned, target) / Math.max(cleaned.length, target.length) < 0.4;
 
     answeredFeatures[currentPrompt.key] = correct;
 
@@ -101,13 +101,12 @@
 
     namingCorrect = correct;
 
-    if (correct) {
-      score += 5;
-    }
-
-    // Calculate features score
+    // Calculate features score (used for details and spaced repetition quality)
     const featCorrect = Object.values(answeredFeatures).filter(Boolean).length;
-    score += featCorrect;
+
+    if (correct) {
+      score++;
+    }
 
     results.push({
       word: currentWord,
@@ -198,8 +197,12 @@
   }
 </script>
 
-{#if !isFinished && currentWord}
+{#if words.length === 0}
   <div class="exercise-container">
+    <p class="error-text">{$t('common.no_words')}</p>
+  </div>
+{:else if !isFinished && currentWord}
+  <div class="exercise-container" role="region" aria-label={$t('exercises.semantic_features.now_name_it')}>
     <!-- Progress bar -->
     <div class="progress-bar-container">
       <div class="progress-bar" style="width: {progress}%"></div>
@@ -315,7 +318,7 @@
   <div class="exercise-container summary">
     <div class="summary-icon">🎉</div>
     <h2 class="summary-title">{$t('feedback.exercise_complete')}</h2>
-    <p class="summary-score">{$t('feedback.score')}: {score}</p>
+    <p class="summary-score">{$t('feedback.score')}: {score} / {words.length}</p>
     <div class="summary-details">
       {#each results as result, i}
         <div class="result-row" class:pass={result.correct} class:fail={!result.correct}>
@@ -329,6 +332,13 @@
 {/if}
 
 <style>
+  .error-text {
+    font-size: var(--font-size-lg, 20px);
+    color: var(--error, #ef4444);
+    text-align: center;
+    margin: 0;
+  }
+
   .exercise-container {
     display: flex;
     flex-direction: column;

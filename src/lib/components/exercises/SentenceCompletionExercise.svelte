@@ -58,25 +58,25 @@
 
     if (hintsUsed >= 1) {
       hints.push({
-        label: `Letras: ${currentWord.word.length}`,
+        label: $t('exercises.sentence_completion.hints.letters', { value: String(currentWord.word.length) }),
         value: '',
       });
     }
     if (hintsUsed >= 2) {
       hints.push({
-        label: `Empieza con: ${currentWord.word[0].toUpperCase()}`,
+        label: $t('exercises.sentence_completion.hints.starts_with', { value: currentWord.word[0].toUpperCase() }),
         value: '',
       });
     }
     if (hintsUsed >= 3) {
       hints.push({
-        label: `Termina con: ${currentWord.word[currentWord.word.length - 1].toUpperCase()}`,
+        label: $t('exercises.sentence_completion.hints.ends_with', { value: currentWord.word[currentWord.word.length - 1].toUpperCase() }),
         value: '',
       });
     }
     if (hintsUsed >= 4) {
       hints.push({
-        label: `La respuesta es: ${currentWord.word}`,
+        label: $t('exercises.sentence_completion.hints.answer', { value: currentWord.word }),
         value: '',
       });
     }
@@ -108,8 +108,7 @@
 
   async function handleCorrect() {
     feedbackState = 'correct';
-    const pointsEarned = Math.max(0, 4 - hintsUsed);
-    score += pointsEarned;
+    score++;
     results.push({ word: currentWord, correct: true, hintsUsed });
 
     const responseTime = Date.now() - startTime;
@@ -175,8 +174,12 @@
   let encouragement = $derived(encouragementKeys[Math.floor(Math.random() * encouragementKeys.length)]);
 </script>
 
-{#if !isFinished && currentWord}
+{#if words.length === 0}
   <div class="exercise-container">
+    <p class="error-text">{$t('common.no_words')}</p>
+  </div>
+{:else if !isFinished && currentWord}
+  <div class="exercise-container" role="region" aria-label={$t('exercises.sentence_completion.fill_blank')}>
     <!-- Progress bar -->
     <ProgressBar value={progress} label={`${currentIndex + 1} ${$t('common.of')} ${words.length}`} showPercentage />
 
@@ -242,7 +245,7 @@
             onclick={showHint}
             disabled={!canShowMoreHints}
           >
-            💡 {$t('exercises.picture_naming.hint')} ({4 - hintsUsed} restantes)
+            💡 {$t('exercises.picture_naming.hint')} ({4 - hintsUsed} {$t('exercises.sentence_completion.remaining')})
           </button>
 
           {#if feedbackState === 'incorrect'}
@@ -270,7 +273,7 @@
   <div class="exercise-container summary">
     <div class="summary-icon">🎉</div>
     <h2 class="summary-title">{$t('feedback.exercise_complete')}</h2>
-    <p class="summary-score">{$t('feedback.score')}: {score} / {words.length * 4}</p>
+    <p class="summary-score">{$t('feedback.score')}: {score} / {words.length}</p>
     <div class="summary-details">
       {#each results as result, i}
         <div class="result-row" class:pass={result.correct} class:fail={!result.correct}>
@@ -286,6 +289,13 @@
 {/if}
 
 <style>
+  .error-text {
+    font-size: var(--font-size-lg, 20px);
+    color: var(--error, #ef4444);
+    text-align: center;
+    margin: 0;
+  }
+
   .exercise-container {
     display: flex;
     flex-direction: column;

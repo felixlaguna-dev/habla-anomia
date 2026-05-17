@@ -78,7 +78,7 @@
 
     // Check for duplicates
     if (addedWords.includes(cleaned)) {
-      error = 'Esa palabra ya la dijiste';
+      error = $t('exercises.generative_naming.already_said');
       setTimeout(() => { error = ''; }, 2000);
       return;
     }
@@ -164,9 +164,13 @@
   let categoryLabel = $derived(categoryName.toUpperCase());
 </script>
 
-{#if !started}
-  <!-- Start screen -->
+{#if words.length === 0}
   <div class="exercise-container">
+    <p class="error-text">{$t('common.no_words')}</p>
+  </div>
+{:else if !started}
+  <!-- Start screen -->
+  <div class="exercise-container" role="region" aria-label={$t('exercises.generative_naming.name_all', { category: categoryLabel })}>
     <div class="start-icon">🏷️</div>
     <h2 class="category-title">
       {$t('exercises.generative_naming.name_all', { category: categoryLabel })}
@@ -174,7 +178,7 @@
     <p class="description">{$t('exercises.generative_naming.description')}</p>
 
     <div class="timer-preview">
-      <Timer {seconds} running={false} showProgress={true} />
+      <Timer seconds={durationSeconds} running={false} showProgress={true} />
     </div>
 
     <button class="start-btn" onclick={startExercise}>
@@ -195,7 +199,7 @@
     </h2>
 
     <!-- Timer -->
-    <Timer {seconds} {running} ontimeout={handleTimeout} showProgress={true} />
+    <Timer seconds={durationSeconds} {running} ontimeout={handleTimeout} showProgress={true} />
 
     <!-- Word count -->
     <div class="word-count">
@@ -258,7 +262,7 @@
     <div class="score-display">
       <span class="score-number">{validWordsFound.length}</span>
       <span class="score-label">
-        {$t('exercises.generative_naming.you_found', { count: validWordsFound.length })}
+        {$t('exercises.generative_naming.you_found', { count: String(validWordsFound.length) })}
       </span>
     </div>
 
@@ -392,6 +396,13 @@
   .word-check {
     font-size: 14px;
     font-weight: 700;
+  }
+
+  .error-text {
+    font-size: var(--font-size-lg, 20px);
+    color: var(--error, #ef4444);
+    text-align: center;
+    margin: 0;
   }
 
   .error-msg {

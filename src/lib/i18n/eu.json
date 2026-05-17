@@ -22,7 +22,15 @@
     "last_session": "Azken saioa",
     "no_sessions_yet": "Oraindik ez dago saiorik. Hasi zure lehen praktika!",
     "words_practiced": "Praktikatutako hitzak",
-    "accuracy": "Zehaztasuna"
+    "accuracy": "Zehaztasuna",
+    "daily_plan": "Gaurko plana",
+    "streak": "Seriea",
+    "today_exercises": "Gaur osatuta",
+    "review_due_words": "{count} hitz berrikusteko",
+    "practice_weak_category": "Praktikatu kategoria ahulenak",
+    "phonological_practice": "Praktikatu soinu-pistekin",
+    "category_practice": "Sailkatu hitzak kategoriaka",
+    "all_done_today": "Gaurko guztia osatuta! Lan bikaina."
   },
   "exercises": {
     "title": "Ariketak",
@@ -61,14 +69,19 @@
       "first_phonemes": "Lehen soinuak: {value}",
       "full_word": "Hitz osoa: {value}",
       "another_hint": "Beste pista bat",
-      "try_now": "Saiatu orain"
+      "try_now": "Saiatu orain",
+      "revealed": "Erakutsita",
+      "hint_n": "Pista {n}",
+      "playing": "Erreproduzitzen...",
+      "no_hints": "Pistarik gabe"
     },
     "category_sorting": {
       "name": "Kategoriaka sailkatu",
       "description": "Sailkatu hitzak bere kategoria zuzenean",
       "sort_into": "Sailkatu hemen: {category}",
       "correct": "Zuzena!",
-      "wrong": "Saiatu beste kategoria batekin"
+      "wrong": "Saiatu beste kategoria batekin",
+      "need_more_categories": "Gutxienez 2 kategoria desberdinetako hitzak behar dira ariketa honetarako."
     },
     "generative_naming": {
       "name": "Kategoriaka izendatu",
@@ -80,7 +93,8 @@
       "add_word": "Gehitu hitza",
       "results_title": "Emaitzak",
       "you_found": "{count} hitz aurkitu dituzu",
-      "well_done": "Oso ondo!"
+      "well_done": "Oso ondo!",
+      "already_said": "Hitz hori esan duzu jada"
     },
     "word_matching": {
       "name": "Hitzak lotu",
@@ -93,14 +107,23 @@
       "name": "Esaldiak osatu",
       "description": "Osatu esaldia hitz egokiarekin",
       "fill_blank": "Bete hutsunea",
-      "complete_sentence": "Osatu esaldia"
+      "complete_sentence": "Osatu esaldia",
+      "remaining": "geratzen",
+      "hints": {
+        "letters": "Letrak: {value}",
+        "starts_with": "Honekin hasten da: {value}",
+        "ends_with": "Honekin amaitzen da: {value}",
+        "answer": "Erantzuna da: {value}"
+      }
     },
     "opposites_synonyms": {
       "name": "Aurkakoak eta sinonimoak",
       "description": "Bilatu hitz aurkakoak edo antzeko esanahia dutenak",
       "opposite_of": "Zein da honen aurkakoa?",
       "synonym_of": "Zein hitzek esan nahi du gauza bera?",
-      "what_means_same": "Zein hitzek esan nahi du gauza bera?"
+      "what_means_same": "Zein hitzek esan nahi du gauza bera?",
+      "opposites": "Aurkakoak",
+      "synonyms": "Sinonimoak"
     }
   },
   "feedback": {
@@ -114,7 +137,9 @@
     "great_effort": "Ahalgai handia!",
     "the_answer_was": "Erantzuna hau zen: {answer}",
     "exercise_complete": "Ariketa amaituta",
-    "score": "Puntuazioa"
+    "score": "Puntuazioa",
+    "incorrect": "Okerrak",
+    "retry_mistakes": "Saiatu berriro akatsekin"
   },
   "progress": {
     "title": "Aurrerapena",
@@ -129,7 +154,10 @@
     "export": "Esportatu datuak",
     "import": "Inportatu datuak",
     "clear_data": "Ezabatu datuak",
-    "confirm_clear": "Ziur aurrerapenaren datu guztiak ezabatu nahi dituzula?"
+    "confirm_clear": "Ziur aurrerapenaren datu guztiak ezabatu nahi dituzula?",
+    "current_streak": "Uneko seriea",
+    "longest_streak": "Serie onena",
+    "attempts": "Saiakerak"
   },
   "settings": {
     "title": "Ezarpenak",
@@ -142,11 +170,16 @@
     "speech_rate": "Ahots-abiadura",
     "sound_effects": "Soinu-efektuak",
     "haptic_feedback": "Bibrazioa",
+    "small": "Txikia",
     "normal": "Normala",
     "large": "Handia",
     "extra_large": "Oso handia",
+    "high_contrast": "Kontraste handia",
     "about": "Honi buruz",
     "version": "Bertsioa"
+  },
+  "a11y": {
+    "skip_to_content": "Saltatu edukira"
   },
   "onboarding": {
     "welcome": "Ongi etorri Habla Anomiara",
@@ -171,6 +204,41 @@
     "close": "Itxi",
     "loading": "Kargatzen...",
     "of": "-(e)tik",
-    "cancel": "Utzi"
+    "cancel": "Utzi",
+    "no_words": "Ez dago hitzik erabilgarri ariketa honetarako."
+  },
+  "categories": {
+    "animals": "Animaliak",
+    "food": "Janariak",
+    "nature": "Natura",
+    "body-parts": "Gorputz-zatiak",
+    "clothing": "Arropa",
+    "colors": "Koloreak",
+    "emotions": "Emozioak",
+    "family": "Familia",
+    "household": "Etxea",
+    "places": "Lekuak",
+    "professions": "Lanbideak",
+    "tools": "Tresnak",
+    "vehicles": "Ibilgailuak",
+    "weather": "Eguraldia",
+    "actions": "Ekintzak"
+  },
+  "speech": {
+    "placeholder": "Sakatu hitz egiteko edo idatzi hemen...",
+    "answer": "Erantzuna",
+    "stop_listening": "Gelditu entzutea",
+    "speak": "Hitz egin",
+    "listening": "Entzuten...",
+    "submit": "Bidali",
+    "submit_answer": "Bidali erantzuna",
+    "errors": {
+      "no-speech": "Ez da ahotsik antzeman. Saiatu berriro.",
+      "audio-capture": "Ez da mikrorik aurkitu. Egiaztatu zure gailua.",
+      "not-allowed": "Mikrofonoaren baimena ukatuta. Gaitu ezarpenetan.",
+      "network": "Sare-errorea. Egiaztatu zure internet-konexioa.",
+      "aborted": "Aitortza bertan behera utzita.",
+      "unknown": "Ahots-ezagutzaren errore ezezaguna."
+    }
   }
 }

@@ -95,8 +95,7 @@
 
   async function handleCorrect() {
     feedbackState = 'correct';
-    const pointsEarned = Math.max(0, 5 - hintsUsed);
-    score += pointsEarned;
+    score++;
     results.push({ word: currentWord, correct: true, hintsUsed });
 
     const responseTime = Date.now() - startTime;
@@ -176,12 +175,16 @@
   );
 </script>
 
-{#if !isFinished && currentWord}
+{#if words.length === 0}
   <div class="exercise-container">
+    <p class="error-text">{$t('common.no_words')}</p>
+  </div>
+{:else if !isFinished && currentWord}
+  <div class="exercise-container" role="region" aria-label={$t('exercises.picture_naming.what_is_this')}>
     <!-- Progress bar -->
     <div class="progress-bar-container">
       <div class="progress-bar" style="width: {progress}%"></div>
-      <span class="progress-text">{currentIndex + 1} {$t('common.of')} {words.length}</span>
+      <span class="progress-text" aria-atomic="true">{currentIndex + 1} {$t('common.of')} {words.length}</span>
     </div>
 
     <!-- Image area -->
@@ -190,6 +193,7 @@
         <img
           src={currentWord.image_url}
           alt={$t('exercises.picture_naming.what_is_this')}
+          role="img"
           class="exercise-image"
           onerror={handleImageError}
         />
@@ -206,12 +210,12 @@
 
     <!-- Feedback overlay -->
     {#if feedbackState === 'correct'}
-      <div class="feedback correct" role="status">
+      <div class="feedback correct" role="status" aria-live="polite">
         <span class="feedback-icon">✅</span>
         <span class="feedback-text">{$t(encouragement)}</span>
       </div>
     {:else if feedbackState === 'incorrect'}
-      <div class="feedback incorrect" role="status">
+      <div class="feedback incorrect" role="status" aria-live="polite">
         <span class="feedback-icon">🔄</span>
         <span class="feedback-text">{$t('feedback.try_again')}</span>
       </div>
@@ -243,12 +247,13 @@
             class="hint-button"
             onclick={showHint}
             disabled={!canShowMoreHints}
+            aria-label={$t('exercises.picture_naming.hint')}
           >
             💡 {$t('exercises.picture_naming.hint')} ({5 - hintsUsed} {$t('common.of')} 5)
           </button>
 
           {#if feedbackState === 'incorrect'}
-            <button class="skip-button" onclick={skipWord}>
+            <button class="skip-button" onclick={skipWord} aria-label={$t('common.skip')}>
               ⏭️ {$t('common.skip')}
             </button>
           {/if}
@@ -262,7 +267,7 @@
   <div class="exercise-container summary">
     <div class="summary-icon">🎉</div>
     <h2 class="summary-title">{$t('feedback.exercise_complete')}</h2>
-    <p class="summary-score">{$t('feedback.score')}: {score} / {words.length * 5}</p>
+    <p class="summary-score" aria-atomic="true">{$t('feedback.score')}: {score} / {words.length}</p>
     <div class="summary-details">
       {#each results as result, i}
         <div class="result-row" class:pass={result.correct} class:fail={!result.correct}>
@@ -278,6 +283,13 @@
 {/if}
 
 <style>
+  .error-text {
+    font-size: var(--font-size-lg, 20px);
+    color: var(--error, #ef4444);
+    text-align: center;
+    margin: 0;
+  }
+
   .exercise-container {
     display: flex;
     flex-direction: column;
@@ -480,6 +492,12 @@
   .hint-button:disabled {
     opacity: 0.5;
     cursor: not-allowed;
+  }
+
+  .hint-button:focus-visible,
+  .skip-button:focus-visible {
+    outline: 3px solid var(--primary-light, #93c5fd);
+    outline-offset: 2px;
   }
 
   /* Animations */

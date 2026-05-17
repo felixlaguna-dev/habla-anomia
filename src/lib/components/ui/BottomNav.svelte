@@ -40,24 +40,27 @@
           aria-current={active ? 'page' : undefined}
           class="nav-link"
         >
-          <svg
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            aria-hidden="true"
-          >
-            {@html iconPaths[item.icon] || ''}
-          </svg>
+          <span class="icon-wrapper" class:active-icon={active}>
+            <svg
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+            >
+              {@html iconPaths[item.icon] || ''}
+            </svg>
+          </span>
           <span class="nav-label">{$t(item.labelKey)}</span>
-          {#if active}
-            <span class="active-indicator" aria-hidden="true"></span>
-          {/if}
         </a>
+        <!-- Animated active indicator -->
+        {#if active}
+          <div class="active-indicator" aria-hidden="true"></div>
+        {/if}
       </li>
     {/each}
   </ol>
@@ -72,7 +75,7 @@
     z-index: 100;
     background: var(--surface);
     border-top: 1px solid var(--border);
-    padding-bottom: var(--safe-bottom);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
     box-shadow: var(--shadow-lg);
   }
 
@@ -90,7 +93,9 @@
   .nav-item {
     flex: 1;
     display: flex;
-    align-items: stretch;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
   }
 
   .nav-link {
@@ -124,18 +129,65 @@
     font-weight: 600;
   }
 
-  .active-indicator {
-    position: absolute;
-    top: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 32px;
-    height: 3px;
+  /* Icon wrapper with smooth transition */
+  .icon-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border-radius: var(--radius-md);
+    transition: background var(--transition-normal), transform var(--transition-normal);
+  }
+
+  .icon-wrapper.active-icon {
     background: var(--primary);
-    border-radius: 0 0 var(--radius-full) var(--radius-full);
+    color: white;
+    transform: scale(1.05);
+  }
+
+  .nav-item.active .icon-wrapper svg {
+    filter: drop-shadow(0 0 4px var(--primary-light));
   }
 
   .nav-label {
     line-height: 1.2;
+    transition: transform var(--transition-fast);
+  }
+
+  /* Animated active indicator — pill under active tab */
+  .active-indicator {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 24px;
+    height: 3px;
+    background: var(--primary);
+    border-radius: var(--radius-full) var(--radius-full) 0 0;
+    animation: indicatorSlideIn 0.3s ease both;
+  }
+
+  @keyframes indicatorSlideIn {
+    from {
+      width: 0;
+      opacity: 0;
+    }
+    to {
+      width: 24px;
+      opacity: 1;
+    }
+  }
+
+  /* Responsive: larger targets on tablet */
+  @media (min-width: 768px) {
+    .nav-list {
+      height: 72px;
+    }
+
+    .icon-wrapper {
+      width: 40px;
+      height: 40px;
+    }
   }
 </style>

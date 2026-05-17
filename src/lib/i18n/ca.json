@@ -22,7 +22,15 @@
     "last_session": "Última sessió",
     "no_sessions_yet": "Encara no hi ha sessions. Comença la teva primera pràctica!",
     "words_practiced": "Paraules practicades",
-    "accuracy": "Precisió"
+    "accuracy": "Precisió",
+    "daily_plan": "Pla d'avui",
+    "streak": "Ratxa",
+    "today_exercises": "Avui completats",
+    "review_due_words": "{count} paraules per repassar",
+    "practice_weak_category": "Practica les categories més febles",
+    "phonological_practice": "Practica amb pistes de so",
+    "category_practice": "Classifica paraules per categoria",
+    "all_done_today": "Tot completat per avui! Bon treball."
   },
   "exercises": {
     "title": "Exercicis",
@@ -61,14 +69,19 @@
       "first_phonemes": "Primers sons: {value}",
       "full_word": "Paraula completa: {value}",
       "another_hint": "Una altra pista",
-      "try_now": "Intentar-ho ara"
+      "try_now": "Intentar-ho ara",
+      "revealed": "Revelat",
+      "hint_n": "Pista {n}",
+      "playing": "Reproduint...",
+      "no_hints": "Sense pistes"
     },
     "category_sorting": {
       "name": "Classificar per categories",
       "description": "Classifica les paraules en la seva categoria correcta",
       "sort_into": "Classifica en: {category}",
       "correct": "Correcte!",
-      "wrong": "Prova amb una altra categoria"
+      "wrong": "Prova amb una altra categoria",
+      "need_more_categories": "Es necessiten paraules d'almenys 2 categories diferents per a aquest exercici."
     },
     "generative_naming": {
       "name": "Anomenar per categoria",
@@ -80,7 +93,8 @@
       "add_word": "Afegir paraula",
       "results_title": "Resultats",
       "you_found": "Has trobat {count} paraules",
-      "well_done": "Molt bé!"
+      "well_done": "Molt bé!",
+      "already_said": "Ja has dit aquesta paraula"
     },
     "word_matching": {
       "name": "Relacionar paraules",
@@ -93,14 +107,23 @@
       "name": "Completar frases",
       "description": "Completa la frase amb la paraula adequada",
       "fill_blank": "Omple l'espai en blanc",
-      "complete_sentence": "Completa la frase"
+      "complete_sentence": "Completa la frase",
+      "remaining": "restants",
+      "hints": {
+        "letters": "Lletres: {value}",
+        "starts_with": "Comença amb: {value}",
+        "ends_with": "Acaba amb: {value}",
+        "answer": "La resposta és: {value}"
+      }
     },
     "opposites_synonyms": {
       "name": "Oposats i sinònims",
       "description": "Troba paraules oposades o amb significat semblant",
       "opposite_of": "Quin és l'oposat de?",
       "synonym_of": "Quina paraula significa el mateix que?",
-      "what_means_same": "Quina paraula significa el mateix?"
+      "what_means_same": "Quina paraula significa el mateix?",
+      "opposites": "Oposats",
+      "synonyms": "Sinònims"
     }
   },
   "feedback": {
@@ -114,7 +137,9 @@
     "great_effort": "Bon esforç!",
     "the_answer_was": "La resposta era: {answer}",
     "exercise_complete": "Exercici completat",
-    "score": "Puntuació"
+    "score": "Puntuació",
+    "incorrect": "Incorrectes",
+    "retry_mistakes": "Tornar a intentar errors"
   },
   "progress": {
     "title": "Progrés",
@@ -129,7 +154,10 @@
     "export": "Exportar dades",
     "import": "Importar dades",
     "clear_data": "Esborrar dades",
-    "confirm_clear": "Segur que vols esborrar totes les dades de progrés?"
+    "confirm_clear": "Segur que vols esborrar totes les dades de progrés?",
+    "current_streak": "Ratxa actual",
+    "longest_streak": "Millor ratxa",
+    "attempts": "Intents"
   },
   "settings": {
     "title": "Ajustos",
@@ -142,11 +170,16 @@
     "speech_rate": "Velocitat de veu",
     "sound_effects": "Efectes de so",
     "haptic_feedback": "Vibració",
+    "small": "Petit",
     "normal": "Normal",
     "large": "Gran",
     "extra_large": "Molt gran",
+    "high_contrast": "Alt contrast",
     "about": "Quant a",
     "version": "Versió"
+  },
+  "a11y": {
+    "skip_to_content": "Saltar al contingut"
   },
   "onboarding": {
     "welcome": "Benvingut a Habla Anomia",
@@ -171,6 +204,41 @@
     "close": "Tancar",
     "loading": "Carregant...",
     "of": "de",
-    "cancel": "Cancel·lar"
+    "cancel": "Cancel·lar",
+    "no_words": "No hi ha paraules disponibles per a aquest exercici."
+  },
+  "categories": {
+    "animals": "Animals",
+    "food": "Aliments",
+    "nature": "Natura",
+    "body-parts": "Parts del cos",
+    "clothing": "Roba",
+    "colors": "Colors",
+    "emotions": "Emocions",
+    "family": "Família",
+    "household": "Llar",
+    "places": "Llocs",
+    "professions": "Professions",
+    "tools": "Eines",
+    "vehicles": "Vehicles",
+    "weather": "Clima",
+    "actions": "Accions"
+  },
+  "speech": {
+    "placeholder": "Toca per parlar o escriu aquí...",
+    "answer": "Resposta",
+    "stop_listening": "Deixar d'escoltar",
+    "speak": "Parlar",
+    "listening": "Escoltant...",
+    "submit": "Enviar",
+    "submit_answer": "Enviar resposta",
+    "errors": {
+      "no-speech": "No s'ha detectat veu. Torna a intentar-ho.",
+      "audio-capture": "No s'ha trobat micròfon. Verifica el teu dispositiu.",
+      "not-allowed": "Permís de micròfon denegat. Activa'l als ajustos.",
+      "network": "Error de xarxa. Verifica la teva connexió a internet.",
+      "aborted": "Reconeixement cancel·lat.",
+      "unknown": "Error desconegut en el reconeixement de veu."
+    }
   }
 }

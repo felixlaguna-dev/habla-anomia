@@ -169,16 +169,9 @@ export class SpeechRecognitionService {
   }
 
   private normalizeError(errorCode: string): SpeechErrorDetail {
-    const messages: Record<string, string> = {
-      'no-speech': 'No se detectó voz. Intenta de nuevo.',
-      'audio-capture': 'No se encontró micrófono. Verifica tu dispositivo.',
-      'not-allowed': 'Permiso de micrófono denegado. Actívalo en ajustes.',
-      network: 'Error de red. Verifica tu conexión a internet.',
-      aborted: 'Reconocimiento cancelado.',
-    };
     return {
       code: errorCode || 'unknown',
-      message: messages[errorCode] || 'Error desconocido en el reconocimiento de voz.',
+      message: errorCode || 'unknown',
     };
   }
 }

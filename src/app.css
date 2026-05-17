@@ -9,7 +9,7 @@
 }
 
 html {
-  font-size: var(--font-size-base);
+  font-size: calc(var(--font-size-base) * var(--font-scale));
   -webkit-text-size-adjust: 100%;
 }
 
@@ -61,4 +61,25 @@ body {
   clip: rect(0,0,0,0);
   white-space: nowrap;
   border-width: 0;
+}
+
+/* Skip to content link for keyboard users */
+.skip-to-content {
+  position: absolute;
+  top: -100%;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--primary);
+  color: #fff;
+  padding: var(--space-sm) var(--space-lg);
+  border-radius: var(--radius-md);
+  font-size: var(--font-size-base);
+  font-weight: 700;
+  text-decoration: none;
+  z-index: 9999;
+  transition: top var(--transition-fast);
+}
+
+.skip-to-content:focus {
+  top: var(--space-md);
 }

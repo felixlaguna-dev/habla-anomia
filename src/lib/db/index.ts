@@ -3,3 +3,4 @@ export * from './words';
 export * from './attempts';
 export * from './sessions';
 export * from './settings';
+export * from './streaks';

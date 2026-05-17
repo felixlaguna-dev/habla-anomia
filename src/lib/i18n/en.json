@@ -22,7 +22,15 @@
     "last_session": "Last session",
     "no_sessions_yet": "No sessions yet. Start your first practice!",
     "words_practiced": "Words practiced",
-    "accuracy": "Accuracy"
+    "accuracy": "Accuracy",
+    "daily_plan": "Today's Plan",
+    "streak": "Streak",
+    "today_exercises": "Today completed",
+    "review_due_words": "{count} words to review",
+    "practice_weak_category": "Practice your weakest categories",
+    "phonological_practice": "Practice with sound cues",
+    "category_practice": "Sort words by category",
+    "all_done_today": "All done for today! Great work."
   },
   "exercises": {
     "title": "Exercises",
@@ -61,14 +69,19 @@
       "first_phonemes": "First sounds: {value}",
       "full_word": "Full word: {value}",
       "another_hint": "Another hint",
-      "try_now": "Try now"
+      "try_now": "Try now",
+      "revealed": "Revealed",
+      "hint_n": "Hint {n}",
+      "playing": "Playing...",
+      "no_hints": "No hints"
     },
     "category_sorting": {
       "name": "Category sorting",
       "description": "Sort words into their correct category",
       "sort_into": "Sort into: {category}",
       "correct": "Correct!",
-      "wrong": "Try another category"
+      "wrong": "Try another category",
+      "need_more_categories": "Words from at least 2 different categories are needed for this exercise."
     },
     "generative_naming": {
       "name": "Generative naming",
@@ -80,7 +93,8 @@
       "add_word": "Add word",
       "results_title": "Results",
       "you_found": "You found {count} words",
-      "well_done": "Well done!"
+      "well_done": "Well done!",
+      "already_said": "You already said that word"
     },
     "word_matching": {
       "name": "Word matching",
@@ -93,14 +107,23 @@
       "name": "Sentence completion",
       "description": "Complete the sentence with the right word",
       "fill_blank": "Fill in the blank",
-      "complete_sentence": "Complete the sentence"
+      "complete_sentence": "Complete the sentence",
+      "remaining": "remaining",
+      "hints": {
+        "letters": "Letters: {value}",
+        "starts_with": "Starts with: {value}",
+        "ends_with": "Ends with: {value}",
+        "answer": "The answer is: {value}"
+      }
     },
     "opposites_synonyms": {
       "name": "Opposites and synonyms",
       "description": "Find opposite words or words with similar meanings",
       "opposite_of": "What is the opposite of?",
       "synonym_of": "What word means the same as?",
-      "what_means_same": "What word means the same?"
+      "what_means_same": "What word means the same?",
+      "opposites": "Opposites",
+      "synonyms": "Synonyms"
     }
   },
   "feedback": {
@@ -114,7 +137,9 @@
     "great_effort": "Great effort!",
     "the_answer_was": "The answer was: {answer}",
     "exercise_complete": "Exercise complete",
-    "score": "Score"
+    "score": "Score",
+    "incorrect": "Incorrect",
+    "retry_mistakes": "Retry mistakes"
   },
   "progress": {
     "title": "Progress",
@@ -129,7 +154,10 @@
     "export": "Export data",
     "import": "Import data",
     "clear_data": "Clear data",
-    "confirm_clear": "Are you sure you want to clear all progress data?"
+    "confirm_clear": "Are you sure you want to clear all progress data?",
+    "current_streak": "Current streak",
+    "longest_streak": "Longest streak",
+    "attempts": "Attempts"
   },
   "settings": {
     "title": "Settings",
@@ -142,11 +170,16 @@
     "speech_rate": "Speech rate",
     "sound_effects": "Sound effects",
     "haptic_feedback": "Vibration",
+    "small": "Small",
     "normal": "Normal",
     "large": "Large",
     "extra_large": "Extra large",
+    "high_contrast": "High contrast",
     "about": "About",
     "version": "Version"
+  },
+  "a11y": {
+    "skip_to_content": "Skip to content"
   },
   "onboarding": {
     "welcome": "Welcome to Habla Anomia",
@@ -171,6 +204,41 @@
     "close": "Close",
     "loading": "Loading...",
     "of": "of",
-    "cancel": "Cancel"
+    "cancel": "Cancel",
+    "no_words": "No words available for this exercise."
+  },
+  "categories": {
+    "animals": "Animals",
+    "food": "Food",
+    "nature": "Nature",
+    "body-parts": "Body Parts",
+    "clothing": "Clothing",
+    "colors": "Colors",
+    "emotions": "Emotions",
+    "family": "Family",
+    "household": "Household",
+    "places": "Places",
+    "professions": "Professions",
+    "tools": "Tools",
+    "vehicles": "Vehicles",
+    "weather": "Weather",
+    "actions": "Actions"
+  },
+  "speech": {
+    "placeholder": "Tap to speak or type here...",
+    "answer": "Answer",
+    "stop_listening": "Stop listening",
+    "speak": "Speak",
+    "listening": "Listening...",
+    "submit": "Send",
+    "submit_answer": "Send answer",
+    "errors": {
+      "no-speech": "No speech detected. Try again.",
+      "audio-capture": "No microphone found. Check your device.",
+      "not-allowed": "Microphone permission denied. Enable it in settings.",
+      "network": "Network error. Check your internet connection.",
+      "aborted": "Recognition cancelled.",
+      "unknown": "Unknown speech recognition error."
+    }
   }
 }

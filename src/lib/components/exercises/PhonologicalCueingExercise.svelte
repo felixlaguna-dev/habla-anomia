@@ -121,9 +121,7 @@
 
   async function handleCorrect() {
     feedbackState = 'correct';
-    // Score: 5 for 0 cues, 4 for 1, etc. Minimum 0.
-    const pointsEarned = Math.max(0, 5 - cuesRevealed);
-    score += pointsEarned;
+    score++;
     results.push({ word: currentWord, correct: true, cuesUsed: cuesRevealed });
 
     const responseTime = Date.now() - startTime;
@@ -193,8 +191,12 @@
   );
 </script>
 
-{#if !isFinished && currentWord}
+{#if words.length === 0}
   <div class="exercise-container">
+    <p class="error-text">{$t('common.no_words')}</p>
+  </div>
+{:else if !isFinished && currentWord}
+  <div class="exercise-container" role="region" aria-label={$t('exercises.phonological_cueing.another_hint')}>
     <!-- Progress bar -->
     <div class="progress-bar-container">
       <div class="progress-bar" style="width: {progress}%"></div>
@@ -223,7 +225,7 @@
         <div
           class="cue-dot"
           class:revealed={i < cuesRevealed}
-          title={i < cuesRevealed ? 'Revelado' : 'Pista ' + (i + 1)}
+          title={i < cuesRevealed ? $t('exercises.phonological_cueing.revealed') : $t('exercises.phonological_cueing.hint_n', {n: String(i + 1)})}
         ></div>
       {/each}
     </div>
@@ -239,7 +241,7 @@
             <span class="cue-text">{cue.label}</span>
             {#if i === 4}
               {#if isSpeaking}
-                <span class="speaking-badge">🔊 Reproduciendo...</span>
+                <span class="speaking-badge">🔊 {$t('exercises.phonological_cueing.playing')}</span>
               {/if}
             {/if}
           </div>
@@ -292,7 +294,7 @@
   <div class="exercise-container summary">
     <div class="summary-icon">🎉</div>
     <h2 class="summary-title">{$t('feedback.exercise_complete')}</h2>
-    <p class="summary-score">{$t('feedback.score')}: {score} / {words.length * 5}</p>
+    <p class="summary-score">{$t('feedback.score')}: {score} / {words.length}</p>
     <div class="summary-details">
       {#each results as result, i}
         <div class="result-row" class:pass={result.correct} class:fail={!result.correct}>
@@ -301,7 +303,7 @@
           {#if result.cuesUsed > 0}
             <span class="result-cues">💡×{result.cuesUsed}</span>
           {:else}
-            <span class="result-cues">⭐ Sin pistas</span>
+            <span class="result-cues">⭐ {$t('exercises.phonological_cueing.no_hints')}</span>
           {/if}
         </div>
       {/each}
@@ -310,6 +312,13 @@
 {/if}
 
 <style>
+  .error-text {
+    font-size: var(--font-size-lg, 20px);
+    color: var(--error, #ef4444);
+    text-align: center;
+    margin: 0;
+  }
+
   .exercise-container {
     display: flex;
     flex-direction: column;

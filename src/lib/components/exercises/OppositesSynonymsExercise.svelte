@@ -18,12 +18,21 @@
   };
 
   let {
-    words,
+    words: rawWords,
     language = 'es' as Language,
     mode = 'opposites',
     inputMode = 'choice',
     onComplete,
   }: Props = $props();
+
+  // Filter out words without required fields depending on mode
+  let words = $derived.by(() => {
+    if (mode === 'opposites') {
+      return rawWords.filter(w => w.opposite);
+    } else {
+      return rawWords.filter(w => w.synonyms && w.synonyms.length > 0);
+    }
+  });
 
   // State
   let currentIndex = $state(0);
@@ -233,8 +242,12 @@
   let encouragement = $derived(encouragementKeys[Math.floor(Math.random() * encouragementKeys.length)]);
 </script>
 
-{#if !isFinished && currentWord}
+{#if words.length === 0}
   <div class="exercise-container">
+    <p class="error-text">{$t('common.no_words')}</p>
+  </div>
+{:else if !isFinished && currentWord}
+  <div class="exercise-container" role="region" aria-label={promptText}>
     <!-- Progress bar -->
     <ProgressBar value={progress} label={`${currentIndex + 1} ${$t('common.of')} ${words.length}`} showPercentage />
 
@@ -242,10 +255,10 @@
     <div class="mode-badge">
       {#if mode === 'opposites'}
         <span class="badge-icon">↔️</span>
-        <span class="badge-text">Opuestos</span>
+        <span class="badge-text">{$t('exercises.opposites_synonyms.opposites')}</span>
       {:else}
         <span class="badge-icon">≡</span>
-        <span class="badge-text">Sinónimos</span>
+        <span class="badge-text">{$t('exercises.opposites_synonyms.synonyms')}</span>
       {/if}
     </div>
 
@@ -336,6 +349,13 @@
 {/if}
 
 <style>
+  .error-text {
+    font-size: var(--font-size-lg, 20px);
+    color: var(--error, #ef4444);
+    text-align: center;
+    margin: 0;
+  }
+
   .exercise-container {
     display: flex;
     flex-direction: column;

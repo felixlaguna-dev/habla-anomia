@@ -1,11 +1,12 @@
 <script lang="ts">
   type Props = {
-    variant?: 'primary' | 'secondary' | 'success' | 'ghost';
+    variant?: 'primary' | 'secondary' | 'success' | 'ghost' | 'danger';
     size?: 'md' | 'lg' | 'xl';
     disabled?: boolean;
     fullWidth?: boolean;
     loading?: boolean;
     onclick?: (e: MouseEvent) => void;
+    'aria-label'?: string;
     children?: import('svelte').Snippet;
   };
 
@@ -16,6 +17,7 @@
     fullWidth = false,
     loading = false,
     onclick,
+    'aria-label': ariaLabel,
     children,
   }: Props = $props();
 
@@ -31,6 +33,7 @@
       secondary: `background:var(--surface-2);color:var(--text);border:2px solid var(--border);`,
       success: `background:var(--success);color:#fff;border:2px solid var(--success);`,
       ghost: `background:transparent;color:var(--text);border:2px solid transparent;`,
+      danger: `background:var(--error);color:#fff;border:2px solid var(--error);`,
     };
 
     return `
@@ -60,6 +63,7 @@
   onmouseleave={(e) => (e.currentTarget.style.transform = '')}
   onclick={handleClick}
   aria-busy={loading || undefined}
+  aria-label={ariaLabel}
 >
   {#if loading}
     <svg

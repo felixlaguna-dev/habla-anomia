@@ -3,7 +3,7 @@
   import { t } from '$lib/i18n';
   import { onMount } from 'svelte';
   import { goto } from '$app/navigation';
-  import { getAllSettings, startSession, endSession } from '$lib/db';
+  import { getAllSettings, startSession, endSession, updateStreak } from '$lib/db';
   import { generateSession } from '$lib/engine/session-generator';
   import { browser } from '$app/environment';
   import type { ExerciseType, Language, Word, AppSettings } from '$lib/types';
@@ -26,6 +26,9 @@
   let sessionId = $state<number | null>(null);
   let showResults = $state(false);
   let results = $state({ correct: 0, total: 0, accuracy: 0 });
+  let correctWords = $state<Word[]>([]);
+  let incorrectWords = $state<Word[]>([]);
+  let showConfetti = $state(false);
 
   // Resolve component in script block, not template
   let ExerciseComponent = $derived.by(() => {
@@ -62,21 +65,71 @@
 
   onMount(initExercise);
 
-  async function handleComplete(e: { score: number; total: number }) {
+  async function handleComplete(e: { score: number; total: number; results?: Array<{ wordId: string; correct: boolean }> }) {
     const { score: correct, total } = e;
     const accuracy = total > 0 ? Math.round((correct / total) * 100) : 0;
 
     results = { correct, total, accuracy };
     showResults = true;
 
+    // Confetti for high scores
+    if (accuracy >= 80) {
+      showConfetti = true;
+    }
+
+    // Separate correct and incorrect words
+    correctWords = [];
+    incorrectWords = [];
+
+    if (e.results && e.results.length > 0) {
+      for (const r of e.results) {
+        const word = words.find(w => w.id === r.wordId);
+        if (word) {
+          if (r.correct) {
+            correctWords.push(word);
+          } else {
+            incorrectWords.push(word);
+          }
+        }
+      }
+    }
+
     if (sessionId !== null) {
       await endSession(sessionId, accuracy, total);
     }
+
+    // Update streak
+    await updateStreak();
   }
 
   function handleCloseResults() {
     showResults = false;
-    goto('/exercises');
+    showConfetti = false;
+    goto('/');
+  }
+
+  function handleRetryMistakes() {
+    showResults = false;
+    showConfetti = false;
+    if (incorrectWords.length > 0) {
+      words = [...incorrectWords];
+      incorrectWords = [];
+      correctWords = [];
+      results = { correct: 0, total: 0, accuracy: 0 };
+    }
+  }
+
+  function getEncouragement(accuracy: number): string {
+    if (accuracy >= 90) return $t('feedback.excellent');
+    if (accuracy >= 70) return $t('feedback.well_done');
+    if (accuracy >= 50) return $t('feedback.keep_going');
+    return $t('feedback.great_effort');
+  }
+
+  function getAccuracyColor(accuracy: number): string {
+    if (accuracy >= 80) return 'var(--success, #10b981)';
+    if (accuracy >= 50) return 'var(--warning, #f59e0b)';
+    return 'var(--error, #ef4444)';
   }
 </script>
 
@@ -99,10 +152,13 @@
 
   {#if loading}
     <div class="loading-container">
-      <p class="loading-text">{$t('common.loading')}</p>
+      <div class="loading-content">
+        <div class="loading-spinner" aria-hidden="true"></div>
+        <p class="loading-text">{$t('common.loading')}</p>
+      </div>
     </div>
   {:else if words.length > 0 && ExerciseComponent}
-    <div class="exercise-content">
+    <div class="exercise-content slide-up">
       <ExerciseComponent
         {words}
         language={settings?.language || 'es'}
@@ -110,29 +166,97 @@
       />
     </div>
   {:else}
-    <div class="loading-container">
-      <p class="error-text">No words available for this exercise.</p>
+    <div class="error-container">
+      <span class="error-icon" aria-hidden="true">😕</span>
+      <p class="error-message">No hay palabras disponibles</p>
+      <p class="error-hint">{$t('common.no_words')}</p>
+      <button class="retry-btn" onclick={() => goto('/exercises')}>
+        ↩ {$t('common.back')}
+      </button>
     </div>
   {/if}
 </section>
 
 {#if showResults}
   <div class="results-overlay" role="dialog" aria-modal="true" aria-label={$t('feedback.exercise_complete')}>
-    <div class="results-card">
+    <!-- Confetti overlay -->
+    {#if showConfetti}
+      <div class="confetti-container" aria-hidden="true">
+        {#each { length: 30 } as _, i}
+          <div
+            class="confetti-piece"
+            style="
+              left: {Math.random() * 100}%;
+              animation-delay: {Math.random() * 0.5}s;
+              background: hsl({Math.random() * 360}, 80%, 60%);
+              width: {6 + Math.random() * 8}px;
+              height: {6 + Math.random() * 8}px;
+              animation-duration: {1.5 + Math.random() * 1.5}s;
+            "
+          ></div>
+        {/each}
+      </div>
+    {/if}
+
+    <div class="results-card scale-in">
       <h2 class="results-title">{$t('feedback.exercise_complete')}</h2>
 
+      {#if showConfetti}
+        <div class="celebration-emoji" aria-hidden="true">🎉</div>
+      {/if}
+
+      <!-- Large accuracy display -->
       <div class="results-score">
-        <span class="score-value">{results.accuracy}%</span>
+        <span class="score-value" style="color: {getAccuracyColor(results.accuracy)}">
+          {results.accuracy}%
+        </span>
         <span class="score-label">{$t('feedback.score')}</span>
       </div>
 
+      <!-- Encouragement -->
+      <p class="encouragement" style="color: {getAccuracyColor(results.accuracy)}">
+        {getEncouragement(results.accuracy)}
+      </p>
+
+      <!-- Detail -->
       <div class="results-detail">
         <span>{$t('feedback.correct')}: {results.correct} / {results.total}</span>
       </div>
 
-      <button class="results-close-btn" onclick={handleCloseResults}>
-        {$t('common.finish')}
-      </button>
+      <!-- Word breakdown -->
+      {#if correctWords.length > 0}
+        <div class="word-breakdown">
+          <h3 class="breakdown-title correct-title">✅ {$t('feedback.correct')} ({correctWords.length})</h3>
+          <div class="word-chips">
+            {#each correctWords.slice(0, 10) as word}
+              <span class="word-chip correct-chip">{word.word}</span>
+            {/each}
+          </div>
+        </div>
+      {/if}
+
+      {#if incorrectWords.length > 0}
+        <div class="word-breakdown">
+          <h3 class="breakdown-title incorrect-title">❌ {$t('feedback.incorrect')} ({incorrectWords.length})</h3>
+          <div class="word-chips">
+            {#each incorrectWords.slice(0, 10) as word}
+              <span class="word-chip incorrect-chip">{word.word}</span>
+            {/each}
+          </div>
+        </div>
+      {/if}
+
+      <!-- Actions -->
+      <div class="results-actions">
+        {#if incorrectWords.length > 0}
+          <button class="retry-btn" onclick={handleRetryMistakes}>
+            🔄 {$t('feedback.retry_mistakes')}
+          </button>
+        {/if}
+        <button class="results-close-btn" onclick={handleCloseResults}>
+          {$t('common.finish')}
+        </button>
+      </div>
     </div>
   </div>
 {/if}
@@ -194,20 +318,88 @@
     min-height: 40vh;
   }
 
+  .loading-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-md);
+  }
+
+  .loading-spinner {
+    width: 40px;
+    height: 40px;
+    border: 3px solid var(--surface-2);
+    border-top-color: var(--primary);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+  }
+
+  @keyframes spin {
+    to { transform: rotate(360deg); }
+  }
+
   .loading-text {
     color: var(--text-dim);
     font-size: var(--font-size-lg);
   }
 
-  .error-text {
-    color: var(--error);
+  .error-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-md);
+    padding: var(--space-2xl);
     text-align: center;
+    min-height: 40vh;
+  }
+
+  .error-container .error-icon {
+    font-size: 3rem;
+    line-height: 1;
+  }
+
+  .error-container .error-message {
+    color: var(--text);
+    font-size: var(--font-size-xl);
+    font-weight: 700;
+    line-height: 1.5;
+  }
+
+  .error-container .error-hint {
+    color: var(--text-dim);
+    font-size: var(--font-size-base);
+    line-height: 1.5;
+  }
+
+  .error-container .retry-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-sm);
+    min-height: var(--touch-min);
+    padding: var(--space-sm) var(--space-xl);
+    background: var(--primary);
+    color: white;
+    border: none;
+    border-radius: var(--radius-full);
+    font-size: var(--font-size-lg);
+    font-weight: 600;
+    font-family: var(--font-family);
+    cursor: pointer;
+    transition: background var(--transition-fast);
+    touch-action: manipulation;
+  }
+
+  .error-container .retry-btn:active {
+    background: var(--primary-hover);
   }
 
   .exercise-content {
     margin-top: var(--space-md);
   }
 
+  /* Results overlay */
   .results-overlay {
     position: fixed;
     inset: 0;
@@ -217,6 +409,7 @@
     justify-content: center;
     z-index: 200;
     padding: var(--space-lg);
+    overflow-y: auto;
   }
 
   .results-card {
@@ -224,9 +417,20 @@
     border-radius: var(--radius-xl);
     padding: var(--space-2xl);
     text-align: center;
-    max-width: 360px;
+    max-width: 400px;
     width: 100%;
     box-shadow: var(--shadow-lg);
+    max-height: 90vh;
+    overflow-y: auto;
+    position: relative;
+    z-index: 1;
+  }
+
+  .celebration-emoji {
+    font-size: 4rem;
+    line-height: 1;
+    margin-bottom: var(--space-md);
+    animation: pulse 1s ease-in-out 3;
   }
 
   .results-title {
@@ -241,13 +445,13 @@
     flex-direction: column;
     align-items: center;
     gap: var(--space-xs);
-    margin-bottom: var(--space-md);
+    margin-bottom: var(--space-sm);
   }
 
   .score-value {
-    font-size: var(--font-size-4xl);
-    font-weight: 700;
-    color: var(--primary);
+    font-size: 4rem;
+    font-weight: 800;
+    line-height: 1;
   }
 
   .score-label {
@@ -255,10 +459,90 @@
     color: var(--text-dim);
   }
 
+  .encouragement {
+    font-size: var(--font-size-xl);
+    font-weight: 700;
+    margin-bottom: var(--space-md);
+  }
+
   .results-detail {
     color: var(--text-dim);
     font-size: var(--font-size-lg);
-    margin-bottom: var(--space-xl);
+    margin-bottom: var(--space-lg);
+  }
+
+  /* Word breakdown */
+  .word-breakdown {
+    margin-bottom: var(--space-md);
+    text-align: left;
+  }
+
+  .breakdown-title {
+    font-size: var(--font-size-sm);
+    font-weight: 600;
+    margin-bottom: var(--space-xs);
+  }
+
+  .correct-title {
+    color: var(--success, #10b981);
+  }
+
+  .incorrect-title {
+    color: var(--error, #ef4444);
+  }
+
+  .word-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.25rem;
+  }
+
+  .word-chip {
+    display: inline-block;
+    padding: 0.15rem 0.5rem;
+    border-radius: 1rem;
+    font-size: 0.8rem;
+    font-weight: 500;
+  }
+
+  .correct-chip {
+    background: rgba(16, 185, 129, 0.15);
+    color: var(--success, #10b981);
+  }
+
+  .incorrect-chip {
+    background: rgba(239, 68, 68, 0.15);
+    color: var(--error, #ef4444);
+  }
+
+  /* Actions */
+  .results-actions {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm);
+    margin-top: var(--space-lg);
+  }
+
+  .retry-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: var(--touch-min);
+    padding: var(--space-sm) var(--space-xl);
+    background: var(--warning, #f59e0b);
+    color: white;
+    border: none;
+    border-radius: var(--radius-full);
+    font-size: var(--font-size-lg);
+    font-weight: 600;
+    font-family: var(--font-family);
+    cursor: pointer;
+    transition: background var(--transition-fast);
+    width: 100%;
+  }
+
+  .retry-btn:active {
+    opacity: 0.8;
   }
 
   .results-close-btn {
@@ -273,6 +557,7 @@
     border-radius: var(--radius-full);
     font-size: var(--font-size-lg);
     font-weight: 600;
+    font-family: var(--font-family);
     cursor: pointer;
     transition: background var(--transition-fast);
     width: 100%;
@@ -280,5 +565,32 @@
 
   .results-close-btn:active {
     background: var(--primary-hover);
+  }
+
+  /* Confetti */
+  .confetti-container {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 201;
+    overflow: hidden;
+  }
+
+  .confetti-piece {
+    position: absolute;
+    top: -10px;
+    border-radius: 2px;
+    animation: confettiFall linear both;
+  }
+
+  @keyframes confettiFall {
+    0% {
+      transform: translateY(0) rotate(0deg) scale(1);
+      opacity: 1;
+    }
+    100% {
+      transform: translateY(100vh) rotate(720deg) scale(0.3);
+      opacity: 0;
+    }
   }
 </style>

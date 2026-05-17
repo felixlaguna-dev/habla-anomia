@@ -7,22 +7,36 @@
   import { seedWords } from '$lib/db/words';
   import { WORDS_ES } from '$lib/data/words-es';
   import BottomNav from '$lib/components/ui/BottomNav.svelte';
+  import InstallPrompt from '$lib/components/ui/InstallPrompt.svelte';
+  import OfflineIndicator from '$lib/components/ui/OfflineIndicator.svelte';
 
   let { children } = $props();
 
   let themeClass = $state('');
   let textSizeClass = $state('');
+  let highContrastClass = $state('');
 
   onMount(async () => {
     await initDefaults();
     const settings = await getAllSettings();
 
     themeClass = settings.theme === 'light' ? 'light-theme' : '';
-    textSizeClass = settings.text_size === 'large' ? 'text-size-large' : settings.text_size === 'xlarge' ? 'text-size-xlarge' : '';
+    textSizeClass = getFontScaleClass(settings.text_size);
+    highContrastClass = settings.high_contrast ? 'high-contrast' : '';
 
     locale.set(settings.language);
     await seedWords(WORDS_ES);
   });
+
+  function getFontScaleClass(textSize: string): string {
+    switch (textSize) {
+      case 'small': return 'text-small';
+      case 'normal': return 'text-medium';
+      case 'large': return 'text-large';
+      case 'xlarge': return 'text-extra-large';
+      default: return 'text-medium';
+    }
+  }
 
   let hideNav = $derived($page.url.pathname.startsWith('/exercises/') && $page.url.pathname.split('/').length === 4 && $page.url.pathname !== '/exercises/');
 
@@ -39,8 +53,18 @@
   }
 </script>
 
-<div class="app-shell {themeClass} {textSizeClass}">
-  <main class="main-content">
+<svelte:head>
+  <link rel="manifest" href="/manifest.json" />
+  <meta name="theme-color" content="#4f46e5" />
+</svelte:head>
+
+<a href="#main-content" class="skip-to-content">{$t('a11y.skip_to_content')}</a>
+
+<InstallPrompt />
+<OfflineIndicator />
+
+<div class="app-shell {themeClass} {textSizeClass} {highContrastClass}">
+  <main id="main-content" class="main-content">
     {@render children()}
   </main>
 
@@ -70,13 +94,5 @@
     max-width: 768px;
     width: 100%;
     margin: 0 auto;
-  }
-
-  .text-size-large {
-    font-size: 1.15rem;
-  }
-
-  .text-size-xlarge {
-    font-size: 1.35rem;
   }
 </style>

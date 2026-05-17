@@ -15,6 +15,9 @@
   // Derive categories from the word list
   let categories = $derived([...new Set(words.map(w => w.category))]);
 
+  // Validate that words span at least 2 categories
+  let hasEnoughCategories = $derived(categories.length >= 2);
+
   // Shuffle items on init
   let shuffledItems = $state<Word[]>([]);
   let currentIndex = $state(0);
@@ -141,10 +144,25 @@
     const c = categoryColors[index % categoryColors.length];
     return `background:${c.bg};border-color:${isCorrect ? '#22c55e' : c.border};`;
   }
+
+  function translateCategory(category: string): string {
+    const key = `categories.${category}`;
+    const translated = $t(key);
+    // If no translation found, return the original category name
+    return translated === key ? category : translated;
+  }
 </script>
 
-{#if !isFinished && currentItem}
+{#if words.length === 0}
   <div class="exercise-container">
+    <p class="error-text">{$t('common.no_words')}</p>
+  </div>
+{:else if !hasEnoughCategories}
+  <div class="exercise-container">
+    <p class="error-text">{$t('exercises.category_sorting.need_more_categories')}</p>
+  </div>
+{:else if !isFinished && currentItem}
+  <div class="exercise-container" role="region" aria-label={$t('exercises.category_sorting.correct')}>
     <!-- Progress bar -->
     <div class="progress-bar-container">
       <div class="progress-bar" style="width: {progress}%"></div>
@@ -159,7 +177,7 @@
           class:correct-bin={feedbackState === 'correct' && currentItem.category === category}
           style={getCategoryBinStyle(i, feedbackState === 'correct' && currentItem.category === category)}
         >
-          <span class="bin-label">{category}</span>
+          <span class="bin-label">{translateCategory(category)}</span>
           {#if binItems[category] && binItems[category].length > 0}
             <span class="bin-count">{binItems[category].length}</span>
           {/if}
@@ -203,7 +221,7 @@
           disabled={feedbackState === 'correct'}
           class:selected={selectedCategory === category && feedbackState === 'incorrect'}
         >
-          <span class="btn-text">{category}</span>
+          <span class="btn-text">{translateCategory(category)}</span>
         </button>
       {/each}
     </div>
@@ -229,7 +247,7 @@
     <div class="summary-bins">
       {#each categories as category, i}
         <div class="summary-bin" style={getCategoryStyle(i)}>
-          <span class="summary-bin-label">{category}</span>
+          <span class="summary-bin-label">{translateCategory(category)}</span>
           <span class="summary-bin-items">
             {#if binItems[category] && binItems[category].length > 0}
               {binItems[category].map(w => w.word).join(', ')}
@@ -247,7 +265,7 @@
         <div class="result-row" class:pass={result.correct} class:fail={!result.correct}>
           <span class="result-word">{result.word.word}</span>
           <span class="result-icon">{result.correct ? '✅' : '❌'}</span>
-          <span class="result-category">📁 {result.word.category}</span>
+          <span class="result-category">📁 {translateCategory(result.word.category)}</span>
         </div>
       {/each}
     </div>
@@ -255,6 +273,13 @@
 {/if}
 
 <style>
+  .error-text {
+    font-size: var(--font-size-lg, 20px);
+    color: var(--error, #ef4444);
+    text-align: center;
+    margin: 0;
+  }
+
   .exercise-container {
     display: flex;
     flex-direction: column;

@@ -19,6 +19,7 @@
   ];
 
   const textSizeOptions = [
+    { value: 'small', labelKey: 'settings.small' },
     { value: 'normal', labelKey: 'settings.normal' },
     { value: 'large', labelKey: 'settings.large' },
     { value: 'xlarge', labelKey: 'settings.extra_large' }
@@ -37,6 +38,16 @@
 
   onMount(loadSettings);
 
+  function getFontScaleClass(textSize: string): string {
+    switch (textSize) {
+      case 'small': return 'text-small';
+      case 'normal': return 'text-medium';
+      case 'large': return 'text-large';
+      case 'xlarge': return 'text-extra-large';
+      default: return 'text-medium';
+    }
+  }
+
   async function updateSetting<K extends keyof AppSettings>(key: K, value: AppSettings[K]) {
     if (!settings) return;
     await setSetting(key, value);
@@ -44,22 +55,23 @@
     // Update local state
     settings = { ...settings!, [key]: value };
 
+    const root = document.querySelector('.app-shell');
+    if (!root) return;
+
     // Apply theme changes immediately
     if (key === 'theme') {
-      const root = document.querySelector('.app-shell');
-      if (root) {
-        root.classList.toggle('light-theme', value === 'light');
-      }
+      root.classList.toggle('light-theme', value === 'light');
     }
 
     // Apply text size changes immediately
     if (key === 'text_size') {
-      const root = document.querySelector('.app-shell');
-      if (root) {
-        root.classList.remove('text-size-large', 'text-size-xlarge');
-        if (value === 'large') root.classList.add('text-size-large');
-        else if (value === 'xlarge') root.classList.add('text-size-xlarge');
-      }
+      root.classList.remove('text-small', 'text-medium', 'text-large', 'text-extra-large', 'text-size-large', 'text-size-xlarge');
+      root.classList.add(getFontScaleClass(value as string));
+    }
+
+    // Apply high contrast changes immediately
+    if (key === 'high_contrast') {
+      root.classList.toggle('high-contrast', value as boolean);
     }
 
     // Apply language changes immediately
@@ -128,10 +140,13 @@
 
 {#if loading}
   <div class="loading-container">
-    <p class="loading-text">{$t('common.loading')}</p>
+    <div class="loading-content">
+      <div class="loading-spinner" aria-hidden="true"></div>
+      <p class="loading-text">{$t('common.loading')}</p>
+    </div>
   </div>
 {:else if settings}
-  <section class="settings-page">
+  <section class="settings-page" role="region" aria-label={$t('settings.title')}>
     <header class="page-header">
       <h1 class="page-title">{$t('settings.title')}</h1>
     </header>
@@ -143,7 +158,7 @@
         <div class="setting-content">
           <ChipGroup
             options={languageOptions.map(o => ({ value: o.value, label: o.label }))}
-            selected={settings.language}
+            selectedValue={settings.language}
             onchange={(value: string) => updateSetting('language', value as Language)}
           />
         </div>
@@ -157,7 +172,7 @@
         <div class="setting-content">
           <ChipGroup
             options={textSizeOptions.map(o => ({ value: o.value, label: $t(o.labelKey) }))}
-            selected={settings.text_size}
+            selectedValue={settings.text_size}
             onchange={(value: string) => updateSetting('text_size', value as AppSettings['text_size'])}
           />
         </div>
@@ -171,9 +186,28 @@
         <div class="setting-content">
           <ChipGroup
             options={themeOptions.map(o => ({ value: o.value, label: $t(o.labelKey) }))}
-            selected={settings.theme}
+            selectedValue={settings.theme}
             onchange={(value: string) => updateSetting('theme', value as AppSettings['theme'])}
           />
+        </div>
+      </Card>
+    </section>
+
+    <!-- High contrast toggle -->
+    <section class="setting-section">
+      <h2 class="setting-label">{$t('settings.high_contrast')}</h2>
+      <Card>
+        <div class="setting-content">
+          <div class="toggle-row">
+            <span class="toggle-status" aria-atomic="true">{settings.high_contrast ? '✓' : '✗'}</span>
+            <Button
+              variant={settings.high_contrast ? 'primary' : 'secondary'}
+              onclick={() => updateSetting('high_contrast', !settings!.high_contrast)}
+              aria-label={$t('settings.high_contrast')}
+            >
+              {settings.high_contrast ? $t('common.finish') : $t('common.start')}
+            </Button>
+          </div>
         </div>
       </Card>
     </section>
@@ -184,10 +218,11 @@
       <Card>
         <div class="setting-content">
           <div class="toggle-row">
-            <span class="toggle-status">{settings.speech_enabled ? '✓' : '✗'}</span>
+            <span class="toggle-status" aria-atomic="true">{settings.speech_enabled ? '✓' : '✗'}</span>
             <Button
               variant={settings.speech_enabled ? 'primary' : 'secondary'}
               onclick={() => updateSetting('speech_enabled', !settings!.speech_enabled)}
+              aria-label={$t('settings.speech_recognition')}
             >
               {settings.speech_enabled ? $t('common.finish') : $t('common.start')}
             </Button>
@@ -212,7 +247,7 @@
               class="slider"
               aria-label={$t('settings.speech_rate')}
             />
-            <span class="slider-value">{settings.speech_rate.toFixed(1)}x</span>
+            <span class="slider-value" aria-atomic="true">{settings.speech_rate.toFixed(1)}x</span>
           </div>
         </div>
       </Card>
@@ -224,10 +259,11 @@
       <Card>
         <div class="setting-content">
           <div class="toggle-row">
-            <span class="toggle-status">{settings.sound_enabled ? '✓' : '✗'}</span>
+            <span class="toggle-status" aria-atomic="true">{settings.sound_enabled ? '✓' : '✗'}</span>
             <Button
               variant={settings.sound_enabled ? 'primary' : 'secondary'}
               onclick={() => updateSetting('sound_enabled', !settings!.sound_enabled)}
+              aria-label={$t('settings.sound_effects')}
             >
               {settings.sound_enabled ? $t('common.finish') : $t('common.start')}
             </Button>
@@ -242,10 +278,11 @@
       <Card>
         <div class="setting-content">
           <div class="toggle-row">
-            <span class="toggle-status">{settings.haptic_enabled ? '✓' : '✗'}</span>
+            <span class="toggle-status" aria-atomic="true">{settings.haptic_enabled ? '✓' : '✗'}</span>
             <Button
               variant={settings.haptic_enabled ? 'primary' : 'secondary'}
               onclick={() => updateSetting('haptic_enabled', !settings!.haptic_enabled)}
+              aria-label={$t('settings.haptic_feedback')}
             >
               {settings.haptic_enabled ? $t('common.finish') : $t('common.start')}
             </Button>
@@ -257,9 +294,9 @@
     <!-- About link -->
     <section class="setting-section">
       <Card>
-        <button class="about-link" onclick={() => goto('/about')}>
+        <button class="about-link" onclick={() => goto('/about')} aria-label={$t('settings.about')}>
           <span>{$t('settings.about')}</span>
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
             <polyline points="9 18 15 12 9 6"/>
           </svg>
         </button>
@@ -270,13 +307,13 @@
     <section class="setting-section">
       <h2 class="setting-label">{$t('settings.title')}</h2>
       <div class="data-buttons">
-        <Button variant="secondary" fullWidth onclick={handleExport}>
+        <Button variant="secondary" fullWidth onclick={handleExport} aria-label={$t('progress.export')}>
           {$t('progress.export')}
         </Button>
-        <Button variant="secondary" fullWidth onclick={handleImport}>
+        <Button variant="secondary" fullWidth onclick={handleImport} aria-label={$t('progress.import')}>
           {$t('progress.import')}
         </Button>
-        <Button variant="danger" fullWidth onclick={() => (showClearModal = true)}>
+        <Button variant="danger" fullWidth onclick={() => (showClearModal = true)} aria-label={$t('progress.clear_data')}>
           {$t('progress.clear_data')}
         </Button>
       </div>
@@ -289,10 +326,10 @@
     <div class="modal-content">
       <p class="modal-text">{$t('progress.confirm_clear')}</p>
       <div class="modal-actions">
-        <Button variant="secondary" onclick={() => (showClearModal = false)}>
+        <Button variant="secondary" onclick={() => (showClearModal = false)} aria-label={$t('common.cancel')}>
           {$t('common.cancel')}
         </Button>
-        <Button variant="danger" onclick={handleClearAll}>
+        <Button variant="danger" onclick={handleClearAll} aria-label={$t('progress.clear_data')}>
           {$t('progress.clear_data')}
         </Button>
       </div>
@@ -306,6 +343,26 @@
     align-items: center;
     justify-content: center;
     min-height: 60vh;
+  }
+
+  .loading-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-md);
+  }
+
+  .loading-spinner {
+    width: 40px;
+    height: 40px;
+    border: 3px solid var(--surface-2);
+    border-top-color: var(--primary);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+  }
+
+  @keyframes spin {
+    to { transform: rotate(360deg); }
   }
 
   .loading-text {

@@ -8,10 +8,14 @@ const DEFAULT_EASE = 2.5;
 
 /**
  * Get word IDs that are due for review (next_review <= now), up to `count`.
+ * Also includes words that have NO SR card yet (new words are always "due").
  */
 export async function getDueWords(language: Language, count: number): Promise<string[]> {
   const now = new Date();
-  const entries = await db.spacedRepetition
+  const dueIds: string[] = [];
+
+  // 1. Get words with existing SR entries that are due
+  const dueEntries = await db.spacedRepetition
     .where('language')
     .equals(language)
     .filter(e => {
@@ -20,39 +24,57 @@ export async function getDueWords(language: Language, count: number): Promise<st
     })
     .limit(count)
     .toArray();
-  return entries.map(e => e.word_id);
+
+  for (const entry of dueEntries) {
+    dueIds.push(entry.word_id);
+  }
+
+  if (dueIds.length >= count) return dueIds.slice(0, count);
+
+  // 2. Fill remaining slots with words that have NO SR card yet (new words = due)
+  const srWordIds = new Set(
+    (await db.spacedRepetition
+      .where('language')
+      .equals(language)
+      .toArray()
+    ).map(e => e.word_id)
+  );
+
+  const allWords = await db.words
+    .where('language')
+    .equals(language)
+    .toArray();
+
+  for (const w of allWords) {
+    if (dueIds.length >= count) break;
+    if (!srWordIds.has(w.id) && !dueIds.includes(w.id)) {
+      dueIds.push(w.id);
+    }
+  }
+
+  return dueIds;
 }
 
 /**
- * Update the spaced repetition entry for a word after the user rates their recall quality.
+ * Update the spaced repetition entry for a word after an attempt.
  *
- * Quality scale (SM-2):
- *   0 – complete failure, no recall
- *   1 – incorrect, but recognised upon seeing the answer
- *   2 – incorrect, but the answer seemed easy to recall
- *   3 – correct with serious difficulty
- *   4 – correct with some hesitation
- *   5 – perfect recall
- *
- * If quality >= 3 the interval grows; otherwise the word is reset to the
- * beginning of its schedule (repetitions back to 0, interval back to 1 day)
- * but the ease factor is *not* reset so the word won't punished indefinitely.
+ * Uses a simplified SM-2 approach:
+ *   correct (boolean) → true means interval grows, false means interval resets to 1 day.
+ *   Internally maps: correct=true → quality=5, correct=false → quality=0
  */
 export async function updateAfterAttempt(
   wordId: string,
   language: Language,
-  quality: number
+  correct: boolean
 ): Promise<void> {
-  // Clamp quality to 0-5
-  quality = Math.max(0, Math.min(5, quality));
+  const quality = correct ? 5 : 0;
 
-  // Fetch or create the entry
+  // Try compound index first, fall back to filter
   let entry = await db.spacedRepetition
     .where('[word_id+language]')
     .equals([wordId, language] as any)
     .first();
 
-  // Dexie compound index not declared, so fall back to filter
   if (!entry) {
     entry = await db.spacedRepetition
       .where('language')
@@ -64,7 +86,7 @@ export async function updateAfterAttempt(
   if (!entry) {
     // Auto-initialise then recurse once
     await initializeSR(wordId, language);
-    return updateAfterAttempt(wordId, language, quality);
+    return updateAfterAttempt(wordId, language, correct);
   }
 
   let { interval, ease_factor, repetitions } = entry;
@@ -90,7 +112,7 @@ export async function updateAfterAttempt(
     // Failed recall – restart schedule
     repetitions = 0;
     interval = 1;
-    // Ease factor is intentionally NOT reset
+    // Ease factor is intentionally NOT reset so the word isn't punished indefinitely
   }
 
   // Compute next review date
@@ -108,26 +130,32 @@ export async function updateAfterAttempt(
 /**
  * Create an initial spaced repetition entry for a word.
  * If one already exists this is a no-op.
+ * next_review is set to NOW (immediately due) so new words appear in sessions.
  */
 export async function initializeSR(
   wordId: string,
   language: Language
 ): Promise<void> {
-  // Check for existing entry
-  const existing = await db.spacedRepetition
-    .where('language')
-    .equals(language)
-    .filter(e => e.word_id === wordId)
+  // Check for existing entry via compound index, fall back to filter
+  let existing = await db.spacedRepetition
+    .where('[word_id+language]')
+    .equals([wordId, language] as any)
     .first();
+
+  if (!existing) {
+    existing = await db.spacedRepetition
+      .where('language')
+      .equals(language)
+      .filter(e => e.word_id === wordId)
+      .first();
+  }
 
   if (existing) return; // already initialised
 
-  const nextReview = new Date();
-  nextReview.setDate(nextReview.getDate() + INITIAL_INTERVAL);
-
+  // New words are immediately due (next_review = now)
   const entry: Omit<SpacedRepetitionEntry, 'id'> = {
     word_id: wordId,
-    next_review: nextReview,
+    next_review: new Date(),
     interval: INITIAL_INTERVAL,
     ease_factor: DEFAULT_EASE,
     repetitions: 0,
@@ -139,11 +167,13 @@ export async function initializeSR(
 
 /**
  * Get aggregate stats about spaced repetition progress for a language.
+ * Now includes "new" words (those with no SR card at all).
  */
 export async function getSRStats(language: Language): Promise<{
   due: number;
   learning: number;
   mastered: number;
+  new: number;
 }> {
   const now = new Date();
   const all = await db.spacedRepetition
@@ -172,7 +202,15 @@ export async function getSRStats(language: Language): Promise<{
     }
   }
 
-  return { due, learning, mastered };
+  // Count words with no SR entry = "new"
+  const srWordIds = new Set(all.map(e => e.word_id));
+  const allWords = await db.words
+    .where('language')
+    .equals(language)
+    .toArray();
+  const newCount = allWords.filter(w => !srWordIds.has(w.id)).length;
+
+  return { due, learning, mastered, new: newCount };
 }
 
 /**

@@ -4,7 +4,8 @@
   import { Card, Button, Modal, ProgressBar } from '$lib/components/ui';
   import {
     getAllSettings,
-    getSessions
+    getSessions,
+    getStreakInfo
   } from '$lib/db';
   import {
     getWeeklySummary,
@@ -12,6 +13,7 @@
     getExerciseBreakdown,
     calculateImprovementTrend
   } from '$lib/engine/statistics';
+  import { getSRStats } from '$lib/engine/spaced-repetition';
   import { browser } from '$app/environment';
   import type { Language, Session, AppSettings } from '$lib/types';
 
@@ -25,10 +27,14 @@
   let recentSessions = $state<Session[]>([]);
   let showClearModal = $state(false);
 
-  // Words mastery buckets (placeholder — would need spaced repetition data)
+  // Word mastery from SR
   let wordsMastered = $state(0);
   let wordsInProgress = $state(0);
   let wordsNew = $state(0);
+
+  // Streak
+  let streakCurrent = $state(0);
+  let streakLongest = $state(0);
 
   async function loadData() {
     if (!browser) return;
@@ -48,7 +54,18 @@
     exerciseBreakdown = await getExerciseBreakdown(s.language);
 
     // Recent sessions
-    recentSessions = await getSessions(s.language, 15);
+    recentSessions = await getSessions(s.language, 10);
+
+    // SR stats for word mastery
+    const srStats = await getSRStats(s.language);
+    wordsMastered = srStats.mastered;
+    wordsInProgress = srStats.learning;
+    wordsNew = srStats.new;
+
+    // Streak
+    const streakInfo = await getStreakInfo();
+    streakCurrent = streakInfo.current;
+    streakLongest = streakInfo.longest;
 
     loading = false;
   }
@@ -71,14 +88,11 @@
   }
 
   function getExerciseName(type: string): string {
-    const key = `exercises.${type.replace(/-/g, '_')}.name`;
-    // Accessing $t at render time is fine since it's reactive
-    return key;
+    return `exercises.${type.replace(/-/g, '_')}.name`;
   }
 
   async function handleClearData() {
     if (!browser) return;
-    // Import db to clear collections
     const { db } = await import('$lib/db/database');
     await db.attempts.clear();
     await db.sessions.clear();
@@ -140,11 +154,47 @@
 </svelte:head>
 
 {#if loading}
-  <div class="loading-container">
-    <p class="loading-text">{$t('common.loading')}</p>
+  <div class="progress-page">
+    <header class="page-header">
+      <h1 class="page-title">{$t('progress.title')}</h1>
+    </header>
+
+    <!-- Skeleton loading for top stats -->
+    <section class="top-stats">
+      <div class="skeleton-card">
+        <div class="skeleton-line number"></div>
+        <div class="skeleton-line"></div>
+      </div>
+      <div class="skeleton-card">
+        <div class="skeleton-line number"></div>
+        <div class="skeleton-line"></div>
+      </div>
+    </section>
+
+    <!-- Skeleton for counters -->
+    <section class="counters-section">
+      <div class="counters-row">
+        {#each { length: 3 } as _}
+          <div class="skeleton-card">
+            <div class="skeleton-line number"></div>
+            <div class="skeleton-line"></div>
+          </div>
+        {/each}
+      </div>
+    </section>
+
+    <!-- Skeleton for breakdown -->
+    <section class="breakdown-section">
+      <div class="skeleton-card">
+        <div class="skeleton-line title"></div>
+        <div class="skeleton-line"></div>
+        <div class="skeleton-line"></div>
+        <div class="skeleton-line" style="width: 60%"></div>
+      </div>
+    </section>
   </div>
 {:else}
-  <section class="progress-page">
+  <section class="progress-page fade-in">
     <header class="page-header">
       <h1 class="page-title">{$t('progress.title')}</h1>
     </header>
@@ -154,14 +204,23 @@
         <p class="no-data">{$t('progress.no_data')}</p>
       </Card>
     {:else}
-      <!-- Overall accuracy -->
-      <section class="overall-section">
+      <!-- Streak + Overall accuracy row -->
+      <section class="top-stats">
         <Card>
           <div class="overall-content">
             <span class="overall-value" style="color: {accuracyColor(overallAccuracy)}">
               {formatAccuracy(overallAccuracy)}
             </span>
             <span class="overall-label">{$t('progress.overall_accuracy')}</span>
+          </div>
+        </Card>
+        <Card>
+          <div class="overall-content">
+            <span class="streak-value">🔥 {streakCurrent}</span>
+            <span class="overall-label">{$t('progress.current_streak')}</span>
+            {#if streakLongest > 0}
+              <span class="streak-record">🏆 {$t('progress.longest_streak')}: {streakLongest}</span>
+            {/if}
           </div>
         </Card>
       </section>
@@ -199,7 +258,7 @@
               {#each categoryBreakdown as item}
                 <div class="breakdown-item">
                   <div class="breakdown-header">
-                    <span class="breakdown-name">{item.category}</span>
+                    <span class="breakdown-name">{$t(`categories.${item.category}`) || item.category}</span>
                     <span class="breakdown-value" style="color: {accuracyColor(item.accuracy)}">
                       {formatAccuracy(item.accuracy)}
                     </span>
@@ -210,7 +269,7 @@
                       style="width: {item.accuracy}%; background: {accuracyColor(item.accuracy)}"
                     ></div>
                   </div>
-                  <span class="breakdown-attempts">{$t('nav.exercises').toLowerCase()}: {item.attempts}</span>
+                  <span class="breakdown-attempts">{item.attempts} {$t('progress.attempts').toLowerCase()}</span>
                 </div>
               {/each}
             </div>
@@ -238,6 +297,7 @@
                       style="width: {item.accuracy}%; background: {accuracyColor(item.accuracy)}"
                     ></div>
                   </div>
+                  <span class="breakdown-attempts">{item.attempts} {$t('progress.attempts').toLowerCase()}</span>
                 </div>
               {/each}
             </div>
@@ -258,7 +318,14 @@
                       {session.started_at ? formatDate(session.started_at) : ''}
                     </span>
                     <span class="history-exercises">
-                      {session.exercises_completed} {$t('nav.exercises').toLowerCase()}
+                      {#if session.exercise_types && session.exercise_types.length > 0}
+                        {#each session.exercise_types as etype, i}
+                          {#if i > 0}, {/if}
+                          {$t(getExerciseName(etype))}
+                        {/each}
+                      {:else}
+                        {session.exercises_completed} {$t('nav.exercises').toLowerCase()}
+                      {/if}
                     </span>
                   </div>
                   <span class="history-accuracy" style="color: {accuracyColor(session.accuracy)}">
@@ -343,7 +410,13 @@
     padding: var(--space-lg) 0;
   }
 
-  /* Overall */
+  /* Top stats row */
+  .top-stats {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-sm);
+  }
+
   .overall-content {
     display: flex;
     flex-direction: column;
@@ -359,6 +432,16 @@
 
   .overall-label {
     font-size: var(--font-size-base);
+    color: var(--text-dim);
+  }
+
+  .streak-value {
+    font-size: var(--font-size-3xl);
+    font-weight: 700;
+  }
+
+  .streak-record {
+    font-size: var(--font-size-sm);
     color: var(--text-dim);
   }
 
@@ -437,7 +520,7 @@
   .breakdown-bar {
     height: 100%;
     border-radius: 4px;
-    transition: width var(--transition-base);
+    transition: width var(--transition-slow);
   }
 
   .breakdown-attempts {
@@ -462,6 +545,8 @@
     display: flex;
     flex-direction: column;
     gap: 2px;
+    flex: 1;
+    min-width: 0;
   }
 
   .history-date {
@@ -472,11 +557,16 @@
   .history-exercises {
     font-size: var(--font-size-base);
     color: var(--text);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 
   .history-accuracy {
     font-size: var(--font-size-xl);
     font-weight: 700;
+    flex-shrink: 0;
+    margin-left: var(--space-sm);
   }
 
   /* Data section */
@@ -503,5 +593,12 @@
     display: flex;
     gap: var(--space-md);
     justify-content: center;
+  }
+
+  /* Responsive: on small phones make counters 2+1 */
+  @media (max-width: 374px) {
+    .counters-row {
+      grid-template-columns: repeat(2, 1fr);
+    }
   }
 </style>

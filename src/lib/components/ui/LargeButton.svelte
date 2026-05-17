@@ -30,12 +30,13 @@
   let rootStyle = $derived(`
     display:inline-flex;align-items:center;justify-content:center;gap:10px;
     min-width:48px;min-height:48px;
-    padding:14px 28px;
+    padding:14px 20px;
     font-family:var(--font-family);font-size:var(--font-size-lg);font-weight:600;
     border-radius:var(--radius-lg);
     cursor:pointer;touch-action:manipulation;
     transition:background var(--transition-fast),transform var(--transition-fast),box-shadow var(--transition-fast);
     -webkit-user-select:none;user-select:none;
+    width:100%;max-width:100%;box-sizing:border-box;
     ${variantStyles}
     ${disabled ? 'opacity:0.5;pointer-events:none;' : ''}
   `);
@@ -79,5 +80,8 @@
 
   .btn-label {
     line-height: 1.2;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 </style>

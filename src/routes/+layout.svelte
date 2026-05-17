@@ -81,6 +81,9 @@
     flex-direction: column;
     background: var(--bg-primary, #0f172a);
     color: var(--text-primary, #f1f5f9);
+    overflow-x: hidden;
+    width: 100%;
+    max-width: 100vw;
   }
 
   .light-theme {
@@ -95,5 +98,6 @@
     max-width: 768px;
     width: 100%;
     margin: 0 auto;
+    overflow-x: hidden;
   }
 </style>

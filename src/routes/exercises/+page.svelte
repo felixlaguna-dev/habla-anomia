@@ -90,11 +90,12 @@
     font-size: var(--font-size-base);
   }
 
-  .exercise-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: var(--space-md);
-  }
+ .exercise-grid {
+   display: grid;
+   grid-template-columns: repeat(2, 1fr);
+   gap: var(--space-md);
+   overflow: hidden;
+ }
 
   @media (min-width: 640px) {
     .exercise-grid {
@@ -138,16 +139,20 @@
     color: var(--primary);
   }
 
-  .exercise-name {
-    font-size: var(--font-size-base);
-    font-weight: 600;
-    color: var(--text);
-    line-height: 1.3;
-  }
+ .exercise-name {
+   font-size: var(--font-size-base);
+   font-weight: 600;
+   color: var(--text);
+   line-height: 1.3;
+   overflow: hidden;
+   text-overflow: ellipsis;
+ }
 
   .exercise-desc {
-    font-size: var(--font-size-sm);
-    color: var(--text-dim);
-    line-height: 1.4;
-  }
+   font-size: var(--font-size-sm);
+   color: var(--text-dim);
+   line-height: 1.4;
+   overflow: hidden;
+   text-overflow: ellipsis;
+ }
 </style>

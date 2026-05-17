@@ -313,6 +313,7 @@
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 0.75rem;
+    overflow: hidden;
   }
 
   .stat {
@@ -331,6 +332,9 @@
     font-size: 0.75rem;
     color: var(--text-secondary, #94a3b8);
     text-align: center;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 
   .section-title {
@@ -394,11 +398,17 @@
     font-weight: 600;
     font-size: 0.95rem;
     color: var(--text);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 
   .plan-reason {
     font-size: 0.75rem;
     color: var(--text-secondary, #94a3b8);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 
   .plan-start-btn {
@@ -447,6 +457,7 @@
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 0.75rem;
+    overflow: hidden;
   }
 
   .exercise-icon {
@@ -463,9 +474,13 @@
   @media (max-width: 374px) {
     .stats-grid {
       gap: 0.5rem;
+      grid-template-columns: repeat(3, 1fr);
     }
     .stat-number {
       font-size: 1.25rem;
+    }
+    .stat-label {
+      font-size: 0.65rem;
     }
     .exercise-grid {
       gap: 0.5rem;

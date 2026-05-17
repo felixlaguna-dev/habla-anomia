@@ -81,6 +81,9 @@
     top: 0;
     z-index: 100;
     box-shadow: 0 2px 8px rgba(79, 70, 229, 0.3);
+    overflow: hidden;
+    width: 100%;
+    max-width: 100vw;
   }
 
   .install-content {
@@ -101,6 +104,7 @@
     flex-direction: column;
     flex: 1;
     min-width: 0;
+    overflow: hidden;
   }
 
   .install-text strong {
@@ -110,6 +114,9 @@
   .install-text span {
     font-size: 0.8rem;
     opacity: 0.9;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 
   .install-actions {
@@ -124,13 +131,14 @@
     color: #4f46e5;
     border: none;
     border-radius: 6px;
-    padding: 0.5rem 1rem;
+    padding: 0.5rem 0.75rem;
     font-weight: 600;
     font-size: 0.85rem;
     cursor: pointer;
     white-space: nowrap;
     min-height: 44px;
     min-width: 44px;
+    flex-shrink: 0;
   }
 
   .btn-install:hover {

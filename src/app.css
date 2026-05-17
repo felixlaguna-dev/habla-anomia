@@ -11,6 +11,9 @@
 html {
   font-size: calc(var(--font-size-base) * var(--font-scale));
   -webkit-text-size-adjust: 100%;
+  overflow-x: hidden;
+  width: 100%;
+  max-width: 100vw;
 }
 
 body {
@@ -20,6 +23,8 @@ body {
   line-height: 1.6;
   min-height: 100dvh;
   overflow-x: hidden;
+  width: 100%;
+  max-width: 100vw;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   padding-bottom: calc(70px + var(--safe-bottom));
@@ -49,6 +54,12 @@ body {
 
 .bottom-nav {
   padding-bottom: var(--safe-bottom);
+}
+
+/* Prevent images and media from causing horizontal overflow */
+img, video {
+  max-width: 100%;
+  height: auto;
 }
 
 .sr-only {

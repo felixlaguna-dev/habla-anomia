@@ -24,57 +24,64 @@
   let interimTranscript = $state('');
   let inputText = $state('');
   let errorMessage = $state('');
-
   let recognition: SpeechRecognitionService | null = $state(null);
 
-  // Lifecycle
+  // Initialize speech recognition once
   $effect(() => {
     hasSpeechSupport = SpeechRecognitionService.isSupported();
-    if (hasSpeechSupport) {
+    if (hasSpeechSupport && !recognition) {
       recognition = new SpeechRecognitionService(language);
-      recognition.setLanguage(language);
 
-      const unsubStart = recognition.on('start', () => {
+      recognition.on('start', () => {
         isListening = true;
         errorMessage = '';
       });
 
-      const unsubResult = recognition.on('result', (transcript: string) => {
+      recognition.on('result', (transcript: string) => {
         inputText = transcript;
         interimTranscript = '';
         isListening = false;
-        // Auto-submit so parent exercise processes the result immediately
         onresult?.(transcript);
       });
 
-      const unsubInterim = recognition.on('interim', (text: string) => {
+      recognition.on('interim', (text: string) => {
         interimTranscript = text;
       });
 
-      const unsubEnd = recognition.on('end', () => {
+      recognition.on('end', () => {
         isListening = false;
         interimTranscript = '';
       });
 
-      const unsubError = recognition.on('error', (detail: SpeechErrorDetail) => {
+      recognition.on('error', (detail: SpeechErrorDetail) => {
         isListening = false;
         interimTranscript = '';
-        errorMessage = $t('speech.errors.' + detail.code);
+        // Don't show permission errors if already granted — Chrome sometimes fires these spuriously
+        if (detail.code === 'not-allowed') {
+          // Check if we've already been granted permission — avoid repeated error messages
+          if (navigator.permissions) {
+            navigator.permissions.query({ name: 'microphone' as PermissionName }).then((result) => {
+              if (result.state === 'granted' || result.state === 'prompt') {
+                // Permission is fine — this is a Chrome quirk, don't show error
+                errorMessage = '';
+              } else {
+                errorMessage = $t('speech.errors.' + detail.code);
+              }
+            }).catch(() => {
+              errorMessage = $t('speech.errors.' + detail.code);
+            });
+          } else {
+            errorMessage = $t('speech.errors.' + detail.code);
+          }
+        } else if (detail.code !== 'aborted' && detail.code !== 'no-speech') {
+          // Don't show errors for aborted or no-speech (these are normal)
+          errorMessage = $t('speech.errors.' + detail.code);
+        }
       });
-
-      return () => {
-        unsubStart();
-        unsubResult();
-        unsubInterim();
-        unsubEnd();
-        unsubError();
-        recognition?.destroy();
-        recognition = null;
-      };
     }
   });
 
-  // Re-sync language when prop changes
+  // Re-sync language when prop changes (don't recreate the service)
   $effect(() => {
     recognition?.setLanguage(language);
   });
@@ -84,6 +91,7 @@
     if (isListening) {
       recognition.stop();
     } else {
+      errorMessage = '';
       recognition.start();
     }
   }
@@ -92,12 +100,6 @@
     const text = inputText.trim();
     if (!text || disabled) return;
     onresult?.(text);
-  }
-
-  function handleInput(e: Event) {
-    const el = e.target as HTMLInputElement;
-    inputText = el.value;
-    errorMessage = '';
   }
 
   function handleKeydown(e: KeyboardEvent) {
@@ -124,8 +126,7 @@
       type="text"
       {placeholder}
       {disabled}
-      value={inputText}
-      oninput={handleInput}
+      bind:value={inputText}
       onkeydown={handleKeydown}
       aria-label={$t('speech.answer')}
     />

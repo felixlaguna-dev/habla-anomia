@@ -2,7 +2,6 @@
   import { t } from '$lib/i18n';
   import { recordAttempt } from '$lib/db/attempts';
   import { updateAfterAttempt } from '$lib/engine/spaced-repetition';
-  import SpeechInput from '$lib/components/speech/SpeechInput.svelte';
   import Timer from '$lib/components/ui/Timer.svelte';
   import { ProgressBar } from '$lib/components/ui';
   import type { Word, Language, ExerciseType } from '$lib/types';
@@ -27,12 +26,11 @@
   let running = $state(false);
   let started = $state(false);
   let finished = $state(false);
-  let addedWords = $state<string[]>([]);
-  let manualInput = $state('');
+  let selectedWords = $state<Set<string>>(new Set());
   let error = $state('');
 
   // Category derived from words
-  let categoryName = $derived(category || (words.length > 0 ? words[0].features.category : ''));
+  let categoryName = $derived(category || (words.length > 0 ? (words[0].features?.category ?? words[0].category ?? '') : ''));
 
   // Build a lookup set of valid words in this category (lowercase)
   let validWordSet = $derived.by(() => {
@@ -43,22 +41,59 @@
     return set;
   });
 
-  // Score: number of unique valid words
-  let score = $derived.by(() => {
-    return addedWords.filter(w => validWordSet.has(w.toLowerCase())).length;
+  // Build the word pool: mix valid words with distractors from other categories
+  // We need a bigger pool of all words to draw distractors from
+  // Since we only have `words` (category words), we'll reuse them shuffled + add filler
+  let wordPool = $derived.by(() => {
+    // The pool consists of the valid words + some "decoy" words generated from partial matches
+    // Since we only have category words, we create the pool from the words themselves
+    // plus their synonyms/opposites as distractors if available
+    const pool: Array<{ word: string; isValid: boolean }> = [];
+
+    // Add all valid words
+    for (const w of words) {
+      pool.push({ word: w.word, isValid: true });
+    }
+
+    // Add distractors: synonyms, opposites from within the word list
+    const distractorSet = new Set<string>();
+    for (const w of words) {
+      if (w.opposite && !validWordSet.has(w.opposite.toLowerCase())) {
+        distractorSet.add(w.opposite);
+      }
+      if (w.synonyms) {
+        for (const s of w.synonyms) {
+          if (!validWordSet.has(s.toLowerCase())) {
+            distractorSet.add(s);
+          }
+        }
+      }
+    }
+
+    // Add some distractors
+    const distractors = [...distractorSet].sort(() => Math.random() - 0.5).slice(0, Math.max(4, 8 - words.length));
+    for (const d of distractors) {
+      pool.push({ word: d, isValid: false });
+    }
+
+    // If we still don't have enough for a good pool, pad with generic decoys
+    while (pool.length < 8 && pool.length > 0) {
+      pool.push({ word: `—${pool.length}—`, isValid: false });
+    }
+
+    // Shuffle
+    return pool.sort(() => Math.random() - 0.5);
   });
 
+  // Score: number of unique valid words selected
   let validWordsFound = $derived(
-    addedWords.filter(w => validWordSet.has(w.toLowerCase()))
+    [...selectedWords].filter(w => validWordSet.has(w.toLowerCase()))
   );
+
+  let score = $derived(validWordsFound.length);
 
   let progressPercent = $derived(
     started && !finished ? ((validWordsFound.length) / Math.max(words.length, 1)) * 100 : 0
-  );
-
-  // Language code for speech
-  let speechLang = $derived(
-    language === 'es' ? 'es-ES' : language === 'ca' ? 'ca-ES' : language === 'eu' ? 'eu-ES' : 'en-US'
   );
 
   function startExercise() {
@@ -72,48 +107,42 @@
     finalize();
   }
 
-  function addWord(word: string) {
+  function toggleWord(word: string) {
+    if (!running) return;
     const cleaned = word.trim().toLowerCase();
-    if (!cleaned) return;
 
-    // Check for duplicates
-    if (addedWords.includes(cleaned)) {
-      error = $t('exercises.generative_naming.already_said');
-      setTimeout(() => { error = ''; }, 2000);
+    if (selectedWords.has(cleaned)) {
+      selectedWords.delete(cleaned);
+      selectedWords = new Set(selectedWords); // trigger reactivity
       return;
     }
 
-    addedWords = [...addedWords, cleaned];
+    selectedWords.add(cleaned);
+    selectedWords = new Set(selectedWords); // trigger reactivity
     error = '';
   }
 
-  function handleSpeechResult(transcript: string) {
-    // Split on common delimiters and add each word
-    const parts = transcript.split(/[\s,;.]+/).filter(Boolean);
-    for (const part of parts) {
-      addWord(part);
-    }
+  function isSelected(word: string): boolean {
+    return selectedWords.has(word.trim().toLowerCase());
   }
 
-  function handleManualAdd() {
-    if (!manualInput.trim()) return;
-    addWord(manualInput);
-    manualInput = '';
+  function isWordValid(word: string): boolean {
+    return validWordSet.has(word.trim().toLowerCase());
   }
 
-  function handleManualKeydown(e: KeyboardEvent) {
-    if (e.key === 'Enter') {
-      e.preventDefault();
-      handleManualAdd();
-    }
+  function getWordState(word: string): 'unselected' | 'selected-valid' | 'selected-invalid' {
+    const cleaned = word.trim().toLowerCase();
+    if (!selectedWords.has(cleaned)) return 'unselected';
+    return validWordSet.has(cleaned) ? 'selected-valid' : 'selected-invalid';
+  }
+
+  function finishEarly() {
+    running = false;
+    finished = true;
+    finalize();
   }
 
   function finalize() {
-    // Record an aggregate attempt for generative naming
-    const validCount = validWordsFound.length;
-    const totalAvailable = words.length;
-    const correct = validCount > 0;
-
     // Record attempt for each valid word found
     for (const foundWord of validWordsFound) {
       const matchedWord = words.find(w => w.word.trim().toLowerCase() === foundWord);
@@ -153,8 +182,8 @@
     }));
 
     onComplete?.({
-      score: validCount,
-      total: totalAvailable,
+      score: validWordsFound.length,
+      total: words.length,
       wordsFound: validWordsFound,
       details,
     });
@@ -181,14 +210,12 @@
       <Timer seconds={durationSeconds} running={false} showProgress={true} />
     </div>
 
-    <button class="start-btn" onclick={startExercise}>
+    <button class="start-btn" onclick={startExercise} aria-label={$t('common.start')}>
       {$t('common.start')}
     </button>
   </div>
-{/if}
-
-{#if started && !finished}
-  <!-- Active exercise -->
+{:else if !finished}
+  <!-- Active exercise: tap-to-select word pool -->
   <div class="exercise-container">
     <!-- Progress -->
     <ProgressBar value={progressPercent} label={`${validWordsFound.length} / ${words.length}`} showPercentage />
@@ -207,53 +234,41 @@
       <span class="count-value">{validWordsFound.length}</span>
     </div>
 
-    <!-- Live word list -->
-    {#if addedWords.length > 0}
-      <div class="word-list">
-        {#each addedWords as word, i}
-          <span
-            class="word-chip"
-            class:valid={validWordSet.has(word.toLowerCase())}
-          >
-            {word}
-            {#if validWordSet.has(word.toLowerCase())}
-              <span class="word-check">✓</span>
-            {/if}
-          </span>
-        {/each}
-      </div>
-    {/if}
+    <!-- Tap-to-select word pool -->
+    <div class="word-pool">
+      {#each wordPool as item}
+        {@const state = getWordState(item.word)}
+        <button
+          class="pool-word"
+          class:unselected={state === 'unselected'}
+          class:selected-valid={state === 'selected-valid'}
+          class:selected-invalid={state === 'selected-invalid'}
+          onclick={() => toggleWord(item.word)}
+          disabled={!running}
+          aria-label={item.word}
+          aria-pressed={isSelected(item.word)}
+        >
+          {#if state === 'selected-valid'}
+            <span class="word-check">✓</span>
+          {:else if state === 'selected-invalid'}
+            <span class="word-cross">✗</span>
+          {/if}
+          <span class="pool-word-text">{item.word}</span>
+        </button>
+      {/each}
+    </div>
 
     <!-- Error message -->
     {#if error}
       <p class="error-msg" role="alert">{error}</p>
     {/if}
 
-    <!-- Input area -->
-    <div class="input-area">
-      <SpeechInput
-        language={speechLang}
-        placeholder={$t('exercises.generative_naming.add_word')}
-        onresult={handleSpeechResult}
-      />
-
-      <div class="manual-row">
-        <input
-          type="text"
-          class="manual-input"
-          bind:value={manualInput}
-          onkeydown={handleManualKeydown}
-          placeholder={$t('exercises.generative_naming.add_word')}
-        />
-        <button class="add-btn" onclick={handleManualAdd} disabled={!manualInput.trim()}>
-          +
-        </button>
-      </div>
-    </div>
+    <!-- Finish early button -->
+    <button class="finish-btn" onclick={finishEarly} aria-label={$t('common.next')}>
+      {$t('common.next')} →
+    </button>
   </div>
-{/if}
-
-{#if finished}
+{:else}
   <!-- Results screen -->
   <div class="exercise-container summary">
     <div class="summary-icon">🎉</div>
@@ -293,6 +308,8 @@
     max-width: 600px;
     margin: 0 auto;
     width: 100%;
+    box-sizing: border-box;
+    overflow-x: hidden;
   }
 
   /* Start screen */
@@ -365,7 +382,116 @@
     color: var(--primary, #3b82f6);
   }
 
-  /* Word list */
+  /* Word pool grid */
+  .word-pool {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-sm, 8px);
+    width: 100%;
+    max-width: 500px;
+  }
+
+  @media (min-width: 400px) {
+    .word-pool {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  .pool-word {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    min-height: 56px;
+    padding: 12px 16px;
+    font-size: var(--font-size-lg, 20px);
+    font-weight: 600;
+    font-family: var(--font-family, sans-serif);
+    background: var(--surface, #f9fafb);
+    color: var(--text, #1f2937);
+    border: 2px solid var(--border, #e5e7eb);
+    border-radius: var(--radius-md, 12px);
+    cursor: pointer;
+    transition: all var(--transition-fast, 0.15s);
+    touch-action: manipulation;
+    user-select: none;
+    text-align: center;
+    box-sizing: border-box;
+    word-break: break-word;
+  }
+
+  .pool-word:hover:not(:disabled) {
+    border-color: var(--primary, #3b82f6);
+    background: var(--primary-light, #eff6ff);
+  }
+
+  .pool-word:active:not(:disabled) {
+    transform: scale(0.97);
+  }
+
+  .pool-word.unselected {
+    background: var(--surface, #f9fafb);
+    border-color: var(--border, #e5e7eb);
+  }
+
+  .pool-word.selected-valid {
+    background: var(--success, #22c55e);
+    border-color: var(--success, #22c55e);
+    color: #fff;
+  }
+
+  .pool-word.selected-invalid {
+    background: rgba(239, 68, 68, 0.1);
+    border-color: var(--error, #ef4444);
+    color: var(--error, #ef4444);
+  }
+
+  .pool-word:disabled {
+    cursor: default;
+    opacity: 0.7;
+  }
+
+  .word-check {
+    font-size: 16px;
+    font-weight: 700;
+  }
+
+  .word-cross {
+    font-size: 16px;
+    font-weight: 700;
+  }
+
+  .pool-word-text {
+    font-size: var(--font-size-lg, 20px);
+  }
+
+  /* Finish button */
+  .finish-btn {
+    min-height: 56px;
+    min-width: 56px;
+    padding: 12px 36px;
+    font-size: var(--font-size-lg, 20px);
+    font-weight: 700;
+    font-family: var(--font-family, sans-serif);
+    background: var(--primary, #3b82f6);
+    color: #fff;
+    border: 2px solid var(--primary, #3b82f6);
+    border-radius: var(--radius-md, 12px);
+    cursor: pointer;
+    transition: background var(--transition-fast, 0.15s), transform var(--transition-fast, 0.15s);
+    touch-action: manipulation;
+    user-select: none;
+  }
+
+  .finish-btn:hover {
+    filter: brightness(1.1);
+  }
+
+  .finish-btn:active {
+    transform: scale(0.97);
+  }
+
+  /* Word list (results) */
   .word-list {
     display: flex;
     flex-wrap: wrap;
@@ -385,17 +511,11 @@
     font-size: var(--font-size-base, 16px);
     font-weight: 600;
     color: var(--text, #1f2937);
-    animation: popIn 0.3s ease;
   }
 
   .word-chip.valid {
     background: var(--success, #22c55e);
     color: #fff;
-  }
-
-  .word-check {
-    font-size: 14px;
-    font-weight: 700;
   }
 
   .error-text {
@@ -410,78 +530,6 @@
     color: var(--error, #ef4444);
     margin: 0;
     animation: fadeIn 0.3s ease;
-  }
-
-  /* Input area */
-  .input-area {
-    width: 100%;
-    max-width: 500px;
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-sm, 8px);
-  }
-
-  .manual-row {
-    display: flex;
-    gap: var(--space-sm, 8px);
-    align-items: center;
-  }
-
-  .manual-input {
-    flex: 1;
-    min-height: 56px;
-    padding: 12px 16px;
-    font-size: var(--font-size-lg, 20px);
-    font-family: var(--font-family, sans-serif);
-    color: var(--text, #1f2937);
-    background: var(--surface, #f9fafb);
-    border: 2px solid var(--border, #e5e7eb);
-    border-radius: var(--radius-md, 12px);
-    outline: none;
-    transition: border-color var(--transition-fast, 0.15s);
-  }
-
-  .manual-input:focus {
-    border-color: var(--primary, #3b82f6);
-    box-shadow: 0 0 0 3px var(--primary-light, #eff6ff);
-  }
-
-  .manual-input::placeholder {
-    color: var(--text-muted, #6b7280);
-  }
-
-  .add-btn {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    min-width: 56px;
-    min-height: 56px;
-    width: 56px;
-    height: 56px;
-    font-size: var(--font-size-2xl, 28px);
-    font-weight: 700;
-    font-family: var(--font-family, sans-serif);
-    background: var(--primary, #3b82f6);
-    color: #fff;
-    border: 2px solid var(--primary, #3b82f6);
-    border-radius: var(--radius-md, 12px);
-    cursor: pointer;
-    transition: background var(--transition-fast, 0.15s), transform var(--transition-fast, 0.15s);
-    touch-action: manipulation;
-    user-select: none;
-  }
-
-  .add-btn:hover:not(:disabled) {
-    filter: brightness(1.1);
-  }
-
-  .add-btn:active:not(:disabled) {
-    transform: scale(0.95);
-  }
-
-  .add-btn:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
   }
 
   /* Summary */
@@ -540,17 +588,6 @@
   }
 
   /* Animations */
-  @keyframes popIn {
-    from {
-      opacity: 0;
-      transform: scale(0.8);
-    }
-    to {
-      opacity: 1;
-      transform: scale(1);
-    }
-  }
-
   @keyframes fadeIn {
     from { opacity: 0; }
     to { opacity: 1; }

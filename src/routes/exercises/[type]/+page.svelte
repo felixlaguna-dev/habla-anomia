@@ -66,7 +66,7 @@
 
   onMount(initExercise);
 
-  async function handleComplete(e: { score: number; total: number; results?: Array<{ wordId: string; correct: boolean }> }) {
+  async function handleComplete(e: { score: number; total: number; details?: Array<{ word: Word; correct: boolean }> }) {
     const { score: correct, total } = e;
     const accuracy = total > 0 ? Math.round((correct / total) * 100) : 0;
 
@@ -82,15 +82,12 @@
     correctWords = [];
     incorrectWords = [];
 
-    if (e.results && e.results.length > 0) {
-      for (const r of e.results) {
-        const word = words.find(w => w.id === r.wordId);
-        if (word) {
-          if (r.correct) {
-            correctWords.push(word);
-          } else {
-            incorrectWords.push(word);
-          }
+    if (e.details && e.details.length > 0) {
+      for (const d of e.details) {
+        if (d.correct) {
+          correctWords.push(d.word);
+        } else {
+          incorrectWords.push(d.word);
         }
       }
     }
@@ -169,8 +166,7 @@
   {:else}
     <div class="error-container">
       <span class="error-icon" aria-hidden="true">😕</span>
-      <p class="error-message">No hay palabras disponibles</p>
-      <p class="error-hint">{$t('common.no_words')}</p>
+      <p class="error-message">{$t('common.no_words')}</p>
       <button class="retry-btn" onclick={() => goto(`${base}/exercises`)}>
         ↩ {$t('common.back')}
       </button>

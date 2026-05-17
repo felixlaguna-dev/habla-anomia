@@ -6,13 +6,16 @@
   import SpeechInput from '$lib/components/speech/SpeechInput.svelte';
   import type { Word, Language, ExerciseType } from '$lib/types';
 
+  type InputMode = 'choice' | 'open';
+
   type Props = {
     words: Word[];
     language: Language;
+    inputMode?: InputMode;
     onComplete?: (results: { score: number; total: number; details: Array<{ word: Word; correct: boolean; hintsUsed: number }> }) => void;
   };
 
-  let { words, language = 'es' as Language, onComplete }: Props = $props();
+  let { words, language = 'es' as Language, inputMode = 'choice', onComplete }: Props = $props();
 
   // State
   let currentIndex = $state(0);
@@ -24,6 +27,11 @@
   let results = $state<Array<{ word: Word; correct: boolean; hintsUsed: number }>>([]);
   let startTime = $state(Date.now());
 
+  // Multiple choice state
+  let options = $state<string[]>([]);
+  let selectedIndex = $state<number | null>(null);
+  let correctOptionIndex = $state(0);
+
   // Derived
   let currentWord = $derived(words[currentIndex]);
   let progress = $derived(((currentIndex) / words.length) * 100);
@@ -31,6 +39,26 @@
 
   // Language code for speech
   let speechLang = $derived(language === 'es' ? 'es-ES' : language === 'ca' ? 'ca-ES' : language === 'eu' ? 'eu-ES' : 'en-US');
+
+  // Generate distractor options
+  function generateOptions(correct: string, allWords: Word[], count: number = 3): string[] {
+    const others = allWords
+      .filter(w => w.word !== correct)
+      .map(w => w.word)
+      .sort(() => Math.random() - 0.5)
+      .slice(0, count);
+    return [correct, ...others].sort(() => Math.random() - 0.5);
+  }
+
+  // Rebuild options when word changes
+  $effect(() => {
+    if (currentWord && inputMode === 'choice') {
+      const opts = generateOptions(currentWord.word, words);
+      options = opts;
+      correctOptionIndex = opts.indexOf(currentWord.word);
+      selectedIndex = null;
+    }
+  });
 
   // Hint levels
   let revealedHints = $derived.by(() => {
@@ -40,25 +68,25 @@
     if (hintsUsed >= 1) {
       hints.push({
         label: $t('exercises.picture_naming.hints.category'),
-        value: currentWord.features.category,
+        value: currentWord.features?.category ?? '—',
       });
     }
     if (hintsUsed >= 2) {
       hints.push({
         label: $t('exercises.picture_naming.hints.first_letter'),
-        value: currentWord.word[0].toUpperCase(),
+        value: currentWord.word?.[0]?.toUpperCase() ?? '—',
       });
     }
     if (hintsUsed >= 3) {
       hints.push({
         label: $t('exercises.picture_naming.hints.syllables'),
-        value: String(currentWord.phonetic.syllables),
+        value: String(currentWord.phonetic?.syllables ?? '—'),
       });
     }
     if (hintsUsed >= 4) {
       hints.push({
         label: $t('exercises.picture_naming.hints.rhymes_with'),
-        value: currentWord.phonetic.rhyming_word,
+        value: currentWord.phonetic?.rhyming_word ?? '—',
       });
     }
     if (hintsUsed >= 5) {
@@ -86,6 +114,21 @@
     const cleaned = response.trim().toLowerCase();
     const target = currentWord.word.trim().toLowerCase();
     const correct = cleaned === target;
+
+    if (correct) {
+      handleCorrect();
+    } else {
+      handleIncorrect();
+    }
+  }
+
+  function handleSelectChoice(index: number) {
+    if (feedbackState !== 'none' || !currentWord) return;
+    selectedIndex = index;
+    attempts++;
+
+    const selected = options[index]?.toLowerCase();
+    const correct = selected === currentWord.word.toLowerCase();
 
     if (correct) {
       handleCorrect();
@@ -149,6 +192,7 @@
     attempts = 0;
     imageError = false;
     startTime = Date.now();
+    selectedIndex = null;
     currentIndex++;
     if (currentIndex >= words.length) {
       onComplete?.({ score, total: words.length, details: results });
@@ -157,6 +201,7 @@
 
   function tryAgain() {
     feedbackState = 'none';
+    selectedIndex = null;
   }
 
   function handleImageError() {
@@ -168,6 +213,16 @@
     if (!url) return '';
     if (base && url.startsWith('/')) return base + url;
     return url;
+  }
+
+  // Card state helper for choice mode
+  function getCardState(index: number): 'default' | 'selected' | 'correct' | 'incorrect' {
+    if (feedbackState === 'none') {
+      return selectedIndex === index ? 'selected' : 'default';
+    }
+    if (index === correctOptionIndex) return 'correct';
+    if (index === selectedIndex && feedbackState === 'incorrect') return 'incorrect';
+    return 'default';
   }
 
   // Encouragement messages
@@ -206,8 +261,8 @@
           onerror={handleImageError}
         />
       {:else}
-        <div class="image-fallback" style="--letter: '{currentWord.word[0].toUpperCase()}'">
-          <span class="fallback-letter">{currentWord.word[0].toUpperCase()}</span>
+        <div class="image-fallback" style="--letter: '{currentWord.word?.[0]?.toUpperCase() ?? '?'}'">
+          <span class="fallback-letter">{currentWord.word?.[0]?.toUpperCase() ?? '?'}</span>
           <span class="fallback-hint">📷</span>
         </div>
       {/if}
@@ -243,12 +298,33 @@
     <!-- Answer input -->
     {#if feedbackState !== 'correct'}
       <div class="answer-area">
-        <SpeechInput
-          language={speechLang}
-          placeholder={$t('exercises.picture_naming.type_answer')}
-          onresult={checkAnswer}
-          disabled={maxHintsReached}
-        />
+        {#if inputMode === 'choice'}
+          <!-- Multiple choice grid -->
+          <div class="options-grid">
+            {#each options as option, i}
+              {@const state = getCardState(i)}
+              <button
+                class="option-card"
+                class:default={state === 'default'}
+                class:correct={state === 'correct'}
+                class:incorrect={state === 'incorrect'}
+                onclick={() => handleSelectChoice(i)}
+                disabled={feedbackState !== 'none'}
+                aria-label={option}
+              >
+                <span class="option-text">{option}</span>
+              </button>
+            {/each}
+          </div>
+        {:else}
+          <!-- Open input mode (speech/text) -->
+          <SpeechInput
+            language={speechLang}
+            placeholder={$t('exercises.picture_naming.type_answer')}
+            onresult={checkAnswer}
+            disabled={maxHintsReached}
+          />
+        {/if}
 
         <div class="button-row">
           <button
@@ -260,11 +336,9 @@
             💡 {$t('exercises.picture_naming.hint')} ({5 - hintsUsed} {$t('common.of')} 5)
           </button>
 
-          {#if feedbackState === 'incorrect'}
-            <button class="skip-button" onclick={skipWord} aria-label={$t('common.skip')}>
-              ⏭️ {$t('common.skip')}
-            </button>
-          {/if}
+          <button class="skip-button" onclick={skipWord} aria-label={$t('common.skip')}>
+            ⏭️ {$t('common.skip')}
+          </button>
         </div>
       </div>
     {/if}
@@ -307,6 +381,8 @@
     max-width: 600px;
     margin: 0 auto;
     width: 100%;
+    box-sizing: border-box;
+    overflow-x: hidden;
   }
 
   /* Progress bar */
@@ -455,6 +531,67 @@
     gap: var(--space-sm, 8px);
   }
 
+  /* Options grid (multiple choice) */
+  .options-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-sm, 8px);
+    width: 100%;
+  }
+
+  .option-card {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 72px;
+    padding: var(--space-md, 16px) var(--space-lg, 24px);
+    font-size: var(--font-size-lg, 20px);
+    font-weight: 600;
+    font-family: var(--font-family, sans-serif);
+    background: var(--surface, #f9fafb);
+    border: 3px solid var(--border, #e5e7eb);
+    border-radius: var(--radius-lg, 16px);
+    color: var(--text, #1f2937);
+    cursor: pointer;
+    transition: all var(--transition-fast, 0.15s);
+    touch-action: manipulation;
+    user-select: none;
+    text-align: center;
+    line-height: 1.4;
+  }
+
+  .option-card:hover:not(:disabled) {
+    border-color: var(--primary, #3b82f6);
+    background: var(--primary-light, #eff6ff);
+    box-shadow: var(--shadow-md);
+  }
+
+  .option-card:active:not(:disabled) {
+    transform: scale(0.98);
+  }
+
+  .option-card.correct {
+    border-color: var(--success, #22c55e);
+    background: var(--success, #22c55e);
+    color: #fff;
+    animation: correctPulse 0.6s ease;
+  }
+
+  .option-card.incorrect {
+    border-color: var(--error, #ef4444);
+    background: rgba(239, 68, 68, 0.1);
+    color: var(--error, #ef4444);
+    animation: shake 0.5s ease-in-out;
+  }
+
+  .option-card:disabled {
+    cursor: default;
+  }
+
+  .option-text {
+    font-size: var(--font-size-lg, 20px);
+  }
+
   .button-row {
     display: flex;
     gap: var(--space-sm, 8px);
@@ -533,6 +670,12 @@
     40% { transform: translateX(8px); }
     60% { transform: translateX(-4px); }
     80% { transform: translateX(4px); }
+  }
+
+  @keyframes correctPulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.03); }
+    100% { transform: scale(1); }
   }
 
   /* Summary */

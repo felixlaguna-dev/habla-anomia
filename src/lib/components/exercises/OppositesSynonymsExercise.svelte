@@ -298,6 +298,7 @@
             class:incorrect={state === 'incorrect'}
             onclick={() => handleSelectChoice(i)}
             disabled={feedbackState !== 'none'}
+            aria-label={option}
           >
             <span class="option-text">{option}</span>
           </button>
@@ -318,7 +319,7 @@
         {/if}
 
         {#if feedbackState === 'incorrect'}
-          <button class="skip-button" onclick={skipWord}>
+          <button class="skip-button" onclick={skipWord} aria-label={$t('common.next')}>
             ⏭️ {$t('common.next')}
           </button>
         {/if}
@@ -365,6 +366,8 @@
     max-width: 600px;
     margin: 0 auto;
     width: 100%;
+    box-sizing: border-box;
+    overflow-x: hidden;
   }
 
   /* Mode badge */

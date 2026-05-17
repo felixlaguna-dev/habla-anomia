@@ -75,20 +75,20 @@
 
   function getCorrectAnswer(word: Word): string {
     if (mode === 'word-to-definition') {
-      return word.definition;
+      return word.definition ?? '';
     } else if (mode === 'definition-to-word') {
-      return word.word;
+      return word.word ?? '';
     } else {
       // image-to-word: show word
-      return word.word;
+      return word.word ?? '';
     }
   }
 
   function getDistractorText(word: Word): string {
     if (mode === 'word-to-definition') {
-      return word.definition;
+      return word.definition ?? '---';
     } else {
-      return word.word;
+      return word.word ?? '---';
     }
   }
 
@@ -296,6 +296,8 @@
     max-width: 600px;
     margin: 0 auto;
     width: 100%;
+    box-sizing: border-box;
+    overflow-x: hidden;
   }
 
   .prompt-label {

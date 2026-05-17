@@ -7,13 +7,16 @@
   import { base } from '$app/paths';
   import type { Word, Language, ExerciseType } from '$lib/types';
 
+  type InputMode = 'choice' | 'open';
+
   type Props = {
     words: Word[];
     language: Language;
+    inputMode?: InputMode;
     onComplete?: (results: { score: number; total: number; details: Array<{ word: Word; correct: boolean; cuesUsed: number }> }) => void;
   };
 
-  let { words, language = 'es' as Language, onComplete }: Props = $props();
+  let { words, language = 'es' as Language, inputMode = 'choice', onComplete }: Props = $props();
 
   // State
   let currentIndex = $state(0);
@@ -24,6 +27,11 @@
   let results = $state<Array<{ word: Word; correct: boolean; cuesUsed: number }>>([]);
   let startTime = $state(Date.now());
   let isSpeaking = $state(false);
+
+  // Multiple choice state
+  let options = $state<string[]>([]);
+  let selectedIndex = $state<number | null>(null);
+  let correctOptionIndex = $state(0);
 
   // Speech synthesis
   let synthesis: SpeechSynthesisService | null = $state(null);
@@ -45,33 +53,57 @@
 
   let speechLang = $derived(language === 'es' ? 'es-ES' : language === 'ca' ? 'ca-ES' : language === 'eu' ? 'eu-ES' : 'en-US');
 
+  // Generate distractor options
+  function generateOptions(correct: string, allWords: Word[], count: number = 3): string[] {
+    const others = allWords
+      .filter(w => w.word !== correct)
+      .map(w => w.word)
+      .sort(() => Math.random() - 0.5)
+      .slice(0, count);
+    return [correct, ...others].sort(() => Math.random() - 0.5);
+  }
+
+  // Rebuild options when word changes
+  $effect(() => {
+    if (currentWord && inputMode === 'choice') {
+      const opts = generateOptions(currentWord.word, words);
+      options = opts;
+      correctOptionIndex = opts.indexOf(currentWord.word);
+      selectedIndex = null;
+    }
+  });
+
   // Cue levels (0-5)
   let revealedCues = $derived.by(() => {
     if (!currentWord) return [];
     const cues: Array<{ label: string; value: string }> = [];
 
     if (cuesRevealed >= 1) {
+      const firstSound = currentWord.phonetic?.first_sound ?? '—';
       cues.push({
-        label: $t('exercises.phonological_cueing.first_sound', { value: currentWord.phonetic.first_sound }),
-        value: currentWord.phonetic.first_sound,
+        label: $t('exercises.phonological_cueing.first_sound', { value: firstSound }),
+        value: firstSound,
       });
     }
     if (cuesRevealed >= 2) {
+      const syllables = currentWord.phonetic?.syllables ?? '—';
       cues.push({
-        label: $t('exercises.phonological_cueing.syllable_count', { value: String(currentWord.phonetic.syllables) }),
-        value: String(currentWord.phonetic.syllables),
+        label: $t('exercises.phonological_cueing.syllable_count', { value: String(syllables) }),
+        value: String(syllables),
       });
     }
     if (cuesRevealed >= 3) {
+      const rhyming = currentWord.phonetic?.rhyming_word ?? '—';
       cues.push({
-        label: $t('exercises.phonological_cueing.rhyming_word', { value: currentWord.phonetic.rhyming_word }),
-        value: currentWord.phonetic.rhyming_word,
+        label: $t('exercises.phonological_cueing.rhyming_word', { value: rhyming }),
+        value: rhyming,
       });
     }
     if (cuesRevealed >= 4) {
+      const phonemes = currentWord.phonetic?.first_phonemes ?? '—';
       cues.push({
-        label: $t('exercises.phonological_cueing.first_phonemes', { value: currentWord.phonetic.first_phonemes }),
-        value: currentWord.phonetic.first_phonemes,
+        label: $t('exercises.phonological_cueing.first_phonemes', { value: phonemes }),
+        value: phonemes,
       });
     }
     if (cuesRevealed >= 5) {
@@ -116,6 +148,24 @@
       // Reset after a moment so they can try again
       setTimeout(() => {
         feedbackState = 'none';
+      }, 1500);
+    }
+  }
+
+  function handleSelectChoice(index: number) {
+    if (feedbackState !== 'none' || !currentWord) return;
+    selectedIndex = index;
+
+    const selected = options[index]?.toLowerCase();
+    const correct = selected === currentWord.word.toLowerCase();
+
+    if (correct) {
+      handleCorrect();
+    } else {
+      feedbackState = 'incorrect';
+      setTimeout(() => {
+        feedbackState = 'none';
+        selectedIndex = null;
       }, 1500);
     }
   }
@@ -169,6 +219,7 @@
     cuesRevealed = 0;
     imageError = false;
     startTime = Date.now();
+    selectedIndex = null;
     currentIndex++;
     if (currentIndex >= words.length) {
       onComplete?.({ score, total: words.length, details: results });
@@ -183,6 +234,16 @@
     if (!url) return '';
     if (base && url.startsWith('/')) return base + url;
     return url;
+  }
+
+  // Card state helper for choice mode
+  function getCardState(index: number): 'default' | 'selected' | 'correct' | 'incorrect' {
+    if (feedbackState === 'none') {
+      return selectedIndex === index ? 'selected' : 'default';
+    }
+    if (index === correctOptionIndex) return 'correct';
+    if (index === selectedIndex && feedbackState === 'incorrect') return 'incorrect';
+    return 'default';
   }
 
   // Encouragement messages
@@ -221,7 +282,7 @@
         />
       {:else}
         <div class="image-fallback">
-          <span class="fallback-letter">{currentWord.word[0].toUpperCase()}</span>
+          <span class="fallback-letter">{currentWord.word?.[0]?.toUpperCase() ?? '?'}</span>
         </div>
       {/if}
     </div>
@@ -272,23 +333,45 @@
     <!-- Answer input + controls -->
     {#if feedbackState !== 'correct'}
       <div class="answer-area">
-        <SpeechInput
-          language={speechLang}
-          placeholder={$t('exercises.picture_naming.type_answer')}
-          onresult={checkAnswer}
-        />
+        {#if inputMode === 'choice'}
+          <!-- Multiple choice grid -->
+          <div class="options-grid">
+            {#each options as option, i}
+              {@const state = getCardState(i)}
+              <button
+                class="option-card"
+                class:default={state === 'default'}
+                class:correct={state === 'correct'}
+                class:incorrect={state === 'incorrect'}
+                onclick={() => handleSelectChoice(i)}
+                disabled={feedbackState !== 'none'}
+                aria-label={option}
+              >
+                <span class="option-text">{option}</span>
+              </button>
+            {/each}
+          </div>
+        {:else}
+          <!-- Open input mode (speech/text) -->
+          <SpeechInput
+            language={speechLang}
+            placeholder={$t('exercises.picture_naming.type_answer')}
+            onresult={checkAnswer}
+          />
+        {/if}
 
         <div class="button-row">
           <button
             class="cue-button"
             onclick={showNextCue}
             disabled={!canShowMoreCues}
+            aria-label={$t('exercises.phonological_cueing.another_hint')}
           >
             💡 {$t('exercises.phonological_cueing.another_hint')}
             <span class="cue-count">({cuesRevealed}/5)</span>
           </button>
 
-          <button class="skip-button" onclick={skipWord}>
+          <button class="skip-button" onclick={skipWord} aria-label={$t('common.skip')}>
             ⏭️ {$t('common.skip')}
           </button>
         </div>
@@ -335,6 +418,8 @@
     max-width: 600px;
     margin: 0 auto;
     width: 100%;
+    box-sizing: border-box;
+    overflow-x: hidden;
   }
 
   /* Progress bar */
@@ -504,6 +589,67 @@
     gap: var(--space-sm, 8px);
   }
 
+  /* Options grid (multiple choice) */
+  .options-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-sm, 8px);
+    width: 100%;
+  }
+
+  .option-card {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 72px;
+    padding: var(--space-md, 16px) var(--space-lg, 24px);
+    font-size: var(--font-size-lg, 20px);
+    font-weight: 600;
+    font-family: var(--font-family, sans-serif);
+    background: var(--surface, #f9fafb);
+    border: 3px solid var(--border, #e5e7eb);
+    border-radius: var(--radius-lg, 16px);
+    color: var(--text, #1f2937);
+    cursor: pointer;
+    transition: all var(--transition-fast, 0.15s);
+    touch-action: manipulation;
+    user-select: none;
+    text-align: center;
+    line-height: 1.4;
+  }
+
+  .option-card:hover:not(:disabled) {
+    border-color: var(--primary, #3b82f6);
+    background: var(--primary-light, #eff6ff);
+    box-shadow: var(--shadow-md);
+  }
+
+  .option-card:active:not(:disabled) {
+    transform: scale(0.98);
+  }
+
+  .option-card.correct {
+    border-color: var(--success, #22c55e);
+    background: var(--success, #22c55e);
+    color: #fff;
+    animation: correctPulse 0.6s ease;
+  }
+
+  .option-card.incorrect {
+    border-color: var(--error, #ef4444);
+    background: rgba(239, 68, 68, 0.1);
+    color: var(--error, #ef4444);
+    animation: shake 0.5s ease-in-out;
+  }
+
+  .option-card:disabled {
+    cursor: default;
+  }
+
+  .option-text {
+    font-size: var(--font-size-lg, 20px);
+  }
+
   .button-row {
     display: flex;
     gap: var(--space-sm, 8px);
@@ -589,6 +735,12 @@
   @keyframes pulse {
     0%, 100% { opacity: 1; }
     50% { opacity: 0.5; }
+  }
+
+  @keyframes correctPulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.03); }
+    100% { transform: scale(1); }
   }
 
   /* Summary */

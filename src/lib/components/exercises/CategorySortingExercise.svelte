@@ -227,6 +227,7 @@
           onclick={() => selectCategory(category)}
           disabled={feedbackState === 'correct'}
           class:selected={selectedCategory === category && feedbackState === 'incorrect'}
+          aria-label={translateCategory(category)}
         >
           <span class="btn-text">{translateCategory(category)}</span>
         </button>
@@ -296,6 +297,8 @@
     max-width: 700px;
     margin: 0 auto;
     width: 100%;
+    box-sizing: border-box;
+    overflow-x: hidden;
   }
 
   /* Progress bar */
@@ -332,11 +335,13 @@
     width: 100%;
     flex-wrap: wrap;
     justify-content: center;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
   }
 
   .category-bin {
     flex: 1;
-    min-width: 120px;
+    min-width: 90px;
     min-height: 56px;
     display: flex;
     flex-direction: column;
@@ -449,7 +454,7 @@
 
   .category-btn {
     flex: 1;
-    min-width: 140px;
+    min-width: 90px;
     min-height: 64px;
     display: flex;
     align-items: center;

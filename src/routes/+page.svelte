@@ -46,9 +46,9 @@
 
   function getGreeting(): string {
     const hour = new Date().getHours();
-    if (hour >= 5 && hour < 12) return ' Buenos días';
-    if (hour >= 12 && hour < 20) return '¡Buenas tardes';
-    return '¡Buenas noches';
+    if (hour >= 5 && hour < 12) return $t('greetings.morning');
+    if (hour >= 12 && hour < 20) return $t('greetings.afternoon');
+    return $t('greetings.evening');
   }
 
   function getGreetingEmoji(): string {
@@ -415,7 +415,7 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    min-height: 36px;
+    min-height: 48px;
     min-width: 56px;
     padding: 0.25rem 0.75rem;
     background: var(--accent, #3b82f6);

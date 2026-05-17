@@ -128,6 +128,22 @@
     }
   }
 
+  function restart() {
+    currentIndex = 0;
+    feedbackState = 'none';
+    incorrectAttempt = false;
+    score = 0;
+    results = [];
+    startTime = Date.now();
+    selectedCategory = null;
+    const bins: Record<string, Word[]> = {};
+    for (const cat of categories) {
+      bins[cat] = [];
+    }
+    binItems = bins;
+    shuffledItems = [...words].sort(() => Math.random() - 0.5);
+  }
+
   // Category colors for visual distinction
   const categoryColors = [
     { bg: '#dbeafe', border: '#3b82f6', text: '#1d4ed8' },
@@ -277,6 +293,12 @@
         </div>
       {/each}
     </div>
+    <button class="back-to-exercises-btn" onclick={() => window.location.href = '/exercises'}>
+      ← {$t('common.back_to_exercises')}
+    </button>
+    <button class="restart-btn" onclick={restart}>
+      🔄 {$t('common.restart')}
+    </button>
   </div>
 {/if}
 
@@ -624,5 +646,33 @@
   .result-category {
     font-size: var(--font-size-sm, 14px);
     color: var(--text-muted, #6b7280);
+  }
+
+  .back-to-exercises-btn {
+    margin-top: var(--space-lg, 24px);
+    padding: var(--space-md, 16px) var(--space-xl, 32px);
+    font-size: var(--font-size-lg, 20px);
+    font-weight: 700;
+    background: var(--primary, #3b82f6);
+    color: #fff;
+    border: none;
+    border-radius: var(--radius-lg, 16px);
+    cursor: pointer;
+    min-height: 56px;
+    touch-action: manipulation;
+  }
+
+  .restart-btn {
+    margin-top: var(--space-sm, 8px);
+    padding: var(--space-sm, 8px) var(--space-md, 16px);
+    font-size: var(--font-size-md, 16px);
+    font-weight: 600;
+    background: var(--surface-2, #e5e7eb);
+    color: var(--text, #1f2937);
+    border: none;
+    border-radius: var(--radius-md, 12px);
+    cursor: pointer;
+    min-height: 48px;
+    touch-action: manipulation;
   }
 </style>

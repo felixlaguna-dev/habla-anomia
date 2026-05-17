@@ -168,12 +168,36 @@
     }
   }
 
+  function skipWord() {
+    results.push({ word: currentWord, correct: false });
+    recordAttempt({
+      word_id: currentWord.id,
+      exercise_type: 'word-matching' as ExerciseType,
+      correct: false,
+      response: '',
+      response_time_ms: Date.now() - startTime,
+      timestamp: new Date(),
+      language,
+    });
+    updateAfterAttempt(currentWord.id, language, 0);
+    nextWord();
+  }
+
   function nextWord() {
     currentIndex++;
     startTime = Date.now();
     if (currentIndex >= words.length) {
       onComplete?.({ score, total: words.length, details: results });
     }
+  }
+
+  function restart() {
+    currentIndex = 0;
+    selectedIndex = null;
+    feedbackState = 'none';
+    score = 0;
+    results = [];
+    startTime = Date.now();
   }
 
   let cardState = $derived.by(() => {
@@ -260,6 +284,11 @@
         </button>
       {/each}
     </div>
+
+    <!-- Skip button -->
+    <button class="skip-button" onclick={skipWord} aria-label="Skip">
+      ⏭️ {$t('common.skip')}
+    </button>
   </div>
 {/if}
 
@@ -276,6 +305,12 @@
         </div>
       {/each}
     </div>
+    <button class="back-to-exercises-btn" onclick={() => window.location.href = '/exercises'}>
+      ← {$t('common.back_to_exercises')}
+    </button>
+    <button class="restart-btn" onclick={restart}>
+      🔄 {$t('common.restart')}
+    </button>
   </div>
 {/if}
 
@@ -502,5 +537,52 @@
     40% { transform: translateX(8px); }
     60% { transform: translateX(-4px); }
     80% { transform: translateX(4px); }
+  }
+
+  .skip-button {
+    min-height: 48px;
+    padding: var(--space-sm, 8px) var(--space-md, 16px);
+    font-size: var(--font-size-md, 16px);
+    font-weight: 600;
+    font-family: var(--font-family, sans-serif);
+    background: transparent;
+    color: var(--text-muted, #6b7280);
+    border: 2px solid var(--border, #e5e7eb);
+    border-radius: var(--radius-md, 12px);
+    cursor: pointer;
+    touch-action: manipulation;
+    user-select: none;
+  }
+
+  .skip-button:hover {
+    background: var(--surface-2, #f3f4f6);
+  }
+
+  .back-to-exercises-btn {
+    margin-top: var(--space-lg, 24px);
+    padding: var(--space-md, 16px) var(--space-xl, 32px);
+    font-size: var(--font-size-lg, 20px);
+    font-weight: 700;
+    background: var(--primary, #3b82f6);
+    color: #fff;
+    border: none;
+    border-radius: var(--radius-lg, 16px);
+    cursor: pointer;
+    min-height: 56px;
+    touch-action: manipulation;
+  }
+
+  .restart-btn {
+    margin-top: var(--space-sm, 8px);
+    padding: var(--space-sm, 8px) var(--space-md, 16px);
+    font-size: var(--font-size-md, 16px);
+    font-weight: 600;
+    background: var(--surface-2, #e5e7eb);
+    color: var(--text, #1f2937);
+    border: none;
+    border-radius: var(--radius-md, 12px);
+    cursor: pointer;
+    min-height: 48px;
+    touch-action: manipulation;
   }
 </style>

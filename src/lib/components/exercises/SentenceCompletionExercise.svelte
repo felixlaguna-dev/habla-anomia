@@ -175,6 +175,10 @@
 
   function handleIncorrect() {
     feedbackState = 'incorrect';
+    setTimeout(() => {
+      feedbackState = 'none';
+      selectedIndex = null;
+    }, 1500);
   }
 
   function skipWord() {
@@ -204,9 +208,14 @@
     }
   }
 
-  function tryAgain() {
+  function restart() {
+    currentIndex = 0;
+    score = 0;
+    results = [];
     feedbackState = 'none';
+    hintsUsed = 0;
     selectedIndex = null;
+    startTime = Date.now();
   }
 
   // Card state helper for choice mode
@@ -360,6 +369,12 @@
         </div>
       {/each}
     </div>
+    <button class="back-to-exercises-btn" onclick={() => window.location.href = '/exercises'}>
+      ← {$t('common.back_to_exercises')}
+    </button>
+    <button class="restart-btn" onclick={restart}>
+      🔄 {$t('common.restart')}
+    </button>
   </div>
 {/if}
 
@@ -727,5 +742,33 @@
     40% { transform: translateX(8px); }
     60% { transform: translateX(-4px); }
     80% { transform: translateX(4px); }
+  }
+
+  .back-to-exercises-btn {
+    margin-top: var(--space-lg, 24px);
+    padding: var(--space-md, 16px) var(--space-xl, 32px);
+    font-size: var(--font-size-lg, 20px);
+    font-weight: 700;
+    background: var(--primary, #3b82f6);
+    color: #fff;
+    border: none;
+    border-radius: var(--radius-lg, 16px);
+    cursor: pointer;
+    min-height: 56px;
+    touch-action: manipulation;
+  }
+
+  .restart-btn {
+    margin-top: var(--space-sm, 8px);
+    padding: var(--space-sm, 8px) var(--space-md, 16px);
+    font-size: var(--font-size-md, 16px);
+    font-weight: 600;
+    background: var(--surface-2, #e5e7eb);
+    color: var(--text, #1f2937);
+    border: none;
+    border-radius: var(--radius-md, 12px);
+    cursor: pointer;
+    min-height: 48px;
+    touch-action: manipulation;
   }
 </style>

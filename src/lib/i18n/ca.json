@@ -205,7 +205,9 @@
     "loading": "Carregant...",
     "of": "de",
     "cancel": "Cancel·lar",
-    "no_words": "No hi ha paraules disponibles per a aquest exercici."
+    "no_words": "No hi ha paraules disponibles per a aquest exercici.",
+    "back_to_exercises": "Tornar als exercicis",
+    "restart": "Repetir exercici"
   },
   "categories": {
     "animals": "Animals",

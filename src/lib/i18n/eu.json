@@ -205,7 +205,9 @@
     "loading": "Kargatzen...",
     "of": "-(e)tik",
     "cancel": "Utzi",
-    "no_words": "Ez dago hitzik erabilgarri ariketa honetarako."
+    "no_words": "Ez dago hitzik erabilgarri ariketa honetarako.",
+    "back_to_exercises": "Ariketetara itzuli",
+    "restart": "Errepikatu ariketa"
   },
   "categories": {
     "animals": "Animaliak",

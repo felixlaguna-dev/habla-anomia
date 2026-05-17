@@ -3,6 +3,7 @@
   import { recordAttempt } from '$lib/db/attempts';
   import { updateAfterAttempt } from '$lib/engine/spaced-repetition';
   import { SpeechSynthesisService } from '$lib/speech/speech-synthesis';
+  import { playCorrectSound, playIncorrectSound } from '$lib/utils/sounds';
   import SpeechInput from '$lib/components/speech/SpeechInput.svelte';
   import { base } from '$app/paths';
   import type { Word, Language, ExerciseType } from '$lib/types';
@@ -145,6 +146,7 @@
       handleCorrect();
     } else {
       feedbackState = 'incorrect';
+      playIncorrectSound();
       // Reset after a moment so they can try again
       setTimeout(() => {
         feedbackState = 'none';
@@ -163,6 +165,7 @@
       handleCorrect();
     } else {
       feedbackState = 'incorrect';
+      playIncorrectSound();
       setTimeout(() => {
         feedbackState = 'none';
         selectedIndex = null;
@@ -172,6 +175,7 @@
 
   async function handleCorrect() {
     feedbackState = 'correct';
+    playCorrectSound();
     score++;
     results.push({ word: currentWord, correct: true, cuesUsed: cuesRevealed });
 
@@ -396,6 +400,18 @@
   <div class="exercise-container summary">
     <div class="summary-icon">🎉</div>
     <h2 class="summary-title">{$t('feedback.exercise_complete')}</h2>
+    <!-- Star rating -->
+    <div class="star-rating">
+      {#if words.length > 0 && (score / words.length) >= 0.9}
+        ⭐⭐⭐ {$t('feedback.excellent')}
+      {:else if words.length > 0 && (score / words.length) >= 0.7}
+        ⭐⭐ {$t('feedback.very_good')}
+      {:else if words.length > 0 && (score / words.length) >= 0.5}
+        ⭐ {$t('feedback.good_job')}
+      {:else}
+        {$t('feedback.keep_practicing')}
+      {/if}
+    </div>
     <p class="summary-score">{$t('feedback.score')}: {score} / {words.length}</p>
     <div class="summary-details">
       {#each results as result, i}
@@ -775,6 +791,13 @@
     font-weight: 800;
     color: var(--text, #1f2937);
     margin: 0;
+  }
+
+  .star-rating {
+    font-size: var(--font-size-xl, 24px);
+    font-weight: 700;
+    text-align: center;
+    margin: var(--space-sm, 8px) 0;
   }
 
   .summary-score {

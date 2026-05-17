@@ -161,7 +161,7 @@
     bottom: 0;
     left: 50%;
     transform: translateX(-50%);
-    width: 24px;
+    width: 40px;
     height: 3px;
     background: var(--primary);
     border-radius: var(--radius-full) var(--radius-full) 0 0;
@@ -174,7 +174,7 @@
       opacity: 0;
     }
     to {
-      width: 24px;
+      width: 40px;
       opacity: 1;
     }
   }

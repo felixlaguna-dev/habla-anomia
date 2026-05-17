@@ -139,7 +139,10 @@
     "exercise_complete": "Exercici completat",
     "score": "Puntuació",
     "incorrect": "Incorrectes",
-    "retry_mistakes": "Tornar a intentar errors"
+    "retry_mistakes": "Tornar a intentar errors",
+    "very_good": "Molt bé!",
+    "good_job": "Bon treball!",
+    "keep_practicing": "Segueix practicant!"
   },
   "progress": {
     "title": "Progrés",

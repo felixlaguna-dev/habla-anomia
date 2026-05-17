@@ -2,6 +2,8 @@
   import { t } from '$lib/i18n';
   import { onMount } from 'svelte';
   import { Card, Button, Modal, ProgressBar } from '$lib/components/ui';
+  import { goto } from '$app/navigation';
+  import { base } from '$app/paths';
   import {
     getAllSettings,
     getSessions,
@@ -201,7 +203,14 @@
 
     {#if totalSessions === 0 && categoryBreakdown.length === 0}
       <Card>
-        <p class="no-data">{$t('progress.no_data')}</p>
+        <div class="empty-state">
+          <span class="empty-emoji">🎯</span>
+          <h2 class="empty-title">{$t('progress.empty_title')}</h2>
+          <p class="empty-message">{$t('progress.empty_message')}</p>
+          <Button onclick={() => goto(`${base}/exercises`)}>
+            {$t('common.start')}
+          </Button>
+        </div>
       </Card>
     {:else}
       <!-- Streak + Overall accuracy row -->
@@ -393,6 +402,34 @@
     text-align: center;
     line-height: 1.6;
     padding: var(--space-lg) 0;
+  }
+
+  /* Encouraging empty state */
+  .empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: var(--space-md);
+    padding: var(--space-xl) var(--space-lg);
+  }
+
+  .empty-emoji {
+    font-size: 3rem;
+  }
+
+  .empty-title {
+    font-size: var(--font-size-xl);
+    font-weight: 700;
+    color: var(--text);
+    margin: 0;
+  }
+
+  .empty-message {
+    color: var(--text-dim);
+    font-size: var(--font-size-base);
+    line-height: 1.6;
+    margin: 0;
   }
 
   /* Top stats row */

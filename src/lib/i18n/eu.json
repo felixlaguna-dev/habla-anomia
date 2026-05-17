@@ -139,7 +139,10 @@
     "exercise_complete": "Ariketa amaituta",
     "score": "Puntuazioa",
     "incorrect": "Okerrak",
-    "retry_mistakes": "Saiatu berriro akatsekin"
+    "retry_mistakes": "Saiatu berriro akatsekin",
+    "very_good": "Oso ondo!",
+    "good_job": "Lan ona!",
+    "keep_practicing": "Jarraitu praktikatzen!"
   },
   "progress": {
     "title": "Aurrerapena",

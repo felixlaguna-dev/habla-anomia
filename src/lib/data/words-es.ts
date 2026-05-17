@@ -2,7 +2,7 @@ import type { Word } from '$lib/types';
 
 export const WORDS_ES: Word[] = [
   // ==========================================
-  // ANIMALS (20 words)
+  // ANIMALS (29 words)
   // ==========================================
   {
     id: 'es-animal-001',
@@ -424,9 +424,198 @@ export const WORDS_ES: Word[] = [
     opposite: '',
     synonyms: ['cetáceo', 'delfínido']
   },
+  {
+    id: 'es-animal-021',
+    word: 'hormiga',
+    category: 'animals',
+    language: 'es',
+    image_url: '/images/words/hormiga.webp',
+    definition: 'Insecto muy pequeño y trabajador que vive en grupos.',
+    features: {
+      category: 'insecto',
+      function: 'insecto social',
+      location: 'jardín, campo, tierra',
+      properties: 'muy pequeña, negra o roja, vive en colonias',
+      associations: 'colonia, trabajo, tierra, jardín'
+    },
+    phonetic: { first_sound: '/o/', syllables: 3, rhyming_word: 'amiga', first_phonemes: '/oɾ/' },
+    difficulty: 1,
+    tags: ['insecto', 'común'],
+    sentence: 'La _____ lleva comida al hormiguero.',
+    opposite: '',
+    synonyms: ['himenóptero']
+  },
+  {
+    id: 'es-animal-022',
+    word: 'rana',
+    category: 'animals',
+    language: 'es',
+    image_url: '/images/words/rana.webp',
+    definition: 'Animal verde que salta y vive cerca del agua.',
+    features: {
+      category: 'anfibio',
+      function: 'animal saltador',
+      location: 'charco, lago, pantano',
+      properties: 'verde, salta, croa, patas largas',
+      associations: 'charco, salto, agua, lagarto'
+    },
+    phonetic: { first_sound: '/r/', syllables: 2, rhyming_word: 'gana', first_phonemes: '/ra/' },
+    difficulty: 1,
+    tags: ['anfibio', 'común'],
+    sentence: 'La _____ salta de piedra en piedra.',
+    opposite: '',
+    synonyms: ['batracio', 'sapo']
+  },
+  {
+    id: 'es-animal-023',
+    word: 'ballena',
+    category: 'animals',
+    language: 'es',
+    image_url: '/images/words/ballena.webp',
+    definition: 'Animal marino enorme, el más grande del mundo.',
+    features: {
+      category: 'mamífero marino',
+      function: 'nadar, filtrar agua',
+      location: 'océano, mar profundo',
+      properties: 'enorme, azul o gris, nada, lanza agua',
+      associations: 'océano, agua, grande, canto'
+    },
+    phonetic: { first_sound: '/b/', syllables: 3, rhyming_word: 'llena', first_phonemes: '/ba/' },
+    difficulty: 1,
+    tags: ['marino', 'mamífero'],
+    sentence: 'La _____ lanzó un chorro de agua por la espalda.',
+    opposite: '',
+    synonyms: ['cetáceo']
+  },
+  {
+    id: 'es-animal-024',
+    word: 'tiburón',
+    category: 'animals',
+    language: 'es',
+    image_url: '/images/words/tiburon.webp',
+    definition: 'Pez grande con dientes afilados que vive en el mar.',
+    features: {
+      category: 'pez marino',
+      function: 'depredador marino',
+      location: 'océano, mar',
+      properties: 'grande, dientes afilados, gris, peligroso',
+      associations: 'mar, dientes, agua, peligro'
+    },
+    phonetic: { first_sound: '/t/', syllables: 2, rhyming_word: 'campeón', first_phonemes: '/ti/' },
+    difficulty: 2,
+    tags: ['marino', 'pez'],
+    sentence: 'El _____ nada muy rápido en el océano.',
+    opposite: '',
+    synonyms: ['escualo', 'cañabota']
+  },
+  {
+    id: 'es-animal-025',
+    word: 'medusa',
+    category: 'animals',
+    language: 'es',
+    image_url: '/images/words/medusa.webp',
+    definition: 'Animal marino transparente que flota en el agua y puede picar.',
+    features: {
+      category: 'animal marino',
+      function: 'flotar en el agua',
+      location: 'mar, océano, playa',
+      properties: 'transparente, blanda, tiene tentáculos, pica',
+      associations: 'mar, playa, tentáculo, picadura'
+    },
+    phonetic: { first_sound: '/m/', syllables: 3, rhyming_word: 'recusa', first_phonemes: '/me/' },
+    difficulty: 2,
+    tags: ['marino', 'peligroso'],
+    sentence: 'La _____ flotaba cerca de la playa.',
+    opposite: '',
+    synonyms: ['aguamala', 'aguaviva']
+  },
+  {
+    id: 'es-animal-026',
+    word: 'loro',
+    category: 'animals',
+    language: 'es',
+    image_url: '/images/words/loro.webp',
+    definition: 'Pájaro colorido que puede aprender a hablar.',
+    features: {
+      category: 'ave',
+      function: 'ave parlante',
+      location: 'selva, casa, jaula',
+      properties: 'colorido, habla, tiene pico curvado',
+      associations: 'habla, colores, jaula, selva'
+    },
+    phonetic: { first_sound: '/l/', syllables: 2, rhyming_word: 'coro', first_phonemes: '/lo/' },
+    difficulty: 1,
+    tags: ['ave', 'exótico'],
+    sentence: 'El _____ dice "hola" cuando alguien entra.',
+    opposite: '',
+    synonyms: ['guacamayo', 'cotorra']
+  },
+  {
+    id: 'es-animal-027',
+    word: 'pingüino',
+    category: 'animals',
+    language: 'es',
+    image_url: '/images/words/pinguino.webp',
+    definition: 'Ave negra y blanca que no vuela y vive en el frío.',
+    features: {
+      category: 'ave',
+      function: 'ave nadadora',
+      location: 'polo sur, zonas frías, hielo',
+      properties: 'negro y blanco, no vuela, nada bien',
+      associations: 'hielo, frío, nieve, nadar'
+    },
+    phonetic: { first_sound: '/p/', syllables: 3, rhyming_word: 'destino', first_phonemes: '/pi/' },
+    difficulty: 2,
+    tags: ['ave', 'polar'],
+    sentence: 'El _____ nada en las aguas heladas.',
+    opposite: '',
+    synonyms: ['aves pingüino']
+  },
+  {
+    id: 'es-animal-028',
+    word: 'jirafa',
+    category: 'animals',
+    language: 'es',
+    image_url: '/images/words/jirafa.webp',
+    definition: 'Animal muy alto con cuello largo y manchas marrones.',
+    features: {
+      category: 'mamífero',
+      function: 'animal herbívoro',
+      location: 'sabana, África, zoológico',
+      properties: 'muy alta, cuello largo, manchas marrones',
+      associations: 'cuello, alto, África, manchas'
+    },
+    phonetic: { first_sound: '/x/', syllables: 3, rhyming_word: 'cancha', first_phonemes: '/xi/' },
+    difficulty: 1,
+    tags: ['mamífero', 'salvaje'],
+    sentence: 'La _____ come hojas de los árboles más altos.',
+    opposite: '',
+    synonyms: ['girácido']
+  },
+  {
+    id: 'es-animal-029',
+    word: 'rinoceronte',
+    category: 'animals',
+    language: 'es',
+    image_url: '/images/words/rinoceronte.webp',
+    definition: 'Animal grande y pesado con un cuerno en la nariz.',
+    features: {
+      category: 'mamífero',
+      function: 'animal herbívoro grande',
+      location: 'sabana, África, Asia',
+      properties: 'muy grande, piel gruesa, tiene cuerno',
+      associations: 'cuerno, grande, África, fuerte'
+    },
+    phonetic: { first_sound: '/r/', syllables: 5, rhyming_word: 'dente', first_phonemes: '/ri/' },
+    difficulty: 2,
+    tags: ['mamífero', 'salvaje'],
+    sentence: 'El _____ tiene un cuerno en la nariz.',
+    opposite: '',
+    synonyms: ['paquidermo']
+  },
 
   // ==========================================
-  // FOOD (71 words)
+  // FOOD (78 words)
   // ==========================================
   {
     id: 'es-food-001',
@@ -1919,9 +2108,156 @@ export const WORDS_ES: Word[] = [
     opposite: '',
     synonyms: []
   },
+  {
+    id: 'es-food-072',
+    word: 'croqueta',
+    category: 'food',
+    language: 'es',
+    image_url: '/images/words/croqueta.webp',
+    definition: 'Pequeña porción de masa frita rellena de jamón o pollo.',
+    features: {
+      category: 'aperitivo',
+      function: 'alimentar, acompañar',
+      location: 'restaurante, cocina, bar',
+      properties: 'alargada, frita, crujiente por fuera, suave por dentro',
+      associations: 'jamón, fritura, pan rallado, tapa'
+    },
+    phonetic: { first_sound: '/k/', syllables: 3, rhyming_word: 'paleta', first_phonemes: '/kro/' },
+    difficulty: 2,
+    tags: ['aperitivo', 'frito'],
+    sentence: 'Las _____ de jamón están deliciosas.',
+    opposite: '',
+    synonyms: ['tapa frita']
+  },
+  {
+    id: 'es-food-073',
+    word: 'empanada',
+    category: 'food',
+    language: 'es',
+    image_url: '/images/words/empanada.webp',
+    definition: 'Masa de pan rellena de carne, atún o verdura y horneada.',
+    features: {
+      category: 'producto de panadería',
+      function: 'alimentar como plato o aperitivo',
+      location: 'horno, panadería, cocina',
+      properties: 'redondeada, rellena, dorada por fuera',
+      associations: 'masa, relleno, horno, carne'
+    },
+    phonetic: { first_sound: '/e/', syllables: 4, rhyming_word: 'hornada', first_phonemes: '/em/' },
+    difficulty: 2,
+    tags: ['panadería', 'salado'],
+    sentence: 'La _____ de atún estaba muy buena.',
+    opposite: '',
+    synonyms: ['pastel', 'empanadilla']
+  },
+  {
+    id: 'es-food-074',
+    word: 'gazpacho',
+    category: 'food',
+    language: 'es',
+    image_url: '/images/words/gazpacho.webp',
+    definition: 'Sopa fría de tomate, aceite y vinagre típica de España.',
+    features: {
+      category: 'sopa fría',
+      function: 'alimentar, refrescar',
+      location: 'cocina, nevera, mesa',
+      properties: 'fría, roja, líquida, de tomate',
+      associations: 'tomate, aceite, vinagre, verano'
+    },
+    phonetic: { first_sound: '/g/', syllables: 3, rhyming_word: 'chacho', first_phonemes: '/ga/' },
+    difficulty: 2,
+    tags: ['sopa', 'español'],
+    sentence: 'En verano tomo _____ bien frío.',
+    opposite: '',
+    synonyms: ['sopa fría', 'salmorejo']
+  },
+  {
+    id: 'es-food-075',
+    word: 'paella',
+    category: 'food',
+    language: 'es',
+    image_url: '/images/words/paella.webp',
+    definition: 'Plato de arroz con azafrán, marisco o carne, típico de Valencia.',
+    features: {
+      category: 'plato principal',
+      function: 'alimentar como plato fuerte',
+      location: 'cocina, paellera, mesa',
+      properties: 'arroz amarillo, con marisco o carne, grande',
+      associations: 'arroz, azafrán, marisco, Valencia'
+    },
+    phonetic: { first_sound: '/p/', syllables: 3, rhyming_word: 'estrella', first_phonemes: '/pa/' },
+    difficulty: 2,
+    tags: ['arroz', 'español'],
+    sentence: 'La _____ de marisco estaba riquísima.',
+    opposite: '',
+    synonyms: ['arroz a la valenciana']
+  },
+  {
+    id: 'es-food-076',
+    word: 'tortilla',
+    category: 'food',
+    language: 'es',
+    image_url: '/images/words/tortilla.webp',
+    definition: 'Plato de huevos batidos con patatas fritas, redondo y dorado.',
+    features: {
+      category: 'plato principal',
+      function: 'alimentar, acompañar',
+      location: 'cocina, sartén, mesa',
+      properties: 'redonda, dorada, de huevo y patata',
+      associations: 'huevo, patata, sartén, cebolla'
+    },
+    phonetic: { first_sound: '/t/', syllables: 3, rhyming_word: 'grilla', first_phonemes: '/to/' },
+    difficulty: 1,
+    tags: ['huevo', 'español'],
+    sentence: 'La _____ de patatas es un plato clásico.',
+    opposite: '',
+    synonyms: ['tortilla española']
+  },
+  {
+    id: 'es-food-077',
+    word: 'churros',
+    category: 'food',
+    language: 'es',
+    image_url: '/images/words/churros.webp',
+    definition: 'Masa frita alargada y crujiente que se come con azúcar o chocolate.',
+    features: {
+      category: 'dulce frito',
+      function: 'alimentar como postre o desayuno',
+      location: 'churrería, cocina, cafetería',
+      properties: 'alargados, fritos, crujientes, dorados',
+      associations: 'chocolate, azúcar, desayuno, fritura'
+    },
+    phonetic: { first_sound: '/tʃ/', syllables: 2, rhyming_word: 'cero', first_phonemes: '/tʃu/' },
+    difficulty: 1,
+    tags: ['dulce', 'frito'],
+    sentence: 'Los _____ con chocolate están riquísimos.',
+    opposite: '',
+    synonyms: ['frutas de sartén', 'porras']
+  },
+  {
+    id: 'es-food-078',
+    word: 'magdalena',
+    category: 'food',
+    language: 'es',
+    image_url: '/images/words/magdalena.webp',
+    definition: 'Pequeño bizcocho dulce y esponjoso con forma de concha.',
+    features: {
+      category: 'repostería',
+      function: 'postre, acompañar el café',
+      location: 'panadería, cocina, horno',
+      properties: 'pequeña, dulce, esponjosa, con forma de concha',
+      associations: 'bizcocho, horno, azúcar, café'
+    },
+    phonetic: { first_sound: '/m/', syllables: 4, rhyming_word: 'lena', first_phonemes: '/ma/' },
+    difficulty: 2,
+    tags: ['dulce', 'repostería'],
+    sentence: 'Tomé café con una _____ para merendar.',
+    opposite: '',
+    synonyms: ['bizcocho', 'madalena']
+  },
 
   // ==========================================
-  // HOUSEHOLD (49 words)
+  // HOUSEHOLD (56 words)
   // ==========================================
   {
     id: 'es-household-001',
@@ -2952,6 +3288,153 @@ export const WORDS_ES: Word[] = [
     opposite: '',
     synonyms: ['casilla', 'apartado']
   },
+  {
+    id: 'es-household-050',
+    word: 'bombilla',
+    category: 'household',
+    language: 'es',
+    image_url: '/images/words/bombilla.webp',
+    definition: 'Objeto que da luz cuando se enciende.',
+    features: {
+      category: 'iluminación',
+      function: 'dar luz',
+      location: 'lámpara, techo, lámpara',
+      properties: 'de cristal, pequeña, brillante, redonda',
+      associations: 'luz, lámpara, interruptor, brillo'
+    },
+    phonetic: { first_sound: '/b/', syllables: 3, rhyming_word: 'illa', first_phonemes: '/bo/' },
+    difficulty: 1,
+    tags: ['iluminación', 'eléctrico'],
+    sentence: 'La _____ del salón se fundió y quedó oscuro.',
+    opposite: '',
+    synonyms: ['foco', 'lámpara']
+  },
+  {
+    id: 'es-household-051',
+    word: 'enchufe',
+    category: 'household',
+    language: 'es',
+    image_url: '/images/words/enchufe.webp',
+    definition: 'Agujero en la pared donde se conectan los aparatos eléctricos.',
+    features: {
+      category: 'instalación eléctrica',
+      function: 'conectar aparatos a la electricidad',
+      location: 'pared, cocina, salón',
+      properties: 'tiene agujeros, está en la pared, peligroso',
+      associations: 'electricidad, cable, clavija, corriente'
+    },
+    phonetic: { first_sound: '/e/', syllables: 3, rhyming_word: 'chufo', first_phonemes: '/en/' },
+    difficulty: 2,
+    tags: ['eléctrico', 'pared'],
+    sentence: 'Conecta el cargador en el _____ de la pared.',
+    opposite: '',
+    synonyms: ['toma de corriente', 'tomacorriente']
+  },
+  {
+    id: 'es-household-052',
+    word: 'desagüe',
+    category: 'household',
+    language: 'es',
+    image_url: '/images/words/desague.webp',
+    definition: 'Agujero por donde se va el agua sucia.',
+    features: {
+      category: 'instalación de agua',
+      function: 'eliminar agua sucia',
+      location: 'fregadero, ducha, lavabo',
+      properties: 'agujero, tubo, está abajo',
+      associations: 'agua, tubo, fregadero, lavabo'
+    },
+    phonetic: { first_sound: '/d/', syllables: 3, rhyming_word: 'hue', first_phonemes: '/de/' },
+    difficulty: 2,
+    tags: ['fontanería', 'baño'],
+    sentence: 'El _____ del fregadero está atascado.',
+    opposite: '',
+    synonyms: ['sumidero', 'desfogue']
+  },
+  {
+    id: 'es-household-053',
+    word: 'baldosa',
+    category: 'household',
+    language: 'es',
+    image_url: '/images/words/baldosa.webp',
+    definition: 'Pieza cuadrada de cerámica que cubre el suelo.',
+    features: {
+      category: 'revestimiento',
+      function: 'cubrir el suelo o la pared',
+      location: 'suelo, pared, baño, cocina',
+      properties: 'cuadrada, plana, de cerámica, lisa',
+      associations: 'suelo, cerámica, piso, azulejo'
+    },
+    phonetic: { first_sound: '/b/', syllables: 3, rhyming_word: 'osa', first_phonemes: '/ba/' },
+    difficulty: 2,
+    tags: ['suelo', 'cerámica'],
+    sentence: 'El suelo del baño tiene _____ blancas.',
+    opposite: '',
+    synonyms: ['losa', 'azulejo']
+  },
+  {
+    id: 'es-household-054',
+    word: 'azulejo',
+    category: 'household',
+    language: 'es',
+    image_url: '/images/words/azulejo.webp',
+    definition: 'Pieza de cerámica esmaltada que cubre paredes y suelos.',
+    features: {
+      category: 'revestimiento',
+      function: 'decorar y proteger paredes',
+      location: 'pared, baño, cocina',
+      properties: 'cuadrado, brillante, decorado, de cerámica',
+      associations: 'pared, cerámica, baño, decoración'
+    },
+    phonetic: { first_sound: '/a/', syllables: 4, rhyming_word: 'viejo', first_phonemes: '/a/' },
+    difficulty: 2,
+    tags: ['pared', 'cerámica'],
+    sentence: 'La cocina tiene _____ blancos con dibujos azules.',
+    opposite: '',
+    synonyms: ['baldosa', 'mosaico']
+  },
+  {
+    id: 'es-household-055',
+    word: 'persiana',
+    category: 'household',
+    language: 'es',
+    image_url: '/images/words/persiana.webp',
+    definition: 'Láminas de madera o metal que cubren la ventana.',
+    features: {
+      category: 'cubierta de ventana',
+      function: 'bloquear la luz, dar privacidad',
+      location: 'ventana, balcón',
+      properties: 'tiene láminas, se sube y baja, de madera o plástico',
+      associations: 'ventana, luz, sol, cortina'
+    },
+    phonetic: { first_sound: '/p/', syllables: 3, rhyming_word: 'semana', first_phonemes: '/pe/' },
+    difficulty: 2,
+    tags: ['ventana', 'cubierta'],
+    sentence: 'Bajó la _____ para que no entrara el sol.',
+    opposite: '',
+    synonyms: ['estor', 'veneciana']
+  },
+  {
+    id: 'es-household-056',
+    word: 'fregadero',
+    category: 'household',
+    language: 'es',
+    image_url: '/images/words/fregadero.webp',
+    definition: 'Pila de la cocina donde se lavan los platos.',
+    features: {
+      category: 'mueble de cocina',
+      function: 'lavar platos y alimentos',
+      location: 'cocina, encimera',
+      properties: 'hondo, de acero, tiene grifo',
+      associations: 'plato, agua, cocina, jabón'
+    },
+    phonetic: { first_sound: '/f/', syllables: 4, rhyming_word: 'banquero', first_phonemes: '/fre/' },
+    difficulty: 2,
+    tags: ['cocina', 'agua'],
+    sentence: 'Lavé los platos en el _____ de la cocina.',
+    opposite: '',
+    synonyms: ['pila', 'lavabo']
+  },
 
   // ==========================================
   // BODY PARTS (25 words)
@@ -3907,7 +4390,7 @@ export const WORDS_ES: Word[] = [
   },
 
   // ==========================================
-  // VEHICLES (12 words)
+  // VEHICLES (20 words)
   // ==========================================
   {
     id: 'es-vehicle-001',
@@ -4054,7 +4537,7 @@ export const WORDS_ES: Word[] = [
     tags: ['transporte', 'motor'],
     sentence: 'Siempre lleva casco cuando monta en _____.',
     opposite: '',
-    synonyms: ['motocicleta', 'moto']
+    synonyms: ['motocicleta']
   },
   {
     id: 'es-vehicle-008',
@@ -4092,7 +4575,7 @@ export const WORDS_ES: Word[] = [
       associations: 'hospital, sirena, emergencia, médico'
     },
     phonetic: { first_sound: '/a/', syllables: 4, rhyming_word: 'abundancia', first_phonemes: '/am/' },
-    difficulty: 4,
+    difficulty: 3,
     tags: ['emergencia', 'médico'],
     sentence: 'La _____ llegó rápidamente al lugar del accidente.',
     opposite: '',
@@ -4134,11 +4617,11 @@ export const WORDS_ES: Word[] = [
       associations: 'hélice, cielo, rescate, vuelo'
     },
     phonetic: { first_sound: '/e/', syllables: 5, rhyming_word: 'astero', first_phonemes: '/e/' },
-    difficulty: 5,
+    difficulty: 3,
     tags: ['transporte', 'aéreo'],
     sentence: 'El _____ sobrevoló la zona para rescatar a los montañeros.',
     opposite: '',
-    synonyms: ['helicóptero', 'quiróptero']
+    synonyms: ['quiróptero']
   },
   {
     id: 'es-vehicle-012',
@@ -4160,6 +4643,174 @@ export const WORDS_ES: Word[] = [
     sentence: 'Tomo el _____ todos los días para ir al trabajo.',
     opposite: '',
     synonyms: ['ferrocarril subterráneo', 'subterráneo']
+  },
+  {
+    id: 'es-vehicle-013',
+    word: 'patinete',
+    category: 'vehicles',
+    language: 'es',
+    image_url: '/images/words/patinete.webp',
+    definition: 'Tabla con ruedas que se mueve empujando con un pie.',
+    features: {
+      category: 'vehículo pequeño',
+      function: 'transporte personal, divertirse',
+      location: 'acera, parque, calle',
+      properties: 'dos ruedas, pequeño, sin motor',
+      associations: 'rueda, calle, patinar, diversión'
+    },
+    phonetic: { first_sound: '/p/', syllables: 3, rhyming_word: 'billete', first_phonemes: '/pa/' },
+    difficulty: 2,
+    tags: ['transporte', 'recreativo'],
+    sentence: 'El niño va al parque en _____.',
+    opposite: '',
+    synonyms: ['patín', 'monopatín']
+  },
+  {
+    id: 'es-vehicle-014',
+    word: 'tractor',
+    category: 'vehicles',
+    language: 'es',
+    image_url: '/images/words/tractor.webp',
+    definition: 'Vehículo grande usado en el campo para trabajar la tierra.',
+    features: {
+      category: 'vehículo agrícola',
+      function: 'arar tierra, trabajar el campo',
+      location: 'campo, granja, finca',
+      properties: 'grande, ruedas grandes, fuerte',
+      associations: 'campo, granja, tierra, agricultura'
+    },
+    phonetic: { first_sound: '/t/', syllables: 2, rhyming_word: 'actor', first_phonemes: '/tra/' },
+    difficulty: 1,
+    tags: ['agricultura', 'trabajo'],
+    sentence: 'El _____ ara la tierra para sembrar.',
+    opposite: '',
+    synonyms: ['máquina agrícola']
+  },
+  {
+    id: 'es-vehicle-015',
+    word: 'globo',
+    category: 'vehicles',
+    language: 'es',
+    image_url: '/images/words/globo.webp',
+    definition: 'Esfera grande llena de aire caliente que vuela por el cielo.',
+    features: {
+      category: 'vehículo aéreo',
+      function: 'volar, transportar personas por el aire',
+      location: 'cielo, aire',
+      properties: 'redondo, grande, vuela, colorido',
+      associations: 'aire, cielo, vuelo, cesta'
+    },
+    phonetic: { first_sound: '/g/', syllables: 2, rhyming_word: 'lobo', first_phonemes: '/glo/' },
+    difficulty: 1,
+    tags: ['aéreo', 'recreativo'],
+    sentence: 'El _____ aerostático volaba sobre las montañas.',
+    opposite: '',
+    synonyms: ['globo aerostático', 'aerostato']
+  },
+  {
+    id: 'es-vehicle-016',
+    word: 'cohete',
+    category: 'vehicles',
+    language: 'es',
+    image_url: '/images/words/cohete.webp',
+    definition: 'Vehículo que viaja al espacio muy rápido.',
+    features: {
+      category: 'vehículo espacial',
+      function: 'viajar al espacio, lanzar satélites',
+      location: 'espacio, base espacial',
+      properties: 'muy rápido, largo, tiene fuego en la base',
+      associations: 'espacio, astronauta, fuego, luna'
+    },
+    phonetic: { first_sound: '/k/', syllables: 3, rhyming_word: 'planea', first_phonemes: '/ko/' },
+    difficulty: 2,
+    tags: ['espacio', 'ciencia'],
+    sentence: 'El _____ despegó hacia la luna.',
+    opposite: '',
+    synonyms: ['nave espacial', 'lanzadera']
+  },
+  {
+    id: 'es-vehicle-017',
+    word: 'submarino',
+    category: 'vehicles',
+    language: 'es',
+    image_url: '/images/words/submarino.webp',
+    definition: 'Barco que puede navegar debajo del agua.',
+    features: {
+      category: 'vehículo marítimo',
+      function: 'navegar bajo el agua',
+      location: 'mar, océano, debajo del agua',
+      properties: 'grande, alargado, va bajo el agua',
+      associations: 'mar, agua, periscopio, profundidad'
+    },
+    phonetic: { first_sound: '/s/', syllables: 4, rhyming_word: 'camino', first_phonemes: '/su/' },
+    difficulty: 2,
+    tags: ['marítimo', 'militar'],
+    sentence: 'El _____ exploró el fondo del océano.',
+    opposite: '',
+    synonyms: ['sumergible', 'navío submarino']
+  },
+  {
+    id: 'es-vehicle-018',
+    word: 'canoa',
+    category: 'vehicles',
+    language: 'es',
+    image_url: '/images/words/canoa.webp',
+    definition: 'Barca pequeña y estrecha que se mueve con remos.',
+    features: {
+      category: 'embarcación pequeña',
+      function: 'navegar en ríos y lagos',
+      location: 'río, lago, aguas tranquilas',
+      properties: 'pequeña, estrecha, de madera o plástico',
+      associations: 'remo, río, agua, lago'
+    },
+    phonetic: { first_sound: '/k/', syllables: 3, rhyming_word: 'hoa', first_phonemes: '/ka/' },
+    difficulty: 2,
+    tags: ['acuático', 'recreativo'],
+    sentence: 'Remamos la _____ por el río.',
+    opposite: '',
+    synonyms: ['piragua', 'barca']
+  },
+  {
+    id: 'es-vehicle-019',
+    word: 'velero',
+    category: 'vehicles',
+    language: 'es',
+    image_url: '/images/words/velero.webp',
+    definition: 'Barco que se mueve con el viento usando velas.',
+    features: {
+      category: 'embarcación a vela',
+      function: 'navegar con el viento',
+      location: 'mar, lago, costa',
+      properties: 'tiene velas blancas, usa el viento',
+      associations: 'vela, viento, mar, navegación'
+    },
+    phonetic: { first_sound: '/b/', syllables: 3, rhyming_word: 'banquero', first_phonemes: '/be/' },
+    difficulty: 2,
+    tags: ['marítimo', 'deporte'],
+    sentence: 'El _____ cruzó el mar gracias al viento.',
+    opposite: '',
+    synonyms: ['barco de vela', 'yate']
+  },
+  {
+    id: 'es-vehicle-020',
+    word: 'teleférico',
+    category: 'vehicles',
+    language: 'es',
+    image_url: '/images/words/teleferico.webp',
+    definition: 'Cabina que cuelga de cables y sube por las montañas.',
+    features: {
+      category: 'transporte elevado',
+      function: 'subir montañas, transportar personas en altura',
+      location: 'montaña, estación de esquí',
+      properties: 'cuelga de cables, cabina, va por el aire',
+      associations: 'montaña, cable, altura, vista'
+    },
+    phonetic: { first_sound: '/t/', syllables: 5, rhyming_word: 'érico', first_phonemes: '/te/' },
+    difficulty: 3,
+    tags: ['transporte', 'turismo'],
+    sentence: 'Tomamos el _____ para subir a la montaña.',
+    opposite: '',
+    synonyms: ['cabina', 'telesilla']
   },
 
   // ==========================================
@@ -4419,7 +5070,7 @@ export const WORDS_ES: Word[] = [
   },
 
   // ==========================================
-  // PROFESSIONS (13 words)
+  // PROFESSIONS (22 words)
   // ==========================================
   {
     id: 'es-profession-001',
@@ -4482,7 +5133,7 @@ export const WORDS_ES: Word[] = [
     tags: ['emergencia', 'profesión'],
     sentence: 'El _____ apagó el incendio rápidamente.',
     opposite: '',
-    synonyms: ['bombero']
+    synonyms: ['extintor', 'salvador']
   },
   {
     id: 'es-profession-004',
@@ -4583,7 +5234,7 @@ export const WORDS_ES: Word[] = [
       associations: 'madera, mueble, taller, serrín'
     },
     phonetic: { first_sound: '/k/', syllables: 4, rhyming_word: 'cintero', first_phonemes: '/kar/' },
-    difficulty: 4,
+    difficulty: 2,
     tags: ['artesanía', 'profesión'],
     sentence: 'El _____ fabricó una mesa de roble preciosa.',
     opposite: '',
@@ -4604,7 +5255,7 @@ export const WORDS_ES: Word[] = [
       associations: 'electricidad, cable, luz, enchufe'
     },
     phonetic: { first_sound: '/e/', syllables: 5, rhyming_word: 'artista', first_phonemes: '/e/' },
-    difficulty: 5,
+    difficulty: 3,
     tags: ['técnico', 'profesión'],
     sentence: 'El _____ reparó la instalación eléctrica de la cocina.',
     opposite: '',
@@ -4625,7 +5276,7 @@ export const WORDS_ES: Word[] = [
       associations: 'tubería, grifo, agua, llave'
     },
     phonetic: { first_sound: '/f/', syllables: 4, rhyming_word: 'banquero', first_phonemes: '/fon/' },
-    difficulty: 4,
+    difficulty: 3,
     tags: ['técnico', 'profesión'],
     sentence: 'El _____ reparó la tubería que goteaba.',
     opposite: '',
@@ -4694,6 +5345,195 @@ export const WORDS_ES: Word[] = [
     opposite: '',
     synonyms: ['agricultor', 'campesino']
   },
+  {
+    id: 'es-profession-014',
+    word: 'peluquero',
+    category: 'professions',
+    language: 'es',
+    image_url: '/images/words/peluquero.webp',
+    definition: 'Persona que corta y peina el cabello.',
+    features: {
+      category: 'profesión de servicios',
+      function: 'cortar y arreglar el pelo',
+      location: 'peluquería, salón de belleza',
+      properties: 'usa tijeras, peine, secador',
+      associations: 'pelo, tijeras, champú, peine'
+    },
+    phonetic: { first_sound: '/p/', syllables: 4, rhyming_word: 'banquero', first_phonemes: '/pe/' },
+    difficulty: 2,
+    tags: ['servicios', 'profesión'],
+    sentence: 'El _____ me cortó el pelo muy corto.',
+    opposite: '',
+    synonyms: ['barbero', 'estilista']
+  },
+  {
+    id: 'es-profession-015',
+    word: 'carnicero',
+    category: 'professions',
+    language: 'es',
+    image_url: '/images/words/carnicero.webp',
+    definition: 'Persona que vende carne en la tienda.',
+    features: {
+      category: 'profesión de comercio',
+      function: 'cortar y vender carne',
+      location: 'carnicería, mercado',
+      properties: 'usa cuchillo, delantal, trabaja con carne',
+      associations: 'carne, cuchillo, mercado, filete'
+    },
+    phonetic: { first_sound: '/k/', syllables: 4, rhyming_word: 'banquero', first_phonemes: '/ka/' },
+    difficulty: 2,
+    tags: ['comercio', 'profesión'],
+    sentence: 'El _____ me preparó un filete de ternera.',
+    opposite: '',
+    synonyms: ['charcutero']
+  },
+  {
+    id: 'es-profession-016',
+    word: 'jardinero',
+    category: 'professions',
+    language: 'es',
+    image_url: '/images/words/jardinero.webp',
+    definition: 'Persona que cuida y mantiene los jardines.',
+    features: {
+      category: 'profesión de servicios',
+      function: 'cuidar plantas y jardines',
+      location: 'jardín, parque, finca',
+      properties: 'usa herramientas de jardinería, guantes',
+      associations: 'planta, flores, césped, regadera'
+    },
+    phonetic: { first_sound: '/x/', syllables: 4, rhyming_word: 'banquero', first_phonemes: '/xa/' },
+    difficulty: 2,
+    tags: ['naturaleza', 'profesión'],
+    sentence: 'El _____ regó todas las plantas del parque.',
+    opposite: '',
+    synonyms: ['horticultor', 'paisajista']
+  },
+  {
+    id: 'es-profession-017',
+    word: 'taxista',
+    category: 'professions',
+    language: 'es',
+    image_url: '/images/words/taxista.webp',
+    definition: 'Persona que conduce un taxi para transportar pasajeros.',
+    features: {
+      category: 'profesión de transporte',
+      function: 'transportar personas en taxi',
+      location: 'calle, ciudad, aeropuerto',
+      properties: 'conduce taxi, conoce la ciudad',
+      associations: 'taxi, volante, pasajero, ciudad'
+    },
+    phonetic: { first_sound: '/t/', syllables: 3, rhyming_word: 'artista', first_phonemes: '/ta/' },
+    difficulty: 2,
+    tags: ['transporte', 'profesión'],
+    sentence: 'El _____ me llevó al aeropuerto.',
+    opposite: '',
+    synonyms: ['conductor de taxi', 'chofer']
+  },
+  {
+    id: 'es-profession-018',
+    word: 'cantante',
+    category: 'professions',
+    language: 'es',
+    image_url: '/images/words/cantante.webp',
+    definition: 'Persona que canta canciones como profesión.',
+    features: {
+      category: 'profesión artística',
+      function: 'cantar, entretener con música',
+      location: 'escenario, estudio, teatro',
+      properties: 'tiene buena voz, usa micrófono',
+      associations: 'música, canción, voz, escenario'
+    },
+    phonetic: { first_sound: '/k/', syllables: 3, rhyming_word: 'talante', first_phonemes: '/ka/' },
+    difficulty: 2,
+    tags: ['arte', 'música'],
+    sentence: 'La _____ cantó una canción muy bonita.',
+    opposite: '',
+    synonyms: ['vocalista', 'intérprete']
+  },
+  {
+    id: 'es-profession-019',
+    word: 'periodista',
+    category: 'professions',
+    language: 'es',
+    image_url: '/images/words/periodista.webp',
+    definition: 'Persona que investiga y escribe noticias.',
+    features: {
+      category: 'profesión de comunicación',
+      function: 'informar, investigar noticias',
+      location: 'oficina, televisión, periódico',
+      properties: 'escribe, pregunta, investiga',
+      associations: 'noticia, periódico, cámara, reportaje'
+    },
+    phonetic: { first_sound: '/p/', syllables: 4, rhyming_word: 'artista', first_phonemes: '/pe/' },
+    difficulty: 2,
+    tags: ['comunicación', 'profesión'],
+    sentence: 'La _____ entrevistó al alcalde.',
+    opposite: '',
+    synonyms: ['reportero', 'redactor']
+  },
+  {
+    id: 'es-profession-020',
+    word: 'abogado',
+    category: 'professions',
+    language: 'es',
+    image_url: '/images/words/abogado.webp',
+    definition: 'Persona que defiende a otros en asuntos legales.',
+    features: {
+      category: 'profesión legal',
+      function: 'defender, asesorar legalmente',
+      location: 'juzgado, bufete, oficina',
+      properties: 'conoce las leyes, argumenta, defiende',
+      associations: 'ley, juzgado, justicia, tribunal'
+    },
+    phonetic: { first_sound: '/a/', syllables: 4, rhyming_word: 'malvado', first_phonemes: '/a/' },
+    difficulty: 2,
+    tags: ['legal', 'profesión'],
+    sentence: 'El _____ defendió a su cliente en el juicio.',
+    opposite: '',
+    synonyms: ['letrado', 'jurista']
+  },
+  {
+    id: 'es-profession-021',
+    word: 'arquitecto',
+    category: 'professions',
+    language: 'es',
+    image_url: '/images/words/arquitecto.webp',
+    definition: 'Persona que diseña edificios y casas.',
+    features: {
+      category: 'profesión técnica',
+      function: 'diseñar edificios y construcciones',
+      location: 'oficina, obra, estudio',
+      properties: 'dibuja planos, usa regla, calcula',
+      associations: 'edificio, plano, construcción, diseño'
+    },
+    phonetic: { first_sound: '/a/', syllables: 4, rhyming_word: 'perfecto', first_phonemes: '/aɾ/' },
+    difficulty: 2,
+    tags: ['construcción', 'profesión'],
+    sentence: 'El _____ diseñó una casa muy moderna.',
+    opposite: '',
+    synonyms: ['proyectista', 'diseñador']
+  },
+  {
+    id: 'es-profession-022',
+    word: 'veterinario',
+    category: 'professions',
+    language: 'es',
+    image_url: '/images/words/veterinario.webp',
+    definition: 'Médico que cura a los animales.',
+    features: {
+      category: 'profesión sanitaria',
+      function: 'curar animales, cuidar su salud',
+      location: 'clínica veterinaria, granja',
+      properties: 'examina animales, da vacunas, receta medicinas',
+      associations: 'animal, perro, gato, vacuna'
+    },
+    phonetic: { first_sound: '/b/', syllables: 5, rhyming_word: 'sanitario', first_phonemes: '/be/' },
+    difficulty: 2,
+    tags: ['sanidad', 'animales'],
+    sentence: 'El _____ curó a mi perro de la herida.',
+    opposite: '',
+    synonyms: ['médico veterinario']
+  },
 
   // ==========================================
   // COLORS (11 words)
@@ -4759,7 +5599,7 @@ export const WORDS_ES: Word[] = [
     tags: ['color', 'común'],
     sentence: 'Las hojas de los árboles son de color _____.',
     opposite: '',
-    synonyms: ['esmeralda', 'verde']
+    synonyms: ['esmeralda']
   },
   {
     id: 'es-color-004',
@@ -4822,7 +5662,7 @@ export const WORDS_ES: Word[] = [
     tags: ['color', 'común'],
     sentence: 'La nieve cae _____ del cielo.',
     opposite: 'negro',
-    synonyms: ['blanco', 'pálido']
+    synonyms: ['pálido']
   },
   {
     id: 'es-color-007',
@@ -4906,7 +5746,7 @@ export const WORDS_ES: Word[] = [
     tags: ['color', 'común'],
     sentence: 'El tronco del árbol es de color _____.',
     opposite: '',
-    synonyms: ['castaño', 'marrón']
+    synonyms: ['castaño']
   },
   {
     id: 'es-color-011',
@@ -4994,7 +5834,7 @@ export const WORDS_ES: Word[] = [
     tags: ['acción', 'básica', 'común'],
     sentence: 'Necesito _____ ocho horas para descansar bien.',
     opposite: 'despertar',
-    synonyms: ['descansar', 'snooze']
+    synonyms: ['descansar', 'dormitar']
   },
   {
     id: 'es-action-004',
@@ -5225,7 +6065,7 @@ export const WORDS_ES: Word[] = [
     tags: ['acción', 'movimiento'],
     sentence: 'Los pájaros _____ sobre los árboles.',
     opposite: '',
-    synonyms: ['planeasr', 'surcar']
+    synonyms: ['planear', 'surcar']
   },
   {
     id: 'es-action-015',
@@ -5351,7 +6191,7 @@ export const WORDS_ES: Word[] = [
     tags: ['acción', 'afecto'],
     sentence: 'El padre _____ a su hija en la frente.',
     opposite: '',
-    synonyms: ['oscular']
+    synonyms: ['dar un beso']
   },
   {
     id: 'es-action-021',
@@ -5435,7 +6275,7 @@ export const WORDS_ES: Word[] = [
     tags: ['acción', 'mental'],
     sentence: 'No puedo _____ dónde dejé las llaves.',
     opposite: '',
-    synonyms: ['memorizar', 'reminiscer']
+    synonyms: ['memorizar', 'evocar']
   },
   {
     id: 'es-action-025',
@@ -5456,7 +6296,7 @@ export const WORDS_ES: Word[] = [
     tags: ['acción', 'mental'],
     sentence: 'No vayas a _____ traer el pastel de cumpleaños.',
     opposite: '',
-    synonyms: ['desmemoriar', 'ignorar']
+    synonyms: ['despistar', 'ignorar']
   },
   {
     id: 'es-action-026',
@@ -5556,7 +6396,7 @@ export const WORDS_ES: Word[] = [
       properties: 'es opuesta a cerrar, movimiento hacia afuera',
       associations: 'cerrar, puerta, llave, ventana'
     },
-    phonetic: { first_sound: '/a/,', syllables: 2, rhyming_word: 'ubrir', first_phonemes: '/a/,' },
+    phonetic: { first_sound: '/a/', syllables: 2, rhyming_word: 'ubrir', first_phonemes: '/a/' },
     difficulty: 1,
     tags: ['acción', 'movimiento'],
     sentence: '_____ la ventana para que entre aire fresco.',
@@ -5598,7 +6438,7 @@ export const WORDS_ES: Word[] = [
       properties: 'activa un mecanismo, produce luz o calor',
       associations: 'apagar, luz, interruptor, botón'
     },
-    phonetic: { first_sound: '/e/,', syllables: 3, rhyming_word: 'ender', first_phonemes: '/e/,' },
+    phonetic: { first_sound: '/e/', syllables: 3, rhyming_word: 'ender', first_phonemes: '/e/' },
     difficulty: 1,
     tags: ['acción', 'tecnología'],
     sentence: '_____ la luz del salón que está oscuro.',
@@ -5619,7 +6459,7 @@ export const WORDS_ES: Word[] = [
       properties: 'desactiva un mecanismo, quita luz o calor',
       associations: 'encender, luz, interruptor, botón'
     },
-    phonetic: { first_sound: '/a/,', syllables: 3, rhyming_word: 'pagar', first_phonemes: '/a/,' },
+    phonetic: { first_sound: '/a/', syllables: 3, rhyming_word: 'pagar', first_phonemes: '/a/' },
     difficulty: 1,
     tags: ['acción', 'tecnología'],
     sentence: '_____ la televisión antes de irte a dormir.',
@@ -5628,7 +6468,7 @@ export const WORDS_ES: Word[] = [
   },
 
   // ==========================================
-  // PLACES (15 words)
+  // PLACES (23 words)
   // ==========================================
   {
     id: 'es-place-001',
@@ -5657,7 +6497,7 @@ export const WORDS_ES: Word[] = [
     category: 'places',
     language: 'es',
     image_url: '/images/words/escuela.webp',
-    definition: 'Lugar donde se impide educación a los estudiantes.',
+    definition: 'Lugar donde se imparte educación a los estudiantes.',
     features: {
       category: 'edificio educativo',
       function: 'educar, enseñar',
@@ -5813,7 +6653,7 @@ export const WORDS_ES: Word[] = [
       associations: 'libro, lectura, silencio, estudio'
     },
     phonetic: { first_sound: '/b/', syllables: 4, rhyming_word: 'disco', first_phonemes: '/bi/' },
-    difficulty: 4,
+    difficulty: 3,
     tags: ['cultura', 'educación'],
     sentence: 'Estudio en la _____ porque hay silencio.',
     opposite: '',
@@ -5944,6 +6784,174 @@ export const WORDS_ES: Word[] = [
     sentence: 'La _____ del pueblo tiene una fuente grande.',
     opposite: '',
     synonyms: ['glorieta', 'plazoleta']
+  },
+  {
+    id: 'es-place-016',
+    word: 'farmacia',
+    category: 'places',
+    language: 'es',
+    image_url: '/images/words/farmacia.webp',
+    definition: 'Tienda donde se venden medicinas y productos de salud.',
+    features: {
+      category: 'lugar de salud',
+      function: 'vender medicinas, atender la salud',
+      location: 'calle, centro, barrio',
+      properties: 'tiene mostrador, estantes con medicinas, cruz verde',
+      associations: 'medicina, receta, doctor, salud'
+    },
+    phonetic: { first_sound: '/f/', syllables: 3, rhyming_word: 'gracia', first_phonemes: '/fa/' },
+    difficulty: 2,
+    tags: ['salud', 'tienda'],
+    sentence: 'Fui a la _____ a comprar la medicina.',
+    opposite: '',
+    synonyms: ['botica', 'droguería']
+  },
+  {
+    id: 'es-place-017',
+    word: 'aeropuerto',
+    category: 'places',
+    language: 'es',
+    image_url: '/images/words/aeropuerto.webp',
+    definition: 'Lugar grande donde despegan y aterrizan los aviones.',
+    features: {
+      category: 'lugar de transporte',
+      function: 'recibir y enviar aviones',
+      location: 'afueras de la ciudad',
+      properties: 'muy grande, tiene pistas, terminales',
+      associations: 'avión, maleta, viaje, pasaporte'
+    },
+    phonetic: { first_sound: '/a/', syllables: 4, rhyming_word: 'puerto', first_phonemes: '/a/' },
+    difficulty: 2,
+    tags: ['transporte', 'viaje'],
+    sentence: 'Llegamos al _____ dos horas antes del vuelo.',
+    opposite: '',
+    synonyms: ['aeródromo', 'terminal aérea']
+  },
+  {
+    id: 'es-place-018',
+    word: 'estación',
+    category: 'places',
+    language: 'es',
+    image_url: '/images/words/estacion.webp',
+    definition: 'Lugar donde paran los trenes o los autobuses.',
+    features: {
+      category: 'lugar de transporte',
+      function: 'parada de transporte público',
+      location: 'centro de la ciudad, cerca de vías',
+      properties: 'tiene andenes, taquillas, bancas',
+      associations: 'tren, autobús, viaje, billete'
+    },
+    phonetic: { first_sound: '/e/', syllables: 3, rhyming_word: 'razón', first_phonemes: '/es/' },
+    difficulty: 2,
+    tags: ['transporte', 'público'],
+    sentence: 'El tren llega a la _____ a las tres.',
+    opposite: '',
+    synonyms: ['terminal', 'parada']
+  },
+  {
+    id: 'es-place-019',
+    word: 'cine',
+    category: 'places',
+    language: 'es',
+    image_url: '/images/words/cine.webp',
+    definition: 'Lugar donde se proyectan películas en una pantalla grande.',
+    features: {
+      category: 'lugar de entretenimiento',
+      function: 'mostrar películas',
+      location: 'centro comercial, calle principal',
+      properties: 'butacas, pantalla grande, oscuro',
+      associations: 'película, palomitas, pantalla, butaca'
+    },
+    phonetic: { first_sound: '/θ/', syllables: 2, rhyming_word: 'fin', first_phonemes: '/θi/' },
+    difficulty: 1,
+    tags: ['entretenimiento', 'ocio'],
+    sentence: 'Fuimos al _____ a ver una película de terror.',
+    opposite: '',
+    synonyms: ['sala de cine', 'sala de proyección']
+  },
+  {
+    id: 'es-place-020',
+    word: 'teatro',
+    category: 'places',
+    language: 'es',
+    image_url: '/images/words/teatro.webp',
+    definition: 'Lugar donde los actores representan obras en vivo.',
+    features: {
+      category: 'lugar de entretenimiento',
+      function: 'presentar obras de teatro',
+      location: 'centro de la ciudad',
+      properties: 'tiene escenario, butacas, telón',
+      associations: 'actor, obra, escenario, aplausos'
+    },
+    phonetic: { first_sound: '/t/', syllables: 3, rhyming_word: 'rastro', first_phonemes: '/te/' },
+    difficulty: 2,
+    tags: ['entretenimiento', 'cultura'],
+    sentence: 'La obra de _____ empieza a las ocho.',
+    opposite: '',
+    synonyms: ['auditorio', 'escenario']
+  },
+  {
+    id: 'es-place-021',
+    word: 'museo',
+    category: 'places',
+    language: 'es',
+    image_url: '/images/words/museo.webp',
+    definition: 'Lugar donde se exhiben obras de arte o objetos históricos.',
+    features: {
+      category: 'lugar cultural',
+      function: 'exhibir arte e historia',
+      location: 'centro de la ciudad',
+      properties: 'tiene salas, cuadros, esculturas',
+      associations: 'arte, cuadro, historia, exposición'
+    },
+    phonetic: { first_sound: '/m/', syllables: 3, rhyming_word: 'teo', first_phonemes: '/mu/' },
+    difficulty: 2,
+    tags: ['cultura', 'arte'],
+    sentence: 'Visitamos el _____ de arte antiguo.',
+    opposite: '',
+    synonyms: ['galería', 'pinacoteca']
+  },
+  {
+    id: 'es-place-022',
+    word: 'barrio',
+    category: 'places',
+    language: 'es',
+    image_url: '/images/words/barrio.webp',
+    definition: 'Parte de una ciudad donde vive un grupo de personas.',
+    features: {
+      category: 'zona urbana',
+      function: 'espacio residencial',
+      location: 'dentro de la ciudad',
+      properties: 'tiene calles, casas, vecinos',
+      associations: 'vecino, calle, casa, comunidad'
+    },
+    phonetic: { first_sound: '/b/', syllables: 2, rhyming_word: 'río', first_phonemes: '/ba/' },
+    difficulty: 1,
+    tags: ['urbano', 'residencial'],
+    sentence: 'Mi _____ es tranquilo y tiene muchos árboles.',
+    opposite: '',
+    synonyms: ['zona', 'distrito']
+  },
+  {
+    id: 'es-place-023',
+    word: 'pueblo',
+    category: 'places',
+    language: 'es',
+    image_url: '/images/words/pueblo.webp',
+    definition: 'Población pequeña, más pequeña que una ciudad.',
+    features: {
+      category: 'asentamiento',
+      function: 'lugar para vivir',
+      location: 'campo, rural, fuera de la ciudad',
+      properties: 'pequeño, tranquilo, tiene plaza central',
+      associations: 'campo, plaza, iglesia, vecinos'
+    },
+    phonetic: { first_sound: '/p/', syllables: 2, rhyming_word: 'cuello', first_phonemes: '/pu/' },
+    difficulty: 1,
+    tags: ['rural', 'población'],
+    sentence: 'Mis abuelos viven en un _____ pequeño.',
+    opposite: '',
+    synonyms: ['aldea', 'villa']
   },
 
   // ==========================================
@@ -6153,7 +7161,7 @@ export const WORDS_ES: Word[] = [
       associations: 'vergüenza, rubor, culpa, pudor'
     },
     phonetic: { first_sound: '/a/', syllables: 5, rhyming_word: 'estado', first_phonemes: '/a/' },
-    difficulty: 5,
+    difficulty: 3,
     tags: ['emoción'],
     sentence: 'Se sintió _____ al equivocarse en público.',
     opposite: '',
@@ -6161,7 +7169,7 @@ export const WORDS_ES: Word[] = [
   },
 
   // ==========================================
-  // NATURE (15 words)
+  // NATURE (24 words)
   // ==========================================
   {
     id: 'es-nature-001',
@@ -6478,6 +7486,195 @@ export const WORDS_ES: Word[] = [
     opposite: '',
     synonyms: ['pasto', 'grama']
   },
+  {
+    id: 'es-nature-016',
+    word: 'volcán',
+    category: 'nature',
+    language: 'es',
+    image_url: '/images/words/volcan.webp',
+    definition: 'Montaña que expulsa lava, ceniza y gases del interior de la tierra.',
+    features: {
+      category: 'formación geológica',
+      function: 'fenómeno natural',
+      location: 'zonas sísmicas, islas, cordilleras',
+      properties: 'alto, tiene cráter, expulsa lava',
+      associations: 'erupción, lava, ceniza, fuego'
+    },
+    phonetic: { first_sound: '/b/', syllables: 2, rhyming_word: 'fan', first_phonemes: '/bo/' },
+    difficulty: 2,
+    tags: ['geología', 'fenómeno'],
+    sentence: 'El _____ entró en erupción y cubrió el cielo de ceniza.',
+    opposite: '',
+    synonyms: ['cráter', 'montaña de fuego']
+  },
+  {
+    id: 'es-nature-017',
+    word: 'cascada',
+    category: 'nature',
+    language: 'es',
+    image_url: '/images/words/cascada.webp',
+    definition: 'Corriente de agua que cae desde una gran altura.',
+    features: {
+      category: 'formación de agua',
+      function: 'fenómeno natural, embellecer el paisaje',
+      location: 'montañas, ríos, selvas',
+      properties: 'cae agua, hace ruido, es hermosa',
+      associations: 'agua, roca, montaña, río'
+    },
+    phonetic: { first_sound: '/k/', syllables: 3, rhyming_word: 'avenida', first_phonemes: '/ka/' },
+    difficulty: 2,
+    tags: ['agua', 'paisaje'],
+    sentence: 'La _____ caía desde lo alto de la montaña.',
+    opposite: '',
+    synonyms: ['salto de agua', 'caída de agua']
+  },
+  {
+    id: 'es-nature-018',
+    word: 'desierto',
+    category: 'nature',
+    language: 'es',
+    image_url: '/images/words/desierto.webp',
+    definition: 'Terreno muy seco donde casi no llueve y hay poca vegetación.',
+    features: {
+      category: 'ecosistema',
+      function: 'espacio natural',
+      location: 'África, América, Australia',
+      properties: 'seco, arenoso, caluroso de día, frío de noche',
+      associations: 'arena, calor, cactus, oasis'
+    },
+    phonetic: { first_sound: '/d/', syllables: 3, rhyming_word: 'ierto', first_phonemes: '/de/' },
+    difficulty: 2,
+    tags: ['ecosistema', 'paisaje'],
+    sentence: 'El _____ del Sahara es el más grande del mundo.',
+    opposite: '',
+    synonyms: ['yermo', 'páramo']
+  },
+  {
+    id: 'es-nature-019',
+    word: 'isla',
+    category: 'nature',
+    language: 'es',
+    image_url: '/images/words/isla.webp',
+    definition: 'Porción de tierra rodeada de agua por todas partes.',
+    features: {
+      category: 'formación geográfica',
+      function: 'territorio natural',
+      location: 'océanos, mares, ríos',
+      properties: 'rodeada de agua, puede ser pequeña o grande',
+      associations: 'playa, mar, barco, costa'
+    },
+    phonetic: { first_sound: '/i/', syllables: 2, rhyming_word: 'tila', first_phonemes: '/i/' },
+    difficulty: 1,
+    tags: ['geografía', 'paisaje'],
+    sentence: 'La _____ tiene playas de arena blanca.',
+    opposite: '',
+    synonyms: ['cayos', 'islote']
+  },
+  {
+    id: 'es-nature-020',
+    word: 'cueva',
+    category: 'nature',
+    language: 'es',
+    image_url: '/images/words/cueva.webp',
+    definition: 'Espacio hueco dentro de una roca o montaña.',
+    features: {
+      category: 'formación geológica',
+      function: 'refugio natural',
+      location: 'montañas, acantilados, tierra',
+      properties: 'oscura, húmeda, hecha de roca',
+      associations: 'oso, murciélago, piedra, exploración'
+    },
+    phonetic: { first_sound: '/k/', syllables: 2, rhyming_word: 'nueva', first_phonemes: '/ku/' },
+    difficulty: 1,
+    tags: ['geología', 'paisaje'],
+    sentence: 'Los exploradores entraron en la _____ con linternas.',
+    opposite: '',
+    synonyms: ['gruta', 'caverna']
+  },
+  {
+    id: 'es-nature-021',
+    word: 'archipiélago',
+    category: 'nature',
+    language: 'es',
+    image_url: '/images/words/archipielago.webp',
+    definition: 'Grupo de islas cercanas entre sí.',
+    features: {
+      category: 'formación geográfica',
+      function: 'territorio natural',
+      location: 'océanos, mares',
+      properties: 'varias islas, cerca entre sí, rodeadas de agua',
+      associations: 'islas, mar, navegación, costa'
+    },
+    phonetic: { first_sound: '/a/', syllables: 5, rhyming_word: 'lago', first_phonemes: '/aɾ/' },
+    difficulty: 3,
+    tags: ['geografía', 'paisaje'],
+    sentence: 'Las Baleares son un _____ en el Mediterráneo.',
+    opposite: '',
+    synonyms: ['cadena de islas', 'grupo de islas']
+  },
+  {
+    id: 'es-nature-022',
+    word: 'aurora',
+    category: 'nature',
+    language: 'es',
+    image_url: '/images/words/aurora.webp',
+    definition: 'Luz brillante que aparece en el cielo cerca de los polos.',
+    features: {
+      category: 'fenómeno natural',
+      function: 'espectáculo luminoso',
+      location: 'polo norte, polo sur, cielos',
+      properties: 'colorida, brillante, aparece de noche',
+      associations: 'luz, cielo, colores, noche, polar'
+    },
+    phonetic: { first_sound: '/a/', syllables: 3, rhyming_word: 'ahora', first_phonemes: '/au/' },
+    difficulty: 2,
+    tags: ['fenómeno', 'luz'],
+    sentence: 'La _____ boreal iluminó el cielo con colores verdes.',
+    opposite: '',
+    synonyms: ['aurora boreal', 'aurora polar']
+  },
+  {
+    id: 'es-nature-023',
+    word: 'cometa',
+    category: 'nature',
+    language: 'es',
+    image_url: '/images/words/cometa.webp',
+    definition: 'Cuerpo celeste que brilla y tiene una cola de luz.',
+    features: {
+      category: 'cuerpo celeste',
+      function: 'fenómeno astronómico',
+      location: 'espacio, cielo',
+      properties: 'brillante, tiene cola, se mueve rápido',
+      associations: 'estrella, espacio, cola, cielo nocturno'
+    },
+    phonetic: { first_sound: '/k/', syllables: 3, rhyming_word: 'meta', first_phonemes: '/ko/' },
+    difficulty: 2,
+    tags: ['astronomía', 'espacio'],
+    sentence: 'El _____ cruzó el cielo dejando una estela de luz.',
+    opposite: '',
+    synonyms: ['astro', 'cuerpo celeste']
+  },
+  {
+    id: 'es-nature-024',
+    word: 'eclipse',
+    category: 'nature',
+    language: 'es',
+    image_url: '/images/words/eclipse.webp',
+    definition: 'Cuando la luna tapa el sol o la tierra tapa la luna.',
+    features: {
+      category: 'fenómeno astronómico',
+      function: 'evento natural',
+      location: 'cielo, espacio',
+      properties: 'oscurece el cielo, temporal, espectacular',
+      associations: 'sol, luna, oscuridad, sombra'
+    },
+    phonetic: { first_sound: '/e/', syllables: 3, rhyming_word: 'trece', first_phonemes: '/ek/' },
+    difficulty: 2,
+    tags: ['astronomía', 'fenómeno'],
+    sentence: 'El _____ de sol oscureció el cielo a mediodía.',
+    opposite: '',
+    synonyms: ['ocultación', 'sombra celestial']
+  },
 
   // ==========================================
   // FAMILY (14 words)
@@ -6585,7 +7782,7 @@ export const WORDS_ES: Word[] = [
     tags: ['familia', 'común'],
     sentence: 'Mi _____ mayor vive en otra ciudad.',
     opposite: '',
-    synonyms: ['hermano', 'sibling']
+    synonyms: ['hermano de sangre']
   },
   {
     id: 'es-family-006',
@@ -6606,7 +7803,7 @@ export const WORDS_ES: Word[] = [
     tags: ['familia', 'común'],
     sentence: 'Mi _____ y yo compartimos la habitación.',
     opposite: '',
-    synonyms: ['hermana']
+    synonyms: ['hermana de sangre']
   },
   {
     id: 'es-family-007',
@@ -6669,7 +7866,7 @@ export const WORDS_ES: Word[] = [
     tags: ['familia', 'común'],
     sentence: 'Mi _____ vive en el campo y tiene una granja.',
     opposite: '',
-    synonyms: ['tío']
+    synonyms: ['tío político']
   },
   {
     id: 'es-family-010',
@@ -6690,7 +7887,7 @@ export const WORDS_ES: Word[] = [
     tags: ['familia', 'común'],
     sentence: 'Mi _____ me trajo un regalo de su viaje.',
     opposite: '',
-    synonyms: ['tía']
+    synonyms: ['tía política']
   },
   {
     id: 'es-family-011',
@@ -6831,7 +8028,7 @@ export const WORDS_ES: Word[] = [
     definition: 'Arco de colores que aparece en el cielo tras la lluvia.',
     features: {
       category: 'fenómeno óptico',
-      function: 'decoration del cielo',
+      function: 'decoración del cielo',
       location: 'cielo',
       properties: 'tiene siete colores, forma de arco',
       associations: 'lluvia, sol, colores, cielo'
@@ -6942,7 +8139,7 @@ export const WORDS_ES: Word[] = [
       associations: 'rayo, trueno, tormenta, luz'
     },
     phonetic: { first_sound: '/r/', syllables: 4, rhyming_word: 'pago', first_phonemes: '/re/' },
-    difficulty: 4,
+    difficulty: 3,
     tags: ['meteorología', 'tormenta'],
     sentence: 'El _____ iluminó todo el cielo por un instante.',
     opposite: '',

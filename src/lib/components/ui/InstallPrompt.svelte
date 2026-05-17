@@ -14,8 +14,8 @@
   onMount(() => {
     if (!browser) return;
 
-    // Check if already dismissed
-    const wasDismissed = localStorage.getItem('pwa-install-dismissed');
+    // Check if already dismissed this session
+    const wasDismissed = sessionStorage.getItem('installBannerDismissed');
     if (wasDismissed) {
       dismissed = true;
       return;
@@ -52,7 +52,7 @@
   function handleDismiss() {
     showBanner = false;
     dismissed = true;
-    localStorage.setItem('pwa-install-dismissed', 'true');
+    sessionStorage.setItem('installBannerDismissed', 'true');
   }
 </script>
 

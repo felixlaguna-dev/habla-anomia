@@ -37,7 +37,7 @@
     "select_exercise": "Selecciona un ejercicio",
     "picture_naming": {
       "name": "Nombrar imágenes",
-      "description": "Mira la imagen y di o escribe qué es",
+      "description": "Mira la imagen y elige la palabra correcta",
       "what_is_this": "¿Qué es esto?",
       "type_answer": "Escribe tu respuesta",
       "speak_answer": "Habla tu respuesta",
@@ -62,7 +62,7 @@
     },
     "phonological_cueing": {
       "name": "Pistas fonológicas",
-      "description": "Recibe pistas de sonido para adivinar la palabra",
+      "description": "Usa pistas de sonido para adivinar la palabra",
       "first_sound": "Primera sílaba: {value}",
       "syllable_count": "Número de sílabas: {value}",
       "rhyming_word": "Rima con: {value}",
@@ -77,7 +77,7 @@
     },
     "category_sorting": {
       "name": "Clasificar por categorías",
-      "description": "Clasifica las palabras en su categoría correcta",
+      "description": "Agrupa las palabras por su categoría",
       "sort_into": "Clasifica en: {category}",
       "correct": "¡Correcto!",
       "wrong": "Intenta con otra categoría",
@@ -85,7 +85,7 @@
     },
     "generative_naming": {
       "name": "Nombrar por categoría",
-      "description": "Nombra todas las palabras que puedas de una categoría",
+      "description": "Nombra todas las palabras de una categoría",
       "name_all": "Nombra todo lo que puedas de: {category}",
       "time_left": "Tiempo restante",
       "seconds": "segundos",
@@ -98,14 +98,14 @@
     },
     "word_matching": {
       "name": "Relacionar palabras",
-      "description": "Relaciona cada palabra con su significado",
+      "description": "Conecta cada palabra con su significado",
       "match_definition": "Relaciona la palabra con su definición",
       "match_word": "Relaciona la definición con su palabra",
       "select_answer": "Selecciona la respuesta correcta"
     },
     "sentence_completion": {
       "name": "Completar frases",
-      "description": "Completa la frase con la palabra adecuada",
+      "description": "Completa la frase con la palabra que falta",
       "fill_blank": "Completa el espacio en blanco",
       "complete_sentence": "Completa la frase",
       "remaining": "restantes",
@@ -118,7 +118,7 @@
     },
     "opposites_synonyms": {
       "name": "Opuestos y sinónimos",
-      "description": "Encuentra palabras opuestas o con significado parecido",
+      "description": "Encuentra palabras relacionadas",
       "opposite_of": "¿Cuál es lo opuesto de?",
       "synonym_of": "¿Qué palabra significa lo mismo que?",
       "what_means_same": "¿Qué palabra significa lo mismo?",
@@ -139,7 +139,10 @@
     "exercise_complete": "Ejercicio completado",
     "score": "Puntuación",
     "incorrect": "Incorrectas",
-    "retry_mistakes": "Reintentar errores"
+    "retry_mistakes": "Reintentar errores",
+    "very_good": "¡Muy bien!",
+    "good_job": "¡Buen trabajo!",
+    "keep_practicing": "¡Sigue practicando!"
   },
   "progress": {
     "title": "Progreso",
@@ -151,6 +154,8 @@
     "new_words": "Palabras nuevas",
     "session_history": "Historial de sesiones",
     "no_data": "Aún no hay datos. ¡Completa un ejercicio para ver tu progreso!",
+    "empty_title": "¡Empieza tu primer ejercicio!",
+    "empty_message": "Comienza a practicar y verás tu progreso aquí",
     "export": "Exportar datos",
     "import": "Importar datos",
     "clear_data": "Borrar datos",

@@ -139,7 +139,10 @@
     "exercise_complete": "Exercise complete",
     "score": "Score",
     "incorrect": "Incorrect",
-    "retry_mistakes": "Retry mistakes"
+    "retry_mistakes": "Retry mistakes",
+    "very_good": "Very good!",
+    "good_job": "Good job!",
+    "keep_practicing": "Keep practicing!"
   },
   "progress": {
     "title": "Progress",

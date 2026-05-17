@@ -8,6 +8,7 @@
   import { awaitSeedReady } from '$lib/db/words';
   import { generateSession } from '$lib/engine/session-generator';
   import { browser } from '$app/environment';
+  import { playCompleteSound } from '$lib/utils/sounds';
   import type { ExerciseType, Language, Word, AppSettings } from '$lib/types';
 
   import {
@@ -69,12 +70,23 @@
 
   onMount(initExercise);
 
+  // Focus management: move focus to heading after page loads for screen readers
+  onMount(() => {
+    setTimeout(() => {
+      const heading = document.querySelector('h1.exercise-title');
+      heading?.focus();
+    }, 100);
+  });
+
   async function handleComplete(e: { score: number; total: number; details?: Array<{ word: Word; correct: boolean }> }) {
     const { score: correct, total } = e;
     const accuracy = total > 0 ? Math.round((correct / total) * 100) : 0;
 
     results = { correct, total, accuracy };
     showResults = true;
+
+    // Play completion sound
+    playCompleteSound();
 
     // Confetti for high scores
     if (accuracy >= 80) {
@@ -122,9 +134,16 @@
 
   function getEncouragement(accuracy: number): string {
     if (accuracy >= 90) return $t('feedback.excellent');
-    if (accuracy >= 70) return $t('feedback.well_done');
-    if (accuracy >= 50) return $t('feedback.keep_going');
-    return $t('feedback.great_effort');
+    if (accuracy >= 70) return $t('feedback.very_good');
+    if (accuracy >= 50) return $t('feedback.good_job');
+    return $t('feedback.keep_practicing');
+  }
+
+  function getStarRating(accuracy: number): string {
+    if (accuracy >= 90) return '⭐⭐⭐';
+    if (accuracy >= 70) return '⭐⭐';
+    if (accuracy >= 50) return '⭐';
+    return '';
   }
 
   function getAccuracyColor(accuracy: number): string {
@@ -146,7 +165,7 @@
       </svg>
     </button>
     <div class="header-text">
-      <h1 class="exercise-title">{$t(titleKey)}</h1>
+      <h1 class="exercise-title" tabindex="-1">{$t(titleKey)}</h1>
     </div>
     <div class="header-spacer"></div>
   </header>
@@ -203,6 +222,11 @@
 
       {#if showConfetti}
         <div class="celebration-emoji" aria-hidden="true">🎉</div>
+      {/if}
+
+      <!-- Star rating -->
+      {#if getStarRating(results.accuracy)}
+        <div class="star-rating" aria-hidden="true">{getStarRating(results.accuracy)}</div>
       {/if}
 
       <!-- Large accuracy display -->
@@ -430,7 +454,13 @@
     font-size: 4rem;
     line-height: 1;
     margin-bottom: var(--space-md);
-    animation: pulse 1s ease-in-out 3;
+  }
+
+  .star-rating {
+    font-size: 2.5rem;
+    line-height: 1;
+    letter-spacing: 0.25em;
+    margin-bottom: var(--space-sm);
   }
 
   .results-title {

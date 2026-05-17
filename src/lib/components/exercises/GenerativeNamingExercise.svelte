@@ -282,6 +282,19 @@
     <div class="summary-icon">🎉</div>
     <h2 class="summary-title">{$t('feedback.exercise_complete')}</h2>
 
+    <!-- Star rating -->
+    <div class="star-rating">
+      {#if words.length > 0 && (validWordsFound.length / words.length) >= 0.9}
+        ⭐⭐⭐ {$t('feedback.excellent')}
+      {:else if words.length > 0 && (validWordsFound.length / words.length) >= 0.7}
+        ⭐⭐ {$t('feedback.very_good')}
+      {:else if words.length > 0 && (validWordsFound.length / words.length) >= 0.5}
+        ⭐ {$t('feedback.good_job')}
+      {:else}
+        {$t('feedback.keep_practicing')}
+      {/if}
+    </div>
+
     <p class="summary-score">
       {$t('feedback.score')}: {validWordsFound.length} / {words.length}
     </p>
@@ -558,6 +571,13 @@
     font-weight: 800;
     color: var(--text, #1f2937);
     margin: 0;
+  }
+
+  .star-rating {
+    font-size: var(--font-size-xl, 24px);
+    font-weight: 700;
+    text-align: center;
+    margin: var(--space-sm, 8px) 0;
   }
 
   .summary-score {

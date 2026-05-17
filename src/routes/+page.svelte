@@ -6,6 +6,7 @@
   import { getAllSettings, getStreakInfo } from '$lib/db';
   import { getSRStats, getDueWords } from '$lib/engine/spaced-repetition';
   import { getWeakCategories } from '$lib/engine/session-generator';
+  import { getAccuracyByExercise } from '$lib/db/attempts';
   import { onMount } from 'svelte';
   import { goto } from '$app/navigation';
   import { base } from '$app/paths';
@@ -46,14 +47,14 @@
 
   function getGreeting(): string {
     const hour = new Date().getHours();
-    if (hour >= 5 && hour < 12) return $t('dashboard.welcome.morning');
+    if (hour >= 6 && hour < 12) return $t('dashboard.welcome.morning');
     if (hour >= 12 && hour < 20) return $t('dashboard.welcome.afternoon');
     return $t('dashboard.welcome.evening');
   }
 
   function getGreetingEmoji(): string {
     const hour = new Date().getHours();
-    if (hour >= 5 && hour < 12) return '☀️';
+    if (hour >= 6 && hour < 12) return '☀️';
     if (hour >= 12 && hour < 20) return '👋';
     return '🌙';
   }
@@ -103,48 +104,54 @@
 
   async function buildDailyPlan() {
     const plan: PlanItem[] = [];
+    const allTypes = Object.keys(exerciseTypes);
 
-    // 1. Due SR words → Picture naming (priority)
-    if (dueCount > 0) {
-      plan.push({
-        type: 'picture-naming',
-        icon: '🖼️',
-        color: '#3b82f6',
-        label: $t('exercises.picture_naming.name'),
-        reason: $t('dashboard.review_due_words', { count: dueCount })
-      });
+    // Get exercise accuracy data from past attempts
+    const exerciseAccuracies = await getAccuracyByExercise(language);
+
+    let selectedTypes: string[];
+
+    if (exerciseAccuracies.length === 0) {
+      // New user: show first 3 exercises as defaults
+      selectedTypes = allTypes.slice(0, 3);
+    } else {
+      // Pick the 3 exercise types with lowest accuracy
+      // Build a map of exercise_type -> accuracy
+      const accMap = new Map<string, number>();
+      for (const ea of exerciseAccuracies) {
+        accMap.set(ea.exercise_type, ea.accuracy);
+      }
+      // Sort all types by accuracy (ascending), unpractised types get 0
+      selectedTypes = [...allTypes].sort((a, b) => {
+        const accA = accMap.get(a) ?? 0;
+        const accB = accMap.get(b) ?? 0;
+        return accA - accB;
+      }).slice(0, 3);
     }
 
-    // 2. Weakest categories → Semantic features
-    const weakCats = await getWeakCategories(language, 2);
-    weakCategories = weakCats;
-    if (weakCats.length > 0) {
-      plan.push({
-        type: 'semantic-features',
-        icon: '🧠',
-        color: '#8b5cf6',
-        label: $t('exercises.semantic_features.name'),
-        reason: $t('dashboard.practice_weak_category')
-      });
-    }
+    // Build reason strings for each selected type
+    const reasonMap: Record<string, string> = {
+      'picture-naming': dueCount > 0
+        ? $t('dashboard.review_due_words', { count: dueCount })
+        : $t('dashboard.phonological_practice'),
+      'semantic-features': $t('dashboard.practice_weak_category'),
+      'phonological-cueing': $t('dashboard.phonological_practice'),
+      'category-sorting': $t('dashboard.category_practice'),
+      'generative-naming': $t('dashboard.category_practice'),
+      'word-matching': $t('dashboard.phonological_practice'),
+      'sentence-completion': $t('dashboard.phonological_practice'),
+      'opposites-synonyms': $t('dashboard.practice_weak_category')
+    };
 
-    // 3. Phonological cueing (always good for anomia)
-    plan.push({
-      type: 'phonological-cueing',
-      icon: '🔤',
-      color: '#06b6d4',
-      label: $t('exercises.phonological_cueing.name'),
-      reason: $t('dashboard.phonological_practice')
-    });
-
-    // 4. Category sorting if not done today
-    if (todayCompleted < 2) {
+    for (const type of selectedTypes) {
+      const info = exerciseTypes[type];
+      if (!info) continue;
       plan.push({
-        type: 'category-sorting',
-        icon: '📂',
-        color: '#f59e0b',
-        label: $t('exercises.category_sorting.name'),
-        reason: $t('dashboard.category_practice')
+        type,
+        icon: info.icon,
+        color: info.color,
+        label: $t(`exercises.${info.key}.name`),
+        reason: reasonMap[type] || $t('dashboard.phonological_practice')
       });
     }
 

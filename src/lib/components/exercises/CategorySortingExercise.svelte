@@ -1,9 +1,10 @@
 <script lang="ts">
- import { t } from '$lib/i18n';
- import { recordAttempt } from '$lib/db/attempts';
- import { updateAfterAttempt } from '$lib/engine/spaced-repetition';
- import { base } from '$app/paths';
- import type { Word, Language, ExerciseType } from '$lib/types';
+  import { t } from '$lib/i18n';
+  import { recordAttempt } from '$lib/db/attempts';
+  import { updateAfterAttempt } from '$lib/engine/spaced-repetition';
+  import { base } from '$app/paths';
+  import { playCorrectSound, playIncorrectSound } from '$lib/utils/sounds';
+  import type { Word, Language, ExerciseType } from '$lib/types';
 
   type Props = {
     words: Word[];
@@ -62,6 +63,7 @@
 
   async function handleCorrect(category: string) {
     feedbackState = 'correct';
+    playCorrectSound();
     incorrectAttempt = false;
     score++;
     results.push({ word: currentItem, correct: true, selectedCategory: category });
@@ -90,6 +92,7 @@
 
   function handleIncorrect() {
     feedbackState = 'incorrect';
+    playIncorrectSound();
     incorrectAttempt = true;
 
     // Shake briefly, then reset so they can try again
@@ -265,6 +268,18 @@
   <div class="exercise-container summary">
     <div class="summary-icon">🎉</div>
     <h2 class="summary-title">{$t('feedback.exercise_complete')}</h2>
+    <!-- Star rating -->
+    <div class="star-rating">
+      {#if shuffledItems.length > 0 && (score / shuffledItems.length) >= 0.9}
+        ⭐⭐⭐ {$t('feedback.excellent')}
+      {:else if shuffledItems.length > 0 && (score / shuffledItems.length) >= 0.7}
+        ⭐⭐ {$t('feedback.very_good')}
+      {:else if shuffledItems.length > 0 && (score / shuffledItems.length) >= 0.5}
+        ⭐ {$t('feedback.good_job')}
+      {:else}
+        {$t('feedback.keep_practicing')}
+      {/if}
+    </div>
     <p class="summary-score">
       {$t('feedback.score')}: {score} / {shuffledItems.length}
     </p>
@@ -597,6 +612,13 @@
     font-weight: 800;
     color: var(--text, #1f2937);
     margin: 0;
+  }
+
+  .star-rating {
+    font-size: var(--font-size-xl, 24px);
+    font-weight: 700;
+    text-align: center;
+    margin: var(--space-sm, 8px) 0;
   }
 
   .summary-score {

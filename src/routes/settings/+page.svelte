@@ -2,7 +2,7 @@
   import { t, locale } from '$lib/i18n';
   import { onMount } from 'svelte';
   import { getAllSettings, setSetting } from '$lib/db';
-  import { Card, Button, ChipGroup, Modal } from '$lib/components/ui';
+  import { Card, Button, ChipGroup } from '$lib/components/ui';
   import { goto } from '$app/navigation';
   import { base } from '$app/paths';
   import { browser } from '$app/environment';
@@ -10,7 +10,8 @@
 
   let settings = $state<AppSettings | null>(null);
   let loading = $state(true);
-  let showClearModal = $state(false);
+  let deleteConfirming = $state(false);
+  let deleteConfirmTimer: ReturnType<typeof setTimeout> | null = null;
 
   const languageOptions = [
     { value: 'es', label: 'Español' },
@@ -127,11 +128,27 @@
 
   async function handleClearAll() {
     if (!browser) return;
+
+    if (!deleteConfirming) {
+      // First tap: enter confirmation mode
+      deleteConfirming = true;
+      if (deleteConfirmTimer) clearTimeout(deleteConfirmTimer);
+      deleteConfirmTimer = setTimeout(() => {
+        deleteConfirming = false;
+      }, 3000);
+      return;
+    }
+
+    // Second tap within 3 seconds: actually delete
+    deleteConfirming = false;
+    if (deleteConfirmTimer) {
+      clearTimeout(deleteConfirmTimer);
+      deleteConfirmTimer = null;
+    }
     const { db } = await import('$lib/db/database');
     await db.attempts.clear();
     await db.sessions.clear();
     await db.spacedRepetition.clear();
-    showClearModal = false;
   }
 </script>
 
@@ -334,28 +351,17 @@
         <Button variant="secondary" fullWidth onclick={handleImport} aria-label={$t('progress.import')}>
           {$t('progress.import')}
         </Button>
-        <Button variant="danger" fullWidth onclick={() => (showClearModal = true)} aria-label={$t('progress.clear_data')}>
-          {$t('progress.clear_data')}
-        </Button>
+        <button
+          class="delete-data-btn"
+          class:confirming={deleteConfirming}
+          onclick={handleClearAll}
+          aria-label={deleteConfirming ? '¿Seguro? Toca de nuevo' : $t('progress.clear_data')}
+        >
+          {deleteConfirming ? '⚠️ ¿Seguro? Toca de nuevo' : $t('progress.clear_data')}
+        </button>
       </div>
     </section>
   </section>
-{/if}
-
-{#if showClearModal}
-  <Modal onclose={() => (showClearModal = false)}>
-    <div class="modal-content">
-      <p class="modal-text">{$t('progress.confirm_clear')}</p>
-      <div class="modal-actions">
-        <Button variant="secondary" onclick={() => (showClearModal = false)} aria-label={$t('common.cancel')}>
-          {$t('common.cancel')}
-        </Button>
-        <Button variant="danger" onclick={handleClearAll} aria-label={$t('progress.clear_data')}>
-          {$t('progress.clear_data')}
-        </Button>
-      </div>
-    </div>
-  </Modal>
 {/if}
 
 <style>
@@ -568,22 +574,39 @@
     gap: var(--space-sm);
   }
 
-  /* Modal */
-  .modal-content {
-    text-align: center;
-    padding: var(--space-lg);
-  }
-
-  .modal-text {
-    font-size: var(--font-size-lg);
-    color: var(--text);
-    margin-bottom: var(--space-lg);
-    line-height: 1.5;
-  }
-
-  .modal-actions {
-    display: flex;
-    gap: var(--space-md);
+  /* Delete data button with double-tap confirm */
+  .delete-data-btn {
+    display: inline-flex;
+    align-items: center;
     justify-content: center;
+    min-height: var(--touch-min);
+    padding: var(--space-sm) var(--space-xl);
+    background: var(--error, #ef4444);
+    color: white;
+    border: none;
+    border-radius: var(--radius-full, 999px);
+    font-size: var(--font-size-lg);
+    font-weight: 600;
+    font-family: var(--font-family);
+    cursor: pointer;
+    transition: background var(--transition-fast), transform var(--transition-fast);
+    width: 100%;
+    box-sizing: border-box;
   }
+
+  .delete-data-btn:active {
+    opacity: 0.8;
+  }
+
+  .delete-data-btn.confirming {
+    animation: flashRed 0.5s ease-in-out infinite alternate;
+    background: #b91c1c;
+    font-weight: 800;
+  }
+
+  @keyframes flashRed {
+    0% { background: #b91c1c; }
+    100% { background: #ef4444; transform: scale(1.02); }
+  }
+
 </style>

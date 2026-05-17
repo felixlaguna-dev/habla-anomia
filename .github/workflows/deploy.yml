@@ -44,6 +44,8 @@ jobs:
         run: |
           # GitHub Pages needs index.html, but SvelteKit SPA outputs 200.html
           cp build/200.html build/index.html
+          # GitHub Pages serves 404.html for unmatched routes — use it as SPA fallback
+          cp build/200.html build/404.html
           # Fix manifest paths for subdirectory deployment
           if [ -f build/manifest.json ]; then
             sed -i 's|"start_url": "/"|"start_url": "/habla-anomia/"|' build/manifest.json

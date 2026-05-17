@@ -1,6 +1,7 @@
 <script lang="ts">
   import '../app.css';
   import { page } from '$app/stores';
+  import { base } from '$app/paths';
   import { t, locale } from '$lib/i18n';
   import { onMount } from 'svelte';
   import { getAllSettings, initDefaults } from '$lib/db/settings';
@@ -38,17 +39,17 @@
     }
   }
 
-  let hideNav = $derived($page.url.pathname.startsWith('/exercises/') && $page.url.pathname.split('/').length === 4 && $page.url.pathname !== '/exercises/');
+  let hideNav = $derived($page.url.pathname.startsWith(`${base}/exercises/`) && $page.url.pathname.split('/').length === 5 && $page.url.pathname !== `${base}/exercises`);
 
   const navItems = [
-    { path: '/', labelKey: 'nav.home', icon: 'home' },
-    { path: '/exercises', labelKey: 'nav.exercises', icon: 'exercises' },
-    { path: '/progress', labelKey: 'nav.progress', icon: 'progress' },
-    { path: '/settings', labelKey: 'nav.settings', icon: 'settings' }
+    { path: `${base}/`, labelKey: 'nav.home', icon: 'home' },
+    { path: `${base}/exercises`, labelKey: 'nav.exercises', icon: 'exercises' },
+    { path: `${base}/progress`, labelKey: 'nav.progress', icon: 'progress' },
+    { path: `${base}/settings`, labelKey: 'nav.settings', icon: 'settings' }
   ];
 
   function isActive(path: string): boolean {
-    if (path === '/') return $page.url.pathname === '/';
+    if (path === `${base}/`) return $page.url.pathname === `${base}/` || $page.url.pathname === base || $page.url.pathname === base + '/';
     return $page.url.pathname.startsWith(path);
   }
 </script>

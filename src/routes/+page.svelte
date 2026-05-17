@@ -8,6 +8,7 @@
   import { getWeakCategories } from '$lib/engine/session-generator';
   import { onMount } from 'svelte';
   import { goto } from '$app/navigation';
+  import { base } from '$app/paths';
   import type { Language } from '$lib/types';
 
   let totalSessions = $state(0);
@@ -151,7 +152,7 @@
   }
 
   function startExercise(type: string) {
-    goto(`/exercises/${type}`);
+    goto(`${base}/exercises/${type}`);
   }
 </script>
 

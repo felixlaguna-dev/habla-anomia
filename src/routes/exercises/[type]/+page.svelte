@@ -3,6 +3,7 @@
   import { t } from '$lib/i18n';
   import { onMount } from 'svelte';
   import { goto } from '$app/navigation';
+  import { base } from '$app/paths';
   import { getAllSettings, startSession, endSession, updateStreak } from '$lib/db';
   import { generateSession } from '$lib/engine/session-generator';
   import { browser } from '$app/environment';
@@ -105,7 +106,7 @@
   function handleCloseResults() {
     showResults = false;
     showConfetti = false;
-    goto('/');
+    goto(`${base}/`);
   }
 
   function handleRetryMistakes() {
@@ -139,7 +140,7 @@
 
 <section class="exercise-page">
   <header class="exercise-header">
-    <button class="back-btn" onclick={() => goto('/exercises')} aria-label={$t('common.back')}>
+    <button class="back-btn" onclick={() => goto(`${base}/exercises`)} aria-label={$t('common.back')}>
       <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
         <polyline points="15 18 9 12 15 6"/>
       </svg>
@@ -170,7 +171,7 @@
       <span class="error-icon" aria-hidden="true">😕</span>
       <p class="error-message">No hay palabras disponibles</p>
       <p class="error-hint">{$t('common.no_words')}</p>
-      <button class="retry-btn" onclick={() => goto('/exercises')}>
+      <button class="retry-btn" onclick={() => goto(`${base}/exercises`)}>
         ↩ {$t('common.back')}
       </button>
     </div>

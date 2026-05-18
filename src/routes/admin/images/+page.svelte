@@ -189,7 +189,7 @@
             role="checkbox"
             aria-checked={selected.has(word.word)}
           >
-            <span class="checkmark"></span>
+            <span class="checkmark">✓</span>
           </button>
 
           <div class="image-container" onclick={() => toggleDetails(word.id)} role="button" tabindex="0">
@@ -463,18 +463,15 @@
     justify-content: center;
     transition: background 0.15s, border-color 0.15s;
     backdrop-filter: blur(4px);
-  }
-
-  .select-check input:checked + .checkmark {
-    background: #3b82f6;
-    border-color: #3b82f6;
-  }
-
-  .select-check input:checked + .checkmark::after {
-    content: '✓';
-    color: white;
+    color: transparent;
     font-size: 14px;
     font-weight: 700;
+  }
+
+  .select-check[aria-checked="true"] .checkmark {
+    background: #3b82f6;
+    border-color: #3b82f6;
+    color: white;
   }
 
   .image-container {
@@ -575,12 +572,12 @@
     right: 0;
     background: var(--surface);
     border-top: 1px solid var(--border);
-    padding: 0.75rem 1rem;
+    padding: 0.75rem 1rem 5rem;
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 1rem;
-    z-index: 100;
+    z-index: 200;
     box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
     font-size: 0.9rem;
   }

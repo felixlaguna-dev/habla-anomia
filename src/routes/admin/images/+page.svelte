@@ -1,6 +1,7 @@
 <script lang="ts">
   import { WORDS_ES } from '$lib/data/words-es';
   import { onMount } from 'svelte';
+  import { resolveImageUrl } from '$lib/utils/paths';
 
   type WordLike = typeof WORDS_ES[number];
 
@@ -50,7 +51,7 @@
         imageStatus[w.image_url] = 'missing';
         imageStatus = { ...imageStatus };
       };
-      img.src = w.image_url;
+      img.src = resolveImageUrl(w.image_url);
     }
   });
 
@@ -114,7 +115,7 @@
         <div class="card-header" onclick={() => toggleDetails(word.id)} role="button" tabindex="0">
           <div class="image-container">
             <img
-              src={word.image_url}
+              src={resolveImageUrl(word.image_url)}
               alt={word.word}
               loading="lazy"
               class="word-image"

@@ -1,14 +1,5 @@
-import { base } from '$app/paths';
-
-/**
- * Resolve an image URL by prepending the SvelteKit base path.
- * Needed for GitHub Pages or other deployments where the app lives under a subdirectory.
- */
-export function resolveImageUrl(url: string): string {
-  if (!url) return '';
-  if (base && url.startsWith('/')) return base + url;
-  return url;
-}
+// URL helpers have moved to paths.ts — re-export for backwards compat
+export { resolveImageUrl, resolveUrl } from './paths';
 
 /**
  * Fisher-Yates shuffle — returns a new shuffled array without mutating the input.

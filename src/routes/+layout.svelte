@@ -7,6 +7,7 @@
   import { getAllSettings, initDefaults } from '$lib/db/settings';
   import { seedWords, resolveSeedReady } from '$lib/db/words';
   import { WORDS_ES } from '$lib/data/words-es';
+  import { manifestUrl } from '$lib/utils/paths';
   import BottomNav from '$lib/components/ui/BottomNav.svelte';
   import InstallPrompt from '$lib/components/ui/InstallPrompt.svelte';
   import OfflineIndicator from '$lib/components/ui/OfflineIndicator.svelte';
@@ -57,7 +58,7 @@
 
 <svelte:head>
   <title>Habla Anomia — {$t('app.tagline')}</title>
-  <link rel="manifest" href="/manifest.json" />
+  <link rel="manifest" href={manifestUrl()} />
   <meta name="theme-color" content="#4f46e5" />
 </svelte:head>
 

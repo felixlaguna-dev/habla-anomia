@@ -434,6 +434,7 @@
   .card-header {
     display: flex;
     flex-direction: column;
+    position: relative;
   }
 
   /* Checkbox */
@@ -441,18 +442,14 @@
     position: absolute;
     top: 6px;
     left: 6px;
-    z-index: 2;
+    z-index: 10;
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
-  }
-
-  .select-check input {
-    position: absolute;
-    opacity: 0;
-    width: 0;
-    height: 0;
+    padding: 4px;
+    background: none;
+    border: none;
   }
 
   .checkmark {

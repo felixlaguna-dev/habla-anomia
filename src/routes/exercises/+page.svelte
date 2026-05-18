@@ -3,6 +3,7 @@
   import { onMount } from 'svelte';
   import { Card } from '$lib/components/ui';
   import { goto } from '$app/navigation';
+  import { base } from '$app/paths';
   import { getAllSettings } from '$lib/db';
   import type { ExerciseType, AppSettings } from '$lib/types';
 

@@ -14,21 +14,26 @@ Free, open-source PWA for anomia (aphasia) rehabilitation.
 - PWA with Service Worker (VitePWA + Workbox)
 - i18n with Svelte stores (es primary, ca/eu/en available)
 - Web Speech API for voice input (Safari + Chrome)
+- SM-2 spaced repetition engine with daily streaks
 
 ## Key Paths
-- Exercises: `src/lib/components/exercises/` (8 types)
-- Word bank: `src/lib/data/words-es.ts` (200+ words)
-- Database: `src/lib/db/` (Dexie tables: words, attempts, sessions, settings)
+- Exercises: `src/lib/components/exercises/` (8 types, all multiple-choice / tap-to-select)
+- Word bank: `src/lib/data/words-es.ts` (~387 words, 8190 lines)
+- Database: `src/lib/db/` (Dexie tables: words, attempts, sessions, settings, spacedRepetition)
 - Engine: `src/lib/engine/` (session-generator, spaced-repetition, statistics)
-- UI components: `src/lib/components/ui/`
-- Speech: `src/lib/speech/` + `src/lib/components/speech/`
+- UI components: `src/lib/components/ui/` (14 components)
+- Speech: `src/lib/speech/` + `src/lib/components/speech/` (SpeechInput, i18n'd)
+- Utils: `src/lib/utils/sounds.ts` (Web Audio API sound effects)
 
 ## Conventions
 - Svelte 5 runes only: `$state`, `$props`, `$derived`, `$effect`
 - CSS variables from `src/lib/styles/theme.css` — no Tailwind
 - Min 56px touch targets on all interactive elements
-- All user-facing strings via `$t('key')` from i18n
+- All user-facing strings via `$t('key')` from i18n (NO hardcoded strings)
 - Language: code/comments in English, UI in Spanish
+- All exercises use multiple choice / tap-to-select (aphasia patients can't type)
+- Sound effects for correct/incorrect/completion via Web Audio API
+- Timer component: use `seconds={durationSeconds}` (NOT bare `{seconds}`)
 
 ## Wiki
 - Entity page: `~/wiki/entities/habla-anomia.md`
@@ -40,6 +45,7 @@ Free, open-source PWA for anomia (aphasia) rehabilitation.
 3. Add route mapping in `src/routes/exercises/[type]/+page.svelte`
 4. Add translations to all locale files (`src/lib/i18n/*.json`)
 5. Add exercise card to `src/routes/exercises/+page.svelte`
+6. Use multiple choice / tap-to-select (never require typing)
 
 ## Adding words
 Edit `src/lib/data/words-es.ts`. Each word needs: id, word, category, language, image_url, definition, features, phonetic, difficulty, tags, sentence, opposite, synonyms.

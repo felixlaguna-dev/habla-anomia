@@ -11,6 +11,8 @@
   let showDetails = $state<Set<string>>(new Set());
   let imageStatus = $state<Record<string, 'ok' | 'missing' | 'loading'>>({});
   let onlyMissing = $state(false);
+  let selected = $state<Set<string>>(new Set());
+  let copyFeedback = $state('');
 
   // Get unique categories
   let categories = $derived([...new Set(allWords.map(w => w.category))].sort());
@@ -25,6 +27,8 @@
     }
     return true;
   }));
+
+  let selectedCount = $derived(selected.size);
 
   let stats = $derived({
     total: allWords.length,
@@ -62,10 +66,53 @@
     showDetails = next;
   }
 
+  function toggleSelect(id: string) {
+    const next = new Set(selected);
+    if (next.has(id)) next.delete(id);
+    else next.add(id);
+    selected = next;
+  }
+
+  function selectAll() {
+    const next = new Set<string>();
+    for (const w of filtered) next.add(w.word);
+    selected = next;
+  }
+
+  function selectNone() {
+    selected = new Set();
+  }
+
+  function handleCheckboxClick(e: MouseEvent, word: string) {
+    e.stopPropagation();
+    toggleSelect(word);
+  }
+
   function statusColor(status: string): string {
     if (status === 'ok') return '#10b981';
     if (status === 'missing') return '#ef4444';
     return '#f59e0b';
+  }
+
+  async function copySelected() {
+    const names = [...selected].sort();
+    const text = names.join(', ');
+    try {
+      await navigator.clipboard.writeText(text);
+      copyFeedback = `Copied ${names.length} names!`;
+    } catch {
+      // Fallback for non-HTTPS
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      ta.style.position = 'fixed';
+      ta.style.opacity = '0';
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand('copy');
+      document.body.removeChild(ta);
+      copyFeedback = `Copied ${names.length} names!`;
+    }
+    setTimeout(() => { copyFeedback = ''; }, 2000);
   }
 </script>
 
@@ -104,16 +151,48 @@
     </select>
     <label class="toggle-label">
       <input type="checkbox" bind:checked={onlyMissing} />
-      Missing images only
+      Missing only
     </label>
+  </div>
+
+  <!-- Selection toolbar -->
+  <div class="selection-bar">
+    <div class="selection-info">
+      <strong>{selectedCount}</strong> selected
+    </div>
+    <div class="selection-actions">
+      <button class="sel-btn" onclick={selectAll}>Select all shown</button>
+      <button class="sel-btn" onclick={selectNone}>Clear</button>
+      <button
+        class="sel-btn sel-btn-primary"
+        onclick={copySelected}
+        disabled={selectedCount === 0}
+      >
+        {copyFeedback || '📋 Copy names'}
+      </button>
+    </div>
   </div>
 
   <!-- Word grid -->
   <div class="word-grid">
     {#each filtered as word (word.id)}
-      <div class="word-card" class:expanded={showDetails.has(word.id)}>
-        <div class="card-header" onclick={() => toggleDetails(word.id)} role="button" tabindex="0">
-          <div class="image-container">
+      <div
+        class="word-card"
+        class:expanded={showDetails.has(word.id)}
+        class:selected={selected.has(word.word)}
+      >
+        <div class="card-header">
+          <!-- Checkbox overlay -->
+          <button
+            class="select-check"
+            onclick={(e) => handleCheckboxClick(e, word.word)}
+            role="checkbox"
+            aria-checked={selected.has(word.word)}
+          >
+            <span class="checkmark"></span>
+          </button>
+
+          <div class="image-container" onclick={() => toggleDetails(word.id)} role="button" tabindex="0">
             <img
               src={resolveImageUrl(word.image_url)}
               alt={word.word}
@@ -122,7 +201,7 @@
             />
             <span class="status-dot" style="background: {statusColor(imageStatus[word.image_url] || 'loading')}"></span>
           </div>
-          <div class="card-info">
+          <div class="card-info" onclick={() => toggleDetails(word.id)}>
             <span class="word-name">{word.word}</span>
             <span class="word-category">{word.category}</span>
             <span class="word-difficulty">{'⭐'.repeat(word.difficulty)}</span>
@@ -165,6 +244,17 @@
   {#if filtered.length === 0}
     <div class="empty-state">
       <p>No words match your filters.</p>
+    </div>
+  {/if}
+
+  <!-- Sticky bottom bar when items selected -->
+  {#if selectedCount > 0}
+    <div class="sticky-bottom">
+      <span>{selectedCount} selected</span>
+      <button class="sel-btn sel-btn-primary" onclick={copySelected}>
+        {copyFeedback || '📋 Copy names to clipboard'}
+      </button>
+      <button class="sel-btn" onclick={selectNone}>✕ Clear</button>
     </div>
   {/if}
 </div>
@@ -213,7 +303,7 @@
   .filters {
     display: flex;
     gap: 0.75rem;
-    margin-bottom: 1rem;
+    margin-bottom: 0.75rem;
     flex-wrap: wrap;
     align-items: center;
   }
@@ -250,6 +340,63 @@
     white-space: nowrap;
   }
 
+  /* Selection toolbar */
+  .selection-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    margin-bottom: 0.75rem;
+    padding: 0.5rem 0.75rem;
+    background: var(--surface-2);
+    border-radius: 8px;
+    flex-wrap: wrap;
+  }
+
+  .selection-info {
+    font-size: 0.85rem;
+    color: var(--text);
+  }
+
+  .selection-actions {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+  }
+
+  .sel-btn {
+    padding: 0.35rem 0.75rem;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    background: var(--surface);
+    color: var(--text);
+    font-size: 0.8rem;
+    font-family: inherit;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: background 0.15s;
+  }
+
+  .sel-btn:hover:not(:disabled) {
+    background: var(--surface-2);
+  }
+
+  .sel-btn:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+  }
+
+  .sel-btn-primary {
+    background: #3b82f6;
+    color: white;
+    border-color: #3b82f6;
+  }
+
+  .sel-btn-primary:hover:not(:disabled) {
+    background: #2563eb;
+  }
+
+  /* Word grid */
   .word-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
@@ -267,11 +414,17 @@
     border: 1px solid var(--border);
     border-radius: 8px;
     overflow: hidden;
-    transition: box-shadow 0.15s;
+    transition: box-shadow 0.15s, border-color 0.15s;
+    position: relative;
   }
 
   .word-card:hover {
     box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  }
+
+  .word-card.selected {
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 2px rgba(59,130,246,0.3);
   }
 
   .word-card.expanded {
@@ -279,9 +432,52 @@
   }
 
   .card-header {
-    cursor: pointer;
     display: flex;
     flex-direction: column;
+  }
+
+  /* Checkbox */
+  .select-check {
+    position: absolute;
+    top: 6px;
+    left: 6px;
+    z-index: 2;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .select-check input {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+
+  .checkmark {
+    width: 22px;
+    height: 22px;
+    border-radius: 4px;
+    border: 2px solid rgba(255,255,255,0.8);
+    background: rgba(0,0,0,0.35);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.15s, border-color 0.15s;
+    backdrop-filter: blur(4px);
+  }
+
+  .select-check input:checked + .checkmark {
+    background: #3b82f6;
+    border-color: #3b82f6;
+  }
+
+  .select-check input:checked + .checkmark::after {
+    content: '✓';
+    color: white;
+    font-size: 14px;
+    font-weight: 700;
   }
 
   .image-container {
@@ -290,6 +486,7 @@
     aspect-ratio: 1;
     background: #f0f0f0;
     overflow: hidden;
+    cursor: pointer;
   }
 
   .word-image {
@@ -313,6 +510,7 @@
     display: flex;
     flex-direction: column;
     gap: 0.1rem;
+    cursor: pointer;
   }
 
   .word-name {
@@ -370,5 +568,23 @@
     text-align: center;
     padding: 3rem;
     color: var(--text-dim);
+  }
+
+  /* Sticky bottom bar */
+  .sticky-bottom {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: var(--surface);
+    border-top: 1px solid var(--border);
+    padding: 0.75rem 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    z-index: 100;
+    box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+    font-size: 0.9rem;
   }
 </style>

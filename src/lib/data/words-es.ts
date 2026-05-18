@@ -1919,27 +1919,7 @@ export const WORDS_ES: Word[] = [
     opposite: '',
     synonyms: ['confitura', 'jalea']
   },
-  {
-    id: 'es-food-063',
-    word: 'mostaza',
-    category: 'food',
-    language: 'es',
-    image_url: '/images/words/mostaza.webp',
-    definition: 'Salsa de sabor fuerte hecha de semillas de mostaza molidas.',
-    features: {
-      category: 'condimento',
-      function: 'aliñar, condimentar',
-      location: 'cocina, despensa, supermercado',
-      properties: 'es amarilla, fuerte, picante',
-      associations: 'ketchup, hamburguesa, perrito, salsa'
-    },
-    phonetic: { first_sound: '/m/', syllables: 3, rhyming_word: 'taza', first_phonemes: '/mo/' },
-    difficulty: 2,
-    tags: ['condimento', 'salsa'],
-    sentence: 'La _____ le da un toque picante al bocadillo.',
-    opposite: '',
-    synonyms: []
-  },
+
   {
     id: 'es-food-064',
     word: 'ketchup',
@@ -1952,7 +1932,7 @@ export const WORDS_ES: Word[] = [
       function: 'aliñar, acompañar',
       location: 'cocina, despensa, supermercado',
       properties: 'es rojo, dulce, espeso',
-      associations: 'tomate, hamburguesa, patatas, mostaza'
+      associations: 'tomate, hamburguesa, patatas, salsa'
     },
     phonetic: { first_sound: '/k/', syllables: 2, rhyming_word: 'chup', first_phonemes: '/ke/' },
     difficulty: 1,
@@ -2131,24 +2111,24 @@ export const WORDS_ES: Word[] = [
   },
   {
     id: 'es-food-073',
-    word: 'empanada',
+    word: 'empanadilla',
     category: 'food',
     language: 'es',
-    image_url: '/images/words/empanada.webp',
-    definition: 'Masa de pan rellena de carne, atún o verdura y horneada.',
+    image_url: '/images/words/empanadilla.webp',
+    definition: 'Masa fina rellena de carne, atún o verdura, frita u horneada.',
     features: {
       category: 'producto de panadería',
       function: 'alimentar como plato o aperitivo',
-      location: 'horno, panadería, cocina',
-      properties: 'redondeada, rellena, dorada por fuera',
-      associations: 'masa, relleno, horno, carne'
+      location: 'horno, freidora, cocina',
+      properties: 'pequeña, rellena, dorada por fuera',
+      associations: 'masa, relleno, fritura, carne'
     },
-    phonetic: { first_sound: '/e/', syllables: 4, rhyming_word: 'hornada', first_phonemes: '/em/' },
+    phonetic: { first_sound: '/e/', syllables: 5, rhyming_word: 'pastilla', first_phonemes: '/em/' },
     difficulty: 2,
     tags: ['panadería', 'salado'],
     sentence: 'La _____ de atún estaba muy buena.',
     opposite: '',
-    synonyms: ['pastel', 'empanadilla']
+    synonyms: ['pastel', 'empanada']
   },
   {
     id: 'es-food-074',
@@ -2870,24 +2850,24 @@ export const WORDS_ES: Word[] = [
   },
   {
     id: 'es-household-030',
-    word: 'papelera',
+    word: 'contenedor',
     category: 'household',
     language: 'es',
-    image_url: '/images/words/papelera.webp',
-    definition: 'Recipiente para tirar papeles y basura pequeña.',
+    image_url: '/images/words/contenedor.webp',
+    definition: 'Contenedor grande de basura situado en la calle o en espacios exteriores.',
     features: {
       category: 'recipiente',
-      function: 'recoger basura',
-      location: 'oficina, habitación, baño',
-      properties: 'es pequeño, de plástico o metal, tiene tapa',
-      associations: 'papel, basura, reciclaje, oficina'
+      function: 'recoger basura a gran escala',
+      location: 'calle, plaza, garaje, exterior',
+      properties: 'es grande, de plástico o metal, tiene tapa',
+      associations: 'basura, reciclaje, calle, camión de basura'
     },
-    phonetic: { first_sound: '/p/', syllables: 4, rhyming_word: 'era', first_phonemes: '/pa/' },
-    difficulty: 1,
-    tags: ['recipiente', 'oficina'],
-    sentence: 'Tira ese papel a la _____ , por favor.',
+    phonetic: { first_sound: '/k/', syllables: 4, rhyming_word: 'dor', first_phonemes: '/kon/' },
+    difficulty: 2,
+    tags: ['recipiente', 'exterior'],
+    sentence: 'Saca la bolsa de basura al _____ de la calle.',
     opposite: '',
-    synonyms: ['papelera', 'cesta']
+    synonyms: ['contenedor de basura', 'papelera']
   },
   {
     id: 'es-household-031',
@@ -3209,7 +3189,7 @@ export const WORDS_ES: Word[] = [
     word: 'llaves',
     category: 'household',
     language: 'es',
-    image_url: '/images/words/llaves_casa.webp',
+    image_url: '/images/words/llaves.webp',
     definition: 'Objetos metálicos usados para abrir y cerrar las puertas de una casa.',
     features: {
       category: 'seguridad',
@@ -4881,24 +4861,24 @@ export const WORDS_ES: Word[] = [
   },
   {
     id: 'es-tool-004',
-    word: 'llave',
+    word: 'llave inglesa',
     category: 'tools',
     language: 'es',
-    image_url: '/images/words/llave.webp',
-    definition: 'Herramienta para apretar tuercas o abrir cerraduras.',
+    image_url: '/images/words/llave_inglesa.webp',
+    definition: 'Herramienta manual ajustable usada para apretar o aflojar tuercas y tornillos.',
     features: {
       category: 'herramienta',
-      function: 'apretar tuercas, abrir cerraduras',
-      location: 'caja de herramientas, llavero',
-      properties: 'tiene forma especial para girar',
-      associations: 'cerradura, puerta, tuerca, girar'
+      function: 'apretar y aflojar tuercas y tornillos',
+      location: 'caja de herramientas, taller',
+      properties: 'tiene una boca ajustable, es de metal, tiene mango largo',
+      associations: 'tornillo, tuerca, ajustar, girar, taller'
     },
-    phonetic: { first_sound: '/ʎ/', syllables: 2, rhyming_word: 'nave', first_phonemes: '/ʎa/' },
-    difficulty: 1,
-    tags: ['herramienta', 'común'],
-    sentence: 'No encuentro la _____ de la puerta principal.',
+    phonetic: { first_sound: '/ʎ/', syllables: 5, rhyming_word: 'inglesa', first_phonemes: '/ʎa/' },
+    difficulty: 2,
+    tags: ['herramienta', 'mecánica'],
+    sentence: 'Usa la _____ para apretar esa tuerca.',
     opposite: '',
-    synonyms: ['llave inglesa', 'llave']
+    synonyms: ['llave ajustable', 'llave']
   },
   {
     id: 'es-tool-005',

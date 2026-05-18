@@ -1,8 +1,11 @@
 <script lang="ts">
   import { t } from '$lib/i18n';
+  import { goto } from '$app/navigation';
   import { recordAttempt } from '$lib/db/attempts';
   import { updateAfterAttempt } from '$lib/engine/spaced-repetition';
-  import { base } from '$app/paths';
+  import { resolveImageUrl } from '$lib/utils/exercise-helpers';
+  import { keyboardNav } from '$lib/utils/keyboard-nav';
+  import type { KeyboardNavParams } from '$lib/utils/keyboard-nav';
   import { playCorrectSound, playIncorrectSound } from '$lib/utils/sounds';
   import type { Word, Language, ExerciseType } from '$lib/types';
 
@@ -10,9 +13,10 @@
     words: Word[];
     language: Language;
     onComplete?: (results: { score: number; total: number; details: Array<{ word: Word; correct: boolean; selectedCategory: string }> }) => void;
+    onRestart?: () => void;
   };
 
-  let { words, language = 'es' as Language, onComplete }: Props = $props();
+  let { words, language = 'es' as Language, onComplete, onRestart }: Props = $props();
 
   // Derive categories from the word list
   let categories = $derived([...new Set(words.map(w => w.category))]);
@@ -45,7 +49,7 @@
 
   // Derived
   let currentItem = $derived(shuffledItems[currentIndex]);
-  let progress = $derived((currentIndex / shuffledItems.length) * 100);
+  let progress = $derived(Math.round(((currentIndex + 1) / shuffledItems.length) * 100));
   let isFinished = $derived(currentIndex >= shuffledItems.length);
 
   function selectCategory(category: string) {
@@ -172,11 +176,25 @@
    return translated === key ? category : translated;
  }
 
-  function resolveImageUrl(url: string): string {
-    if (!url) return '';
-    if (base && url.startsWith('/')) return base + url;
-    return url;
+  function handleRestart() {
+    restart();
+    onRestart?.();
   }
+
+  // Keyboard navigation params
+  // Number keys 1-N map to category indices
+  let keyboardNavParams = $derived<KeyboardNavParams>({
+    getFeedbackState: () => feedbackState,
+    optionCount: Math.min(categories.length, 4),
+    onSelectOption: (index) => {
+      if (categories[index]) selectCategory(categories[index]);
+    },
+    onConfirm: () => {
+      // No-op: auto-advances on correct
+    },
+    onSkip: skipItem,
+    isActive: !isFinished && !!currentItem,
+  });
 </script>
 
 {#if words.length === 0}
@@ -188,7 +206,7 @@
     <p class="error-text">{$t('exercises.category_sorting.need_more_categories')}</p>
   </div>
 {:else if !isFinished && currentItem}
-  <div class="exercise-container" role="region" aria-label={$t('exercises.category_sorting.name') + ': ' + (currentItem ? currentItem.word : '')}>
+  <div class="exercise-container" role="region" aria-label={$t('exercises.category_sorting.name') + ': ' + (currentItem ? currentItem.word : '')} use:keyboardNav={keyboardNavParams}>
     <!-- Progress bar -->
     <div class="progress-bar-container">
       <div class="progress-bar" style="width: {progress}%"></div>
@@ -216,7 +234,7 @@
      <div class="item-image-wrapper">
        <img
           src={resolveImageUrl(currentItem.image_url)}
-         alt=""
+         alt="Imagen del ejercicio"
           class="item-image"
           onerror={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
         />
@@ -228,11 +246,11 @@
 
     <!-- Feedback -->
     {#if feedbackState === 'correct'}
-      <div class="feedback correct" role="status">
+      <div class="feedback correct" role="status" aria-live="polite">
         ✅ {$t('exercises.category_sorting.correct')}
       </div>
     {:else if feedbackState === 'incorrect'}
-      <div class="feedback incorrect" role="status">
+      <div class="feedback incorrect" role="status" aria-live="polite">
         🔄 {$t('exercises.category_sorting.wrong')}
       </div>
     {/if}
@@ -310,10 +328,10 @@
         </div>
       {/each}
     </div>
-    <button class="back-to-exercises-btn" onclick={() => window.location.href = '/exercises'}>
+    <button class="back-to-exercises-btn" onclick={() => goto('/exercises')}>
       ← {$t('common.back_to_exercises')}
     </button>
-    <button class="restart-btn" onclick={restart}>
+    <button class="restart-btn" onclick={handleRestart}>
       🔄 {$t('common.restart')}
     </button>
   </div>

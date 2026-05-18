@@ -1,6 +1,7 @@
 <script lang="ts">
   import { onMount } from 'svelte';
   import { browser } from '$app/environment';
+  import { t } from '$lib/i18n';
 
   interface BeforeInstallPromptEvent extends Event {
     prompt(): Promise<void>;
@@ -61,11 +62,11 @@
     <div class="install-content">
       <span class="install-icon">📲</span>
       <div class="install-text">
-        <strong>Instalar Habla Anomia</strong>
-        <span>Añade la app a tu pantalla de inicio para acceso rápido</span>
+        <strong>{$t('install_prompt.title')}</strong>
+        <span>{$t('install_prompt.description')}</span>
       </div>
       <div class="install-actions">
-        <button class="btn-install" onclick={handleInstall}>Instalar</button>
+        <button class="btn-install" onclick={handleInstall}>{$t('install_prompt.install')}</button>
         <button class="btn-dismiss" onclick={handleDismiss} aria-label="Cerrar">✕</button>
       </div>
     </div>

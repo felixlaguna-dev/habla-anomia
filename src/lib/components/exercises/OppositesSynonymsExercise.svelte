@@ -1,10 +1,14 @@
 <script lang="ts">
   import { t } from '$lib/i18n';
+  import { goto } from '$app/navigation';
   import { recordAttempt } from '$lib/db/attempts';
   import { updateAfterAttempt } from '$lib/engine/spaced-repetition';
   import SpeechInput from '$lib/components/speech/SpeechInput.svelte';
   import { ProgressBar } from '$lib/components/ui';
   import { playCorrectSound, playIncorrectSound } from '$lib/utils/sounds';
+  import { getCardState } from '$lib/utils/exercise-helpers';
+  import { keyboardNav } from '$lib/utils/keyboard-nav';
+  import type { KeyboardNavParams } from '$lib/utils/keyboard-nav';
   import type { Word, Language, ExerciseType } from '$lib/types';
 
   type ExerciseMode = 'opposites' | 'synonyms';
@@ -16,6 +20,7 @@
     mode?: ExerciseMode;
     inputMode?: InputMode;
     onComplete?: (results: { score: number; total: number; details: Array<{ word: Word; correct: boolean }> }) => void;
+    onRestart?: () => void;
   };
 
   let {
@@ -24,6 +29,7 @@
     mode: modeProp = 'opposites' as ExerciseMode,
     inputMode = 'choice',
     onComplete,
+    onRestart,
   }: Props = $props();
 
   // Auto-detect mode based on available word data
@@ -55,7 +61,7 @@
 
   // Derived
   let currentWord = $derived(words[currentIndex]);
-  let progress = $derived(((currentIndex) / words.length) * 100);
+  let progress = $derived(Math.round(((currentIndex + 1) / words.length) * 100));
   let isFinished = $derived(currentIndex >= words.length);
 
   // Language code for speech
@@ -244,24 +250,28 @@
     startTime = Date.now();
   }
 
-  // Card state helper for choice mode
-  function getCardState(index: number): 'default' | 'selected' | 'correct' | 'incorrect' {
-    if (feedbackState === 'none') {
-      return selectedIndex === index ? 'selected' : 'default';
-    }
-    if (index === correctIndex) return 'correct';
-    if (index === selectedIndex && feedbackState === 'incorrect') return 'incorrect';
-    return 'default';
+  function handleRestart() {
+    restart();
+    onRestart?.();
   }
 
+  // Keyboard navigation params
+  let keyboardNavParams = $derived<KeyboardNavParams>({
+    getFeedbackState: () => feedbackState,
+    optionCount: inputMode === 'choice' ? Math.min(options.length, 4) : 0,
+    onSelectOption: (index) => handleSelectChoice(index),
+    onConfirm: () => {
+      if (feedbackState !== 'none') nextWord();
+    },
+    onSkip: skipWord,
+    isActive: !isFinished && !!currentWord,
+  });
+
   // Encouragement
-  const encouragementKeys = [
-    'feedback.correct',
-    'feedback.well_done',
-    'feedback.excellent',
-    'feedback.keep_going',
-  ];
-  let encouragement = $derived(encouragementKeys[Math.floor(Math.random() * encouragementKeys.length)]);
+  function getRandomEncouragement() {
+    const msgs = [$t('feedback.correct'), $t('feedback.well_done'), $t('feedback.excellent'), $t('feedback.keep_going'), $t('feedback.great_effort')];
+    return msgs[Math.floor(Math.random() * msgs.length)];
+  }
 </script>
 
 {#if words.length === 0}
@@ -269,7 +279,7 @@
     <p class="error-text">{$t('common.no_words')}</p>
   </div>
 {:else if !isFinished && currentWord}
-  <div class="exercise-container" role="region" aria-label={promptText}>
+  <div class="exercise-container" role="region" aria-label={promptText} use:keyboardNav={keyboardNavParams}>
     <!-- Progress bar -->
     <ProgressBar value={progress} label={`${currentIndex + 1} ${$t('common.of')} ${words.length}`} showPercentage />
 
@@ -291,12 +301,12 @@
 
     <!-- Feedback -->
     {#if feedbackState === 'correct'}
-      <div class="feedback correct" role="status">
+      <div class="feedback correct" role="status" aria-live="polite">
         <span>✅</span>
-        <span>{$t(encouragement)}</span>
+        <span>{getRandomEncouragement()}</span>
       </div>
     {:else if feedbackState === 'incorrect'}
-      <div class="feedback incorrect" role="status">
+      <div class="feedback incorrect" role="status" aria-live="polite">
         <span>❌</span>
         <span>
           {#if mode === 'opposites'}
@@ -312,7 +322,7 @@
     {#if inputMode === 'choice'}
       <div class="options-grid">
         {#each options as option, i}
-          {@const state = getCardState(i)}
+          {@const state = getCardState(i, feedbackState, selectedIndex, correctIndex)}
           <button
             class="option-card"
             class:default={state === 'default'}
@@ -383,10 +393,10 @@
         </div>
       {/each}
     </div>
-    <button class="back-to-exercises-btn" onclick={() => window.location.href = '/exercises'}>
+    <button class="back-to-exercises-btn" onclick={() => goto('/exercises')}>
       ← {$t('common.back_to_exercises')}
     </button>
-    <button class="restart-btn" onclick={restart}>
+    <button class="restart-btn" onclick={handleRestart}>
       🔄 {$t('common.restart')}
     </button>
   </div>

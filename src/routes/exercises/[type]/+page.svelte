@@ -115,6 +115,17 @@
     await updateStreak();
   }
 
+  async function handleRestart() {
+    // End current session if one is open
+    if (sessionId !== null) {
+      await endSession(sessionId, 0, 0);
+      sessionId = null;
+    }
+    // Re-initialize with a fresh session and new words
+    loading = true;
+    await initExercise();
+  }
+
   function handleCloseResults() {
     showResults = false;
     showConfetti = false;
@@ -183,6 +194,7 @@
         {words}
         language={settings?.language || 'es'}
         oncomplete={handleComplete}
+        onrestart={handleRestart}
       />
     </div>
   {:else}

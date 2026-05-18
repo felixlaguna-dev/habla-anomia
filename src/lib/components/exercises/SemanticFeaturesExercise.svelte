@@ -1,8 +1,11 @@
 <script lang="ts">
   import { t } from '$lib/i18n';
+  import { goto } from '$app/navigation';
   import { recordAttempt } from '$lib/db/attempts';
   import { updateAfterAttempt } from '$lib/engine/spaced-repetition';
-  import { base } from '$app/paths';
+  import { resolveImageUrl } from '$lib/utils/exercise-helpers';
+  import { keyboardNav } from '$lib/utils/keyboard-nav';
+  import type { KeyboardNavParams } from '$lib/utils/keyboard-nav';
   import { playCorrectSound, playIncorrectSound } from '$lib/utils/sounds';
   import type { Word, Language, ExerciseType } from '$lib/types';
 
@@ -10,9 +13,10 @@
     words: Word[];
     language: Language;
     onComplete?: (results: { score: number; total: number; details: Array<{ word: Word; correct: boolean; featuresCorrect: number }> }) => void;
+    onRestart?: () => void;
   };
 
-  let { words, language = 'es' as Language, onComplete }: Props = $props();
+  let { words, language = 'es' as Language, onComplete, onRestart }: Props = $props();
 
   // State
   let currentIndex = $state(0);
@@ -34,7 +38,7 @@
 
   // Derived
   let currentWord = $derived(words[currentIndex]);
-  let progress = $derived((currentIndex / words.length) * 100);
+  let progress = $derived(Math.round(((currentIndex + 1) / words.length) * 100));
   let isFinished = $derived(currentIndex >= words.length);
 
   // Feature prompts in order
@@ -190,10 +194,9 @@
     imageError = true;
   }
 
-  function resolveImageUrl(url: string): string {
-    if (!url) return '';
-    if (base && url.startsWith('/')) return base + url;
-    return url;
+  function handleRestart() {
+    restart();
+    onRestart?.();
   }
 
   // Generate naming word choices
@@ -207,6 +210,27 @@
       .slice(0, 3);
     return [correct, ...others].sort(() => Math.random() - 0.5);
   });
+
+  // Keyboard navigation params
+  // Adapts between feature-step and naming-step modes
+  let keyboardNavParams = $derived<KeyboardNavParams>({
+    getFeedbackState: () => feedbackState,
+    optionCount: showNamingPrompt
+      ? Math.min(namingOptions.length, 4)
+      : Math.min(currentOptions.length, 4),
+    onSelectOption: (index) => {
+      if (showNamingPrompt && namingOptions[index]) {
+        selectNamingAnswer(namingOptions[index]);
+      } else if (currentOptions[index]) {
+        selectOption(currentOptions[index]);
+      }
+    },
+    onConfirm: () => {
+      // No-op: auto-advances via timeouts
+    },
+    onSkip: skipNaming,
+    isActive: !isFinished && !!currentWord && namingCorrect === null,
+  });
 </script>
 
 {#if words.length === 0}
@@ -214,7 +238,7 @@
     <p class="error-text">{$t('common.no_words')}</p>
   </div>
 {:else if !isFinished && currentWord}
-  <div class="exercise-container" role="region" aria-label={$t('exercises.semantic_features.now_name_it')}>
+  <div class="exercise-container" role="region" aria-label={$t('exercises.semantic_features.now_name_it')} use:keyboardNav={keyboardNavParams}>
     <!-- Progress bar -->
     <div class="progress-bar-container">
       <div class="progress-bar" style="width: {progress}%"></div>
@@ -226,7 +250,7 @@
       {#if !imageError}
         <img
           src={resolveImageUrl(currentWord.image_url)}
-          alt=""
+          alt="Imagen del ejercicio"
           class="exercise-image"
           onerror={handleImageError}
         />
@@ -283,13 +307,13 @@
 
     <!-- Feedback -->
     {#if feedbackState === 'correct' && !showNamingPrompt}
-      <div class="feedback correct" role="status">
+      <div class="feedback correct" role="status" aria-live="polite">
         ✅ {$t('feedback.correct')}
       </div>
     {/if}
 
     {#if feedbackState === 'incorrect' && !showNamingPrompt}
-      <div class="feedback incorrect" role="status">
+      <div class="feedback incorrect" role="status" aria-live="polite">
         ❌ {$t('feedback.try_again')} → {currentPrompt.answer}
       </div>
     {/if}
@@ -319,11 +343,11 @@
 
     <!-- Naming feedback -->
     {#if namingCorrect === true}
-      <div class="feedback correct" role="status">
+      <div class="feedback correct" role="status" aria-live="polite">
         ✅ {$t('feedback.correct')}
       </div>
     {:else if namingCorrect === false}
-      <div class="feedback incorrect" role="status">
+      <div class="feedback incorrect" role="status" aria-live="polite">
         ❌ {$t('feedback.the_answer_was', { answer: currentWord.word })}
       </div>
     {/if}
@@ -356,10 +380,10 @@
         </div>
       {/each}
     </div>
-    <button class="back-to-exercises-btn" onclick={() => window.location.href = '/exercises'}>
+    <button class="back-to-exercises-btn" onclick={() => goto('/exercises')}>
       ← {$t('common.back_to_exercises')}
     </button>
-    <button class="restart-btn" onclick={restart}>
+    <button class="restart-btn" onclick={handleRestart}>
       🔄 {$t('common.restart')}
     </button>
   </div>

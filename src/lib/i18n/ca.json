@@ -245,5 +245,11 @@
       "aborted": "Reconeixement cancel·lat.",
       "unknown": "Error desconegut en el reconeixement de veu."
     }
+  },
+  "install_prompt": {
+    "title": "Instal·lar Habla Anomia",
+    "description": "Afegeix l'app a la teva pantalla d'inici per accés ràpid",
+    "install": "Instal·lar",
+    "dismiss": "Ara no"
   }
 }

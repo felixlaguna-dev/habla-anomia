@@ -245,5 +245,11 @@
       "aborted": "Aitortza bertan behera utzita.",
       "unknown": "Ahots-ezagutzaren errore ezezaguna."
     }
+  },
+  "install_prompt": {
+    "title": "Instalatu Habla Anomia",
+    "description": "Gehitu aplikazioa zure hasierako pantailara sarbide azkarretarako",
+    "install": "Instalatu",
+    "dismiss": "Orain ez"
   }
 }

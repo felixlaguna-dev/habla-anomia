@@ -128,7 +128,7 @@
   },
   "feedback": {
     "correct": "¡Correcto!",
-    "incorrect": "No es exactamente eso",
+    "incorrect_feedback": "No es exactamente eso",
     "try_again": "Inténtalo de nuevo",
     "well_done": "¡Muy bien!",
     "excellent": "¡Excelente!",
@@ -247,5 +247,11 @@
       "aborted": "Reconocimiento cancelado.",
       "unknown": "Error desconocido en el reconocimiento de voz."
     }
+  },
+  "install_prompt": {
+    "title": "Instalar Habla Anomia",
+    "description": "Añade la app a tu pantalla de inicio para acceso rápido",
+    "install": "Instalar",
+    "dismiss": "Ahora no"
   }
 }

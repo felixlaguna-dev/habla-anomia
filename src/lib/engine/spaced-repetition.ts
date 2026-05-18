@@ -58,16 +58,20 @@ export async function getDueWords(language: Language, count: number): Promise<st
 /**
  * Update the spaced repetition entry for a word after an attempt.
  *
- * Uses a simplified SM-2 approach:
- *   correct (boolean) → true means interval grows, false means interval resets to 1 day.
- *   Internally maps: correct=true → quality=5, correct=false → quality=0
+ * Uses SM-2 algorithm:
+ *   quality 0-5 (0=complete failure, 5=perfect recall).
+ *   Quality >= 3 → interval grows. Quality < 3 → interval resets to 1 day.
+ *
+ * Accepts either a number (0-5) or boolean (true=5, false=0) for backward compat.
  */
 export async function updateAfterAttempt(
   wordId: string,
   language: Language,
-  correct: boolean
+  qualityOrCorrect: number | boolean
 ): Promise<void> {
-  const quality = correct ? 5 : 0;
+  const quality = typeof qualityOrCorrect === 'boolean'
+    ? (qualityOrCorrect ? 5 : 0)
+    : Math.max(0, Math.min(5, qualityOrCorrect));
 
   // Try compound index first, fall back to filter
   let entry = await db.spacedRepetition
@@ -86,7 +90,7 @@ export async function updateAfterAttempt(
   if (!entry) {
     // Auto-initialise then recurse once
     await initializeSR(wordId, language);
-    return updateAfterAttempt(wordId, language, correct);
+    return updateAfterAttempt(wordId, language, qualityOrCorrect);
   }
 
   let { interval, ease_factor, repetitions } = entry;

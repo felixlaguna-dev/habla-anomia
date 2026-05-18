@@ -1,11 +1,14 @@
 <script lang="ts">
   import { t } from '$lib/i18n';
+  import { goto } from '$app/navigation';
   import { recordAttempt } from '$lib/db/attempts';
   import { updateAfterAttempt } from '$lib/engine/spaced-repetition';
   import { SpeechSynthesisService } from '$lib/speech/speech-synthesis';
   import { playCorrectSound, playIncorrectSound } from '$lib/utils/sounds';
+  import { resolveImageUrl, generateOptions, getCardState } from '$lib/utils/exercise-helpers';
+  import { keyboardNav } from '$lib/utils/keyboard-nav';
+  import type { KeyboardNavParams } from '$lib/utils/keyboard-nav';
   import SpeechInput from '$lib/components/speech/SpeechInput.svelte';
-  import { base } from '$app/paths';
   import type { Word, Language, ExerciseType } from '$lib/types';
 
   type InputMode = 'choice' | 'open';
@@ -15,9 +18,10 @@
     language: Language;
     inputMode?: InputMode;
     onComplete?: (results: { score: number; total: number; details: Array<{ word: Word; correct: boolean; cuesUsed: number }> }) => void;
+    onRestart?: () => void;
   };
 
-  let { words, language = 'es' as Language, inputMode = 'choice', onComplete }: Props = $props();
+  let { words, language = 'es' as Language, inputMode = 'choice', onComplete, onRestart }: Props = $props();
 
   // State
   let currentIndex = $state(0);
@@ -49,25 +53,15 @@
 
   // Derived
   let currentWord = $derived(words[currentIndex]);
-  let progress = $derived((currentIndex / words.length) * 100);
+  let progress = $derived(Math.round(((currentIndex + 1) / words.length) * 100));
   let isFinished = $derived(currentIndex >= words.length);
 
   let speechLang = $derived(language === 'es' ? 'es-ES' : language === 'ca' ? 'ca-ES' : language === 'eu' ? 'eu-ES' : 'en-US');
 
-  // Generate distractor options
-  function generateOptions(correct: string, allWords: Word[], count: number = 3): string[] {
-    const others = allWords
-      .filter(w => w.word !== correct)
-      .map(w => w.word)
-      .sort(() => Math.random() - 0.5)
-      .slice(0, count);
-    return [correct, ...others].sort(() => Math.random() - 0.5);
-  }
-
   // Rebuild options when word changes
   $effect(() => {
     if (currentWord && inputMode === 'choice') {
-      const opts = generateOptions(currentWord.word, words);
+      const opts = generateOptions(currentWord.word, words.map(w => w.word));
       options = opts;
       correctOptionIndex = opts.indexOf(currentWord.word);
       selectedIndex = null;
@@ -246,33 +240,29 @@
     imageError = true;
   }
 
-  function resolveImageUrl(url: string): string {
-    if (!url) return '';
-    if (base && url.startsWith('/')) return base + url;
-    return url;
+  function handleRestart() {
+    restart();
+    onRestart?.();
   }
 
-  // Card state helper for choice mode
-  function getCardState(index: number): 'default' | 'selected' | 'correct' | 'incorrect' {
-    if (feedbackState === 'none') {
-      return selectedIndex === index ? 'selected' : 'default';
-    }
-    if (index === correctOptionIndex) return 'correct';
-    if (index === selectedIndex && feedbackState === 'incorrect') return 'incorrect';
-    return 'default';
-  }
+  // Keyboard navigation params
+  let keyboardNavParams = $derived<KeyboardNavParams>({
+    getFeedbackState: () => feedbackState,
+    optionCount: inputMode === 'choice' ? Math.min(options.length, 4) : 0,
+    onSelectOption: (index) => handleSelectChoice(index),
+    onConfirm: () => {
+      if (feedbackState !== 'none' && feedbackState !== 'correct') nextWord();
+    },
+    onToggleHint: showNextCue,
+    onSkip: skipWord,
+    isActive: !isFinished && !!currentWord,
+  });
 
   // Encouragement messages
-  const encouragementPool = [
-    'feedback.correct',
-    'feedback.well_done',
-    'feedback.excellent',
-    'feedback.keep_going',
-  ];
-
-  let encouragement = $derived(
-    encouragementPool[Math.floor(Math.random() * encouragementPool.length)]
-  );
+  function getRandomEncouragement() {
+    const msgs = [$t('feedback.correct'), $t('feedback.well_done'), $t('feedback.excellent'), $t('feedback.keep_going'), $t('feedback.great_effort')];
+    return msgs[Math.floor(Math.random() * msgs.length)];
+  }
 </script>
 
 {#if words.length === 0}
@@ -280,7 +270,7 @@
     <p class="error-text">{$t('common.no_words')}</p>
   </div>
 {:else if !isFinished && currentWord}
-  <div class="exercise-container" role="region" aria-label={$t('exercises.phonological_cueing.another_hint')}>
+  <div class="exercise-container" role="region" aria-label={$t('exercises.phonological_cueing.another_hint')} use:keyboardNav={keyboardNavParams}>
     <!-- Progress bar -->
     <div class="progress-bar-container">
       <div class="progress-bar" style="width: {progress}%"></div>
@@ -292,7 +282,7 @@
       {#if !imageError}
         <img
           src={resolveImageUrl(currentWord.image_url)}
-          alt=""
+          alt="Imagen del ejercicio"
           class="exercise-image"
           onerror={handleImageError}
         />
@@ -335,12 +325,12 @@
 
     <!-- Feedback -->
     {#if feedbackState === 'correct'}
-      <div class="feedback correct" role="status">
+      <div class="feedback correct" role="status" aria-live="polite">
         <span class="feedback-icon">✅</span>
-        <span class="feedback-text">{$t(encouragement)}</span>
+        <span class="feedback-text">{getRandomEncouragement()}</span>
       </div>
     {:else if feedbackState === 'incorrect'}
-      <div class="feedback incorrect" role="status">
+      <div class="feedback incorrect" role="status" aria-live="polite">
         <span class="feedback-icon">🔄</span>
         <span class="feedback-text">{$t('feedback.try_again')}</span>
       </div>
@@ -353,7 +343,7 @@
           <!-- Multiple choice grid -->
           <div class="options-grid">
             {#each options as option, i}
-              {@const state = getCardState(i)}
+              {@const state = getCardState(i, feedbackState, selectedIndex, correctOptionIndex)}
               <button
                 class="option-card"
                 class:default={state === 'default'}
@@ -426,10 +416,10 @@
         </div>
       {/each}
     </div>
-    <button class="back-to-exercises-btn" onclick={() => window.location.href = '/exercises'}>
+    <button class="back-to-exercises-btn" onclick={() => goto('/exercises')}>
       ← {$t('common.back_to_exercises')}
     </button>
-    <button class="restart-btn" onclick={restart}>
+    <button class="restart-btn" onclick={handleRestart}>
       🔄 {$t('common.restart')}
     </button>
   </div>

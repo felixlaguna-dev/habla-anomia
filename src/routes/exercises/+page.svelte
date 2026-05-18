@@ -50,7 +50,7 @@
       {@const i18nBase = getI18nKey(type)}
       <button
         class="exercise-card-btn"
-        onclick={() => goto(`/exercises/${type}`)}
+        onclick={() => goto(`${base}/exercises/${type}`)}
         aria-label={$t(`${i18nBase}.name`)}
       >
         <Card>

@@ -245,5 +245,11 @@
       "aborted": "Recognition cancelled.",
       "unknown": "Unknown speech recognition error."
     }
+  },
+  "install_prompt": {
+    "title": "Install Habla Anomia",
+    "description": "Add this app to your home screen for quick access",
+    "install": "Install",
+    "dismiss": "Not now"
   }
 }

@@ -1,9 +1,12 @@
 <script lang="ts">
   import { t } from '$lib/i18n';
+  import { goto } from '$app/navigation';
   import { recordAttempt } from '$lib/db/attempts';
   import { updateAfterAttempt } from '$lib/engine/spaced-repetition';
   import Timer from '$lib/components/ui/Timer.svelte';
   import { ProgressBar } from '$lib/components/ui';
+  import { keyboardNav } from '$lib/utils/keyboard-nav';
+  import type { KeyboardNavParams } from '$lib/utils/keyboard-nav';
   import type { Word, Language, ExerciseType } from '$lib/types';
 
   type Props = {
@@ -12,6 +15,7 @@
     category?: string;
     durationSeconds?: number;
     onComplete?: (results: { score: number; total: number; wordsFound: string[]; details: Array<{ word: Word; correct: boolean }> }) => void;
+    onRestart?: () => void;
   };
 
   let {
@@ -20,6 +24,7 @@
     category,
     durationSeconds = 60,
     onComplete,
+    onRestart,
   }: Props = $props();
 
   // State
@@ -74,11 +79,6 @@
     const distractors = [...distractorSet].sort(() => Math.random() - 0.5).slice(0, Math.max(4, 8 - words.length));
     for (const d of distractors) {
       pool.push({ word: d, isValid: false });
-    }
-
-    // If we still don't have enough for a good pool, pad with generic decoys
-    while (pool.length < 8 && pool.length > 0) {
-      pool.push({ word: `—${pool.length}—`, isValid: false });
     }
 
     // Shuffle
@@ -197,6 +197,25 @@
     error = '';
   }
 
+  function handleRestart() {
+    restart();
+    onRestart?.();
+  }
+
+  // Keyboard navigation params
+  // Number keys 1-4 toggle the first 4 words in the pool
+  // Enter: finish early, Escape: finish early
+  let keyboardNavParams = $derived<KeyboardNavParams>({
+    getFeedbackState: () => 'none', // No feedback state in this exercise
+    optionCount: Math.min(wordPool.length, 4),
+    onSelectOption: (index) => {
+      if (wordPool[index]) toggleWord(wordPool[index].word);
+    },
+    onConfirm: finishEarly,
+    onSkip: finishEarly,
+    isActive: started && !finished,
+  });
+
   // Category display name with uppercase
   let categoryLabel = $derived(categoryName.toUpperCase());
 </script>
@@ -224,7 +243,7 @@
   </div>
 {:else if !finished}
   <!-- Active exercise: tap-to-select word pool -->
-  <div class="exercise-container">
+  <div class="exercise-container" use:keyboardNav={keyboardNavParams}>
     <!-- Progress -->
     <ProgressBar value={progressPercent} label={`${validWordsFound.length} / ${words.length}`} showPercentage />
 
@@ -313,10 +332,10 @@
     {#if validWordsFound.length >= 5}
       <p class="encouragement">{$t('exercises.generative_naming.well_done')} 🌟</p>
     {/if}
-    <button class="back-to-exercises-btn" onclick={() => window.location.href = '/exercises'}>
+    <button class="back-to-exercises-btn" onclick={() => goto('/exercises')}>
       ← {$t('common.back_to_exercises')}
     </button>
-    <button class="restart-btn" onclick={restart}>
+    <button class="restart-btn" onclick={handleRestart}>
       🔄 {$t('common.restart')}
     </button>
   </div>

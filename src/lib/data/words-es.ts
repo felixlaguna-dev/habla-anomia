@@ -3353,27 +3353,6 @@ export const WORDS_ES: Word[] = [
     synonyms: ['losa', 'azulejo']
   },
   {
-    id: 'es-household-054',
-    word: 'azulejo',
-    category: 'household',
-    language: 'es',
-    image_url: '/images/words/azulejo.webp',
-    definition: 'Pieza de cerámica esmaltada que cubre paredes y suelos.',
-    features: {
-      category: 'revestimiento',
-      function: 'decorar y proteger paredes',
-      location: 'pared, baño, cocina',
-      properties: 'cuadrado, brillante, decorado, de cerámica',
-      associations: 'pared, cerámica, baño, decoración'
-    },
-    phonetic: { first_sound: '/a/', syllables: 4, rhyming_word: 'viejo', first_phonemes: '/a/' },
-    difficulty: 2,
-    tags: ['pared', 'cerámica'],
-    sentence: 'La cocina tiene _____ blancos con dibujos azules.',
-    opposite: '',
-    synonyms: ['baldosa', 'mosaico']
-  },
-  {
     id: 'es-household-055',
     word: 'persiana',
     category: 'household',
@@ -6392,27 +6371,6 @@ export const WORDS_ES: Word[] = [
     synonyms: ['hogar', 'vivienda', 'domicilio']
   },
   {
-    id: 'es-place-002',
-    word: 'escuela',
-    category: 'places',
-    language: 'es',
-    image_url: '/images/words/escuela.webp',
-    definition: 'Lugar donde se imparte educación a los estudiantes.',
-    features: {
-      category: 'edificio educativo',
-      function: 'educar, enseñar',
-      location: 'ciudad, pueblo, barrio',
-      properties: 'tiene aulas, patios, biblioteca',
-      associations: 'profesor, alumno, libro, pizarra'
-    },
-    phonetic: { first_sound: '/e/', syllables: 3, rhyming_word: 'muela', first_phonemes: '/es/' },
-    difficulty: 1,
-    tags: ['educación', 'común'],
-    sentence: 'Los niños van a la _____ todos los días.',
-    opposite: '',
-    synonyms: ['colegio', 'instituto']
-  },
-  {
     id: 'es-place-003',
     word: 'hospital',
     category: 'places',
@@ -6728,27 +6686,6 @@ export const WORDS_ES: Word[] = [
     synonyms: ['aeródromo', 'terminal aérea']
   },
   {
-    id: 'es-place-018',
-    word: 'estación',
-    category: 'places',
-    language: 'es',
-    image_url: '/images/words/estacion.webp',
-    definition: 'Lugar donde paran los trenes o los autobuses.',
-    features: {
-      category: 'lugar de transporte',
-      function: 'parada de transporte público',
-      location: 'centro de la ciudad, cerca de vías',
-      properties: 'tiene andenes, taquillas, bancas',
-      associations: 'tren, autobús, viaje, billete'
-    },
-    phonetic: { first_sound: '/e/', syllables: 3, rhyming_word: 'razón', first_phonemes: '/es/' },
-    difficulty: 2,
-    tags: ['transporte', 'público'],
-    sentence: 'El tren llega a la _____ a las tres.',
-    opposite: '',
-    synonyms: ['terminal', 'parada']
-  },
-  {
     id: 'es-place-019',
     word: 'cine',
     category: 'places',
@@ -7025,49 +6962,6 @@ export const WORDS_ES: Word[] = [
     opposite: 'tranquilo',
     synonyms: ['ansioso', 'inquieto']
   },
-  {
-    id: 'es-emotion-009',
-    word: 'orgulloso',
-    category: 'emotions',
-    language: 'es',
-    image_url: '/images/words/orgulloso.webp',
-    definition: 'Que siente satisfacción por un logro propio o ajeno.',
-    features: {
-      category: 'emoción positiva',
-      function: 'expresar satisfacción',
-      location: 'interior, expresión',
-      properties: 'satisfacción, cabeza alta, pecho inflado',
-      associations: 'logro, satisfacción, éxito, mérito'
-    },
-    phonetic: { first_sound: '/o/', syllables: 4, rhyming_word: 'ocultoso', first_phonemes: '/or/' },
-    difficulty: 4,
-    tags: ['emoción', 'positiva'],
-    sentence: 'Estaba _____ de su hijo por graduarse.',
-    opposite: '',
-    synonyms: ['satisfecho', 'altivo']
-  },
-  {
-    id: 'es-emotion-010',
-    word: 'avergonzado',
-    category: 'emotions',
-    language: 'es',
-    image_url: '/images/words/avergonzado.webp',
-    definition: 'Que siente vergüenza o pudor.',
-    features: {
-      category: 'emoción',
-      function: 'expresar vergüenza',
-      location: 'interior, expresión facial',
-      properties: 'mejillas rojas, bajar la mirada',
-      associations: 'vergüenza, rubor, culpa, pudor'
-    },
-    phonetic: { first_sound: '/a/', syllables: 5, rhyming_word: 'estado', first_phonemes: '/a/' },
-    difficulty: 3,
-    tags: ['emoción'],
-    sentence: 'Se sintió _____ al equivocarse en público.',
-    opposite: '',
-    synonyms: ['apenado', 'ruborizado']
-  },
-
   // ==========================================
   // NATURE (24 words)
   // ==========================================

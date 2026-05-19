@@ -6257,27 +6257,7 @@ export const WORDS_ES: Word[] = [
     opposite: '',
     synonyms: ['memorizar', 'evocar']
   },
-  {
-    id: 'es-action-025',
-    word: 'olvidar',
-    category: 'actions',
-    language: 'es',
-    image_url: '/images/words/olvidar.webp',
-    definition: 'Acción de dejar de recordar algo o no tenerlo en la memoria.',
-    features: {
-      category: 'acción mental',
-      function: 'perder la memoria de algo',
-      location: 'cualquier lugar',
-      properties: 'es mental, a menudo involuntario',
-      associations: 'memoria, recordar, mente, despiste'
-    },
-    phonetic: { first_sound: '/o/', syllables: 3, rhyming_word: 'vidar', first_phonemes: '/o/' },
-    difficulty: 1,
-    tags: ['acción', 'mental'],
-    sentence: 'No vayas a _____ traer el pastel de cumpleaños.',
-    opposite: '',
-    synonyms: ['despistar', 'ignorar']
-  },
+
   {
     id: 'es-action-026',
     word: 'aprender',
@@ -6341,48 +6321,8 @@ export const WORDS_ES: Word[] = [
     opposite: '',
     synonyms: ['adquirir', 'procurar']
   },
-  {
-    id: 'es-action-029',
-    word: 'vender',
-    category: 'actions',
-    language: 'es',
-    image_url: '/images/words/vender.webp',
-    definition: 'Acción de transferir algo a cambio de dinero.',
-    features: {
-      category: 'acción comercial',
-      function: 'transferir bienes',
-      location: 'tienda, mercado, online',
-      properties: 'involucra dinero, transacción',
-      associations: 'comprar, tienda, precio, cliente'
-    },
-    phonetic: { first_sound: '/b/', syllables: 2, rhyming_word: 'pender', first_phonemes: '/be/' },
-    difficulty: 1,
-    tags: ['acción', 'comercio'],
-    sentence: 'El frutero _____ naranjas a un euro el kilo.',
-    opposite: '',
-    synonyms: ['comercializar', 'expender']
-  },
-  {
-    id: 'es-action-030',
-    word: 'abrir',
-    category: 'actions',
-    language: 'es',
-    image_url: '/images/words/abrir.webp',
-    definition: 'Acción de mover algo para dejar libre el paso o descubrir lo que estaba cerrado.',
-    features: {
-      category: 'acción física',
-      function: 'descubrir, dejar pasar',
-      location: 'puerta, ventana, caja',
-      properties: 'es opuesta a cerrar, movimiento hacia afuera',
-      associations: 'cerrar, puerta, llave, ventana'
-    },
-    phonetic: { first_sound: '/a/', syllables: 2, rhyming_word: 'ubrir', first_phonemes: '/a/' },
-    difficulty: 1,
-    tags: ['acción', 'movimiento'],
-    sentence: '_____ la ventana para que entre aire fresco.',
-    opposite: 'cerrar',
-    synonyms: ['destapar', 'descubrir']
-  },
+
+
   {
     id: 'es-action-031',
     word: 'cerrar',
@@ -6425,27 +6365,7 @@ export const WORDS_ES: Word[] = [
     opposite: 'apagar',
     synonyms: ['activar', 'conectar']
   },
-  {
-    id: 'es-action-033',
-    word: 'apagar',
-    category: 'actions',
-    language: 'es',
-    image_url: '/images/words/apagar.webp',
-    definition: 'Acción de hacer que algo deje de funcionar o de dar luz.',
-    features: {
-      category: 'acción física',
-      function: 'desactivar, quitar energía',
-      location: 'interruptor, dispositivo, estufa',
-      properties: 'desactiva un mecanismo, quita luz o calor',
-      associations: 'encender, luz, interruptor, botón'
-    },
-    phonetic: { first_sound: '/a/', syllables: 3, rhyming_word: 'pagar', first_phonemes: '/a/' },
-    difficulty: 1,
-    tags: ['acción', 'tecnología'],
-    sentence: '_____ la televisión antes de irte a dormir.',
-    opposite: 'encender',
-    synonyms: ['desactivar', 'desconectar']
-  },
+
 
   // ==========================================
   // PLACES (23 words)
@@ -7827,69 +7747,9 @@ export const WORDS_ES: Word[] = [
     opposite: '',
     synonyms: ['abuelita', 'yaya']
   },
-  {
-    id: 'es-family-009',
-    word: 'tío',
-    category: 'family',
-    language: 'es',
-    image_url: '/images/words/tio.webp',
-    definition: 'Hermano de los padres de una persona.',
-    features: {
-      category: 'familiar',
-      function: 'miembro de la familia extendida',
-      location: 'hogar',
-      properties: 'es hermano de padre o madre',
-      associations: 'tía, primo, sobrino, familia'
-    },
-    phonetic: { first_sound: '/t/', syllables: 2, rhyming_word: 'río', first_phonemes: '/ti/' },
-    difficulty: 1,
-    tags: ['familia', 'común'],
-    sentence: 'Mi _____ vive en el campo y tiene una granja.',
-    opposite: '',
-    synonyms: ['tío político']
-  },
-  {
-    id: 'es-family-010',
-    word: 'tía',
-    category: 'family',
-    language: 'es',
-    image_url: '/images/words/tia.webp',
-    definition: 'Hermana de los padres de una persona.',
-    features: {
-      category: 'familiar',
-      function: 'miembro de la familia extendida',
-      location: 'hogar',
-      properties: 'es hermana de padre o madre',
-      associations: 'tío, prima, sobrina, familia'
-    },
-    phonetic: { first_sound: '/t/', syllables: 2, rhyming_word: 'pía', first_phonemes: '/ti/' },
-    difficulty: 1,
-    tags: ['familia', 'común'],
-    sentence: 'Mi _____ me trajo un regalo de su viaje.',
-    opposite: '',
-    synonyms: ['tía política']
-  },
-  {
-    id: 'es-family-011',
-    word: 'primo',
-    category: 'family',
-    language: 'es',
-    image_url: '/images/words/primo.webp',
-    definition: 'Hijo de los tíos de una persona.',
-    features: {
-      category: 'familiar',
-      function: 'miembro de la familia extendida',
-      location: 'hogar',
-      properties: 'es hijo de tíos',
-      associations: 'prima, tío, infancia, juego'
-    },
-    phonetic: { first_sound: '/p/', syllables: 2, rhyming_word: 'rimo', first_phonemes: '/pri/' },
-    difficulty: 1,
-    tags: ['familia', 'común'],
-    sentence: 'Juego con mi _____ en las fiestas familiares.',
-    opposite: '',
-    synonyms: ['primo hermano']
-  },
+
+
+
   {
     id: 'es-family-012',
     word: 'esposo',

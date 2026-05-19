@@ -24,6 +24,9 @@ Free, open-source PWA for anomia (aphasia) rehabilitation.
 - UI components: `src/lib/components/ui/` (14 components)
 - Speech: `src/lib/speech/` + `src/lib/components/speech/` (SpeechInput, i18n'd)
 - Utils: `src/lib/utils/sounds.ts` (Web Audio API sound effects)
+- Keyboard nav: `src/lib/utils/keyboard-nav.ts` (useKeyboardNav Svelte action, all 8 exercises)
+- Exercise helpers: `src/lib/utils/exercise-helpers.ts` (shared restart/completion/feedback logic)
+- Path helpers: `src/lib/utils/paths.ts` (centralized route paths)
 
 ## Conventions
 - Svelte 5 runes only: `$state`, `$props`, `$derived`, `$effect`

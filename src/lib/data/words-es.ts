@@ -12,7 +12,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/perro.webp',
     definition: 'Animal doméstico mamífero, fiel compañero del ser humano.',
     features: {
-      category: 'animal doméstico',
+      category: 'animals',
       function: 'compañía, guardián',
       location: 'hogar, calle, campo',
       properties: 'tiene cuatro patas, ladra, tiene pelo',
@@ -33,7 +33,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/gato.webp',
     definition: 'Animal doméstico felino, independiente y ágil.',
     features: {
-      category: 'animal doméstico',
+      category: 'animals',
       function: 'compañía, cazar ratones',
       location: 'hogar, tejados, jardines',
       properties: 'tiene cuatro patas, maúlla, tiene bigotes',
@@ -54,7 +54,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/pajaro.webp',
     definition: 'Animal vertebrado con plumas y alas que puede volar.',
     features: {
-      category: 'animal salvaje',
+      category: 'animals',
       function: 'volar, cantar',
       location: 'cielo, árboles, campos',
       properties: 'tiene alas, plumas y pico',
@@ -75,7 +75,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/pez.webp',
     definition: 'Animal acuático vertebrado que respira por branquias.',
     features: {
-      category: 'animal acuático',
+      category: 'animals',
       function: 'nadar',
       location: 'río, mar, lago, acuario',
       properties: 'tiene aletas y escamas',
@@ -96,7 +96,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/caballo.webp',
     definition: 'Animal mamífero grande usado para montar y transportar.',
     features: {
-      category: 'animal doméstico',
+      category: 'animals',
       function: 'montar, transportar, deporte',
       location: 'campo, establo, pradera',
       properties: 'tiene cuatro patas, crin, relincha',
@@ -117,7 +117,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/vaca.webp',
     definition: 'Animal mamífero doméstico que produce leche.',
     features: {
-      category: 'animal de granja',
+      category: 'animals',
       function: 'producir leche, carne',
       location: 'granja, prado, establo',
       properties: 'tiene manchas blancas y negras, muge',
@@ -138,7 +138,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/cerdo.webp',
     definition: 'Animal mamífero de granja con hocico ancho.',
     features: {
-      category: 'animal de granja',
+      category: 'animals',
       function: 'producir carne',
       location: 'granja, chiquero',
       properties: 'tiene hocico ancho, es rosado, gruñe',
@@ -159,7 +159,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/oveja.webp',
     definition: 'Animal mamífero doméstico cubierto de lana.',
     features: {
-      category: 'animal de granja',
+      category: 'animals',
       function: 'producir lana, leche',
       location: 'granja, prado, montaña',
       properties: 'tiene lana blanca espesa, bala',
@@ -180,7 +180,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/gallina.webp',
     definition: 'Ave doméstica que pone huevos.',
     features: {
-      category: 'animal de granja',
+      category: 'animals',
       function: 'poner huevos, producir carne',
       location: 'granja, corral, gallinero',
       properties: 'tiene plumas, pico, cacarea',
@@ -201,7 +201,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/conejo.webp',
     definition: 'Animal mamífero con orejas largas y cola corta.',
     features: {
-      category: 'animal doméstico y salvaje',
+      category: 'animals',
       function: 'compañía, carne',
       location: 'campo, madriguera, hogar',
       properties: 'tiene orejas largas, cola de algodón, salta',
@@ -222,7 +222,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/leon.webp',
     definition: 'Gran felino carnívoro conocido como el rey de la selva.',
     features: {
-      category: 'animal salvaje',
+      category: 'animals',
       function: 'depredador',
       location: 'sabana, selva, zoológico',
       properties: 'tiene melena, ruge, es muy fuerte',
@@ -243,7 +243,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/elefante.webp',
     definition: 'El animal terrestre más grande, con trompa y colmillos.',
     features: {
-      category: 'animal salvaje',
+      category: 'animals',
       function: 'usar trompa para comer y beber',
       location: 'sabana, selva, zoológico',
       properties: 'tiene trompa, colmillos, orejas grandes',
@@ -264,7 +264,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/serpiente.webp',
     definition: 'Reptil sin patas que se desliza arrastrándose.',
     features: {
-      category: 'animal salvaje',
+      category: 'animals',
       function: 'depredador, control de plagas',
       location: 'bosque, desierto, jungla',
       properties: 'no tiene patas, tiene escamas, silba',
@@ -285,7 +285,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/mariposa.webp',
     definition: 'Insecto volador con alas coloridas.',
     features: {
-      category: 'insecto',
+      category: 'animals',
       function: 'polinizar flores',
       location: 'jardines, campos, flores',
       properties: 'tiene alas coloridas, vuela de flor en flor',
@@ -306,7 +306,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/abeja.webp',
     definition: 'Insecto volador que produce miel y poliniza flores.',
     features: {
-      category: 'insecto',
+      category: 'animals',
       function: 'producir miel, polinizar',
       location: 'colmena, jardines, campos',
       properties: 'tiene rayas amarillas y negras, pica, zumba',
@@ -327,7 +327,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/tortuga.webp',
     definition: 'Reptil con caparazón que se mueve muy despacio.',
     features: {
-      category: 'reptil',
+      category: 'animals',
       function: 'compañía',
       location: 'tierra, agua, jardín',
       properties: 'tiene caparazón, camina muy lento',
@@ -348,7 +348,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/mono.webp',
     definition: 'Animal mamífero parecido al humano, ágil y trepador.',
     features: {
-      category: 'animal salvaje',
+      category: 'animals',
       function: 'trepar, saltar',
       location: 'selva, bosque tropical, zoológico',
       properties: 'tiene cola, es ágil, trepa árboles',
@@ -369,7 +369,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/oso.webp',
     definition: 'Gran mamífero carnívoro de cuerpo robusto y pelaje espeso.',
     features: {
-      category: 'animal salvaje',
+      category: 'animals',
       function: 'depredador',
       location: 'bosque, montaña, tundra',
       properties: 'es grande, tiene pelaje espeso, hiberna',
@@ -390,7 +390,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/aguila.webp',
     definition: 'Ave rapaz de gran tamaño con vista aguda.',
     features: {
-      category: 'animal salvaje',
+      category: 'animals',
       function: 'cazar desde el aire',
       location: 'montañas, cielos, acantilados',
       properties: 'tiene alas grandes, pico ganchudo, vista aguda',
@@ -411,7 +411,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/delfin.webp',
     definition: 'Mamífero marino inteligente y juguetón.',
     features: {
-      category: 'animal marino',
+      category: 'animals',
       function: 'nadar, saltar',
       location: 'mar, océano, acuario',
       properties: 'es gris, nada rápido, silba',
@@ -432,7 +432,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/hormiga.webp',
     definition: 'Insecto muy pequeño y trabajador que vive en grupos.',
     features: {
-      category: 'insecto',
+      category: 'animals',
       function: 'insecto social',
       location: 'jardín, campo, tierra',
       properties: 'muy pequeña, negra o roja, vive en colonias',
@@ -453,7 +453,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/rana.webp',
     definition: 'Animal verde que salta y vive cerca del agua.',
     features: {
-      category: 'anfibio',
+      category: 'animals',
       function: 'animal saltador',
       location: 'charco, lago, pantano',
       properties: 'verde, salta, croa, patas largas',
@@ -474,7 +474,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/ballena.webp',
     definition: 'Animal marino enorme, el más grande del mundo.',
     features: {
-      category: 'mamífero marino',
+      category: 'animals',
       function: 'nadar, filtrar agua',
       location: 'océano, mar profundo',
       properties: 'enorme, azul o gris, nada, lanza agua',
@@ -495,7 +495,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/tiburon.webp',
     definition: 'Pez grande con dientes afilados que vive en el mar.',
     features: {
-      category: 'pez marino',
+      category: 'animals',
       function: 'depredador marino',
       location: 'océano, mar',
       properties: 'grande, dientes afilados, gris, peligroso',
@@ -516,7 +516,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/medusa.webp',
     definition: 'Animal marino transparente que flota en el agua y puede picar.',
     features: {
-      category: 'animal marino',
+      category: 'animals',
       function: 'flotar en el agua',
       location: 'mar, océano, playa',
       properties: 'transparente, blanda, tiene tentáculos, pica',
@@ -537,7 +537,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/loro.webp',
     definition: 'Pájaro colorido que puede aprender a hablar.',
     features: {
-      category: 'ave',
+      category: 'animals',
       function: 'ave parlante',
       location: 'selva, casa, jaula',
       properties: 'colorido, habla, tiene pico curvado',
@@ -558,7 +558,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/pinguino.webp',
     definition: 'Ave negra y blanca que no vuela y vive en el frío.',
     features: {
-      category: 'ave',
+      category: 'animals',
       function: 'ave nadadora',
       location: 'polo sur, zonas frías, hielo',
       properties: 'negro y blanco, no vuela, nada bien',
@@ -579,7 +579,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/jirafa.webp',
     definition: 'Animal muy alto con cuello largo y manchas marrones.',
     features: {
-      category: 'mamífero',
+      category: 'animals',
       function: 'animal herbívoro',
       location: 'sabana, África, zoológico',
       properties: 'muy alta, cuello largo, manchas marrones',
@@ -600,7 +600,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/rinoceronte.webp',
     definition: 'Animal grande y pesado con un cuerno en la nariz.',
     features: {
-      category: 'mamífero',
+      category: 'animals',
       function: 'animal herbívoro grande',
       location: 'sabana, África, Asia',
       properties: 'muy grande, piel gruesa, tiene cuerno',
@@ -625,7 +625,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/pan.webp',
     definition: 'Alimento básico hecho de harina, agua y levadura horneado.',
     features: {
-      category: 'alimento básico',
+      category: 'food',
       function: 'alimentarse, acompañar comidas',
       location: 'panadería, cocina, supermercado',
       properties: 'es suave por dentro, crujiente por fuera',
@@ -646,7 +646,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/leche.webp',
     definition: 'Líquido blanco nutritivo producido por las vacas.',
     features: {
-      category: 'bebida, lácteo',
+      category: 'food',
       function: 'alimentarse, beber',
       location: 'nevera, supermercado, granja',
       properties: 'es blanca, líquida, nutritiva',
@@ -667,7 +667,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/agua.webp',
     definition: 'Líquido incoloro e insípido esencial para la vida.',
     features: {
-      category: 'bebida',
+      category: 'food',
       function: 'hidratar, cocinar',
       location: 'grifo, botella, río',
       properties: 'es transparente, líquida, no tiene olor',
@@ -688,7 +688,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/manzana.webp',
     definition: 'Fruta redonda de piel roja, verde o amarilla.',
     features: {
-      category: 'fruta',
+      category: 'food',
       function: 'alimentarse, postre',
       location: 'frutero, mercado, árbol',
       properties: 'es redonda, crujiente, dulce o ácida',
@@ -709,7 +709,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/naranja.webp',
     definition: 'Fruta cítrica redonda de color anaranjado.',
     features: {
-      category: 'fruta',
+      category: 'food',
       function: 'alimentarse, hacer zumo',
       location: 'frutero, mercado, árbol',
       properties: 'es redonda, cítrica, jugosa',
@@ -730,7 +730,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/platano.webp',
     definition: 'Fruta alargada de color amarillo con piel gruesa.',
     features: {
-      category: 'fruta',
+      category: 'food',
       function: 'alimentarse, postre',
       location: 'frutero, mercado, planta tropical',
       properties: 'es alargado, amarillo, dulce',
@@ -751,7 +751,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/arroz.webp',
     definition: 'Cereal de grano pequeño que se cocina en agua.',
     features: {
-      category: 'cereal',
+      category: 'food',
       function: 'alimentarse, guarnición',
       location: 'cocina, supermercado, despensa',
       properties: 'es un grano pequeño, blanco, se cocina hirviendo',
@@ -772,7 +772,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/pollo.webp',
     definition: 'Carne de ave consumida en muchas preparaciones culinarias.',
     features: {
-      category: 'carne',
+      category: 'food',
       function: 'alimentarse',
       location: 'carnicería, supermercado, cocina',
       properties: 'carne blanca, tierna, versátil',
@@ -793,7 +793,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/huevo.webp',
     definition: 'Cuerpo ovalado puesto por las aves, muy nutritivo.',
     features: {
-      category: 'alimento proteico',
+      category: 'food',
       function: 'alimentarse, cocinar',
       location: 'nevera, cocina, supermercado',
       properties: 'es ovalado, tiene cáscara frágil, yema y clara',
@@ -814,7 +814,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/tomate.webp',
     definition: 'Fruto rojo y jugoso usado extensamente en cocina.',
     features: {
-      category: 'verdura, fruto',
+      category: 'food',
       function: 'cocinar, ensalada, salsa',
       location: 'cocina, mercado, huerto',
       properties: 'es rojo, jugoso, ligeramente ácido',
@@ -835,7 +835,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/queso.webp',
     definition: 'Alimento lácteo sólido obtenido por la maduración de la cuajada.',
     features: {
-      category: 'lácteo',
+      category: 'food',
       function: 'alimentarse, acompañar',
       location: 'nevera, supermercado, quesería',
       properties: 'puede ser blando o duro, de sabor suave o fuerte',
@@ -856,7 +856,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/jamon.webp',
     definition: 'Carne de cerdo curada, típica de España.',
     features: {
-      category: 'carne curada',
+      category: 'food',
       function: 'alimentarse, aperitivo',
       location: 'cocina, supermercado, bodega',
       properties: 'es salado, curado, se sirve en lonchas finas',
@@ -877,7 +877,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/ensalada.webp',
     definition: 'Plato de verduras crudas mezcladas con aderezo.',
     features: {
-      category: 'plato',
+      category: 'food',
       function: 'alimentarse, entrante',
       location: 'mesa, restaurante, cocina',
       properties: 'es fresca, ligera, variada',
@@ -898,7 +898,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/sopa.webp',
     definition: 'Plato líquido hecho con caldo y diversos ingredientes.',
     features: {
-      category: 'plato',
+      category: 'food',
       function: 'alimentarse, entrante',
       location: 'mesa, cocina, restaurante',
       properties: 'es caliente, líquida, reconfortante',
@@ -919,7 +919,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/patata.webp',
     definition: 'Tubérculo comestible de piel marrón y interior blanco.',
     features: {
-      category: 'tubérculo',
+      category: 'food',
       function: 'alimentarse, guarnición',
       location: 'cocina, supermercado, despensa',
       properties: 'es redondeada, de piel marrón, interior blanco',
@@ -940,7 +940,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/cebolla.webp',
     definition: 'Bulbo comestible de sabor fuerte que hace llorar al cortar.',
     features: {
-      category: 'verdura, bulbo',
+      category: 'food',
       function: 'condimentar, cocinar',
       location: 'cocina, mercado, despensa',
       properties: 'es redondeada, tiene capas, hace llorar',
@@ -961,7 +961,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/ajo.webp',
     definition: 'Planta con bulbo de sabor intenso y aromático.',
     features: {
-      category: 'condimento, bulbo',
+      category: 'food',
       function: 'condimentar, cocinar',
       location: 'cocina, mercado, despensa',
       properties: 'tiene dientes, olor fuerte, sabor intenso',
@@ -982,7 +982,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/zanahoria.webp',
     definition: 'Hortaliza alargada de color naranja y sabor dulce.',
     features: {
-      category: 'hortaliza',
+      category: 'food',
       function: 'alimentarse, cocinar',
       location: 'cocina, mercado, huerto',
       properties: 'es alargada, naranja, crujiente',
@@ -1003,7 +1003,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/lechuga.webp',
     definition: 'Planta de hojas verdes comestibles usada en ensaladas.',
     features: {
-      category: 'hortaliza',
+      category: 'food',
       function: 'ensalada, alimentarse',
       location: 'huerto, mercado, nevera',
       properties: 'tiene hojas verdes, es fresca, crujiente',
@@ -1024,7 +1024,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/uva.webp',
     definition: 'Fruta pequeña y redonda que crece en racimos.',
     features: {
-      category: 'fruta',
+      category: 'food',
       function: 'alimentarse, hacer vino',
       location: 'viñedo, mercado, frutero',
       properties: 'es pequeña, redonda, puede ser verde o morada',
@@ -1045,7 +1045,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/fresa.webp',
     definition: 'Fruta roja pequeña y dulce con semillas en la superficie.',
     features: {
-      category: 'fruta',
+      category: 'food',
       function: 'alimentarse, postre',
       location: 'campo, mercado, frutero',
       properties: 'es roja, pequeña, dulce, con semillas',
@@ -1066,7 +1066,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/limon.webp',
     definition: 'Fruto cítrico amarillo de sabor muy ácido.',
     features: {
-      category: 'fruta cítrica',
+      category: 'food',
       function: 'condimentar, bebida',
       location: 'árbol, mercado, cocina',
       properties: 'es amarillo, ácido, ovalado',
@@ -1087,7 +1087,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/cafe.webp',
     definition: 'Bebida oscura y estimulante hecha de granos tostados.',
     features: {
-      category: 'bebida',
+      category: 'food',
       function: 'estimular, despertar',
       location: 'cafetería, cocina, oficina',
       properties: 'es oscuro, amargo, aromático, caliente',
@@ -1108,7 +1108,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/azucar.webp',
     definition: 'Sustancia dulce en forma de cristales blancos.',
     features: {
-      category: 'condimento',
+      category: 'food',
       function: 'endulzar',
       location: 'cocina, supermercado, despensa',
       properties: 'es blanca, dulce, cristalina',
@@ -1129,7 +1129,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/sal.webp',
     definition: 'Sustancia cristalina usada para dar sabor a las comidas.',
     features: {
-      category: 'condimento',
+      category: 'food',
       function: 'sazonar',
       location: 'cocina, mesa, supermercado',
       properties: 'es blanca, cristalina, salada',
@@ -1150,7 +1150,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/pimiento.webp',
     definition: 'Hortaliza de forma alargada y hueca, generalmente de color rojo, verde o amarillo.',
     features: {
-      category: 'verdura',
+      category: 'food',
       function: 'condimentar, cocinar',
       location: 'huerto, mercado, cocina',
       properties: 'es alargado, hueco, de colores vivos',
@@ -1171,7 +1171,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/pepino.webp',
     definition: 'Hortaliza alargada de piel verde y carne acuosa, se come crudo o en ensalada.',
     features: {
-      category: 'verdura',
+      category: 'food',
       function: 'alimentar, refrescar',
       location: 'huerto, mercado, cocina',
       properties: 'es alargado, verde, refrescante',
@@ -1192,7 +1192,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/calabacin.webp',
     definition: 'Hortaliza alargada de piel verde clara, muy versátil en la cocina.',
     features: {
-      category: 'verdura',
+      category: 'food',
       function: 'cocinar, guarnición',
       location: 'huerto, mercado, cocina',
       properties: 'es alargado, verde claro, suave',
@@ -1213,7 +1213,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/berenjena.webp',
     definition: 'Hortaliza alargada de piel morada oscura y carne esponjosa.',
     features: {
-      category: 'verdura',
+      category: 'food',
       function: 'cocinar, guarnición',
       location: 'huerto, mercado, cocina',
       properties: 'es alargada, morada, esponjosa',
@@ -1234,7 +1234,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/brocoli.webp',
     definition: 'Verdura de color verde con ramificaciones en forma de pequeño árbol.',
     features: {
-      category: 'verdura',
+      category: 'food',
       function: 'alimentar, guarnición',
       location: 'huerto, mercado, cocina',
       properties: 'es verde, ramificado, nutritivo',
@@ -1255,7 +1255,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/coliflor.webp',
     definition: 'Verdura de color blanco con forma de flor compacta.',
     features: {
-      category: 'verdura',
+      category: 'food',
       function: 'alimentar, guarnición',
       location: 'huerto, mercado, cocina',
       properties: 'es blanca, compacta, en forma de flor',
@@ -1276,7 +1276,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/champinon.webp',
     definition: 'Hongo comestible de sombrero redondo y pie corto, de color blanco o marrón.',
     features: {
-      category: 'verdura',
+      category: 'food',
       function: 'cocinar, condimentar',
       location: 'campo, mercado, cocina',
       properties: 'es redondo, suave, de tierra',
@@ -1297,7 +1297,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/esparrago.webp',
     definition: 'Brote tierno de la planta del espárrago, largo y delgado, de color verde o blanco.',
     features: {
-      category: 'verdura',
+      category: 'food',
       function: 'alimentar, guarnición',
       location: 'huerto, mercado, cocina',
       properties: 'es largo, delgado, verde o blanco',
@@ -1318,7 +1318,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/apio.webp',
     definition: 'Planta hortaliza de tallos largos y verdes, crujiente y de sabor intenso.',
     features: {
-      category: 'verdura',
+      category: 'food',
       function: 'alimentar, condimentar',
       location: 'huerto, mercado, cocina',
       properties: 'es verde, crujiente, fibroso',
@@ -1339,7 +1339,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/maiz.webp',
     definition: 'Planta de grano amarillo que crece en mazorcas.',
     features: {
-      category: 'cereal',
+      category: 'food',
       function: 'alimentar, cocinar',
       location: 'campo, mercado, cocina',
       properties: 'es amarillo, en mazorca, dulce',
@@ -1360,7 +1360,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/guisante.webp',
     definition: 'Semilla verde redonda que crece en vainas.',
     features: {
-      category: 'legumbre',
+      category: 'food',
       function: 'alimentar, guarnición',
       location: 'huerto, mercado, cocina',
       properties: 'es pequeño, redondo, verde',
@@ -1381,7 +1381,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/judia.webp',
     definition: 'Legumbre de vaina verde alargada, también llamada judía verde.',
     features: {
-      category: 'legumbre',
+      category: 'food',
       function: 'alimentar, guarnición',
       location: 'huerto, mercado, cocina',
       properties: 'es alargada, verde, tierna',
@@ -1402,7 +1402,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/pera.webp',
     definition: 'Fruta jugosa de forma alargada y piel verde o amarilla.',
     features: {
-      category: 'fruta',
+      category: 'food',
       function: 'alimentar',
       location: 'frutero, mercado, cocina',
       properties: 'es alargada, jugosa, dulce',
@@ -1423,7 +1423,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/melocoton.webp',
     definition: 'Fruta redonda de piel aterciopelada y carne jugosa de color anaranjado.',
     features: {
-      category: 'fruta',
+      category: 'food',
       function: 'alimentar',
       location: 'frutero, mercado, cocina',
       properties: 'es redondo, aterciopelado, jugoso',
@@ -1444,7 +1444,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/cereza.webp',
     definition: 'Fruta pequeña y redonda de color rojo oscuro con un hueso en el centro.',
     features: {
-      category: 'fruta',
+      category: 'food',
       function: 'alimentar',
       location: 'frutero, mercado, cocina',
       properties: 'es pequeña, roja, dulce',
@@ -1465,7 +1465,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/sandia.webp',
     definition: 'Fruta grande de piel verde y carne roja y acuosa, muy refrescante.',
     features: {
-      category: 'fruta',
+      category: 'food',
       function: 'alimentar, refrescar',
       location: 'frutero, mercado, nevera',
       properties: 'es grande, verde por fuera, roja por dentro',
@@ -1486,7 +1486,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/melon.webp',
     definition: 'Fruta grande de piel verde o amarilla y carne anaranjada o blanca, dulce.',
     features: {
-      category: 'fruta',
+      category: 'food',
       function: 'alimentar',
       location: 'frutero, mercado, nevera',
       properties: 'es grande, dulce, refrescante',
@@ -1507,7 +1507,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/kiwi.webp',
     definition: 'Fruta pequeña de piel marrón y peluda con carne verde y semillas negras.',
     features: {
-      category: 'fruta',
+      category: 'food',
       function: 'alimentar',
       location: 'frutero, mercado, cocina',
       properties: 'es pequeño, marrón por fuera, verde por dentro',
@@ -1528,7 +1528,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/pina.webp',
     definition: 'Fruta tropical de piel rugosa y espinosa con carne amarilla y dulce.',
     features: {
-      category: 'fruta',
+      category: 'food',
       function: 'alimentar',
       location: 'frutero, mercado, cocina',
       properties: 'es rugosa, amarilla por dentro, dulce',
@@ -1549,7 +1549,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/coco.webp',
     definition: 'Fruta tropical de cáscara marrón y fibrosa con agua y carne blanca en su interior.',
     features: {
-      category: 'fruta',
+      category: 'food',
       function: 'alimentar',
       location: 'frutero, mercado, cocina',
       properties: 'es marrón, fibroso, con agua interior',
@@ -1570,7 +1570,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/mango.webp',
     definition: 'Fruta tropical de piel amarilla o rojiza y carne anaranjada muy dulce.',
     features: {
-      category: 'fruta',
+      category: 'food',
       function: 'alimentar',
       location: 'frutero, mercado, cocina',
       properties: 'es alargado, dulce, anaranjado',
@@ -1591,7 +1591,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/ciruela.webp',
     definition: 'Fruta pequeña de piel morada o amarilla y carne jugosa con un hueso.',
     features: {
-      category: 'fruta',
+      category: 'food',
       function: 'alimentar',
       location: 'frutero, mercado, cocina',
       properties: 'es pequeña, redonda, jugosa',
@@ -1612,7 +1612,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/frambuesa.webp',
     definition: 'Fruta pequeña de color rojo compuesta por muchos granos, de sabor dulce y ácido.',
     features: {
-      category: 'fruta',
+      category: 'food',
       function: 'alimentar',
       location: 'frutero, mercado, cocina',
       properties: 'es pequeña, roja, formada por granos',
@@ -1633,7 +1633,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/mandarina.webp',
     definition: 'Fruta cítrica pequeña de piel anaranjada fácil de pelar, similar a la naranja.',
     features: {
-      category: 'fruta',
+      category: 'food',
       function: 'alimentar',
       location: 'frutero, mercado, cocina',
       properties: 'es pequeña, anaranjada, fácil de pelar',
@@ -1654,7 +1654,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/pomelo.webp',
     definition: 'Fruta cítrica grande de piel amarilla y carne rosada o amarilla, de sabor amargo.',
     features: {
-      category: 'fruta',
+      category: 'food',
       function: 'alimentar',
       location: 'frutero, mercado, cocina',
       properties: 'es grande, amarillo, ligeramente amargo',
@@ -1675,7 +1675,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/pasta.webp',
     definition: 'Alimento hecho de harina y agua, con diversas formas, muy popular en la cocina italiana.',
     features: {
-      category: 'carbohidrato',
+      category: 'food',
       function: 'alimentar',
       location: 'cocina, supermercado, despensa',
       properties: 'es seca, de diversas formas, se cocina en agua',
@@ -1696,7 +1696,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/aceite.webp',
     definition: 'Líquido graso que se obtiene de las aceitunas o semillas, usado para cocinar.',
     features: {
-      category: 'graso',
+      category: 'food',
       function: 'cocinar, aliñar',
       location: 'cocina, despensa, supermercado',
       properties: 'es líquido, resbaladizo, dorado',
@@ -1717,7 +1717,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/vinagre.webp',
     definition: 'Líquido ácido obtenido de la fermentación del vino, usado como condimento.',
     features: {
-      category: 'condimento',
+      category: 'food',
       function: 'aliñar, conservar',
       location: 'cocina, despensa, supermercado',
       properties: 'es líquido, ácido, de olor fuerte',
@@ -1738,7 +1738,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/mantequilla.webp',
     definition: 'Producto lácteo graso de color amarillo pálido, usado en cocina y repostería.',
     features: {
-      category: 'lácteo',
+      category: 'food',
       function: 'untar, cocinar',
       location: 'nevera, cocina, supermercado',
       properties: 'es blanda, amarilla, grasienta',
@@ -1759,7 +1759,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/yogur.webp',
     definition: 'Producto lácteo fermentado de textura cremosa, generalmente de sabor dulce o natural.',
     features: {
-      category: 'lácteo',
+      category: 'food',
       function: 'alimentar',
       location: 'nevera, supermercado, cocina',
       properties: 'es cremoso, blanco, ligeramente ácido',
@@ -1780,7 +1780,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/miel.webp',
     definition: 'Sustancia dulce y viscosa producida por las abejas.',
     features: {
-      category: 'edulcorante',
+      category: 'food',
       function: 'endulzar',
       location: 'despensa, cocina, supermercado',
       properties: 'es dorada, viscosa, muy dulce',
@@ -1801,7 +1801,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/chocolate.webp',
     definition: 'Dulce de color marrón hecho a partir del cacao, muy popular en repostería.',
     features: {
-      category: 'dulce',
+      category: 'food',
       function: 'alimentar, endulzar',
       location: 'cocina, supermercado, despensa',
       properties: 'es marrón, dulce, se derrite',
@@ -1822,7 +1822,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/helado.webp',
     definition: 'Postre congelado de sabor dulce hecho con leche, azúcar y sabores.',
     features: {
-      category: 'postre',
+      category: 'food',
       function: 'alimentar, refrescar',
       location: 'nevera, heladería, supermercado',
       properties: 'es frío, cremoso, dulce',
@@ -1843,7 +1843,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/galleta.webp',
     definition: 'Pequeña pieza de repostería crujiente y dulce, horneada.',
     features: {
-      category: 'repostería',
+      category: 'food',
       function: 'alimentar, acompañar',
       location: 'despensa, cocina, supermercado',
       properties: 'es crujiente, dulce, horneada',
@@ -1864,7 +1864,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/pastel.webp',
     definition: 'Preparación dulce horneada, decorada, para ocasiones especiales.',
     features: {
-      category: 'repostería',
+      category: 'food',
       function: 'celebrar, alimentar',
       location: 'pastelería, cocina, nevera',
       properties: 'es esponjoso, decorado, dulce',
@@ -1885,7 +1885,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/pan_tostado.webp',
     definition: 'Rebanada de pan que se ha tostado hasta quedar crujiente.',
     features: {
-      category: 'pan',
+      category: 'food',
       function: 'alimentar',
       location: 'cocina, tostadora, desayuno',
       properties: 'es crujiente, dorado, seco',
@@ -1906,7 +1906,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/mermelada.webp',
     definition: 'Conserva dulce de fruta cocida con azúcar.',
     features: {
-      category: 'conserva',
+      category: 'food',
       function: 'untar, endulzar',
       location: 'despensa, cocina, supermercado',
       properties: 'es dulce, espesa, de fruta',
@@ -1928,7 +1928,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/ketchup.webp',
     definition: 'Salsa roja y dulce hecha de tomate, vinagre y azúcar.',
     features: {
-      category: 'salsa',
+      category: 'food',
       function: 'aliñar, acompañar',
       location: 'cocina, despensa, supermercado',
       properties: 'es rojo, dulce, espeso',
@@ -1949,7 +1949,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/harina.webp',
     definition: 'Polvo fino obtenido de moler el trigo u otros cereales.',
     features: {
-      category: 'ingrediente',
+      category: 'food',
       function: 'cocinar, repostería',
       location: 'despensa, cocina, supermercado',
       properties: 'es polvo fino, blanca, seca',
@@ -1970,7 +1970,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/cereales.webp',
     definition: 'Alimentos elaborados a partir de granos como trigo, avena o maíz, consumidos en el desayuno.',
     features: {
-      category: 'desayuno',
+      category: 'food',
       function: 'alimentar',
       location: 'despensa, supermercado, mesa',
       properties: 'son crujientes, secos, de grano',
@@ -1991,7 +1991,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/embutido.webp',
     definition: 'Carne picada y sazonada introducida en una tripa, como el chorizo o el salchichón.',
     features: {
-      category: 'carne',
+      category: 'food',
       function: 'alimentar',
       location: 'nevera, charcutería, supermercado',
       properties: 'es de carne, sazonado, curado',
@@ -2012,7 +2012,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/atun.webp',
     definition: 'Pescado azul de carne rosada, muy consumido en conserva.',
     features: {
-      category: 'pescado',
+      category: 'food',
       function: 'alimentar',
       location: 'cocina, supermercado, despensa',
       properties: 'es de carne rosada, en conserva, aceitoso',
@@ -2033,7 +2033,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/salmon.webp',
     definition: 'Pescado de carne rosada y rica en omega-3, muy apreciado.',
     features: {
-      category: 'pescado',
+      category: 'food',
       function: 'alimentar',
       location: 'cocina, pescadería, supermercado',
       properties: 'es rosado, rico en grasa, suave',
@@ -2054,7 +2054,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/gambas.webp',
     definition: 'Crustáceos marinos pequeños con caparazón, muy sabrosos.',
     features: {
-      category: 'marisco',
+      category: 'food',
       function: 'alimentar',
       location: 'cocina, pescadería, supermercado',
       properties: 'son pequeñas, con caparazón, rosadas',
@@ -2075,7 +2075,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/pulpo.webp',
     definition: 'Molusco marino con ocho tentáculos, muy apreciado en la gastronomía.',
     features: {
-      category: 'marisco',
+      category: 'food',
       function: 'alimentar',
       location: 'cocina, pescadería, supermercado',
       properties: 'tiene ocho tentáculos, carnoso, de mar',
@@ -2096,7 +2096,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/croqueta.webp',
     definition: 'Pequeña porción de masa frita rellena de jamón o pollo.',
     features: {
-      category: 'aperitivo',
+      category: 'food',
       function: 'alimentar, acompañar',
       location: 'restaurante, cocina, bar',
       properties: 'alargada, frita, crujiente por fuera, suave por dentro',
@@ -2117,7 +2117,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/empanadilla.webp',
     definition: 'Masa fina rellena de carne, atún o verdura, frita u horneada.',
     features: {
-      category: 'producto de panadería',
+      category: 'food',
       function: 'alimentar como plato o aperitivo',
       location: 'horno, freidora, cocina',
       properties: 'pequeña, rellena, dorada por fuera',
@@ -2138,7 +2138,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/gazpacho.webp',
     definition: 'Sopa fría de tomate, aceite y vinagre típica de España.',
     features: {
-      category: 'sopa fría',
+      category: 'food',
       function: 'alimentar, refrescar',
       location: 'cocina, nevera, mesa',
       properties: 'fría, roja, líquida, de tomate',
@@ -2159,7 +2159,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/paella.webp',
     definition: 'Plato de arroz con azafrán, marisco o carne, típico de Valencia.',
     features: {
-      category: 'plato principal',
+      category: 'food',
       function: 'alimentar como plato fuerte',
       location: 'cocina, paellera, mesa',
       properties: 'arroz amarillo, con marisco o carne, grande',
@@ -2180,7 +2180,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/tortilla.webp',
     definition: 'Plato de huevos batidos con patatas fritas, redondo y dorado.',
     features: {
-      category: 'plato principal',
+      category: 'food',
       function: 'alimentar, acompañar',
       location: 'cocina, sartén, mesa',
       properties: 'redonda, dorada, de huevo y patata',
@@ -2201,7 +2201,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/churros.webp',
     definition: 'Masa frita alargada y crujiente que se come con azúcar o chocolate.',
     features: {
-      category: 'dulce frito',
+      category: 'food',
       function: 'alimentar como postre o desayuno',
       location: 'churrería, cocina, cafetería',
       properties: 'alargados, fritos, crujientes, dorados',
@@ -2222,7 +2222,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/magdalena.webp',
     definition: 'Pequeño bizcocho dulce y esponjoso con forma de concha.',
     features: {
-      category: 'repostería',
+      category: 'food',
       function: 'postre, acompañar el café',
       location: 'panadería, cocina, horno',
       properties: 'pequeña, dulce, esponjosa, con forma de concha',
@@ -2247,7 +2247,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/mesa.webp',
     definition: 'Mueble con superficie plana sostenida por patas.',
     features: {
-      category: 'mueble',
+      category: 'household',
       function: 'apoyar objetos, comer, trabajar',
       location: 'comedor, cocina, salón',
       properties: 'tiene superficie plana y patas',
@@ -2268,7 +2268,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/silla.webp',
     definition: 'Asiento con respaldo para una persona.',
     features: {
-      category: 'mueble',
+      category: 'household',
       function: 'sentarse',
       location: 'comedor, cocina, salón',
       properties: 'tiene asiento y respaldo, cuatro patas',
@@ -2289,7 +2289,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/cama.webp',
     definition: 'Mueble para dormir o descansar.',
     features: {
-      category: 'mueble',
+      category: 'household',
       function: 'dormir, descansar',
       location: 'dormitorio, habitación',
       properties: 'tiene colchón, almohada, sábanas',
@@ -2310,7 +2310,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/puerta.webp',
     definition: 'Lámina de madera o metal que cierra una entrada.',
     features: {
-      category: 'estructura',
+      category: 'places',
       function: 'abrir y cerrar paso',
       location: 'pared, entrada, casa',
       properties: 'tiene bisagras, pomo, se abre y cierra',
@@ -2331,7 +2331,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/ventana.webp',
     definition: 'Abertura en la pared con cristal para dejar pasar luz.',
     features: {
-      category: 'estructura',
+      category: 'places',
       function: 'iluminar, ventilar',
       location: 'pared, habitación',
       properties: 'tiene cristal, marco, se puede abrir',
@@ -2352,7 +2352,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/cocina.webp',
     definition: 'Habitación donde se preparan los alimentos.',
     features: {
-      category: 'habitación',
+      category: 'household',
       function: 'cocinar, preparar comida',
       location: 'casa, apartamento, restaurante',
       properties: 'tiene fogones, horno, fregadero',
@@ -2373,7 +2373,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/bano.webp',
     definition: 'Habitación con instalaciones para la higiene personal.',
     features: {
-      category: 'habitación',
+      category: 'household',
       function: 'aseo, higiene',
       location: 'casa, hotel, restaurante',
       properties: 'tiene inodoro, lavabo, ducha o bañera',
@@ -2394,7 +2394,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/escalera.webp',
     definition: 'Serie de peldaños que conectan diferentes niveles.',
     features: {
-      category: 'estructura',
+      category: 'places',
       function: 'subir y bajar entre pisos',
       location: 'casa, edificio, exterior',
       properties: 'tiene peldaños, pasamanos',
@@ -2415,7 +2415,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/espejo.webp',
     definition: 'Superficie lisa que refleja la imagen de lo que tiene delante.',
     features: {
-      category: 'objeto decorativo',
+      category: 'household',
       function: 'reflejar imagen',
       location: 'baño, dormitorio, pasillo',
       properties: 'es de cristal, refleja, frágil',
@@ -2436,7 +2436,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/alfombra.webp',
     definition: 'Tela gruesa que cubre el suelo.',
     features: {
-      category: 'textil',
+      category: 'clothing',
       function: 'decorar, cubrir suelo',
       location: 'salón, dormitorio, pasillo',
       properties: 'es de tela, suave, decorativa',
@@ -2457,7 +2457,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/sofa.webp',
     definition: 'Asiento largo y acolchado para varias personas.',
     features: {
-      category: 'mueble',
+      category: 'household',
       function: 'sentarse, descansar',
       location: 'salón, living, habitación',
       properties: 'es acolchado, largo, cómodo',
@@ -2478,7 +2478,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/estanteria.webp',
     definition: 'Mueble con baldas para colocar objetos.',
     features: {
-      category: 'mueble',
+      category: 'household',
       function: 'almacenar, decorar',
       location: 'salón, estudio, oficina',
       properties: 'tiene baldas o estantes, vertical',
@@ -2499,7 +2499,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/nevera.webp',
     definition: 'Electrodoméstico que mantiene los alimentos fríos.',
     features: {
-      category: 'electrodoméstico',
+      category: 'household',
       function: 'conservar alimentos en frío',
       location: 'cocina',
       properties: 'es grande, mantiene frío, tiene puertas',
@@ -2520,7 +2520,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/lavadora.webp',
     definition: 'Electrodoméstico para lavar la ropa.',
     features: {
-      category: 'electrodoméstico',
+      category: 'household',
       function: 'lavar ropa',
       location: 'lavadero, baño, cocina',
       properties: 'es grande, gira, usa agua y jabón',
@@ -2541,7 +2541,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/microondas.webp',
     definition: 'Electrodoméstico que calienta la comida rápidamente.',
     features: {
-      category: 'electrodoméstico',
+      category: 'household',
       function: 'calentar comida',
       location: 'cocina',
       properties: 'es pequeño, calienta rápido, tiene botones',
@@ -2562,7 +2562,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/lavabo.webp',
     definition: 'Receptáculo con agua corriente para lavarse las manos y la cara.',
     features: {
-      category: 'mueble de baño',
+      category: 'household',
       function: 'lavarse las manos, la cara',
       location: 'baño, aseo',
       properties: 'tiene grifo, desagüe, es de cerámica',
@@ -2583,7 +2583,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/inodoro.webp',
     definition: 'Aparato sanitario con descarga de agua para la eliminación de desechos.',
     features: {
-      category: 'aparato sanitario',
+      category: 'household',
       function: 'eliminar desechos',
       location: 'baño, aseo',
       properties: 'tiene cisterna, taza, descarga',
@@ -2604,7 +2604,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/grifo.webp',
     definition: 'Dispositivo que controla la salida de agua en tuberías.',
     features: {
-      category: 'instalación',
+      category: 'household',
       function: 'controlar el agua',
       location: 'baño, cocina, lavadero',
       properties: 'es metálico, giratorio, controla el flujo',
@@ -2625,7 +2625,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/cortina.webp',
     definition: 'Tela colgada que cubre ventanas o separa espacios, como en la ducha.',
     features: {
-      category: 'textil',
+      category: 'clothing',
       function: 'cubrir, separar, decorar',
       location: 'ventanas, ducha, puertas',
       properties: 'es de tela, se desliza, cubre',
@@ -2646,7 +2646,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/lampara.webp',
     definition: 'Objeto que produce luz artificial mediante una bombilla.',
     features: {
-      category: 'iluminación',
+      category: 'household',
       function: 'iluminar',
       location: 'salón, dormitorio, escritorio',
       properties: 'tiene bombilla, pantalla, cable',
@@ -2667,7 +2667,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/reloj.webp',
     definition: 'Instrumento que mide y muestra el tiempo.',
     features: {
-      category: 'medición',
+      category: 'household',
       function: 'medir el tiempo',
       location: 'pared, mesita, muñeca',
       properties: 'tiene agujas o números, marca horas',
@@ -2688,7 +2688,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/television.webp',
     definition: 'Aparato electrónico que recibe y muestra imágenes en movimiento con sonido.',
     features: {
-      category: 'electrodoméstico',
+      category: 'household',
       function: 'entretenimiento, información',
       location: 'salón, dormitorio',
       properties: 'tiene pantalla, altavoces, mando a distancia',
@@ -2709,7 +2709,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/telefono.webp',
     definition: 'Dispositivo de comunicación que permite hablar a distancia.',
     features: {
-      category: 'comunicación',
+      category: 'household',
       function: 'llamar, comunicar',
       location: 'salón, oficina, bolsillo',
       properties: 'tiene teclado, pantalla, altavoz',
@@ -2730,7 +2730,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/radiador.webp',
     definition: 'Aparato que emite calor para calentar una habitación.',
     features: {
-      category: 'calefacción',
+      category: 'household',
       function: 'calentar',
       location: 'pared, bajo la ventana',
       properties: 'es metálico, emite calor, tiene aletas',
@@ -2751,7 +2751,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/ventilador.webp',
     definition: 'Aparato con aspas giratorias que mueve el aire para refrescar.',
     features: {
-      category: 'electrodoméstico',
+      category: 'household',
       function: 'refrescar, mover aire',
       location: 'habitación, techo, escritorio',
       properties: 'tiene aspas, gira, eléctrico',
@@ -2772,7 +2772,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/aspiradora.webp',
     definition: 'Máquina eléctrica que aspira el polvo y la suciedad del suelo.',
     features: {
-      category: 'electrodoméstico',
+      category: 'household',
       function: 'limpiar, aspirar',
       location: 'casa, armario, trastero',
       properties: 'es eléctrica, ruidosa, tiene bolsa',
@@ -2793,7 +2793,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/escoba.webp',
     definition: 'Instrumento de limpieza formado por un palo y cerdas para barrer.',
     features: {
-      category: 'limpieza',
+      category: 'household',
       function: 'barrer, limpiar',
       location: 'cocina, armario, garaje',
       properties: 'tiene palo largo y cerdas',
@@ -2814,7 +2814,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/fregona.webp',
     definition: 'Instrumento de limpieza con un palo y una tela para fregar suelos.',
     features: {
-      category: 'limpieza',
+      category: 'household',
       function: 'fregar, limpiar suelos',
       location: 'cocina, baño, armario',
       properties: 'tiene palo largo y mocheta',
@@ -2835,7 +2835,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/cubo.webp',
     definition: 'Recipiente con asa usado para contener agua u otros líquidos.',
     features: {
-      category: 'recipiente',
+      category: 'household',
       function: 'contener líquidos, fregar',
       location: 'cocina, lavadero, garaje',
       properties: 'es de plástico o metal, con asa, abierto',
@@ -2856,7 +2856,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/contenedor.webp',
     definition: 'Contenedor grande de basura situado en la calle o en espacios exteriores.',
     features: {
-      category: 'recipiente',
+      category: 'household',
       function: 'recoger basura a gran escala',
       location: 'calle, plaza, garaje, exterior',
       properties: 'es grande, de plástico o metal, tiene tapa',
@@ -2877,7 +2877,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/toalla.webp',
     definition: 'Pieza de tela absorbente para secarse el cuerpo.',
     features: {
-      category: 'textil',
+      category: 'clothing',
       function: 'secar',
       location: 'baño, cocina, gimnasio',
       properties: 'es de tela, suave, absorbente',
@@ -2898,7 +2898,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/almohada.webp',
     definition: 'Cojín blando que se pone en la cama para apoyar la cabeza al dormir.',
     features: {
-      category: 'textil',
+      category: 'clothing',
       function: 'apoyar la cabeza',
       location: 'cama, dormitorio',
       properties: 'es blanda, rellena, rectangular',
@@ -2919,7 +2919,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/manta.webp',
     definition: 'Pieza de tela gruesa y abrigada que se usa para cubrirse.',
     features: {
-      category: 'textil',
+      category: 'clothing',
       function: 'abrigar, cubrir',
       location: 'cama, sofá, dormitorio',
       properties: 'es gruesa, abrigada, de lana o tela',
@@ -2940,7 +2940,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/sabana.webp',
     definition: 'Tela grande que cubre el colchón de la cama.',
     features: {
-      category: 'textil',
+      category: 'clothing',
       function: 'cubrir la cama',
       location: 'cama, dormitorio, lavadero',
       properties: 'es grande, fina, de algodón',
@@ -2961,7 +2961,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/armario.webp',
     definition: 'Mueble con puertas y estantes para guardar ropa y otros objetos.',
     features: {
-      category: 'mueble',
+      category: 'household',
       function: 'guardar, almacenar',
       location: 'dormitorio, recibidor',
       properties: 'tiene puertas, estantes, cajones',
@@ -2982,7 +2982,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/cajon.webp',
     definition: 'Compartimento deslizante de un mueble que sirve para guardar cosas.',
     features: {
-      category: 'mueble',
+      category: 'household',
       function: 'guardar objetos',
       location: 'mesa, armario, cómoda',
       properties: 'es deslizante, rectangular, con tirador',
@@ -3003,7 +3003,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/estufa.webp',
     definition: 'Aparato que produce calor para calentar una habitación o cocinar.',
     features: {
-      category: 'calefacción',
+      category: 'household',
       function: 'calentar, cocinar',
       location: 'cocina, salón',
       properties: 'es metálica, produce calor, tiene quemadores',
@@ -3024,7 +3024,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/horno.webp',
     definition: 'Aparato cerrado que genera calor para cocinar alimentos.',
     features: {
-      category: 'electrodoméstico',
+      category: 'household',
       function: 'cocinar, hornear',
       location: 'cocina',
       properties: 'es cerrado, caliente, tiene puerta',
@@ -3045,7 +3045,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/batidora.webp',
     definition: 'Electrodoméstico que mezcla y bate alimentos.',
     features: {
-      category: 'electrodoméstico',
+      category: 'household',
       function: 'batir, mezclar',
       location: 'cocina',
       properties: 'tiene aspas o varillas, eléctrica',
@@ -3066,7 +3066,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/taza.webp',
     definition: 'Recipiente pequeño con asa para beber líquidos calientes.',
     features: {
-      category: 'vajilla',
+      category: 'household',
       function: 'beber',
       location: 'cocina, mesa, despensa',
       properties: 'es pequeña, con asa, de cerámica',
@@ -3087,7 +3087,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/plato.webp',
     definition: 'Pieza de vajilla plana y redonda para servir comida.',
     features: {
-      category: 'vajilla',
+      category: 'household',
       function: 'servir comida',
       location: 'cocina, mesa, lavavajillas',
       properties: 'es plano, redondo, de cerámica',
@@ -3108,7 +3108,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/vaso.webp',
     definition: 'Recipiente cilíndrico sin asa para beber líquidos.',
     features: {
-      category: 'vajilla',
+      category: 'household',
       function: 'beber',
       location: 'cocina, mesa, nevera',
       properties: 'es cilíndrico, transparente, sin asa',
@@ -3129,7 +3129,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/cuchara.webp',
     definition: 'Cubierto con una parte cóncava para llevar comida a la boca.',
     features: {
-      category: 'cubiertería',
+      category: 'household',
       function: 'comer, servir',
       location: 'cocina, mesa, cajón',
       properties: 'tiene mango largo y parte cóncava',
@@ -3150,7 +3150,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/tenedor.webp',
     definition: 'Cubierto con púas para pinchar y llevar comida a la boca.',
     features: {
-      category: 'cubertería',
+      category: 'household',
       function: 'comer, pinchar',
       location: 'cocina, mesa, cajón',
       properties: 'tiene púas, mango largo, metálico',
@@ -3171,7 +3171,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/botella.webp',
     definition: 'Recipiente de cuello estrecho para contener líquidos.',
     features: {
-      category: 'recipiente',
+      category: 'household',
       function: 'contener líquidos',
       location: 'cocina, nevera, despensa',
       properties: 'tiene cuello estrecho, cierre, es de plástico o vidrio',
@@ -3192,7 +3192,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/llaves.webp',
     definition: 'Objetos metálicos usados para abrir y cerrar las puertas de una casa.',
     features: {
-      category: 'seguridad',
+      category: 'household',
       function: 'abrir, cerrar, asegurar',
       location: 'bolsillo, bolso, puerta',
       properties: 'son metálicas, dentadas, pequeñas',
@@ -3213,7 +3213,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/interruptor.webp',
     definition: 'Dispositivo que abre o cierra un circuito eléctrico para encender o apagar la luz.',
     features: {
-      category: 'instalación eléctrica',
+      category: 'household',
       function: 'encender, apagar la luz',
       location: 'pared, junto a la puerta',
       properties: 'es pequeño, de plástico, en la pared',
@@ -3234,7 +3234,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/timbre.webp',
     definition: 'Dispositivo que produce un sonido para avisar cuando alguien llama a la puerta.',
     features: {
-      category: 'instalación',
+      category: 'household',
       function: 'avisar, llamar',
       location: 'puerta, pared, portero',
       properties: 'es pequeño, hace ruido, en la pared',
@@ -3255,7 +3255,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/buzon.webp',
     definition: 'Abertura o casilla donde se deposita y recoge el correo.',
     features: {
-      category: 'mueble',
+      category: 'household',
       function: 'recibir correo',
       location: 'portal, calle, puerta',
       properties: 'es pequeño, con tapa, en la pared',
@@ -3276,7 +3276,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/bombilla.webp',
     definition: 'Objeto que da luz cuando se enciende.',
     features: {
-      category: 'iluminación',
+      category: 'household',
       function: 'dar luz',
       location: 'lámpara, techo, lámpara',
       properties: 'de cristal, pequeña, brillante, redonda',
@@ -3297,7 +3297,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/enchufe.webp',
     definition: 'Agujero en la pared donde se conectan los aparatos eléctricos.',
     features: {
-      category: 'instalación eléctrica',
+      category: 'household',
       function: 'conectar aparatos a la electricidad',
       location: 'pared, cocina, salón',
       properties: 'tiene agujeros, está en la pared, peligroso',
@@ -3318,7 +3318,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/desague.webp',
     definition: 'Agujero por donde se va el agua sucia.',
     features: {
-      category: 'instalación de agua',
+      category: 'household',
       function: 'eliminar agua sucia',
       location: 'fregadero, ducha, lavabo',
       properties: 'agujero, tubo, está abajo',
@@ -3339,7 +3339,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/baldosa.webp',
     definition: 'Pieza cuadrada de cerámica que cubre el suelo.',
     features: {
-      category: 'revestimiento',
+      category: 'clothing',
       function: 'cubrir el suelo o la pared',
       location: 'suelo, pared, baño, cocina',
       properties: 'cuadrada, plana, de cerámica, lisa',
@@ -3360,7 +3360,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/persiana.webp',
     definition: 'Láminas de madera o metal que cubren la ventana.',
     features: {
-      category: 'cubierta de ventana',
+      category: 'household',
       function: 'bloquear la luz, dar privacidad',
       location: 'ventana, balcón',
       properties: 'tiene láminas, se sube y baja, de madera o plástico',
@@ -3381,7 +3381,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/fregadero.webp',
     definition: 'Pila de la cocina donde se lavan los platos.',
     features: {
-      category: 'mueble de cocina',
+      category: 'household',
       function: 'lavar platos y alimentos',
       location: 'cocina, encimera',
       properties: 'hondo, de acero, tiene grifo',
@@ -3406,7 +3406,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/cabeza.webp',
     definition: 'Parte superior del cuerpo que contiene el cerebro.',
     features: {
-      category: 'parte del cuerpo',
+      category: 'body-parts',
       function: 'pensar, ver, oír, oler, hablar',
       location: 'parte superior del cuerpo',
       properties: 'contiene cerebro, ojos, nariz, boca, orejas',
@@ -3427,7 +3427,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/mano.webp',
     definition: 'Extremidad del brazo con cinco dedos.',
     features: {
-      category: 'parte del cuerpo',
+      category: 'body-parts',
       function: 'agarrar, tocar, escribir',
       location: 'extremo del brazo',
       properties: 'tiene cinco dedos, palma, dorso',
@@ -3448,7 +3448,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/pie.webp',
     definition: 'Parte final de la pierna que sirve para caminar.',
     features: {
-      category: 'parte del cuerpo',
+      category: 'body-parts',
       function: 'caminar, mantener el equilibrio',
       location: 'extremo de la pierna',
       properties: 'tiene dedos, talón, empeine',
@@ -3469,7 +3469,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/ojo.webp',
     definition: 'Órgano de la vista situado en la cara.',
     features: {
-      category: 'órgano sensorial',
+      category: 'body-parts',
       function: 'ver',
       location: 'cara, rostro',
       properties: 'tiene pupila, iris, párpado, pestañas',
@@ -3490,7 +3490,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/boca.webp',
     definition: 'Abertura de la cara por donde se come y habla.',
     features: {
-      category: 'parte del cuerpo',
+      category: 'body-parts',
       function: 'comer, hablar, respirar',
       location: 'parte inferior de la cara',
       properties: 'tiene labios, dientes, lengua',
@@ -3511,7 +3511,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/nariz.webp',
     definition: 'Órgano olfativo que sobresale en el centro de la cara.',
     features: {
-      category: 'órgano sensorial',
+      category: 'body-parts',
       function: 'oler, respirar',
       location: 'centro de la cara',
       properties: 'tiene fosas nasales, cartílago',
@@ -3532,7 +3532,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/oreja.webp',
     definition: 'Órgano auditivo a los lados de la cabeza.',
     features: {
-      category: 'órgano sensorial',
+      category: 'body-parts',
       function: 'oír, escuchar',
       location: 'a ambos lados de la cabeza',
       properties: 'tiene lóbulo, cartílago, forma curva',
@@ -3553,7 +3553,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/dedo.webp',
     definition: 'Cada una de las extremidades articuladas de manos y pies.',
     features: {
-      category: 'parte del cuerpo',
+      category: 'body-parts',
       function: 'agarrar, señalar',
       location: 'manos, pies',
       properties: 'es largo, articulado, tiene uña',
@@ -3574,7 +3574,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/brazo.webp',
     definition: 'Extremidad superior del cuerpo desde el hombro a la mano.',
     features: {
-      category: 'parte del cuerpo',
+      category: 'body-parts',
       function: 'mover, agarrar, abrazar',
       location: 'extremidad superior',
       properties: 'tiene hombro, codo, antebrazo',
@@ -3595,7 +3595,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/pierna.webp',
     definition: 'Extremidad inferior del cuerpo desde la cadera al pie.',
     features: {
-      category: 'parte del cuerpo',
+      category: 'body-parts',
       function: 'caminar, correr, saltar',
       location: 'extremidad inferior',
       properties: 'tiene muslo, rodilla, pantorrilla',
@@ -3616,7 +3616,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/rodilla.webp',
     definition: 'Articulación entre el muslo y la pierna.',
     features: {
-      category: 'articulación',
+      category: 'body-parts',
       function: 'flexionar la pierna',
       location: 'parte media de la pierna',
       properties: 'es una articulación, se dobla',
@@ -3637,7 +3637,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/hombro.webp',
     definition: 'Articulación que une el brazo con el tronco.',
     features: {
-      category: 'articulación',
+      category: 'body-parts',
       function: 'mover el brazo',
       location: 'parte superior del cuerpo',
       properties: 'es una articulación, une brazo y tronco',
@@ -3658,7 +3658,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/cuello.webp',
     definition: 'Parte del cuerpo que une la cabeza con el tronco.',
     features: {
-      category: 'parte del cuerpo',
+      category: 'body-parts',
       function: 'unir cabeza y tronco, girar',
       location: 'entre cabeza y tronco',
       properties: 'tiene vértebras, es flexible',
@@ -3679,7 +3679,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/espalda.webp',
     definition: 'Parte posterior del tronco humano.',
     features: {
-      category: 'parte del cuerpo',
+      category: 'body-parts',
       function: 'sostener, cargar',
       location: 'parte posterior del tronco',
       properties: 'es ancha, tiene vértebras, músculos',
@@ -3700,7 +3700,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/pecho.webp',
     definition: 'Parte anterior del tronco que contiene los pulmones y el corazón.',
     features: {
-      category: 'parte del cuerpo',
+      category: 'body-parts',
       function: 'respirar, proteger órganos',
       location: 'parte anterior del tronco',
       properties: 'contiene corazón y pulmones',
@@ -3721,7 +3721,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/corazon.webp',
     definition: 'Órgano muscular que bombea la sangre por todo el cuerpo.',
     features: {
-      category: 'órgano interno',
+      category: 'body-parts',
       function: 'bombea sangre',
       location: 'pecho, lado izquierdo del tórax',
       properties: 'es muscular, late, vital',
@@ -3742,7 +3742,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/estomago.webp',
     definition: 'Órgano del sistema digestivo donde se procesan los alimentos.',
     features: {
-      category: 'órgano interno',
+      category: 'body-parts',
       function: 'digerir alimentos',
       location: 'abdomen, parte superior',
       properties: 'es muscular, en forma de bolsa, ácido',
@@ -3763,7 +3763,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/diente.webp',
     definition: 'Pieza dura y blanca insertada en la mandíbula para masticar.',
     features: {
-      category: 'parte del cuerpo',
+      category: 'body-parts',
       function: 'masticar, morder',
       location: 'boca, mandíbula',
       properties: 'es duro, blanco, con raíz',
@@ -3784,7 +3784,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/lengua.webp',
     definition: 'Órgano muscular dentro de la boca que sirve para hablar, saborear y tragar.',
     features: {
-      category: 'órgano',
+      category: 'body-parts',
       function: 'hablar, saborear, tragar',
       location: 'boca',
       properties: 'es muscular, móvil, con papilas gustativas',
@@ -3805,7 +3805,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/ceja.webp',
     definition: 'Arco de pelo situado sobre cada ojo.',
     features: {
-      category: 'parte del cuerpo',
+      category: 'body-parts',
       function: 'proteger los ojos, expresar',
       location: 'sobre los ojos, frente',
       properties: 'es de pelo, arqueada, simétrica',
@@ -3826,7 +3826,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/pestana.webp',
     definition: 'Pelos cortos y curvados que bordean los párpados.',
     features: {
-      category: 'parte del cuerpo',
+      category: 'body-parts',
       function: 'proteger los ojos',
       location: 'borde de los párpados',
       properties: 'son cortos, curvados, finos',
@@ -3847,7 +3847,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/codo.webp',
     definition: 'Articulación que une el brazo con el antebrazo.',
     features: {
-      category: 'articulación',
+      category: 'body-parts',
       function: 'flexionar el brazo',
       location: 'parte media del brazo',
       properties: 'es óseo, articulado, puntiagudo',
@@ -3868,7 +3868,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/muneca.webp',
     definition: 'Articulación que une la mano con el antebrazo.',
     features: {
-      category: 'articulación',
+      category: 'body-parts',
       function: 'mover la mano',
       location: 'entre mano y brazo',
       properties: 'es articulada, flexible, ósea',
@@ -3889,7 +3889,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/tobillo.webp',
     definition: 'Articulación que une el pie con la pierna.',
     features: {
-      category: 'articulación',
+      category: 'body-parts',
       function: 'soportar peso, mover el pie',
       location: 'entre pie y pierna',
       properties: 'es articulado, óseo, soporta peso',
@@ -3910,7 +3910,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/cabello.webp',
     definition: 'Conjunto de pelos que crecen en la cabeza humana.',
     features: {
-      category: 'parte del cuerpo',
+      category: 'body-parts',
       function: 'proteger, adornar',
       location: 'cabeza',
       properties: 'es filamento, flexible, de diversos colores',
@@ -3935,7 +3935,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/camisa.webp',
     definition: 'Prenda de vestir que cubre el torso con mangas y cuello.',
     features: {
-      category: 'prenda de vestir',
+      category: 'clothing',
       function: 'vestir, abrigar',
       location: 'armario, tienda',
       properties: 'tiene mangas, botones, cuello',
@@ -3956,7 +3956,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/pantalon.webp',
     definition: 'Prenda de vestir que cubre las piernas desde la cintura.',
     features: {
-      category: 'prenda de vestir',
+      category: 'clothing',
       function: 'vestir, cubrir piernas',
       location: 'armario, tienda',
       properties: 'tiene dos perneras, cintura, cremallera',
@@ -3977,7 +3977,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/vestido.webp',
     definition: 'Prenda de vestir de una sola pieza que cubre el cuerpo.',
     features: {
-      category: 'prenda de vestir',
+      category: 'clothing',
       function: 'vestir, elegante',
       location: 'armario, tienda',
       properties: 'es de una pieza, cubre torso y piernas',
@@ -3998,7 +3998,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/zapato.webp',
     definition: 'Calzado que protege los pies.',
     features: {
-      category: 'calzado',
+      category: 'clothing',
       function: 'proteger los pies, caminar',
       location: 'zapatero, tienda',
       properties: 'tiene suela, empeine, tacón',
@@ -4019,7 +4019,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/sombrero.webp',
     definition: 'Prenda que cubre la cabeza para protección o adorno.',
     features: {
-      category: 'accesorio',
+      category: 'clothing',
       function: 'proteger del sol, abrigar',
       location: 'cabeza, armario',
       properties: 'tiene ala, copa, se pone en la cabeza',
@@ -4040,7 +4040,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/chaqueta.webp',
     definition: 'Prenda exterior con mangas que se abrocha adelante.',
     features: {
-      category: 'prenda de vestir',
+      category: 'clothing',
       function: 'abrigo, vestir',
       location: 'armario, percha',
       properties: 'tiene mangas, botones o cremallera',
@@ -4061,7 +4061,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/guante.webp',
     definition: 'Prenda que cubre las manos con compartimentos para los dedos.',
     features: {
-      category: 'accesorio',
+      category: 'clothing',
       function: 'proteger las manos del frío',
       location: 'armario, cajón',
       properties: 'cubre los dedos, viene en par',
@@ -4082,7 +4082,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/bufanda.webp',
     definition: 'Prenda de lana que se enrolla alrededor del cuello.',
     features: {
-      category: 'accesorio',
+      category: 'clothing',
       function: 'abrigo, protección del frío',
       location: 'armario, cuello',
       properties: 'es alargada, de lana, suave',
@@ -4103,7 +4103,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/calcetin.webp',
     definition: 'Prenda de punto que cubre el pie y parte de la pierna.',
     features: {
-      category: 'prenda de vestir',
+      category: 'clothing',
       function: 'proteger el pie, abrigar',
       location: 'cajón, armario',
       properties: 'es de tela, viene en par, cubre el pie',
@@ -4124,7 +4124,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/cinturon.webp',
     definition: 'Banda de cuero o tela que se usa en la cintura.',
     features: {
-      category: 'accesorio',
+      category: 'clothing',
       function: 'ajustar la ropa, sostener pantalón',
       location: 'cintura, armario',
       properties: 'es largo, tiene hebilla, de cuero o tela',
@@ -4145,7 +4145,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/falda.webp',
     definition: 'Prenda que cubre la parte inferior del cuerpo desde la cintura.',
     features: {
-      category: 'prenda de vestir',
+      category: 'clothing',
       function: 'vestir',
       location: 'armario, tienda',
       properties: 'no tiene perneras, cuelga desde la cintura',
@@ -4166,7 +4166,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/abrigo.webp',
     definition: 'Prenda de vestir gruesa que protege del frío.',
     features: {
-      category: 'prenda de vestir',
+      category: 'clothing',
       function: 'proteger del frío',
       location: 'armario, perchero',
       properties: 'es grueso, largo, abriga mucho',
@@ -4187,7 +4187,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/camiseta.webp',
     definition: 'Prenda de vestir de manga corta o sin mangas, de tela ligera.',
     features: {
-      category: 'prenda de vestir',
+      category: 'clothing',
       function: 'vestir, cubrir el torso',
       location: 'armario, cajón, tienda',
       properties: 'es ligera, de manga corta, informal',
@@ -4208,7 +4208,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/pijama.webp',
     definition: 'Prenda de vestir cómoda usada para dormir.',
     features: {
-      category: 'prenda de vestir',
+      category: 'clothing',
       function: 'vestir para dormir',
       location: 'armario, cama, dormitorio',
       properties: 'es cómodo, suave, de dos piezas',
@@ -4229,7 +4229,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/banador.webp',
     definition: 'Prenda de vestir para nadar o estar en la playa o piscina.',
     features: {
-      category: 'prenda de vestir',
+      category: 'clothing',
       function: 'nadar, tomar el sol',
       location: 'playa, piscina, armario',
       properties: 'es de tela elástica, resistente al agua',
@@ -4250,7 +4250,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/botas.webp',
     definition: 'Calzado que cubre el pie y parte de la pierna, generalmente de cuero.',
     features: {
-      category: 'calzado',
+      category: 'clothing',
       function: 'proteger pies y piernas',
       location: 'armario, zapatero, puerta',
       properties: 'son altas, de cuero o goma, cerradas',
@@ -4271,7 +4271,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/sandalias.webp',
     definition: 'Calzado ligero y abierto que deja los pies al descubierto.',
     features: {
-      category: 'calzado',
+      category: 'clothing',
       function: 'proteger los pies',
       location: 'armario, zapatero, playa',
       properties: 'son abiertas, ligeras, de verano',
@@ -4292,7 +4292,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/gafas.webp',
     definition: 'Accesorio con cristales que se colocan sobre los ojos para ver mejor o protegerse del sol.',
     features: {
-      category: 'accesorio',
+      category: 'clothing',
       function: 'ver, proteger del sol',
       location: 'cara, bolsillo, estuche',
       properties: 'tienen cristales, patillas, montura',
@@ -4313,7 +4313,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/reloj_pulsera.webp',
     definition: 'Reloj pequeño que se lleva atado a la muñeca.',
     features: {
-      category: 'accesorio',
+      category: 'clothing',
       function: 'medir el tiempo',
       location: 'muñeca, cajón',
       properties: 'es pequeño, con correa, para la muñeca',
@@ -4334,7 +4334,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/anillo.webp',
     definition: 'Joya circular que se lleva en los dedos como adorno.',
     features: {
-      category: 'accesorio',
+      category: 'clothing',
       function: 'adornar',
       location: 'dedo, mano, joyero',
       properties: 'es circular, metálico, decorativo',
@@ -4359,7 +4359,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/coche.webp',
     definition: 'Vehículo de motor con cuatro ruedas para transportar personas.',
     features: {
-      category: 'vehículo de motor',
+      category: 'vehicles',
       function: 'transportar personas',
       location: 'calle, carretera, garaje',
       properties: 'tiene cuatro ruedas, motor, volante',
@@ -4380,7 +4380,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/bicicleta.webp',
     definition: 'Vehículo de dos ruedas impulsado por pedales.',
     features: {
-      category: 'vehículo sin motor',
+      category: 'vehicles',
       function: 'transporte, ejercicio',
       location: 'calle, carril bici, garaje',
       properties: 'tiene dos ruedas, pedales, manillar',
@@ -4401,7 +4401,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/tren.webp',
     definition: 'Vehículo ferroviario que se desplaza por raíles.',
     features: {
-      category: 'transporte público',
+      category: 'vehicles',
       function: 'transportar pasajeros y mercancías',
       location: 'estación, vías, raíles',
       properties: 'es largo, va por raíles, tiene vagones',
@@ -4422,7 +4422,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/avion.webp',
     definition: 'Vehículo aéreo con alas y motor que vuela.',
     features: {
-      category: 'transporte aéreo',
+      category: 'vehicles',
       function: 'transportar personas por aire',
       location: 'aeropuerto, cielo',
       properties: 'tiene alas, motores, es grande',
@@ -4443,7 +4443,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/barco.webp',
     definition: 'Embarcación grande que navega por el agua.',
     features: {
-      category: 'transporte marítimo',
+      category: 'vehicles',
       function: 'transportar por agua',
       location: 'mar, puerto, río',
       properties: 'flota en el agua, tiene velas o motor',
@@ -4464,7 +4464,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/autobus.webp',
     definition: 'Vehículo grande de transporte público por carretera.',
     features: {
-      category: 'transporte público',
+      category: 'vehicles',
       function: 'transportar muchas personas',
       location: 'parada, calle, estación',
       properties: 'es grande, tiene muchos asientos',
@@ -4485,7 +4485,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/moto.webp',
     definition: 'Vehículo de dos ruedas con motor.',
     features: {
-      category: 'vehículo de motor',
+      category: 'vehicles',
       function: 'transporte',
       location: 'calle, carretera, garaje',
       properties: 'tiene dos ruedas, motor, manillar',
@@ -4506,7 +4506,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/camion.webp',
     definition: 'Vehículo grande para transportar mercancías pesadas.',
     features: {
-      category: 'vehículo de carga',
+      category: 'vehicles',
       function: 'transportar mercancías',
       location: 'carretera, almacén',
       properties: 'es muy grande, tiene remolque',
@@ -4527,7 +4527,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/ambulancia.webp',
     definition: 'Vehículo especial para transportar enfermos o heridos.',
     features: {
-      category: 'vehículo de emergencia',
+      category: 'vehicles',
       function: 'atender emergencias médicas',
       location: 'hospital, calle',
       properties: 'tiene sirena, cruz roja, camilla',
@@ -4548,7 +4548,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/taxi.webp',
     definition: 'Vehículo de alquiler con conductor para transporte urbano.',
     features: {
-      category: 'transporte privado',
+      category: 'vehicles',
       function: 'transporte urbano con conductor',
       location: 'calle, parada, ciudad',
       properties: 'tiene taxímetro, luz en el techo',
@@ -4569,7 +4569,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/helicoptero.webp',
     definition: 'Aeronave que se sostiene mediante hélices giratorias.',
     features: {
-      category: 'transporte aéreo',
+      category: 'vehicles',
       function: 'volar verticalmente, rescate',
       location: 'helipuerto, cielo',
       properties: 'tiene hélices, puede flotar en el aire',
@@ -4590,7 +4590,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/metro.webp',
     definition: 'Sistema de tren urbano subterráneo.',
     features: {
-      category: 'transporte público',
+      category: 'vehicles',
       function: 'transporte urbano masivo',
       location: 'estación, túnel, ciudad',
       properties: 'va bajo tierra, es rápido, tiene vagones',
@@ -4611,7 +4611,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/patinete.webp',
     definition: 'Tabla con ruedas que se mueve empujando con un pie.',
     features: {
-      category: 'vehículo pequeño',
+      category: 'vehicles',
       function: 'transporte personal, divertirse',
       location: 'acera, parque, calle',
       properties: 'dos ruedas, pequeño, sin motor',
@@ -4632,7 +4632,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/tractor.webp',
     definition: 'Vehículo grande usado en el campo para trabajar la tierra.',
     features: {
-      category: 'vehículo agrícola',
+      category: 'vehicles',
       function: 'arar tierra, trabajar el campo',
       location: 'campo, granja, finca',
       properties: 'grande, ruedas grandes, fuerte',
@@ -4653,7 +4653,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/globo.webp',
     definition: 'Esfera grande llena de aire caliente que vuela por el cielo.',
     features: {
-      category: 'vehículo aéreo',
+      category: 'vehicles',
       function: 'volar, transportar personas por el aire',
       location: 'cielo, aire',
       properties: 'redondo, grande, vuela, colorido',
@@ -4674,7 +4674,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/cohete.webp',
     definition: 'Vehículo que viaja al espacio muy rápido.',
     features: {
-      category: 'vehículo espacial',
+      category: 'vehicles',
       function: 'viajar al espacio, lanzar satélites',
       location: 'espacio, base espacial',
       properties: 'muy rápido, largo, tiene fuego en la base',
@@ -4695,7 +4695,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/submarino.webp',
     definition: 'Barco que puede navegar debajo del agua.',
     features: {
-      category: 'vehículo marítimo',
+      category: 'vehicles',
       function: 'navegar bajo el agua',
       location: 'mar, océano, debajo del agua',
       properties: 'grande, alargado, va bajo el agua',
@@ -4716,7 +4716,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/canoa.webp',
     definition: 'Barca pequeña y estrecha que se mueve con remos.',
     features: {
-      category: 'embarcación pequeña',
+      category: 'vehicles',
       function: 'navegar en ríos y lagos',
       location: 'río, lago, aguas tranquilas',
       properties: 'pequeña, estrecha, de madera o plástico',
@@ -4737,7 +4737,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/velero.webp',
     definition: 'Barco que se mueve con el viento usando velas.',
     features: {
-      category: 'embarcación a vela',
+      category: 'vehicles',
       function: 'navegar con el viento',
       location: 'mar, lago, costa',
       properties: 'tiene velas blancas, usa el viento',
@@ -4758,7 +4758,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/teleferico.webp',
     definition: 'Cabina que cuelga de cables y sube por las montañas.',
     features: {
-      category: 'transporte elevado',
+      category: 'vehicles',
       function: 'subir montañas, transportar personas en altura',
       location: 'montaña, estación de esquí',
       properties: 'cuelga de cables, cabina, va por el aire',
@@ -4783,7 +4783,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/martillo.webp',
     definition: 'Herramienta con cabeza pesada para golpear.',
     features: {
-      category: 'herramienta de golpe',
+      category: 'tools',
       function: 'golpear clavos, clavar',
       location: 'caja de herramientas, taller',
       properties: 'tiene mango y cabeza de metal',
@@ -4804,7 +4804,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/clavo.webp',
     definition: 'Pieza metálica puntiaguda para fijar cosas.',
     features: {
-      category: 'fijación',
+      category: 'clothing',
       function: 'fijar, colgar',
       location: 'caja de herramientas, ferretería',
       properties: 'es de metal, puntiagudo, cabe plana',
@@ -4825,7 +4825,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/destornillador.webp',
     definition: 'Herramienta para apretar o aflojar tornillos.',
     features: {
-      category: 'herramienta de apriete',
+      category: 'tools',
       function: 'atornillar, desatornillar',
       location: 'caja de herramientas, taller',
       properties: 'tiene mango y punta plana o estrella',
@@ -4846,7 +4846,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/llave_inglesa.webp',
     definition: 'Herramienta manual ajustable usada para apretar o aflojar tuercas y tornillos.',
     features: {
-      category: 'herramienta',
+      category: 'tools',
       function: 'apretar y aflojar tuercas y tornillos',
       location: 'caja de herramientas, taller',
       properties: 'tiene una boca ajustable, es de metal, tiene mango largo',
@@ -4867,7 +4867,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/tijeras.webp',
     definition: 'Herramienta con dos hojas afiladas que cortan al juntarse.',
     features: {
-      category: 'herramienta de corte',
+      category: 'tools',
       function: 'cortar papel, tela',
       location: 'cajón, oficina, costura',
       properties: 'tiene dos hojas afiladas, mango',
@@ -4888,7 +4888,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/cuchillo.webp',
     definition: 'Utensilio con hoja afilada para cortar.',
     features: {
-      category: 'utensilio de corte',
+      category: 'household',
       function: 'cortar alimentos',
       location: 'cocina, cajón, mesa',
       properties: 'tiene hoja afilada y mango',
@@ -4909,7 +4909,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/sierra.webp',
     definition: 'Herramienta con borde dentado para cortar madera.',
     features: {
-      category: 'herramienta de corte',
+      category: 'tools',
       function: 'cortar madera',
       location: 'taller, caja de herramientas',
       properties: 'tiene borde dentado, hoja larga',
@@ -4930,7 +4930,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/pala.webp',
     definition: 'Herramienta con mango y hoja plana para cavar o recoger.',
     features: {
-      category: 'herramienta de excavación',
+      category: 'tools',
       function: 'cavar, recoger tierra',
       location: 'jardín, obra, campo',
       properties: 'tiene mango largo y hoja plana',
@@ -4951,7 +4951,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/escalera.webp',
     definition: 'Herramienta con peldaños para alcanzar alturas.',
     features: {
-      category: 'herramienta de acceso',
+      category: 'tools',
       function: 'subir a lugares altos',
       location: 'garaje, trastero, obra',
       properties: 'tiene peldaños, es plegable',
@@ -4972,7 +4972,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/pincel.webp',
     definition: 'Instrumento con cerdas para pintar con precisión.',
     features: {
-      category: 'herramienta de pintura',
+      category: 'tools',
       function: 'pintar detalles',
       location: 'estudio, taller, caja de pintura',
       properties: 'tiene cerdas finas, mango largo',
@@ -4993,7 +4993,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/brocha.webp',
     definition: 'Herramienta ancha con cerdas para pintar superficies grandes.',
     features: {
-      category: 'herramienta de pintura',
+      category: 'tools',
       function: 'pintar paredes y superficies',
       location: 'obra, taller, garaje',
       properties: 'es ancha, tiene cerdas, mango',
@@ -5014,7 +5014,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/cepillo.webp',
     definition: 'Utensilio con cerdas para limpiar o peinar.',
     features: {
-      category: 'utensilio',
+      category: 'household',
       function: 'cepillar, limpiar, peinar',
       location: 'baño, cocina, taller',
       properties: 'tiene cerdas, mango, superficie plana',
@@ -5039,7 +5039,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/medico.webp',
     definition: 'Profesional que diagnostica y trata enfermedades.',
     features: {
-      category: 'profesión sanitaria',
+      category: 'professions',
       function: 'curar, diagnosticar',
       location: 'hospital, consulta, clínica',
       properties: 'usa bata blanca, estetoscopio',
@@ -5060,7 +5060,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/profesor.webp',
     definition: 'Profesional que enseña y educa a los alumnos.',
     features: {
-      category: 'profesión educativa',
+      category: 'professions',
       function: 'enseñar, educar',
       location: 'escuela, instituto, universidad',
       properties: 'enseña materias, corrige exámenes',
@@ -5081,7 +5081,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/bombero.webp',
     definition: 'Profesional que extingue incendios y realiza rescates.',
     features: {
-      category: 'profesión de emergencia',
+      category: 'professions',
       function: 'apagar incendios, rescatar',
       location: 'parque de bomberos, ciudad',
       properties: 'usa casco, traje protector, manguera',
@@ -5102,7 +5102,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/policia.webp',
     definition: 'Profesional encargado de mantener el orden y la seguridad.',
     features: {
-      category: 'profesión de seguridad',
+      category: 'professions',
       function: 'proteger, mantener el orden',
       location: 'calle, comisaría, ciudad',
       properties: 'usa uniforme, placa, armas',
@@ -5123,7 +5123,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/enfermero.webp',
     definition: 'Profesional que cuida a los pacientes bajo supervisión médica.',
     features: {
-      category: 'profesión sanitaria',
+      category: 'professions',
       function: 'cuidar pacientes, administrar medicinas',
       location: 'hospital, clínica, consulta',
       properties: 'usa bata blanca, atiende pacientes',
@@ -5144,7 +5144,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/cocinero.webp',
     definition: 'Profesional que prepara alimentos en restaurantes.',
     features: {
-      category: 'profesión gastronómica',
+      category: 'professions',
       function: 'cocinar, preparar platos',
       location: 'restaurante, cocina, hotel',
       properties: 'usa delantal, gorro de chef',
@@ -5165,7 +5165,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/panadero.webp',
     definition: 'Profesional que elabora pan y productos de repostería.',
     features: {
-      category: 'profesión gastronómica',
+      category: 'professions',
       function: 'hacer pan, repostería',
       location: 'panadería, horno',
       properties: 'trabaja con harina, amasa, hornea',
@@ -5186,7 +5186,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/carpintero.webp',
     definition: 'Profesional que trabaja la madera para hacer muebles.',
     features: {
-      category: 'profesión artesanal',
+      category: 'professions',
       function: 'trabajar la madera, hacer muebles',
       location: 'taller, carpintería',
       properties: 'usa herramientas, trabaja con madera',
@@ -5207,7 +5207,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/electricista.webp',
     definition: 'Profesional que instala y repara instalaciones eléctricas.',
     features: {
-      category: 'profesión técnica',
+      category: 'professions',
       function: 'instalar y reparar electricidad',
       location: 'obra, edificio, casa',
       properties: 'usa herramientas eléctricas, guantes',
@@ -5228,7 +5228,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/fontanero.webp',
     definition: 'Profesional que instala y repara tuberías y grifos.',
     features: {
-      category: 'profesión técnica',
+      category: 'professions',
       function: 'reparar tuberías, instalar grifos',
       location: 'casa, edificio, obra',
       properties: 'usa herramientas, trabaja con tuberías',
@@ -5249,7 +5249,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/pintor.webp',
     definition: 'Profesional que pinta edificios o crea obras de arte.',
     features: {
-      category: 'profesión artística',
+      category: 'professions',
       function: 'pintar, decorar',
       location: 'obra, estudio, galería',
       properties: 'usa brochas, pintura, colores',
@@ -5270,7 +5270,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/musico.webp',
     definition: 'Profesional que toca instrumentos o compone música.',
     features: {
-      category: 'profesión artística',
+      category: 'professions',
       function: 'tocar música, componer',
       location: 'escenario, estudio, orquesta',
       properties: 'toca instrumentos, lee partituras',
@@ -5291,7 +5291,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/granjero.webp',
     definition: 'Profesional que trabaja en una granja cultivando o criando animales.',
     features: {
-      category: 'profesión agrícola',
+      category: 'professions',
       function: 'cultivar, criar animales',
       location: 'granja, campo, pueblo',
       properties: 'trabaja al aire libre, madruga',
@@ -5312,7 +5312,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/peluquero.webp',
     definition: 'Persona que corta y peina el cabello.',
     features: {
-      category: 'profesión de servicios',
+      category: 'professions',
       function: 'cortar y arreglar el pelo',
       location: 'peluquería, salón de belleza',
       properties: 'usa tijeras, peine, secador',
@@ -5333,7 +5333,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/carnicero.webp',
     definition: 'Persona que vende carne en la tienda.',
     features: {
-      category: 'profesión de comercio',
+      category: 'professions',
       function: 'cortar y vender carne',
       location: 'carnicería, mercado',
       properties: 'usa cuchillo, delantal, trabaja con carne',
@@ -5354,7 +5354,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/jardinero.webp',
     definition: 'Persona que cuida y mantiene los jardines.',
     features: {
-      category: 'profesión de servicios',
+      category: 'professions',
       function: 'cuidar plantas y jardines',
       location: 'jardín, parque, finca',
       properties: 'usa herramientas de jardinería, guantes',
@@ -5375,7 +5375,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/taxista.webp',
     definition: 'Persona que conduce un taxi para transportar pasajeros.',
     features: {
-      category: 'profesión de transporte',
+      category: 'professions',
       function: 'transportar personas en taxi',
       location: 'calle, ciudad, aeropuerto',
       properties: 'conduce taxi, conoce la ciudad',
@@ -5396,7 +5396,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/cantante.webp',
     definition: 'Persona que canta canciones como profesión.',
     features: {
-      category: 'profesión artística',
+      category: 'professions',
       function: 'cantar, entretener con música',
       location: 'escenario, estudio, teatro',
       properties: 'tiene buena voz, usa micrófono',
@@ -5417,7 +5417,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/periodista.webp',
     definition: 'Persona que investiga y escribe noticias.',
     features: {
-      category: 'profesión de comunicación',
+      category: 'professions',
       function: 'informar, investigar noticias',
       location: 'oficina, televisión, periódico',
       properties: 'escribe, pregunta, investiga',
@@ -5438,7 +5438,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/abogado.webp',
     definition: 'Persona que defiende a otros en asuntos legales.',
     features: {
-      category: 'profesión legal',
+      category: 'professions',
       function: 'defender, asesorar legalmente',
       location: 'juzgado, bufete, oficina',
       properties: 'conoce las leyes, argumenta, defiende',
@@ -5459,7 +5459,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/arquitecto.webp',
     definition: 'Persona que diseña edificios y casas.',
     features: {
-      category: 'profesión técnica',
+      category: 'professions',
       function: 'diseñar edificios y construcciones',
       location: 'oficina, obra, estudio',
       properties: 'dibuja planos, usa regla, calcula',
@@ -5480,7 +5480,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/veterinario.webp',
     definition: 'Médico que cura a los animales.',
     features: {
-      category: 'profesión sanitaria',
+      category: 'professions',
       function: 'curar animales, cuidar su salud',
       location: 'clínica veterinaria, granja',
       properties: 'examina animales, da vacunas, receta medicinas',
@@ -5505,7 +5505,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/rojo.webp',
     definition: 'Color del fuego y de la sangre.',
     features: {
-      category: 'color primario',
+      category: 'colors',
       function: 'describir objetos',
       location: 'en todas partes',
       properties: 'es cálido, intenso, llamativo',
@@ -5526,7 +5526,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/azul.webp',
     definition: 'Color del cielo y del mar.',
     features: {
-      category: 'color primario',
+      category: 'colors',
       function: 'describir objetos',
       location: 'en todas partes',
       properties: 'es frío, sereno, profundo',
@@ -5547,7 +5547,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/verde.webp',
     definition: 'Color de la hierba y las hojas de los árboles.',
     features: {
-      category: 'color secundario',
+      category: 'colors',
       function: 'describir objetos',
       location: 'en todas partes',
       properties: 'es natural, fresco, esperanzador',
@@ -5568,7 +5568,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/amarillo.webp',
     definition: 'Color del sol y del limón.',
     features: {
-      category: 'color primario',
+      category: 'colors',
       function: 'describir objetos',
       location: 'en todas partes',
       properties: 'es cálido, luminoso, alegre',
@@ -5589,7 +5589,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/negro.webp',
     definition: 'Color más oscuro, ausencia de luz.',
     features: {
-      category: 'color',
+      category: 'colors',
       function: 'describir objetos',
       location: 'en todas partes',
       properties: 'es oscuro, ausencia de color',
@@ -5610,7 +5610,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/blanco.webp',
     definition: 'Color de la nieve y la leche.',
     features: {
-      category: 'color',
+      category: 'colors',
       function: 'describir objetos',
       location: 'en todas partes',
       properties: 'es claro, luminoso, puro',
@@ -5631,7 +5631,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/naranja_color.webp',
     definition: 'Color entre amarillo y rojo, como la fruta del mismo nombre.',
     features: {
-      category: 'color',
+      category: 'colors',
       function: 'describir objetos',
       location: 'en todas partes',
       properties: 'es cálido, vibrante, llamativo',
@@ -5652,7 +5652,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/morado.webp',
     definition: 'Color entre azul y rojo, como la uva oscura.',
     features: {
-      category: 'color',
+      category: 'colors',
       function: 'describir objetos',
       location: 'en todas partes',
       properties: 'es intenso, misterioso, elegante',
@@ -5673,7 +5673,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/rosa_color.webp',
     definition: 'Color suave mezcla de rojo y blanco.',
     features: {
-      category: 'color',
+      category: 'colors',
       function: 'describir objetos',
       location: 'en todas partes',
       properties: 'es suave, delicado, cálido',
@@ -5694,7 +5694,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/marron.webp',
     definition: 'Color de la tierra y la madera.',
     features: {
-      category: 'color',
+      category: 'colors',
       function: 'describir objetos',
       location: 'en todas partes',
       properties: 'es terroso, cálido, natural',
@@ -5715,7 +5715,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/gris.webp',
     definition: 'Color entre blanco y negro.',
     features: {
-      category: 'color',
+      category: 'colors',
       function: 'describir objetos',
       location: 'en todas partes',
       properties: 'es neutro, sobrio, apagado',
@@ -5740,7 +5740,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/comer.webp',
     definition: 'Acción de ingerir alimentos.',
     features: {
-      category: 'acción básica',
+      category: 'actions',
       function: 'alimentarse',
       location: 'mesa, cocina, restaurante',
       properties: 'es una necesidad vital, usa la boca',
@@ -5761,7 +5761,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/beber.webp',
     definition: 'Acción de ingerir líquidos.',
     features: {
-      category: 'acción básica',
+      category: 'actions',
       function: 'hidratarse',
       location: 'mesa, bar, cocina',
       properties: 'es una necesidad vital, usa la boca',
@@ -5782,7 +5782,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/dormir.webp',
     definition: 'Acción de descansar con los ojos cerrados.',
     features: {
-      category: 'acción básica',
+      category: 'actions',
       function: 'descansar, recuperar energía',
       location: 'cama, habitación',
       properties: 'se hace con ojos cerrados, de noche',
@@ -5803,7 +5803,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/correr.webp',
     definition: 'Acción de moverse rápidamente a pie.',
     features: {
-      category: 'acción física',
+      category: 'actions',
       function: 'moverse rápido, ejercicio',
       location: 'calle, parque, pista',
       properties: 'es más rápido que caminar, usa piernas',
@@ -5824,7 +5824,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/caminar.webp',
     definition: 'Acción de moverse a pie a ritmo normal.',
     features: {
-      category: 'acción física',
+      category: 'actions',
       function: 'moverse, pasear',
       location: 'calle, parque, acera',
       properties: 'es movimiento suave, paso a paso',
@@ -5845,7 +5845,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/hablar.webp',
     definition: 'Acción de comunicarse con palabras.',
     features: {
-      category: 'acción comunicativa',
+      category: 'actions',
       function: 'comunicarse',
       location: 'en todas partes',
       properties: 'usa la voz, lengua, labios',
@@ -5866,7 +5866,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/leer.webp',
     definition: 'Acción de comprender un texto escrito.',
     features: {
-      category: 'acción intelectual',
+      category: 'actions',
       function: 'comprender textos',
       location: 'biblioteca, casa, escuela',
       properties: 'usa los ojos, comprensión',
@@ -5887,7 +5887,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/escribir.webp',
     definition: 'Acción de plasmar ideas en un medio escrito.',
     features: {
-      category: 'acción intelectual',
+      category: 'actions',
       function: 'plasmar ideas por escrito',
       location: 'escritorio, oficina, escuela',
       properties: 'usa manos, bolígrafo o teclado',
@@ -5908,7 +5908,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/cocinar.webp',
     definition: 'Acción de preparar alimentos para comer.',
     features: {
-      category: 'acción doméstica',
+      category: 'actions',
       function: 'preparar comida',
       location: 'cocina',
       properties: 'usa fuego, utensilios, ingredientes',
@@ -5929,7 +5929,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/limpiar.webp',
     definition: 'Acción de quitar la suciedad de algo.',
     features: {
-      category: 'acción doméstica',
+      category: 'actions',
       function: 'quitar suciedad',
       location: 'casa, oficina',
       properties: 'usa agua, jabón, trapo',
@@ -5950,7 +5950,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/cantar.webp',
     definition: 'Acción de producir sonidos musicales con la voz.',
     features: {
-      category: 'acción artística',
+      category: 'actions',
       function: 'producir música con la voz',
       location: 'escenario, ducha, karaoke',
       properties: 'usa la voz, ritmo, melodía',
@@ -5971,7 +5971,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/bailar.webp',
     definition: 'Acción de mover el cuerpo al ritmo de la música.',
     features: {
-      category: 'acción artística',
+      category: 'actions',
       function: 'moverse con música',
       location: 'fiesta, discoteca, salón',
       properties: 'usa el cuerpo, ritmo, coordinación',
@@ -5992,7 +5992,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/nadar.webp',
     definition: 'Acción de moverse en el agua.',
     features: {
-      category: 'acción física',
+      category: 'actions',
       function: 'moverse en el agua, ejercicio',
       location: 'piscina, mar, lago',
       properties: 'usa brazos y piernas, en el agua',
@@ -6013,7 +6013,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/volar.webp',
     definition: 'Acción de moverse por el aire.',
     features: {
-      category: 'acción de movimiento',
+      category: 'actions',
       function: 'moverse por el aire',
       location: 'cielo, aire',
       properties: 'no toca el suelo, usa alas',
@@ -6034,7 +6034,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/construir.webp',
     definition: 'Acción de edificar o fabricar algo.',
     features: {
-      category: 'acción creativa',
+      category: 'actions',
       function: 'fabricar, edificar',
       location: 'obra, taller',
       properties: 'usa materiales, herramientas',
@@ -6055,7 +6055,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/pintar.webp',
     definition: 'Acción de aplicar color sobre una superficie.',
     features: {
-      category: 'acción artística',
+      category: 'actions',
       function: 'aplicar color, crear arte',
       location: 'estudio, obra, lienzo',
       properties: 'usa pintura, brocha o pincel',
@@ -6076,7 +6076,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/tocar.webp',
     definition: 'Acción de entrar en contacto con algo mediante las manos o un instrumento.',
     features: {
-      category: 'acción sensorial',
+      category: 'actions',
       function: 'sentir con las manos, tocar instrumentos',
       location: 'en todas partes',
       properties: 'usa las manos o los dedos',
@@ -6097,7 +6097,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/cortar.webp',
     definition: 'Acción de dividir algo en partes con un instrumento afilado.',
     features: {
-      category: 'acción física',
+      category: 'actions',
       function: 'dividir, separar',
       location: 'cocina, taller',
       properties: 'usa instrumento afilado',
@@ -6118,7 +6118,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/abrazar.webp',
     definition: 'Acción de rodear con los brazos a alguien como muestra de afecto.',
     features: {
-      category: 'acción afectiva',
+      category: 'actions',
       function: 'mostrar cariño, consolar',
       location: 'casa, calle, cualquier lugar',
       properties: 'usa los brazos, transmite calor',
@@ -6139,7 +6139,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/besar.webp',
     definition: 'Acción de tocar con los labios como muestra de amor o afecto.',
     features: {
-      category: 'acción afectiva',
+      category: 'actions',
       function: 'mostrar amor, saludar',
       location: 'casa, calle, cualquier lugar',
       properties: 'usa los labios, transmite afecto',
@@ -6160,7 +6160,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/llorar.webp',
     definition: 'Acción de derramar lágrimas por tristeza, dolor o emoción.',
     features: {
-      category: 'acción emocional',
+      category: 'actions',
       function: 'expresar tristeza, dolor',
       location: 'casa, hospital, cualquier lugar',
       properties: 'produce lágrimas, expresión facial',
@@ -6181,7 +6181,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/reir.webp',
     definition: 'Acción de expresar alegría o diversión mediante sonidos y gestos.',
     features: {
-      category: 'acción emocional',
+      category: 'actions',
       function: 'expresar alegría, divertirse',
       location: 'casa, parque, cualquier lugar',
       properties: 'produce sonido, movimiento facial',
@@ -6202,7 +6202,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/pensar.webp',
     definition: 'Acción de reflexionar o considerar algo con la mente.',
     features: {
-      category: 'acción mental',
+      category: 'actions',
       function: 'reflexionar, razonar',
       location: 'cualquier lugar',
       properties: 'es interna, mental, silenciosa',
@@ -6223,7 +6223,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/recordar.webp',
     definition: 'Acción de traer a la memoria algo del pasado.',
     features: {
-      category: 'acción mental',
+      category: 'actions',
       function: 'traer a la memoria',
       location: 'cualquier lugar',
       properties: 'es mental, involuntaria a veces',
@@ -6245,7 +6245,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/aprender.webp',
     definition: 'Acción de adquirir conocimientos o habilidades mediante el estudio o la experiencia.',
     features: {
-      category: 'acción mental',
+      category: 'actions',
       function: 'adquirir conocimiento',
       location: 'escuela, casa, trabajo',
       properties: 'es gradual, mental, activa',
@@ -6266,7 +6266,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/ensenar.webp',
     definition: 'Acción de transmitir conocimientos o instruir a alguien.',
     features: {
-      category: 'acción educativa',
+      category: 'actions',
       function: 'instruir, transmitir',
       location: 'escuela, casa, trabajo',
       properties: 'es activa, comunicativa, social',
@@ -6287,7 +6287,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/comprar.webp',
     definition: 'Acción de adquirir algo a cambio de dinero.',
     features: {
-      category: 'acción comercial',
+      category: 'actions',
       function: 'adquirir bienes',
       location: 'tienda, supermercado, mercado',
       properties: 'involucra dinero, transacción',
@@ -6310,7 +6310,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/cerrar.webp',
     definition: 'Acción de juntar las partes de algo para que no quede abierto.',
     features: {
-      category: 'acción física',
+      category: 'actions',
       function: 'bloquear, asegurar',
       location: 'puerta, ventana, caja',
       properties: 'es opuesta a abrir, movimiento hacia adentro',
@@ -6331,7 +6331,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/encender.webp',
     definition: 'Acción de hacer que algo empiece a funcionar o a dar luz.',
     features: {
-      category: 'acción física',
+      category: 'actions',
       function: 'activar, dar energía',
       location: 'interruptor, dispositivo, estufa',
       properties: 'activa un mecanismo, produce luz o calor',
@@ -6357,7 +6357,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/casa.webp',
     definition: 'Edificio donde viven las personas.',
     features: {
-      category: 'edificio residencial',
+      category: 'places',
       function: 'vivir, habitar',
       location: 'ciudad, pueblo, barrio',
       properties: 'tiene habitaciones, techo, paredes',
@@ -6378,7 +6378,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/hospital.webp',
     definition: 'Centro sanitario donde se atienden enfermos.',
     features: {
-      category: 'edificio sanitario',
+      category: 'places',
       function: 'curar, atender enfermos',
       location: 'ciudad',
       properties: 'tiene consultas, quirófanos, camas',
@@ -6399,7 +6399,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/parque.webp',
     definition: 'Espacio verde público para el recreo.',
     features: {
-      category: 'espacio público',
+      category: 'places',
       function: 'recreo, pasear',
       location: 'ciudad, barrio',
       properties: 'tiene árboles, bancos, caminos',
@@ -6420,7 +6420,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/playa.webp',
     definition: 'Orilla del mar cubierta de arena.',
     features: {
-      category: 'espacio natural',
+      category: 'nature',
       function: 'recreo, bañarse',
       location: 'costa, mar',
       properties: 'tiene arena, agua, sol',
@@ -6441,7 +6441,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/montana.webp',
     definition: 'Elevación natural del terreno muy alta.',
     features: {
-      category: 'accidente geográfico',
+      category: 'nature',
       function: 'excursionismo, naturaleza',
       location: 'campo, sierra',
       properties: 'es alta, tiene cumbre, laderas',
@@ -6462,7 +6462,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/rio.webp',
     definition: 'Corriente natural de agua que fluye hacia el mar.',
     features: {
-      category: 'accidente geográfico',
+      category: 'nature',
       function: 'fluir agua',
       location: 'campo, ciudad, valle',
       properties: 'tiene agua corriente, orillas, cauce',
@@ -6483,7 +6483,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/mar.webp',
     definition: 'Masa de agua salada que cubre gran parte de la Tierra.',
     features: {
-      category: 'accidente geográfico',
+      category: 'nature',
       function: 'hábitat marino, navegación',
       location: 'costa, playa',
       properties: 'es inmenso, azul, salado',
@@ -6504,7 +6504,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/biblioteca.webp',
     definition: 'Lugar donde se guardan libros para consulta o préstamo.',
     features: {
-      category: 'edificio cultural',
+      category: 'places',
       function: 'consultar y prestar libros',
       location: 'ciudad, escuela, universidad',
       properties: 'tiene estanterías, libros, mesas de lectura',
@@ -6525,7 +6525,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/mercado.webp',
     definition: 'Lugar donde se compran y venden productos.',
     features: {
-      category: 'edificio comercial',
+      category: 'places',
       function: 'comprar y vender',
       location: 'ciudad, pueblo, barrio',
       properties: 'tiene puestos, productos frescos',
@@ -6546,7 +6546,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/restaurante.webp',
     definition: 'Establecimiento donde se sirven comidas y bebidas.',
     features: {
-      category: 'edificio de hostelería',
+      category: 'places',
       function: 'servir comidas',
       location: 'ciudad, pueblo, carretera',
       properties: 'tiene mesas, cocina, camareros',
@@ -6567,7 +6567,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/iglesia.webp',
     definition: 'Edificio destinado al culto religioso.',
     features: {
-      category: 'edificio religioso',
+      category: 'places',
       function: 'culto, ceremonias',
       location: 'ciudad, pueblo, plaza',
       properties: 'tiene campanario, altar, bancos',
@@ -6588,7 +6588,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/puente.webp',
     definition: 'Estructura que permite pasar sobre un obstáculo.',
     features: {
-      category: 'estructura',
+      category: 'places',
       function: 'cruzar ríos, valles o carreteras',
       location: 'río, valle, carretera',
       properties: 'es una estructura elevada, firme',
@@ -6609,7 +6609,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/calle.webp',
     definition: 'Vía pública urbana para transitar.',
     features: {
-      category: 'vía pública',
+      category: 'places',
       function: 'transitar, circular',
       location: 'ciudad, pueblo',
       properties: 'tiene aceras, calzada, edificios',
@@ -6630,7 +6630,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/plaza.webp',
     definition: 'Espacio público abierto rodeado de edificios.',
     features: {
-      category: 'espacio público',
+      category: 'places',
       function: 'encuentro, recreo',
       location: 'ciudad, pueblo',
       properties: 'es abierta, tiene bancos, fuentes',
@@ -6651,7 +6651,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/farmacia.webp',
     definition: 'Tienda donde se venden medicinas y productos de salud.',
     features: {
-      category: 'lugar de salud',
+      category: 'places',
       function: 'vender medicinas, atender la salud',
       location: 'calle, centro, barrio',
       properties: 'tiene mostrador, estantes con medicinas, cruz verde',
@@ -6672,7 +6672,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/aeropuerto.webp',
     definition: 'Lugar grande donde despegan y aterrizan los aviones.',
     features: {
-      category: 'lugar de transporte',
+      category: 'places',
       function: 'recibir y enviar aviones',
       location: 'afueras de la ciudad',
       properties: 'muy grande, tiene pistas, terminales',
@@ -6693,7 +6693,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/cine.webp',
     definition: 'Lugar donde se proyectan películas en una pantalla grande.',
     features: {
-      category: 'lugar de entretenimiento',
+      category: 'places',
       function: 'mostrar películas',
       location: 'centro comercial, calle principal',
       properties: 'butacas, pantalla grande, oscuro',
@@ -6714,7 +6714,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/teatro.webp',
     definition: 'Lugar donde los actores representan obras en vivo.',
     features: {
-      category: 'lugar de entretenimiento',
+      category: 'places',
       function: 'presentar obras de teatro',
       location: 'centro de la ciudad',
       properties: 'tiene escenario, butacas, telón',
@@ -6735,7 +6735,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/museo.webp',
     definition: 'Lugar donde se exhiben obras de arte o objetos históricos.',
     features: {
-      category: 'lugar cultural',
+      category: 'places',
       function: 'exhibir arte e historia',
       location: 'centro de la ciudad',
       properties: 'tiene salas, cuadros, esculturas',
@@ -6756,7 +6756,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/barrio.webp',
     definition: 'Parte de una ciudad donde vive un grupo de personas.',
     features: {
-      category: 'zona urbana',
+      category: 'places',
       function: 'espacio residencial',
       location: 'dentro de la ciudad',
       properties: 'tiene calles, casas, vecinos',
@@ -6777,7 +6777,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/pueblo.webp',
     definition: 'Población pequeña, más pequeña que una ciudad.',
     features: {
-      category: 'asentamiento',
+      category: 'places',
       function: 'lugar para vivir',
       location: 'campo, rural, fuera de la ciudad',
       properties: 'pequeño, tranquilo, tiene plaza central',
@@ -6802,7 +6802,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/feliz.webp',
     definition: 'Que siente alegría y satisfacción.',
     features: {
-      category: 'emoción positiva',
+      category: 'emotions',
       function: 'expresar alegría',
       location: 'interior, expresión facial',
       properties: 'sonrisa, bienestar, satisfacción',
@@ -6823,7 +6823,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/triste.webp',
     definition: 'Que siente pena o desconsuelo.',
     features: {
-      category: 'emoción negativa',
+      category: 'emotions',
       function: 'expresar pena',
       location: 'interior, expresión facial',
       properties: 'llanto, melancolía, bajón',
@@ -6844,7 +6844,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/enfadado.webp',
     definition: 'Que siente enojo o irritación.',
     features: {
-      category: 'emoción negativa',
+      category: 'emotions',
       function: 'expresar enfado',
       location: 'interior, expresión facial',
       properties: 'ceño fruncido, tensión, grito',
@@ -6865,7 +6865,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/asustado.webp',
     definition: 'Que siente miedo o temor.',
     features: {
-      category: 'emoción negativa',
+      category: 'emotions',
       function: 'expresar miedo',
       location: 'interior, expresión facial',
       properties: 'ojos abiertos, tensión, temblor',
@@ -6886,7 +6886,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/sorprendido.webp',
     definition: 'Que siente asombro por algo inesperado.',
     features: {
-      category: 'emoción',
+      category: 'emotions',
       function: 'expresar asombro',
       location: 'interior, expresión facial',
       properties: 'boca abierta, ojos abiertos, exclamación',
@@ -6907,7 +6907,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/cansado.webp',
     definition: 'Que siente fatiga o agotamiento.',
     features: {
-      category: 'estado físico',
+      category: 'nature',
       function: 'expresar fatiga',
       location: 'interior, cuerpo',
       properties: 'somnolencia, falta de energía, bostezo',
@@ -6928,7 +6928,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/tranquilo.webp',
     definition: 'Que siente paz y calma.',
     features: {
-      category: 'emoción positiva',
+      category: 'emotions',
       function: 'expresar calma',
       location: 'interior, cuerpo',
       properties: 'relajación, serenidad, paz',
@@ -6949,7 +6949,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/nervioso.webp',
     definition: 'Que siente inquietud o agitación.',
     features: {
-      category: 'emoción',
+      category: 'emotions',
       function: 'expresar inquietud',
       location: 'interior, cuerpo',
       properties: 'inquietud, sudor, temblor',
@@ -6973,7 +6973,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/arbol.webp',
     definition: 'Planta de tronco leñoso que crece en altura.',
     features: {
-      category: 'planta',
+      category: 'nature',
       function: 'dar sombra, producir oxígeno',
       location: 'bosque, parque, jardín',
       properties: 'tiene tronco, ramas, hojas, raíces',
@@ -6994,7 +6994,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/flor.webp',
     definition: 'Parte colorida de las plantas que produce semillas.',
     features: {
-      category: 'parte de la planta',
+      category: 'nature',
       function: 'reproducir, decorar',
       location: 'jardín, campo, maceta',
       properties: 'es colorida, tiene pétalos, aroma',
@@ -7015,7 +7015,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/sol.webp',
     definition: 'Estrella que ilumina y calienta la Tierra.',
     features: {
-      category: 'astro',
+      category: 'nature',
       function: 'iluminar, calentar',
       location: 'cielo',
       properties: 'es brillante, amarillo, calienta',
@@ -7036,7 +7036,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/luna.webp',
     definition: 'Satélite natural que orbita alrededor de la Tierra.',
     features: {
-      category: 'astro',
+      category: 'nature',
       function: 'iluminar la noche',
       location: 'cielo nocturno',
       properties: 'es blanca, redonda, brilla de noche',
@@ -7057,7 +7057,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/estrella.webp',
     definition: 'Cuerpo celeste brillante visible en el cielo nocturno.',
     features: {
-      category: 'astro',
+      category: 'nature',
       function: 'brillar en la noche',
       location: 'cielo nocturno',
       properties: 'es pequeña, brilla, puntuda',
@@ -7078,7 +7078,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/lluvia.webp',
     definition: 'Agua que cae de las nubes en forma de gotas.',
     features: {
-      category: 'fenómeno meteorológico',
+      category: 'weather',
       function: 'regar la tierra',
       location: 'cielo, suelo',
       properties: 'es líquida, cae del cielo, moja',
@@ -7099,7 +7099,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/nieve.webp',
     definition: 'Agua congelada que cae del cielo en copos blancos.',
     features: {
-      category: 'fenómeno meteorológico',
+      category: 'weather',
       function: 'cubrir el suelo en invierno',
       location: 'montaña, zona fría, cielo',
       properties: 'es blanca, fría, suave',
@@ -7120,7 +7120,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/viento.webp',
     definition: 'Corriente de aire que se mueve en la atmósfera.',
     features: {
-      category: 'fenómeno meteorológico',
+      category: 'weather',
       function: 'mover el aire',
       location: 'cielo, campo, costa',
       properties: 'es invisible, se siente, puede ser fuerte',
@@ -7141,7 +7141,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/nube.webp',
     definition: 'Masa de vapor de agua visible en el cielo.',
     features: {
-      category: 'fenómeno meteorológico',
+      category: 'weather',
       function: 'producir lluvia',
       location: 'cielo',
       properties: 'es blanca o gris, flotante, algodonosa',
@@ -7162,7 +7162,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/lago.webp',
     definition: 'Masa de agua rodeada de tierra.',
     features: {
-      category: 'accidente geográfico',
+      category: 'nature',
       function: 'contener agua',
       location: 'campo, montaña, valle',
       properties: 'es de agua dulce, tranquilo, extenso',
@@ -7183,7 +7183,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/bosque.webp',
     definition: 'Extensión de terreno cubierta de árboles.',
     features: {
-      category: 'ecosistema',
+      category: 'nature',
       function: 'hábitat de animales, producir oxígeno',
       location: 'campo, montaña',
       properties: 'tiene muchos árboles, sombra, humedad',
@@ -7204,7 +7204,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/piedra.webp',
     definition: 'Fragmento de roca duro y sólido.',
     features: {
-      category: 'mineral',
+      category: 'nature',
       function: 'construir, decorar',
       location: 'suelo, montaña, río',
       properties: 'es dura, sólida, pesada',
@@ -7225,7 +7225,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/arena.webp',
     definition: 'Conjunto de partículas pequeñas de roca.',
     features: {
-      category: 'material natural',
+      category: 'nature',
       function: 'formar playas, construir',
       location: 'playa, desierto, río',
       properties: 'es suave, granulada, dorada',
@@ -7246,7 +7246,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/cesped.webp',
     definition: 'Capa de hierba densa que cubre el suelo.',
     features: {
-      category: 'planta',
+      category: 'nature',
       function: 'decorar, cubrir suelo',
       location: 'jardín, parque, campo',
       properties: 'es verde, suave, corto',
@@ -7267,7 +7267,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/hierba.webp',
     definition: 'Planta pequeña de tallo verde que crece en el suelo.',
     features: {
-      category: 'planta',
+      category: 'nature',
       function: 'alimentación animal, cubrir suelo',
       location: 'campo, jardín, prado',
       properties: 'es verde, pequeña, flexible',
@@ -7288,7 +7288,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/volcan.webp',
     definition: 'Montaña que expulsa lava, ceniza y gases del interior de la tierra.',
     features: {
-      category: 'formación geológica',
+      category: 'nature',
       function: 'fenómeno natural',
       location: 'zonas sísmicas, islas, cordilleras',
       properties: 'alto, tiene cráter, expulsa lava',
@@ -7309,7 +7309,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/cascada.webp',
     definition: 'Corriente de agua que cae desde una gran altura.',
     features: {
-      category: 'formación de agua',
+      category: 'nature',
       function: 'fenómeno natural, embellecer el paisaje',
       location: 'montañas, ríos, selvas',
       properties: 'cae agua, hace ruido, es hermosa',
@@ -7330,7 +7330,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/desierto.webp',
     definition: 'Terreno muy seco donde casi no llueve y hay poca vegetación.',
     features: {
-      category: 'ecosistema',
+      category: 'nature',
       function: 'espacio natural',
       location: 'África, América, Australia',
       properties: 'seco, arenoso, caluroso de día, frío de noche',
@@ -7351,7 +7351,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/isla.webp',
     definition: 'Porción de tierra rodeada de agua por todas partes.',
     features: {
-      category: 'formación geográfica',
+      category: 'nature',
       function: 'territorio natural',
       location: 'océanos, mares, ríos',
       properties: 'rodeada de agua, puede ser pequeña o grande',
@@ -7372,7 +7372,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/cueva.webp',
     definition: 'Espacio hueco dentro de una roca o montaña.',
     features: {
-      category: 'formación geológica',
+      category: 'nature',
       function: 'refugio natural',
       location: 'montañas, acantilados, tierra',
       properties: 'oscura, húmeda, hecha de roca',
@@ -7393,7 +7393,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/archipielago.webp',
     definition: 'Grupo de islas cercanas entre sí.',
     features: {
-      category: 'formación geográfica',
+      category: 'nature',
       function: 'territorio natural',
       location: 'océanos, mares',
       properties: 'varias islas, cerca entre sí, rodeadas de agua',
@@ -7414,7 +7414,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/aurora.webp',
     definition: 'Luz brillante que aparece en el cielo cerca de los polos.',
     features: {
-      category: 'fenómeno natural',
+      category: 'nature',
       function: 'espectáculo luminoso',
       location: 'polo norte, polo sur, cielos',
       properties: 'colorida, brillante, aparece de noche',
@@ -7435,7 +7435,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/cometa.webp',
     definition: 'Cuerpo celeste que brilla y tiene una cola de luz.',
     features: {
-      category: 'cuerpo celeste',
+      category: 'nature',
       function: 'fenómeno astronómico',
       location: 'espacio, cielo',
       properties: 'brillante, tiene cola, se mueve rápido',
@@ -7456,7 +7456,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/eclipse.webp',
     definition: 'Cuando la luna tapa el sol o la tierra tapa la luna.',
     features: {
-      category: 'fenómeno astronómico',
+      category: 'nature',
       function: 'evento natural',
       location: 'cielo, espacio',
       properties: 'oscurece el cielo, temporal, espectacular',
@@ -7481,7 +7481,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/madre.webp',
     definition: 'Mujer que ha tenido hijos.',
     features: {
-      category: 'familiar',
+      category: 'family',
       function: 'cuidar, educar',
       location: 'hogar',
       properties: 'es femenina, progenitora',
@@ -7502,7 +7502,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/padre.webp',
     definition: 'Hombre que ha tenido hijos.',
     features: {
-      category: 'familiar',
+      category: 'family',
       function: 'cuidar, proveer',
       location: 'hogar',
       properties: 'es masculino, progenitor',
@@ -7523,7 +7523,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/hijo.webp',
     definition: 'Persona respecto de sus padres.',
     features: {
-      category: 'familiar',
+      category: 'family',
       function: 'miembro de la familia',
       location: 'hogar',
       properties: 'es descendiente masculino',
@@ -7544,7 +7544,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/hija.webp',
     definition: 'Persona de género femenino respecto de sus padres.',
     features: {
-      category: 'familiar',
+      category: 'family',
       function: 'miembro de la familia',
       location: 'hogar',
       properties: 'es descendiente femenina',
@@ -7565,7 +7565,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/hermano.webp',
     definition: 'Persona que tiene los mismos padres que otra.',
     features: {
-      category: 'familiar',
+      category: 'family',
       function: 'compañero de familia',
       location: 'hogar',
       properties: 'comparte padres, es masculino',
@@ -7586,7 +7586,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/hermana.webp',
     definition: 'Mujer que tiene los mismos padres que otra persona.',
     features: {
-      category: 'familiar',
+      category: 'family',
       function: 'compañera de familia',
       location: 'hogar',
       properties: 'comparte padres, es femenina',
@@ -7607,7 +7607,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/abuelo.webp',
     definition: 'Padre de los padres de una persona.',
     features: {
-      category: 'familiar',
+      category: 'family',
       function: 'miembro mayor de la familia',
       location: 'hogar',
       properties: 'es mayor, sabio, experiencia',
@@ -7628,7 +7628,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/abuela.webp',
     definition: 'Madre de los padres de una persona.',
     features: {
-      category: 'familiar',
+      category: 'family',
       function: 'miembro mayor de la familia',
       location: 'hogar',
       properties: 'es mayor, cariñosa, experiencia',
@@ -7652,7 +7652,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/esposo.webp',
     definition: 'Hombre casado respecto de su esposa.',
     features: {
-      category: 'familiar',
+      category: 'family',
       function: 'compañero de matrimonio',
       location: 'hogar',
       properties: 'es masculino, casado',
@@ -7673,7 +7673,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/esposa.webp',
     definition: 'Mujer casada respecto de su esposo.',
     features: {
-      category: 'familiar',
+      category: 'family',
       function: 'compañera de matrimonio',
       location: 'hogar',
       properties: 'es femenina, casada',
@@ -7694,7 +7694,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/bebe.webp',
     definition: 'Niño o niña de muy corta edad.',
     features: {
-      category: 'familiar',
+      category: 'family',
       function: 'nuevo miembro de la familia',
       location: 'hogar',
       properties: 'es muy pequeño, llora, gatea',
@@ -7719,7 +7719,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/tormenta.webp',
     definition: 'Fenómeno atmosférico violento con lluvia, viento y rayos.',
     features: {
-      category: 'fenómeno meteorológico',
+      category: 'weather',
       function: 'descarga eléctrica, lluvia intensa',
       location: 'cielo',
       properties: 'es violenta, tiene rayos, truenos',
@@ -7740,7 +7740,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/niebla.webp',
     definition: 'Nube baja que reduce la visibilidad cerca del suelo.',
     features: {
-      category: 'fenómeno meteorológico',
+      category: 'weather',
       function: 'reducir visibilidad',
       location: 'campo, ciudad, montaña',
       properties: 'es blanca, espesa, dificulta ver',
@@ -7761,7 +7761,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/arcoiris.webp',
     definition: 'Arco de colores que aparece en el cielo tras la lluvia.',
     features: {
-      category: 'fenómeno óptico',
+      category: 'nature',
       function: 'decoración del cielo',
       location: 'cielo',
       properties: 'tiene siete colores, forma de arco',
@@ -7782,7 +7782,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/calor.webp',
     definition: 'Sensación de temperatura alta en el ambiente.',
     features: {
-      category: 'condición climática',
+      category: 'weather',
       function: 'describir temperatura alta',
       location: 'exterior, ambiente',
       properties: 'es una sensación, sudor, sofoco',
@@ -7803,7 +7803,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/frio.webp',
     definition: 'Sensación de temperatura baja en el ambiente.',
     features: {
-      category: 'condición climática',
+      category: 'weather',
       function: 'describir temperatura baja',
       location: 'exterior, ambiente',
       properties: 'es una sensación, escalofrío, tiritar',
@@ -7824,7 +7824,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/granizo.webp',
     definition: 'Precipitación de bolitas de hielo.',
     features: {
-      category: 'fenómeno meteorológico',
+      category: 'weather',
       function: 'precipitación helada',
       location: 'cielo, suelo',
       properties: 'son bolitas de hielo, golpean fuerte',
@@ -7845,7 +7845,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/trueno.webp',
     definition: 'Ruido fuerte producido por una descarga eléctrica.',
     features: {
-      category: 'fenómeno meteorológico',
+      category: 'weather',
       function: 'sonido de tormenta',
       location: 'cielo',
       properties: 'es un sonido fuerte, retumba',
@@ -7866,7 +7866,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/relampago.webp',
     definition: 'Destello de luz en el cielo durante una tormenta.',
     features: {
-      category: 'fenómeno meteorológico',
+      category: 'weather',
       function: 'luz de tormenta',
       location: 'cielo',
       properties: 'es un destello rápido, brillante',
@@ -7887,7 +7887,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/brisa.webp',
     definition: 'Viento suave y agradable.',
     features: {
-      category: 'fenómeno meteorológico',
+      category: 'weather',
       function: 'ventilar suavemente',
       location: 'costa, campo, jardín',
       properties: 'es suave, agradable, fresca',
@@ -7908,7 +7908,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/humedad.webp',
     definition: 'Cantidad de vapor de agua presente en el aire.',
     features: {
-      category: 'condición climática',
+      category: 'weather',
       function: 'describir vapor de agua en el aire',
       location: 'ambiente',
       properties: 'es invisible, se siente pegajosa',

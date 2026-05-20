@@ -32,6 +32,7 @@
   let correctWords = $state<Word[]>([]);
   let incorrectWords = $state<Word[]>([]);
   let showConfetti = $state(false);
+  let planCategory: string | undefined = $state();
 
   // Resolve component in script block, not template
   let ExerciseComponent = $derived.by(() => {
@@ -61,6 +62,7 @@
 
     const plan = await generateSession(s.language, exerciseType, 10);
     words = plan.words;
+    planCategory = plan.category;
 
     const id = await startSession(s.language);
     sessionId = id;
@@ -193,6 +195,7 @@
       <ExerciseComponent
         {words}
         language={settings?.language || 'es'}
+        category={planCategory}
         oncomplete={handleComplete}
         onrestart={handleRestart}
       />

@@ -35,7 +35,7 @@
   let selectedWords = $state<Set<string>>(new Set());
   let error = $state('');
 
-  // Category derived from words
+  // Category derived from words — use i18n if available
   let categoryName = $derived(category || (words.length > 0 ? (words[0].features?.category ?? words[0].category ?? '') : ''));
 
   // Build a lookup set of valid words in this category (lowercase)
@@ -217,8 +217,13 @@
     isActive: started && !finished,
   });
 
-  // Category display name with uppercase
-  let categoryLabel = $derived(categoryName.toUpperCase());
+  // Category display name: translate via i18n, uppercase
+  let categoryLabel = $derived.by(() => {
+    const key = `categories.${categoryName}`;
+    const translated = $t(key);
+    // If translation found (doesn't return the key itself), use it
+    return (translated && translated !== key) ? translated.toUpperCase() : categoryName.toUpperCase();
+  });
 </script>
 
 {#if words.length === 0}

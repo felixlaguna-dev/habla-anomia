@@ -1,6 +1,7 @@
 <script lang="ts">
   import { t } from '$lib/i18n';
   import { goto } from '$app/navigation';
+  import { base } from '$app/paths';
   import { recordAttempt } from '$lib/db/attempts';
   import { updateAfterAttempt } from '$lib/engine/spaced-repetition';
   import { SpeechSynthesisService } from '$lib/speech/speech-synthesis';
@@ -416,7 +417,7 @@
         </div>
       {/each}
     </div>
-    <button class="back-to-exercises-btn" onclick={() => goto('/exercises')}>
+    <button class="back-to-exercises-btn" onclick={() => goto(`${base}/exercises`)}>
       ← {$t('common.back_to_exercises')}
     </button>
     <button class="restart-btn" onclick={handleRestart}>

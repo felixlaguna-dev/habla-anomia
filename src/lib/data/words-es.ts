@@ -18,7 +18,7 @@ export const WORDS_ES: Word[] = [
       properties: 'tiene cuatro patas, ladra, tiene pelo',
       associations: 'huella, collar, hueso, perrera'
     },
-    phonetic: { first_sound: '/p/', syllables: 2, rhyming_word: 'fierro', first_phonemes: '/pe/' },
+    phonetic: { first_sound: '/p/', syllables: 2, rhyming_word: 'destierro', first_phonemes: '/pe/' },
     difficulty: 1,
     tags: ['doméstico', 'mamífero', 'común'],
     sentence: 'El _____ juega en el parque con su pelota.',
@@ -39,7 +39,7 @@ export const WORDS_ES: Word[] = [
       properties: 'tiene cuatro patas, maúlla, tiene bigotes',
       associations: 'ratón, leche, ronroneo, garra'
     },
-    phonetic: { first_sound: '/g/', syllables: 2, rhyming_word: 'zapato', first_phonemes: '/ga/' },
+    phonetic: { first_sound: '/g/', syllables: 2, rhyming_word: 'barato', first_phonemes: '/ga/' },
     difficulty: 1,
     tags: ['doméstico', 'felino', 'común'],
     sentence: 'El _____ duerme sobre el sofá todas las tardes.',
@@ -60,7 +60,7 @@ export const WORDS_ES: Word[] = [
       properties: 'tiene alas, plumas y pico',
       associations: 'nido, canto, vuelo, pluma'
     },
-    phonetic: { first_sound: '/p/', syllables: 2, rhyming_word: 'ataro', first_phonemes: '/pa/' },
+    phonetic: { first_sound: '/p/', syllables: 2, rhyming_word: 'claro', first_phonemes: '/pa/' },
     difficulty: 2,
     tags: ['salvaje', 'ave', 'común'],
     sentence: 'El _____ canta en la rama del árbol por la mañana.',
@@ -102,7 +102,7 @@ export const WORDS_ES: Word[] = [
       properties: 'tiene cuatro patas, crin, relincha',
       associations: 'silla de montar, establo, carreras, jinete'
     },
-    phonetic: { first_sound: '/k/', syllables: 3, rhyming_word: 'allo', first_phonemes: '/ka/' },
+    phonetic: { first_sound: '/k/', syllables: 3, rhyming_word: 'fallo', first_phonemes: '/ka/' },
     difficulty: 2,
     tags: ['doméstico', 'mamífero', 'grande'],
     sentence: 'El _____ galopa por la pradera a gran velocidad.',
@@ -123,7 +123,7 @@ export const WORDS_ES: Word[] = [
       properties: 'tiene manchas blancas y negras, muge',
       associations: 'leche, toro, granja, prado'
     },
-    phonetic: { first_sound: '/b/', syllables: 2, rhyming_word: 'baca', first_phonemes: '/ba/' },
+    phonetic: { first_sound: '/b/', syllables: 2, rhyming_word: 'paca', first_phonemes: '/ba/' },
     difficulty: 1,
     tags: ['granja', 'mamífero', 'común'],
     sentence: 'La _____ pasta tranquilamente en el prado.',
@@ -144,7 +144,7 @@ export const WORDS_ES: Word[] = [
       properties: 'tiene hocico ancho, es rosado, gruñe',
       associations: 'granja, barro, jamón, chiquero'
     },
-    phonetic: { first_sound: '/θ/', syllables: 2, rhyming_word: 'uerdo', first_phonemes: '/θe/' },
+    phonetic: { first_sound: '/θ/', syllables: 2, rhyming_word: 'cuerdo', first_phonemes: '/θe/' },
     difficulty: 2,
     tags: ['granja', 'mamífero'],
     sentence: 'El _____ busca comida en el barro del corral.',
@@ -207,7 +207,7 @@ export const WORDS_ES: Word[] = [
       properties: 'tiene orejas largas, cola de algodón, salta',
       associations: 'zanahoria, madriguera, orejas, salto'
     },
-    phonetic: { first_sound: '/k/', syllables: 3, rhyming_word: 'ajo', first_phonemes: '/ko/' },
+    phonetic: { first_sound: '/k/', syllables: 3, rhyming_word: 'bajo', first_phonemes: '/ko/' },
     difficulty: 1,
     tags: ['doméstico', 'mamífero', 'común'],
     sentence: 'El _____ salta por el jardín buscando zanahorias.',
@@ -312,7 +312,7 @@ export const WORDS_ES: Word[] = [
       properties: 'tiene rayas amarillas y negras, pica, zumba',
       associations: 'miel, colmena, flor, zumbido'
     },
-    phonetic: { first_sound: '/a/', syllables: 3, rhyming_word: 'oveja', first_phonemes: '/a/' },
+    phonetic: { first_sound: '/a/', syllables: 3, rhyming_word: 'oreja', first_phonemes: '/a/' },
     difficulty: 2,
     tags: ['insecto', 'común'],
     sentence: 'La _____ recolecta néctar de las flores para hacer miel.',
@@ -333,7 +333,7 @@ export const WORDS_ES: Word[] = [
       properties: 'tiene caparazón, camina muy lento',
       associations: 'caparazón, lentitud, caracol, lentísimo'
     },
-    phonetic: { first_sound: '/t/', syllables: 3, rhyming_word: 'fruta', first_phonemes: '/to/' },
+    phonetic: { first_sound: '/t/', syllables: 3, rhyming_word: 'madruga', first_phonemes: '/to/' },
     difficulty: 2,
     tags: ['reptil', 'común'],
     sentence: 'La _____ camina lentamente con su caparazón a cuestas.',
@@ -396,7 +396,7 @@ export const WORDS_ES: Word[] = [
       properties: 'tiene alas grandes, pico ganchudo, vista aguda',
       associations: 'vuelo, montaña, nido, cielo'
     },
-    phonetic: { first_sound: '/a/', syllables: 3, rhyming_word: 'familia', first_phonemes: '/a/' },
+    phonetic: { first_sound: '/a/', syllables: 3, rhyming_word: 'vigila', first_phonemes: '/a/' },
     difficulty: 3,
     tags: ['salvaje', 'ave rapaz'],
     sentence: 'El _____ sobrevuela las montañas buscando presas.',
@@ -417,7 +417,7 @@ export const WORDS_ES: Word[] = [
       properties: 'es gris, nada rápido, silba',
       associations: 'mar, océano, salto, inteligencia'
     },
-    phonetic: { first_sound: '/d/', syllables: 2, rhyming_word: 'alfín', first_phonemes: '/de/' },
+    phonetic: { first_sound: '/d/', syllables: 2, rhyming_word: 'calcetín', first_phonemes: '/de/' },
     difficulty: 2,
     tags: ['marino', 'mamífero'],
     sentence: 'El _____ salta sobre las olas en el océano.',
@@ -522,7 +522,7 @@ export const WORDS_ES: Word[] = [
       properties: 'transparente, blanda, tiene tentáculos, pica',
       associations: 'mar, playa, tentáculo, picadura'
     },
-    phonetic: { first_sound: '/m/', syllables: 3, rhyming_word: 'recusa', first_phonemes: '/me/' },
+    phonetic: { first_sound: '/m/', syllables: 3, rhyming_word: 'confusa', first_phonemes: '/me/' },
     difficulty: 2,
     tags: ['marino', 'peligroso'],
     sentence: 'La _____ flotaba cerca de la playa.',
@@ -585,7 +585,7 @@ export const WORDS_ES: Word[] = [
       properties: 'muy alta, cuello largo, manchas marrones',
       associations: 'cuello, alto, África, manchas'
     },
-    phonetic: { first_sound: '/x/', syllables: 3, rhyming_word: 'cancha', first_phonemes: '/xi/' },
+    phonetic: { first_sound: '/x/', syllables: 3, rhyming_word: 'estafa', first_phonemes: '/xi/' },
     difficulty: 1,
     tags: ['mamífero', 'salvaje'],
     sentence: 'La _____ come hojas de los árboles más altos.',
@@ -606,7 +606,7 @@ export const WORDS_ES: Word[] = [
       properties: 'muy grande, piel gruesa, tiene cuerno',
       associations: 'cuerno, grande, África, fuerte'
     },
-    phonetic: { first_sound: '/r/', syllables: 5, rhyming_word: 'dente', first_phonemes: '/ri/' },
+    phonetic: { first_sound: '/r/', syllables: 5, rhyming_word: 'diente', first_phonemes: '/ri/' },
     difficulty: 2,
     tags: ['mamífero', 'salvaje'],
     sentence: 'El _____ tiene un cuerno en la nariz.',
@@ -652,7 +652,7 @@ export const WORDS_ES: Word[] = [
       properties: 'es blanca, líquida, nutritiva',
       associations: 'vaca, vaso, desayuno, calcio'
     },
-    phonetic: { first_sound: '/l/', syllables: 2, rhyming_word: 'echa', first_phonemes: '/le/' },
+    phonetic: { first_sound: '/l/', syllables: 2, rhyming_word: 'flecha', first_phonemes: '/le/' },
     difficulty: 1,
     tags: ['lácteo', 'bebida', 'común'],
     sentence: 'Me tomo un vaso de _____ todas las mañanas.',
@@ -673,7 +673,7 @@ export const WORDS_ES: Word[] = [
       properties: 'es transparente, líquida, no tiene olor',
       associations: 'sed, grifo, botella, beber'
     },
-    phonetic: { first_sound: '/a/', syllables: 2, rhyming_word: 'nagua', first_phonemes: '/a/' },
+    phonetic: { first_sound: '/a/', syllables: 2, rhyming_word: 'piragua', first_phonemes: '/a/' },
     difficulty: 1,
     tags: ['bebida', 'esencial', 'común'],
     sentence: 'Es importante beber ocho vasos de _____ al día.',
@@ -694,7 +694,7 @@ export const WORDS_ES: Word[] = [
       properties: 'es redonda, crujiente, dulce o ácida',
       associations: 'fruta, árbol, piel, sidra'
     },
-    phonetic: { first_sound: '/m/', syllables: 3, rhyming_word: 'gavana', first_phonemes: '/ma/' },
+    phonetic: { first_sound: '/m/', syllables: 3, rhyming_word: 'campana', first_phonemes: '/ma/' },
     difficulty: 1,
     tags: ['fruta', 'común'],
     sentence: 'Me como una _____ verde como merienda.',
@@ -715,7 +715,7 @@ export const WORDS_ES: Word[] = [
       properties: 'es redonda, cítrica, jugosa',
       associations: 'zumo, vitamina C, cítrico, jugo'
     },
-    phonetic: { first_sound: '/n/', syllables: 3, rhyming_word: 'lanza', first_phonemes: '/na/' },
+    phonetic: { first_sound: '/n/', syllables: 3, rhyming_word: 'granja', first_phonemes: '/na/' },
     difficulty: 1,
     tags: ['fruta', 'cítrico', 'común'],
     sentence: 'Me gusta beber zumo de _____ en el desayuno.',
@@ -736,7 +736,7 @@ export const WORDS_ES: Word[] = [
       properties: 'es alargado, amarillo, dulce',
       associations: 'mono, tropical, piel, potasio'
     },
-    phonetic: { first_sound: '/p/', syllables: 3, rhyming_word: 'garrapato', first_phonemes: '/pla/' },
+    phonetic: { first_sound: '/p/', syllables: 3, rhyming_word: 'hermano', first_phonemes: '/pla/' },
     difficulty: 1,
     tags: ['fruta', 'tropical', 'común'],
     sentence: 'El _____ está maduro cuando la piel se pone amarilla.',
@@ -883,7 +883,7 @@ export const WORDS_ES: Word[] = [
       properties: 'es fresca, ligera, variada',
       associations: 'lechuga, tomate, vinagre, aceite'
     },
-    phonetic: { first_sound: '/e/', syllables: 4, rhyming_word: 'moralada', first_phonemes: '/e/' },
+    phonetic: { first_sound: '/e/', syllables: 4, rhyming_word: 'manada', first_phonemes: '/e/' },
     difficulty: 2,
     tags: ['plato', 'saludable', 'común'],
     sentence: 'Preparé una _____ con lechuga, tomate y pepino.',
@@ -967,7 +967,7 @@ export const WORDS_ES: Word[] = [
       properties: 'tiene dientes, olor fuerte, sabor intenso',
       associations: 'cebolla, sofrito, vampires, cocina'
     },
-    phonetic: { first_sound: '/a/', syllables: 2, rhyming_word: 'ro', first_phonemes: '/a/' },
+    phonetic: { first_sound: '/a/', syllables: 2, rhyming_word: 'bajo', first_phonemes: '/a/' },
     difficulty: 1,
     tags: ['condimento', 'común'],
     sentence: 'Añadí dos dientes de _____ a la salsa.',
@@ -1009,7 +1009,7 @@ export const WORDS_ES: Word[] = [
       properties: 'tiene hojas verdes, es fresca, crujiente',
       associations: 'ensalada, verde, hojas, huerto'
     },
-    phonetic: { first_sound: '/l/', syllables: 3, rhyming_word: 'bicha', first_phonemes: '/le/' },
+    phonetic: { first_sound: '/l/', syllables: 3, rhyming_word: 'pega', first_phonemes: '/le/' },
     difficulty: 2,
     tags: ['hortaliza', 'verde', 'común'],
     sentence: 'Lavé la _____ para preparar la ensalada.',
@@ -1030,7 +1030,7 @@ export const WORDS_ES: Word[] = [
       properties: 'es pequeña, redonda, puede ser verde o morada',
       associations: 'vino, racimo, viñedo, Año Nuevo'
     },
-    phonetic: { first_sound: '/u/', syllables: 2, rhyming_word: 'uba', first_phonemes: '/u/' },
+    phonetic: { first_sound: '/u/', syllables: 2, rhyming_word: 'cuba', first_phonemes: '/u/' },
     difficulty: 1,
     tags: ['fruta', 'común'],
     sentence: 'Las _____ son el ingrediente principal del vino.',
@@ -1051,7 +1051,7 @@ export const WORDS_ES: Word[] = [
       properties: 'es roja, pequeña, dulce, con semillas',
       associations: 'postre, nata, mermelada, rojo'
     },
-    phonetic: { first_sound: '/f/', syllables: 2, rhyming_word: 'pesa', first_phonemes: '/fre/' },
+    phonetic: { first_sound: '/f/', syllables: 2, rhyming_word: 'travesa', first_phonemes: '/fre/' },
     difficulty: 2,
     tags: ['fruta', 'común'],
     sentence: 'Las _____ con nata son un postre delicioso.',
@@ -1093,7 +1093,7 @@ export const WORDS_ES: Word[] = [
       properties: 'es oscuro, amargo, aromático, caliente',
       associations: 'desayuno, taza, leche, cafeína'
     },
-    phonetic: { first_sound: '/k/', syllables: 2, rhyming_word: 'té', first_phonemes: '/ka/' },
+    phonetic: { first_sound: '/k/', syllables: 2, rhyming_word: 'bebé', first_phonemes: '/ka/' },
     difficulty: 1,
     tags: ['bebida', 'estimulante', 'común'],
     sentence: 'Me tomo un _____ con leche cada mañana.',
@@ -1114,7 +1114,7 @@ export const WORDS_ES: Word[] = [
       properties: 'es blanca, dulce, cristalina',
       associations: 'dulce, café, postre, miel'
     },
-    phonetic: { first_sound: '/a/', syllables: 2, rhyming_word: 'agá', first_phonemes: '/a/' },
+    phonetic: { first_sound: '/a/', syllables: 2, rhyming_word: 'fúcar', first_phonemes: '/a/' },
     difficulty: 2,
     tags: ['condimento', 'dulce', 'común'],
     sentence: 'Le pongo una cucharada de _____ al café.',
@@ -1135,7 +1135,7 @@ export const WORDS_ES: Word[] = [
       properties: 'es blanca, cristalina, salada',
       associations: 'pimienta, mar, cocina, salero'
     },
-    phonetic: { first_sound: '/s/', syllables: 1, rhyming_word: 'tal', first_phonemes: '/sa/' },
+    phonetic: { first_sound: '/s/', syllables: 1, rhyming_word: 'mal', first_phonemes: '/sa/' },
     difficulty: 1,
     tags: ['condimento', 'básico', 'común'],
     sentence: 'Echa una pizca de _____ a la sopa.',
@@ -1198,7 +1198,7 @@ export const WORDS_ES: Word[] = [
       properties: 'es alargado, verde claro, suave',
       associations: 'calabaza, pisto, verdura, huerto'
     },
-    phonetic: { first_sound: '/k/', syllables: 3, rhyming_word: 'fin', first_phonemes: '/ka/' },
+    phonetic: { first_sound: '/k/', syllables: 3, rhyming_word: 'colibrí', first_phonemes: '/ka/' },
     difficulty: 2,
     tags: ['verdura', 'hortaliza'],
     sentence: 'Rallé el _____ para hacer una tortilla.',
@@ -1219,7 +1219,7 @@ export const WORDS_ES: Word[] = [
       properties: 'es alargada, morada, esponjosa',
       associations: 'pisto, escalivada, verdura, huerto'
     },
-    phonetic: { first_sound: '/b/', syllables: 4, rhyming_word: 'lena', first_phonemes: '/be/' },
+    phonetic: { first_sound: '/b/', syllables: 4, rhyming_word: 'pena', first_phonemes: '/be/' },
     difficulty: 3,
     tags: ['verdura', 'hortaliza'],
     sentence: 'La _____ asada con aceite está deliciosa.',
@@ -1240,7 +1240,7 @@ export const WORDS_ES: Word[] = [
       properties: 'es verde, ramificado, nutritivo',
       associations: 'coliflor, verdura, vapor, salud'
     },
-    phonetic: { first_sound: '/b/', syllables: 3, rhyming_word: 'cóqui', first_phonemes: '/bro/' },
+    phonetic: { first_sound: '/b/', syllables: 3, rhyming_word: 'yogur', first_phonemes: '/bro/' },
     difficulty: 2,
     tags: ['verdura', 'saludable'],
     sentence: 'El _____ al vapor es muy sano.',
@@ -1261,7 +1261,7 @@ export const WORDS_ES: Word[] = [
       properties: 'es blanca, compacta, en forma de flor',
       associations: 'brócoli, verdura, bechamel, horno'
     },
-    phonetic: { first_sound: '/k/', syllables: 3, rhyming_word: 'flor', first_phonemes: '/ko/' },
+    phonetic: { first_sound: '/k/', syllables: 3, rhyming_word: 'color', first_phonemes: '/ko/' },
     difficulty: 2,
     tags: ['verdura', 'saludable'],
     sentence: 'La _____ con bechamel está riquísima.',
@@ -1282,7 +1282,7 @@ export const WORDS_ES: Word[] = [
       properties: 'es redondo, suave, de tierra',
       associations: 'seta, pizza, salsa, bosque'
     },
-    phonetic: { first_sound: '/tʃ/', syllables: 3, rhyming_word: 'miñón', first_phonemes: '/tʃa/' },
+    phonetic: { first_sound: '/tʃ/', syllables: 3, rhyming_word: 'camión', first_phonemes: '/tʃa/' },
     difficulty: 2,
     tags: ['verdura', 'seta'],
     sentence: 'Los champiñones salteados con ajo son un acompañamiento perfecto.',
@@ -1303,7 +1303,7 @@ export const WORDS_ES: Word[] = [
       properties: 'es largo, delgado, verde o blanco',
       associations: 'mayonesa, verdura, primavera, huerto'
     },
-    phonetic: { first_sound: '/e/', syllables: 4, rhyming_word: 'lago', first_phonemes: '/es/' },
+    phonetic: { first_sound: '/e/', syllables: 4, rhyming_word: 'trago', first_phonemes: '/es/' },
     difficulty: 3,
     tags: ['verdura', 'gourmet'],
     sentence: 'Los _____s trigueros a la plancha están riquísimos.',
@@ -1324,7 +1324,7 @@ export const WORDS_ES: Word[] = [
       properties: 'es verde, crujiente, fibroso',
       associations: 'ensalada, sopa, verdura, dieta'
     },
-    phonetic: { first_sound: '/a/', syllables: 2, rhyming_word: 'copio', first_phonemes: '/a/' },
+    phonetic: { first_sound: '/a/', syllables: 2, rhyming_word: 'opio', first_phonemes: '/a/' },
     difficulty: 2,
     tags: ['verdura', 'dieta'],
     sentence: 'El _____ crudo es un snack saludable.',
@@ -1345,7 +1345,7 @@ export const WORDS_ES: Word[] = [
       properties: 'es amarillo, en mazorca, dulce',
       associations: 'palomitas, tortilla, choclo, cereal'
     },
-    phonetic: { first_sound: '/m/', syllables: 1, rhyming_word: 'lais', first_phonemes: '/ma/' },
+    phonetic: { first_sound: '/m/', syllables: 1, rhyming_word: 'raíz', first_phonemes: '/ma/' },
     difficulty: 2,
     tags: ['cereal', 'básico'],
     sentence: 'El _____ dulce es un gran acompañamiento.',
@@ -1387,7 +1387,7 @@ export const WORDS_ES: Word[] = [
       properties: 'es alargada, verde, tierna',
       associations: 'alubia, legumbre, menestra, huerto'
     },
-    phonetic: { first_sound: '/x/', syllables: 3, rhyming_word: 'ría', first_phonemes: '/xu/' },
+    phonetic: { first_sound: '/x/', syllables: 3, rhyming_word: 'guía', first_phonemes: '/xu/' },
     difficulty: 2,
     tags: ['legumbre', 'verdura'],
     sentence: 'Las _____s verdes salteadas están muy buenas.',
@@ -1408,7 +1408,7 @@ export const WORDS_ES: Word[] = [
       properties: 'es alargada, jugosa, dulce',
       associations: 'manzana, fruta, postre, zumo'
     },
-    phonetic: { first_sound: '/p/', syllables: 2, rhyming_word: 'cera', first_phonemes: '/pe/' },
+    phonetic: { first_sound: '/p/', syllables: 2, rhyming_word: 'vera', first_phonemes: '/pe/' },
     difficulty: 1,
     tags: ['fruta', 'fresca'],
     sentence: 'La _____ está madura y lista para comer.',
@@ -1429,7 +1429,7 @@ export const WORDS_ES: Word[] = [
       properties: 'es redondo, aterciopelado, jugoso',
       associations: 'nectarina, fruta, postre, zumo'
     },
-    phonetic: { first_sound: '/m/', syllables: 4, rhyming_word: 'ton', first_phonemes: '/me/' },
+    phonetic: { first_sound: '/m/', syllables: 4, rhyming_word: 'limón', first_phonemes: '/me/' },
     difficulty: 2,
     tags: ['fruta', 'verano'],
     sentence: 'El _____ está muy dulce en verano.',
@@ -1450,7 +1450,7 @@ export const WORDS_ES: Word[] = [
       properties: 'es pequeña, roja, dulce',
       associations: 'picota, fruta, postre, árbol'
     },
-    phonetic: { first_sound: '/θ/', syllables: 3, rhyming_word: 'oreja', first_phonemes: '/θe/' },
+    phonetic: { first_sound: '/θ/', syllables: 3, rhyming_word: 'torpeza', first_phonemes: '/θe/' },
     difficulty: 2,
     tags: ['fruta', 'verano'],
     sentence: 'Las _____s del árbol están madurando.',
@@ -1471,7 +1471,7 @@ export const WORDS_ES: Word[] = [
       properties: 'es grande, verde por fuera, roja por dentro',
       associations: 'melón, verano, fruta, picnic'
     },
-    phonetic: { first_sound: '/s/', syllables: 3, rhyming_word: 'avía', first_phonemes: '/sa/' },
+    phonetic: { first_sound: '/s/', syllables: 3, rhyming_word: 'vacía', first_phonemes: '/sa/' },
     difficulty: 2,
     tags: ['fruta', 'verano'],
     sentence: 'La _____ fría es perfecta para el verano.',
@@ -1492,7 +1492,7 @@ export const WORDS_ES: Word[] = [
       properties: 'es grande, dulce, refrescante',
       associations: 'sandía, jamón, fruta, verano'
     },
-    phonetic: { first_sound: '/m/', syllables: 2, rhyming_word: 'colón', first_phonemes: '/me/' },
+    phonetic: { first_sound: '/m/', syllables: 2, rhyming_word: 'jamón', first_phonemes: '/me/' },
     difficulty: 1,
     tags: ['fruta', 'verano'],
     sentence: 'El _____ con jamón es un entrante delicioso.',
@@ -1702,7 +1702,7 @@ export const WORDS_ES: Word[] = [
       properties: 'es líquido, resbaladizo, dorado',
       associations: 'oliva, freír, ensalada, sartén'
     },
-    phonetic: { first_sound: '/a/', syllables: 3, rhyming_word: 'saye', first_phonemes: '/a/' },
+    phonetic: { first_sound: '/a/', syllables: 3, rhyming_word: 'deleite', first_phonemes: '/a/' },
     difficulty: 1,
     tags: ['básico', 'cocina'],
     sentence: 'El _____ de oliva virgen extra es el mejor para aliñar.',
@@ -1744,7 +1744,7 @@ export const WORDS_ES: Word[] = [
       properties: 'es blanda, amarilla, grasienta',
       associations: 'pan, tostada, pastel, leche'
     },
-    phonetic: { first_sound: '/m/', syllables: 4, rhyming_word: 'uña', first_phonemes: '/ma/' },
+    phonetic: { first_sound: '/m/', syllables: 4, rhyming_word: 'silla', first_phonemes: '/ma/' },
     difficulty: 2,
     tags: ['lácteo', 'básico'],
     sentence: 'Unta la _____ en la tostada caliente.',
@@ -1870,7 +1870,7 @@ export const WORDS_ES: Word[] = [
       properties: 'es esponjoso, decorado, dulce',
       associations: 'cumpleaños, vela, nata, chocolate'
     },
-    phonetic: { first_sound: '/p/', syllables: 2, rhyming_word: 'pastel', first_phonemes: '/pa/' },
+    phonetic: { first_sound: '/p/', syllables: 2, rhyming_word: 'cartel', first_phonemes: '/pa/' },
     difficulty: 1,
     tags: ['repostería', 'celebración'],
     sentence: 'El _____ de chocolate tiene tres capas.',
@@ -1891,7 +1891,7 @@ export const WORDS_ES: Word[] = [
       properties: 'es crujiente, dorado, seco',
       associations: 'tostadora, mermelada, mantequilla, desayuno'
     },
-    phonetic: { first_sound: '/p/', syllables: 4, rhyming_word: 'do', first_phonemes: '/pa/' },
+    phonetic: { first_sound: '/p/', syllables: 4, rhyming_word: 'ornado', first_phonemes: '/pa/' },
     difficulty: 1,
     tags: ['pan', 'desayuno'],
     sentence: 'El _____ con tomate es un clásico español.',
@@ -2228,7 +2228,7 @@ export const WORDS_ES: Word[] = [
       properties: 'pequeña, dulce, esponjosa, con forma de concha',
       associations: 'bizcocho, horno, azúcar, café'
     },
-    phonetic: { first_sound: '/m/', syllables: 4, rhyming_word: 'lena', first_phonemes: '/ma/' },
+    phonetic: { first_sound: '/m/', syllables: 4, rhyming_word: 'pena', first_phonemes: '/ma/' },
     difficulty: 2,
     tags: ['dulce', 'repostería'],
     sentence: 'Tomé café con una _____ para merendar.',
@@ -2253,7 +2253,7 @@ export const WORDS_ES: Word[] = [
       properties: 'tiene superficie plana y patas',
       associations: 'silla, mantel, comedor, plato'
     },
-    phonetic: { first_sound: '/m/', syllables: 2, rhyming_word: 'pesa', first_phonemes: '/me/' },
+    phonetic: { first_sound: '/m/', syllables: 2, rhyming_word: 'pasa', first_phonemes: '/me/' },
     difficulty: 1,
     tags: ['mueble', 'común'],
     sentence: 'Puse los platos sobre la _____ del comedor.',
@@ -2274,7 +2274,7 @@ export const WORDS_ES: Word[] = [
       properties: 'tiene asiento y respaldo, cuatro patas',
       associations: 'mesa, asiento, respaldo, comedor'
     },
-    phonetic: { first_sound: '/s/', syllables: 2, rhyming_word: 'silla', first_phonemes: '/si/' },
+    phonetic: { first_sound: '/s/', syllables: 2, rhyming_word: 'illa', first_phonemes: '/si/' },
     difficulty: 1,
     tags: ['mueble', 'común'],
     sentence: 'Siéntate en la _____ junto a la ventana.',
@@ -2463,7 +2463,7 @@ export const WORDS_ES: Word[] = [
       properties: 'es acolchado, largo, cómodo',
       associations: 'cojín, salón, televisión, descanso'
     },
-    phonetic: { first_sound: '/s/', syllables: 2, rhyming_word: 'sofá', first_phonemes: '/so/' },
+    phonetic: { first_sound: '/s/', syllables: 2, rhyming_word: 'jamás', first_phonemes: '/so/' },
     difficulty: 1,
     tags: ['mueble', 'común'],
     sentence: 'Me siento en el _____ a ver la televisión.',
@@ -2673,7 +2673,7 @@ export const WORDS_ES: Word[] = [
       properties: 'tiene agujas o números, marca horas',
       associations: 'hora, tiempo, pared, campanada'
     },
-    phonetic: { first_sound: '/r/', syllables: 2, rhyming_word: 'oj', first_phonemes: '/re/' },
+    phonetic: { first_sound: '/r/', syllables: 2, rhyming_word: 'roj', first_phonemes: '/re/' },
     difficulty: 1,
     tags: ['medición', 'hogar'],
     sentence: 'El _____ de pared marca las tres en punto.',
@@ -3303,7 +3303,7 @@ export const WORDS_ES: Word[] = [
       properties: 'tiene agujeros, está en la pared, peligroso',
       associations: 'electricidad, cable, clavija, corriente'
     },
-    phonetic: { first_sound: '/e/', syllables: 3, rhyming_word: 'chufo', first_phonemes: '/en/' },
+    phonetic: { first_sound: '/e/', syllables: 3, rhyming_word: 'trufe', first_phonemes: '/en/' },
     difficulty: 2,
     tags: ['eléctrico', 'pared'],
     sentence: 'Conecta el cargador en el _____ de la pared.',
@@ -3324,7 +3324,7 @@ export const WORDS_ES: Word[] = [
       properties: 'agujero, tubo, está abajo',
       associations: 'agua, tubo, fregadero, lavabo'
     },
-    phonetic: { first_sound: '/d/', syllables: 3, rhyming_word: 'hue', first_phonemes: '/de/' },
+    phonetic: { first_sound: '/d/', syllables: 3, rhyming_word: 'mengüe', first_phonemes: '/de/' },
     difficulty: 2,
     tags: ['fontanería', 'baño'],
     sentence: 'El _____ del fregadero está atascado.',
@@ -3454,7 +3454,7 @@ export const WORDS_ES: Word[] = [
       properties: 'tiene dedos, talón, empeine',
       associations: 'zapato, calcetín, caminar, tobillo'
     },
-    phonetic: { first_sound: '/p/', syllables: 1, rhyming_word: 'pie', first_phonemes: '/pie/' },
+    phonetic: { first_sound: '/p/', syllables: 1, rhyming_word: 'rie', first_phonemes: '/pie/' },
     difficulty: 1,
     tags: ['cuerpo', 'común'],
     sentence: 'Me quité los zapatos porque me dolía el _____.',
@@ -3580,7 +3580,7 @@ export const WORDS_ES: Word[] = [
       properties: 'tiene hombro, codo, antebrazo',
       associations: 'mano, hombro, codo, muñeca'
     },
-    phonetic: { first_sound: '/b/', syllables: 2, rhyming_word: 'paso', first_phonemes: '/bra/' },
+    phonetic: { first_sound: '/b/', syllables: 2, rhyming_word: 'pedazo', first_phonemes: '/bra/' },
     difficulty: 1,
     tags: ['cuerpo', 'común'],
     sentence: 'Le dolía el _____ después de levantar las cajas.',
@@ -3643,7 +3643,7 @@ export const WORDS_ES: Word[] = [
       properties: 'es una articulación, une brazo y tronco',
       associations: 'brazo, espalda, cuello, carga'
     },
-    phonetic: { first_sound: '/o/', syllables: 2, rhyming_word: 'hondo', first_phonemes: '/o/' },
+    phonetic: { first_sound: '/o/', syllables: 2, rhyming_word: 'escombro', first_phonemes: '/o/' },
     difficulty: 2,
     tags: ['cuerpo', 'articulación'],
     sentence: 'Llevaba la mochila sobre el _____.',
@@ -3748,7 +3748,7 @@ export const WORDS_ES: Word[] = [
       properties: 'es muscular, en forma de bolsa, ácido',
       associations: 'comida, digestión, barriga, hambre'
     },
-    phonetic: { first_sound: '/e/', syllables: 4, rhyming_word: 'lago', first_phonemes: '/es/' },
+    phonetic: { first_sound: '/e/', syllables: 4, rhyming_word: 'trago', first_phonemes: '/es/' },
     difficulty: 1,
     tags: ['órgano', 'digestivo'],
     sentence: 'El _____ me duele después de comer tanto.',
@@ -3790,7 +3790,7 @@ export const WORDS_ES: Word[] = [
       properties: 'es muscular, móvil, con papilas gustativas',
       associations: 'boca, hablar, gusto, sabor'
     },
-    phonetic: { first_sound: '/l/', syllables: 2, rhyming_word: 'penga', first_phonemes: '/le/' },
+    phonetic: { first_sound: '/l/', syllables: 2, rhyming_word: 'mengua', first_phonemes: '/le/' },
     difficulty: 1,
     tags: ['órgano', 'boca'],
     sentence: 'Me mordí la _____ al comer demasiado rápido.',
@@ -3811,7 +3811,7 @@ export const WORDS_ES: Word[] = [
       properties: 'es de pelo, arqueada, simétrica',
       associations: 'ojo, frente, expresión, mirada'
     },
-    phonetic: { first_sound: '/θ/', syllables: 2, rhyming_word: 'oreja', first_phonemes: '/θe/' },
+    phonetic: { first_sound: '/θ/', syllables: 2, rhyming_word: 'abeja', first_phonemes: '/θe/' },
     difficulty: 1,
     tags: ['cuerpo', 'rostro'],
     sentence: 'Levantó las _____s sorprendido al oír la noticia.',
@@ -3832,7 +3832,7 @@ export const WORDS_ES: Word[] = [
       properties: 'son cortos, curvados, finos',
       associations: 'ojo, párpado, mirada, pestañeo'
     },
-    phonetic: { first_sound: '/p/', syllables: 3, rhyming_word: 'mañana', first_phonemes: '/pe/' },
+    phonetic: { first_sound: '/p/', syllables: 3, rhyming_word: 'hazaña', first_phonemes: '/pe/' },
     difficulty: 2,
     tags: ['cuerpo', 'rostro'],
     sentence: 'Le cayó una _____ en la mejilla.',
@@ -4067,7 +4067,7 @@ export const WORDS_ES: Word[] = [
       properties: 'cubre los dedos, viene en par',
       associations: 'mano, frío, invierno, dedo'
     },
-    phonetic: { first_sound: '/g/', syllables: 2, rhyming_word: 'cuanto', first_phonemes: '/gwa/' },
+    phonetic: { first_sound: '/g/', syllables: 2, rhyming_word: 'durante', first_phonemes: '/gwa/' },
     difficulty: 2,
     tags: ['accesorio', 'invierno'],
     sentence: 'Me pongo los _____ cuando hace mucho frío.',
@@ -4470,7 +4470,7 @@ export const WORDS_ES: Word[] = [
       properties: 'es grande, tiene muchos asientos',
       associations: 'parada, pasaje, asiento, boleto'
     },
-    phonetic: { first_sound: '/a/', syllables: 3, rhyming_word: 'plus', first_phonemes: '/aw/' },
+    phonetic: { first_sound: '/a/', syllables: 3, rhyming_word: 'obús', first_phonemes: '/aw/' },
     difficulty: 2,
     tags: ['transporte', 'público'],
     sentence: 'Espero el _____ en la parada cada mañana.',
@@ -4680,7 +4680,7 @@ export const WORDS_ES: Word[] = [
       properties: 'muy rápido, largo, tiene fuego en la base',
       associations: 'espacio, astronauta, fuego, luna'
     },
-    phonetic: { first_sound: '/k/', syllables: 3, rhyming_word: 'planea', first_phonemes: '/ko/' },
+    phonetic: { first_sound: '/k/', syllables: 3, rhyming_word: 'billete', first_phonemes: '/ko/' },
     difficulty: 2,
     tags: ['espacio', 'ciencia'],
     sentence: 'El _____ despegó hacia la luna.',
@@ -4810,7 +4810,7 @@ export const WORDS_ES: Word[] = [
       properties: 'es de metal, puntiagudo, cabe plana',
       associations: 'martillo, pared, madera, fijar'
     },
-    phonetic: { first_sound: '/k/', syllables: 2, rhyming_word: 'nabo', first_phonemes: '/kla/' },
+    phonetic: { first_sound: '/k/', syllables: 2, rhyming_word: 'esclavo', first_phonemes: '/kla/' },
     difficulty: 1,
     tags: ['fijación', 'ferretería'],
     sentence: 'Necesito un _____ para colgar este cuadro.',
@@ -4978,7 +4978,7 @@ export const WORDS_ES: Word[] = [
       properties: 'tiene cerdas finas, mango largo',
       associations: 'pintura, arte, lienzo, color'
     },
-    phonetic: { first_sound: '/p/', syllables: 2, rhyming_word: 'tieso', first_phonemes: '/pin/' },
+    phonetic: { first_sound: '/p/', syllables: 2, rhyming_word: 'miel', first_phonemes: '/pin/' },
     difficulty: 2,
     tags: ['herramienta', 'pintura', 'arte'],
     sentence: 'El artista mojó el _____ en la pintura azul.',
@@ -5020,7 +5020,7 @@ export const WORDS_ES: Word[] = [
       properties: 'tiene cerdas, mango, superficie plana',
       associations: 'pelo, limpieza, cerda, peine'
     },
-    phonetic: { first_sound: '/θ/', syllables: 3, rhyming_word: 'hijo', first_phonemes: '/θe/' },
+    phonetic: { first_sound: '/θ/', syllables: 3, rhyming_word: 'brillo', first_phonemes: '/θe/' },
     difficulty: 2,
     tags: ['utensilio', 'limpieza', 'común'],
     sentence: 'Me peino con el _____ todas las mañanas.',
@@ -5532,7 +5532,7 @@ export const WORDS_ES: Word[] = [
       properties: 'es frío, sereno, profundo',
       associations: 'cielo, mar, tranquilo, frío'
     },
-    phonetic: { first_sound: '/a/', syllables: 2, rhyming_word: 'cruz', first_phonemes: '/a/' },
+    phonetic: { first_sound: '/a/', syllables: 2, rhyming_word: 'baúl', first_phonemes: '/a/' },
     difficulty: 1,
     tags: ['color', 'primario', 'común'],
     sentence: 'El cielo está muy _____ hoy.',
@@ -5637,7 +5637,7 @@ export const WORDS_ES: Word[] = [
       properties: 'es cálido, vibrante, llamativo',
       associations: 'naranja, fuego, atardecer, zanahoria'
     },
-    phonetic: { first_sound: '/n/', syllables: 3, rhyming_word: 'lanza', first_phonemes: '/na/' },
+    phonetic: { first_sound: '/n/', syllables: 3, rhyming_word: 'granja', first_phonemes: '/na/' },
     difficulty: 2,
     tags: ['color', 'común'],
     sentence: 'El atardecer tiene un tono _____ precioso.',
@@ -5721,7 +5721,7 @@ export const WORDS_ES: Word[] = [
       properties: 'es neutro, sobrio, apagado',
       associations: 'nube, piedra, hormigón, neblina'
     },
-    phonetic: { first_sound: '/g/', syllables: 1, rhyming_word: 'tis', first_phonemes: '/gri/' },
+    phonetic: { first_sound: '/g/', syllables: 1, rhyming_word: 'parís', first_phonemes: '/gri/' },
     difficulty: 1,
     tags: ['color', 'común'],
     sentence: 'El cielo está _____ hoy, parece que va a llover.',
@@ -5998,7 +5998,7 @@ export const WORDS_ES: Word[] = [
       properties: 'usa brazos y piernas, en el agua',
       associations: 'agua, piscina, mar, traje de baño'
     },
-    phonetic: { first_sound: '/n/', syllables: 2, rhyming_word: 'cada', first_phonemes: '/na/' },
+    phonetic: { first_sound: '/n/', syllables: 2, rhyming_word: 'pasar', first_phonemes: '/na/' },
     difficulty: 1,
     tags: ['acción', 'deporte'],
     sentence: 'Aprendí a _____ cuando tenía cinco años.',
@@ -6363,7 +6363,7 @@ export const WORDS_ES: Word[] = [
       properties: 'tiene habitaciones, techo, paredes',
       associations: 'hogar, familia, puerta, ventana'
     },
-    phonetic: { first_sound: '/k/', syllables: 2, rhyming_word: 'brazo', first_phonemes: '/ka/' },
+    phonetic: { first_sound: '/k/', syllables: 2, rhyming_word: 'tasa', first_phonemes: '/ka/' },
     difficulty: 1,
     tags: ['edificio', 'común'],
     sentence: 'Mi _____ está cerca del parque.',
@@ -6384,7 +6384,7 @@ export const WORDS_ES: Word[] = [
       properties: 'tiene consultas, quirófanos, camas',
       associations: 'médico, enfermero, curar, enfermo'
     },
-    phonetic: { first_sound: '/o/', syllables: 3, rhyming_word: 'tal', first_phonemes: '/os/' },
+    phonetic: { first_sound: '/o/', syllables: 3, rhyming_word: 'mal', first_phonemes: '/os/' },
     difficulty: 2,
     tags: ['sanidad', 'común'],
     sentence: 'Llevaron al herido al _____ más cercano.',
@@ -6426,7 +6426,7 @@ export const WORDS_ES: Word[] = [
       properties: 'tiene arena, agua, sol',
       associations: 'mar, arena, sol, toalla'
     },
-    phonetic: { first_sound: '/p/', syllables: 2, rhyming_word: 'talla', first_phonemes: '/pla/' },
+    phonetic: { first_sound: '/p/', syllables: 2, rhyming_word: 'raya', first_phonemes: '/pla/' },
     difficulty: 1,
     tags: ['naturaleza', 'costa'],
     sentence: 'Pasamos el día en la _____ tomando el sol.',
@@ -6447,7 +6447,7 @@ export const WORDS_ES: Word[] = [
       properties: 'es alta, tiene cumbre, laderas',
       associations: 'cima, nieve, sendero, roca'
     },
-    phonetic: { first_sound: '/m/', syllables: 3, rhyming_word: 'mañana', first_phonemes: '/mon/' },
+    phonetic: { first_sound: '/m/', syllables: 3, rhyming_word: 'hazaña', first_phonemes: '/mon/' },
     difficulty: 2,
     tags: ['naturaleza', 'geografía'],
     sentence: 'Subimos a la _____ y disfrutamos de las vistas.',
@@ -6510,7 +6510,7 @@ export const WORDS_ES: Word[] = [
       properties: 'tiene estanterías, libros, mesas de lectura',
       associations: 'libro, lectura, silencio, estudio'
     },
-    phonetic: { first_sound: '/b/', syllables: 4, rhyming_word: 'disco', first_phonemes: '/bi/' },
+    phonetic: { first_sound: '/b/', syllables: 4, rhyming_word: 'hueca', first_phonemes: '/bi/' },
     difficulty: 3,
     tags: ['cultura', 'educación'],
     sentence: 'Estudio en la _____ porque hay silencio.',
@@ -6573,7 +6573,7 @@ export const WORDS_ES: Word[] = [
       properties: 'tiene campanario, altar, bancos',
       associations: 'oración, campana, misa, cruz'
     },
-    phonetic: { first_sound: '/i/', syllables: 3, rhyming_word: 'mesa', first_phonemes: '/i/' },
+    phonetic: { first_sound: '/i/', syllables: 3, rhyming_word: 'anestesia', first_phonemes: '/i/' },
     difficulty: 2,
     tags: ['religión', 'común'],
     sentence: 'La _____ del pueblo tiene un campanario muy alto.',
@@ -6699,7 +6699,7 @@ export const WORDS_ES: Word[] = [
       properties: 'butacas, pantalla grande, oscuro',
       associations: 'película, palomitas, pantalla, butaca'
     },
-    phonetic: { first_sound: '/θ/', syllables: 2, rhyming_word: 'fin', first_phonemes: '/θi/' },
+    phonetic: { first_sound: '/θ/', syllables: 2, rhyming_word: 'termine', first_phonemes: '/θi/' },
     difficulty: 1,
     tags: ['entretenimiento', 'ocio'],
     sentence: 'Fuimos al _____ a ver una película de terror.',
@@ -6762,7 +6762,7 @@ export const WORDS_ES: Word[] = [
       properties: 'tiene calles, casas, vecinos',
       associations: 'vecino, calle, casa, comunidad'
     },
-    phonetic: { first_sound: '/b/', syllables: 2, rhyming_word: 'río', first_phonemes: '/ba/' },
+    phonetic: { first_sound: '/b/', syllables: 2, rhyming_word: 'labio', first_phonemes: '/ba/' },
     difficulty: 1,
     tags: ['urbano', 'residencial'],
     sentence: 'Mi _____ es tranquilo y tiene muchos árboles.',
@@ -6808,7 +6808,7 @@ export const WORDS_ES: Word[] = [
       properties: 'sonrisa, bienestar, satisfacción',
       associations: 'alegría, sonrisa, risa, contento'
     },
-    phonetic: { first_sound: '/f/', syllables: 2, rhyming_word: 'vez', first_phonemes: '/fe/' },
+    phonetic: { first_sound: '/f/', syllables: 2, rhyming_word: 'matiz', first_phonemes: '/fe/' },
     difficulty: 1,
     tags: ['emoción', 'positiva', 'común'],
     sentence: 'Estoy muy _____ porque aprobé el examen.',
@@ -7000,7 +7000,7 @@ export const WORDS_ES: Word[] = [
       properties: 'es colorida, tiene pétalos, aroma',
       associations: 'pétalo, jardín, rosa, primavera'
     },
-    phonetic: { first_sound: '/f/', syllables: 1, rhyming_word: 'sol', first_phonemes: '/flo/' },
+    phonetic: { first_sound: '/f/', syllables: 1, rhyming_word: 'coliflor', first_phonemes: '/flo/' },
     difficulty: 1,
     tags: ['planta', 'común'],
     sentence: 'La _____ del jardín tiene un aroma delicioso.',
@@ -7021,7 +7021,7 @@ export const WORDS_ES: Word[] = [
       properties: 'es brillante, amarillo, calienta',
       associations: 'luz, calor, día, cielo'
     },
-    phonetic: { first_sound: '/s/', syllables: 1, rhyming_word: 'flor', first_phonemes: '/so/' },
+    phonetic: { first_sound: '/s/', syllables: 1, rhyming_word: 'español', first_phonemes: '/so/' },
     difficulty: 1,
     tags: ['astro', 'común'],
     sentence: 'El _____ brilla intensamente en verano.',
@@ -7231,7 +7231,7 @@ export const WORDS_ES: Word[] = [
       properties: 'es suave, granulada, dorada',
       associations: 'playa, mar, castillo, desierto'
     },
-    phonetic: { first_sound: '/a/', syllables: 3, rhyming_word: 'lena', first_phonemes: '/a/' },
+    phonetic: { first_sound: '/a/', syllables: 3, rhyming_word: 'pena', first_phonemes: '/a/' },
     difficulty: 2,
     tags: ['material', 'común'],
     sentence: 'Los niños hicieron un castillo en la _____ de la playa.',
@@ -7273,7 +7273,7 @@ export const WORDS_ES: Word[] = [
       properties: 'es verde, pequeña, flexible',
       associations: 'prado, verde, campo, césped'
     },
-    phonetic: { first_sound: '/ʎ/', syllables: 2, rhyming_word: 'sierva', first_phonemes: '/ʎe/' },
+    phonetic: { first_sound: '/ʎ/', syllables: 2, rhyming_word: 'yerba', first_phonemes: '/ʎe/' },
     difficulty: 1,
     tags: ['planta', 'común'],
     sentence: 'Las ovejas pastan la _____ del prado.',
@@ -7294,7 +7294,7 @@ export const WORDS_ES: Word[] = [
       properties: 'alto, tiene cráter, expulsa lava',
       associations: 'erupción, lava, ceniza, fuego'
     },
-    phonetic: { first_sound: '/b/', syllables: 2, rhyming_word: 'fan', first_phonemes: '/bo/' },
+    phonetic: { first_sound: '/b/', syllables: 2, rhyming_word: 'alemán', first_phonemes: '/bo/' },
     difficulty: 2,
     tags: ['geología', 'fenómeno'],
     sentence: 'El _____ entró en erupción y cubrió el cielo de ceniza.',
@@ -7399,7 +7399,7 @@ export const WORDS_ES: Word[] = [
       properties: 'varias islas, cerca entre sí, rodeadas de agua',
       associations: 'islas, mar, navegación, costa'
     },
-    phonetic: { first_sound: '/a/', syllables: 5, rhyming_word: 'lago', first_phonemes: '/aɾ/' },
+    phonetic: { first_sound: '/a/', syllables: 5, rhyming_word: 'trago', first_phonemes: '/aɾ/' },
     difficulty: 3,
     tags: ['geografía', 'paisaje'],
     sentence: 'Las Baleares son un _____ en el Mediterráneo.',
@@ -7462,7 +7462,7 @@ export const WORDS_ES: Word[] = [
       properties: 'oscurece el cielo, temporal, espectacular',
       associations: 'sol, luna, oscuridad, sombra'
     },
-    phonetic: { first_sound: '/e/', syllables: 3, rhyming_word: 'trece', first_phonemes: '/ek/' },
+    phonetic: { first_sound: '/e/', syllables: 3, rhyming_word: 'elipse', first_phonemes: '/ek/' },
     difficulty: 2,
     tags: ['astronomía', 'fenómeno'],
     sentence: 'El _____ de sol oscureció el cielo a mediodía.',
@@ -7700,7 +7700,7 @@ export const WORDS_ES: Word[] = [
       properties: 'es muy pequeño, llora, gatea',
       associations: 'biberón, pañal, cuna, leche'
     },
-    phonetic: { first_sound: '/b/', syllables: 2, rhyming_word: 'pé', first_phonemes: '/be/' },
+    phonetic: { first_sound: '/b/', syllables: 2, rhyming_word: 'José', first_phonemes: '/be/' },
     difficulty: 1,
     tags: ['familia', 'común'],
     sentence: 'El _____ de mi hermana ya empieza a gatear.',

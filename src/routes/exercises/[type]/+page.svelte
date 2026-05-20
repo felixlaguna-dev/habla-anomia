@@ -6,6 +6,7 @@
   import { base } from '$app/paths';
   import { getAllSettings, startSession, endSession, updateStreak } from '$lib/db';
   import { awaitSeedReady } from '$lib/db/words';
+  import { db } from '$lib/db/database';
   import { generateSession } from '$lib/engine/session-generator';
   import { browser } from '$app/environment';
   import { playCompleteSound } from '$lib/utils/sounds';
@@ -33,6 +34,7 @@
   let incorrectWords = $state<Word[]>([]);
   let showConfetti = $state(false);
   let planCategory: string | undefined = $state();
+  let allWords = $state<Word[]>([]);
 
   // Resolve component in script block, not template
   let ExerciseComponent = $derived.by(() => {
@@ -63,6 +65,9 @@
     const plan = await generateSession(s.language, exerciseType, 10);
     words = plan.words;
     planCategory = plan.category;
+
+    // Load all words for cross-category distractors
+    allWords = await db.words.where('language').equals(s.language).toArray();
 
     const id = await startSession(s.language);
     sessionId = id;
@@ -194,6 +199,7 @@
     <div class="exercise-content slide-up">
       <ExerciseComponent
         {words}
+        {allWords}
         language={settings?.language || 'es'}
         category={planCategory}
         oncomplete={handleComplete}

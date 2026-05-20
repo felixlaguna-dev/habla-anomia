@@ -12,6 +12,7 @@
 
   type Props = {
     words: Word[];
+    allWords?: Word[];
     language?: Language;
     category?: string;
     durationSeconds?: number;
@@ -21,6 +22,7 @@
 
   let {
     words,
+    allWords = [],
     language = 'es' as Language,
     category,
     durationSeconds = 60,
@@ -48,12 +50,7 @@
   });
 
   // Build the word pool: mix valid words with distractors from other categories
-  // We need a bigger pool of all words to draw distractors from
-  // Since we only have `words` (category words), we'll reuse them shuffled + add filler
   let wordPool = $derived.by(() => {
-    // The pool consists of the valid words + some "decoy" words generated from partial matches
-    // Since we only have category words, we create the pool from the words themselves
-    // plus their synonyms/opposites as distractors if available
     const pool: Array<{ word: string; isValid: boolean }> = [];
 
     // Add all valid words
@@ -61,25 +58,16 @@
       pool.push({ word: w.word, isValid: true });
     }
 
-    // Add distractors: synonyms, opposites from within the word list
-    const distractorSet = new Set<string>();
-    for (const w of words) {
-      if (w.opposite && !validWordSet.has(w.opposite.toLowerCase())) {
-        distractorSet.add(w.opposite);
-      }
-      if (w.synonyms) {
-        for (const s of w.synonyms) {
-          if (!validWordSet.has(s.toLowerCase())) {
-            distractorSet.add(s);
-          }
-        }
-      }
-    }
-
-    // Add some distractors
-    const distractors = [...distractorSet].sort(() => Math.random() - 0.5).slice(0, Math.max(4, 8 - words.length));
-    for (const d of distractors) {
-      pool.push({ word: d, isValid: false });
+    // Pull distractors from OTHER categories (never synonyms/related words)
+    const otherCategoryWords = allWords.filter(
+      w => !validWordSet.has(w.word.trim().toLowerCase())
+    );
+    const distractorCount = Math.max(4, 8 - words.length);
+    const shuffled = [...otherCategoryWords]
+      .sort(() => Math.random() - 0.5)
+      .slice(0, distractorCount);
+    for (const d of shuffled) {
+      pool.push({ word: d.word, isValid: false });
     }
 
     // Shuffle

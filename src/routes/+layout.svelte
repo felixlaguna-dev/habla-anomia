@@ -41,11 +41,13 @@
     }
   }
 
-  let hideNav = $derived($page.url.pathname.startsWith(`${base}/exercises/`) && $page.url.pathname.split('/').length === 5 && $page.url.pathname !== `${base}/exercises`);
+  let hideNav = $derived.by(() => {
+    const p = $page.url.pathname;
+    return p.startsWith('/exercises/') && p.split('/').length === 3;
+  });
 
   const navItems = [
     { path: `${base}/`, labelKey: 'nav.home', icon: 'home' },
-    { path: `${base}/exercises`, labelKey: 'nav.exercises', icon: 'exercises' },
     { path: `${base}/progress`, labelKey: 'nav.progress', icon: 'progress' },
     { path: `${base}/settings`, labelKey: 'nav.settings', icon: 'settings' }
   ];

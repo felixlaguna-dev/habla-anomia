@@ -13,13 +13,6 @@
   let deleteConfirming = $state(false);
   let deleteConfirmTimer: ReturnType<typeof setTimeout> | null = null;
 
-  const languageOptions = [
-    { value: 'es', label: 'Español' },
-    { value: 'ca', label: 'Català' },
-    { value: 'eu', label: 'Euskara' },
-    { value: 'en', label: 'English' }
-  ];
-
   const textSizeOptions = [
     { value: 'small', labelKey: 'settings.small' },
     { value: 'normal', labelKey: 'settings.normal' },
@@ -168,20 +161,6 @@
     <header class="page-header">
       <h1 class="page-title">{$t('settings.title')}</h1>
     </header>
-
-    <!-- Language -->
-    <section class="setting-section">
-      <h2 class="setting-label">{$t('settings.language')}</h2>
-      <Card>
-        <div class="setting-content">
-          <ChipGroup
-            options={languageOptions.map(o => ({ value: o.value, label: o.label }))}
-            selectedValue={settings.language}
-            onchange={(value: string) => updateSetting('language', value as Language)}
-          />
-        </div>
-      </Card>
-    </section>
 
     <!-- Text size -->
     <section class="setting-section">

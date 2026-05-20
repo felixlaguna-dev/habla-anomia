@@ -7346,12 +7346,12 @@ export const WORDS_ES: Word[] = [
   {
     id: 'es-nature-019',
     word: 'isla',
-    category: 'nature',
+    category: 'places',
     language: 'es',
     image_url: '/images/words/isla.webp',
     definition: 'Porción de tierra rodeada de agua por todas partes.',
     features: {
-      category: 'nature',
+      category: 'places',
       function: 'territorio natural',
       location: 'océanos, mares, ríos',
       properties: 'rodeada de agua, puede ser pequeña o grande',
@@ -7388,12 +7388,12 @@ export const WORDS_ES: Word[] = [
   {
     id: 'es-nature-021',
     word: 'archipiélago',
-    category: 'nature',
+    category: 'places',
     language: 'es',
     image_url: '/images/words/archipielago.webp',
     definition: 'Grupo de islas cercanas entre sí.',
     features: {
-      category: 'nature',
+      category: 'places',
       function: 'territorio natural',
       location: 'océanos, mares',
       properties: 'varias islas, cerca entre sí, rodeadas de agua',

@@ -447,21 +447,25 @@
 
   .category-btn {
     flex: 1;
-    min-width: 90px;
-    min-height: 64px;
+    min-width: 70px;
+    min-height: 56px;
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: var(--space-md, 16px) var(--space-sm, 8px);
+    padding: var(--space-sm, 8px) var(--space-xs, 4px);
     border: 3px solid;
     border-radius: var(--radius-lg, 16px);
     cursor: pointer;
     font-family: var(--font-family, sans-serif);
-    font-size: var(--font-size-lg, 20px);
+    font-size: var(--font-size-base, 16px);
     font-weight: 700;
     text-transform: capitalize;
     touch-action: manipulation;
     user-select: none;
+    word-break: break-word;
+    hyphens: auto;
+    line-height: 1.2;
+    text-align: center;
     transition: transform var(--transition-fast, 0.15s), box-shadow var(--transition-fast, 0.15s),
       filter var(--transition-fast, 0.15s);
   }

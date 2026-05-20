@@ -2310,7 +2310,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/puerta.webp',
     definition: 'Lámina de madera o metal que cierra una entrada.',
     features: {
-      category: 'places',
+      category: 'household',
       function: 'abrir y cerrar paso',
       location: 'pared, entrada, casa',
       properties: 'tiene bisagras, pomo, se abre y cierra',
@@ -2331,7 +2331,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/ventana.webp',
     definition: 'Abertura en la pared con cristal para dejar pasar luz.',
     features: {
-      category: 'places',
+      category: 'household',
       function: 'iluminar, ventilar',
       location: 'pared, habitación',
       properties: 'tiene cristal, marco, se puede abrir',
@@ -2394,7 +2394,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/escalera.webp',
     definition: 'Serie de peldaños que conectan diferentes niveles.',
     features: {
-      category: 'places',
+      category: 'household',
       function: 'subir y bajar entre pisos',
       location: 'casa, edificio, exterior',
       properties: 'tiene peldaños, pasamanos',
@@ -2436,7 +2436,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/alfombra.webp',
     definition: 'Tela gruesa que cubre el suelo.',
     features: {
-      category: 'clothing',
+      category: 'household',
       function: 'decorar, cubrir suelo',
       location: 'salón, dormitorio, pasillo',
       properties: 'es de tela, suave, decorativa',
@@ -2625,7 +2625,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/cortina.webp',
     definition: 'Tela colgada que cubre ventanas o separa espacios, como en la ducha.',
     features: {
-      category: 'clothing',
+      category: 'household',
       function: 'cubrir, separar, decorar',
       location: 'ventanas, ducha, puertas',
       properties: 'es de tela, se desliza, cubre',
@@ -2877,7 +2877,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/toalla.webp',
     definition: 'Pieza de tela absorbente para secarse el cuerpo.',
     features: {
-      category: 'clothing',
+      category: 'household',
       function: 'secar',
       location: 'baño, cocina, gimnasio',
       properties: 'es de tela, suave, absorbente',
@@ -2898,7 +2898,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/almohada.webp',
     definition: 'Cojín blando que se pone en la cama para apoyar la cabeza al dormir.',
     features: {
-      category: 'clothing',
+      category: 'household',
       function: 'apoyar la cabeza',
       location: 'cama, dormitorio',
       properties: 'es blanda, rellena, rectangular',
@@ -2919,7 +2919,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/manta.webp',
     definition: 'Pieza de tela gruesa y abrigada que se usa para cubrirse.',
     features: {
-      category: 'clothing',
+      category: 'household',
       function: 'abrigar, cubrir',
       location: 'cama, sofá, dormitorio',
       properties: 'es gruesa, abrigada, de lana o tela',
@@ -2940,7 +2940,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/sabana.webp',
     definition: 'Tela grande que cubre el colchón de la cama.',
     features: {
-      category: 'clothing',
+      category: 'household',
       function: 'cubrir la cama',
       location: 'cama, dormitorio, lavadero',
       properties: 'es grande, fina, de algodón',
@@ -3339,7 +3339,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/baldosa.webp',
     definition: 'Pieza cuadrada de cerámica que cubre el suelo.',
     features: {
-      category: 'clothing',
+      category: 'household',
       function: 'cubrir el suelo o la pared',
       location: 'suelo, pared, baño, cocina',
       properties: 'cuadrada, plana, de cerámica, lisa',
@@ -4804,7 +4804,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/clavo.webp',
     definition: 'Pieza metálica puntiaguda para fijar cosas.',
     features: {
-      category: 'clothing',
+      category: 'tools',
       function: 'fijar, colgar',
       location: 'caja de herramientas, ferretería',
       properties: 'es de metal, puntiagudo, cabe plana',
@@ -4888,7 +4888,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/cuchillo.webp',
     definition: 'Utensilio con hoja afilada para cortar.',
     features: {
-      category: 'household',
+      category: 'tools',
       function: 'cortar alimentos',
       location: 'cocina, cajón, mesa',
       properties: 'tiene hoja afilada y mango',
@@ -5014,7 +5014,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/cepillo.webp',
     definition: 'Utensilio con cerdas para limpiar o peinar.',
     features: {
-      category: 'household',
+      category: 'tools',
       function: 'cepillar, limpiar, peinar',
       location: 'baño, cocina, taller',
       properties: 'tiene cerdas, mango, superficie plana',
@@ -6415,7 +6415,7 @@ export const WORDS_ES: Word[] = [
   {
     id: 'es-place-005',
     word: 'playa',
-    category: 'places',
+    category: 'nature',
     language: 'es',
     image_url: '/images/words/playa.webp',
     definition: 'Orilla del mar cubierta de arena.',
@@ -6436,7 +6436,7 @@ export const WORDS_ES: Word[] = [
   {
     id: 'es-place-006',
     word: 'montaña',
-    category: 'places',
+    category: 'nature',
     language: 'es',
     image_url: '/images/words/montana.webp',
     definition: 'Elevación natural del terreno muy alta.',
@@ -6457,7 +6457,7 @@ export const WORDS_ES: Word[] = [
   {
     id: 'es-place-007',
     word: 'río',
-    category: 'places',
+    category: 'nature',
     language: 'es',
     image_url: '/images/words/rio.webp',
     definition: 'Corriente natural de agua que fluye hacia el mar.',
@@ -6478,7 +6478,7 @@ export const WORDS_ES: Word[] = [
   {
     id: 'es-place-008',
     word: 'mar',
-    category: 'places',
+    category: 'nature',
     language: 'es',
     image_url: '/images/words/mar.webp',
     definition: 'Masa de agua salada que cubre gran parte de la Tierra.',
@@ -6907,7 +6907,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/cansado.webp',
     definition: 'Que siente fatiga o agotamiento.',
     features: {
-      category: 'nature',
+      category: 'emotions',
       function: 'expresar fatiga',
       location: 'interior, cuerpo',
       properties: 'somnolencia, falta de energía, bostezo',
@@ -7073,7 +7073,7 @@ export const WORDS_ES: Word[] = [
   {
     id: 'es-nature-006',
     word: 'lluvia',
-    category: 'nature',
+    category: 'weather',
     language: 'es',
     image_url: '/images/words/lluvia.webp',
     definition: 'Agua que cae de las nubes en forma de gotas.',
@@ -7094,7 +7094,7 @@ export const WORDS_ES: Word[] = [
   {
     id: 'es-nature-007',
     word: 'nieve',
-    category: 'nature',
+    category: 'weather',
     language: 'es',
     image_url: '/images/words/nieve.webp',
     definition: 'Agua congelada que cae del cielo en copos blancos.',
@@ -7115,7 +7115,7 @@ export const WORDS_ES: Word[] = [
   {
     id: 'es-nature-008',
     word: 'viento',
-    category: 'nature',
+    category: 'weather',
     language: 'es',
     image_url: '/images/words/viento.webp',
     definition: 'Corriente de aire que se mueve en la atmósfera.',
@@ -7136,7 +7136,7 @@ export const WORDS_ES: Word[] = [
   {
     id: 'es-nature-009',
     word: 'nube',
-    category: 'nature',
+    category: 'weather',
     language: 'es',
     image_url: '/images/words/nube.webp',
     definition: 'Masa de vapor de agua visible en el cielo.',
@@ -7761,7 +7761,7 @@ export const WORDS_ES: Word[] = [
     image_url: '/images/words/arcoiris.webp',
     definition: 'Arco de colores que aparece en el cielo tras la lluvia.',
     features: {
-      category: 'nature',
+      category: 'weather',
       function: 'decoración del cielo',
       location: 'cielo',
       properties: 'tiene siete colores, forma de arco',

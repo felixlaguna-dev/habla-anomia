@@ -164,12 +164,7 @@
     return `background:${c.bg};border-color:${c.border};color:${c.text};`;
   }
 
-  function getCategoryBinStyle(index: number, isCorrect: boolean) {
-    const c = categoryColors[index % categoryColors.length];
-    return `background:${c.bg};border-color:${isCorrect ? '#22c55e' : c.border};`;
-  }
-
- function translateCategory(category: string): string {
+  function translateCategory(category: string): string {
    const key = `categories.${category}`;
    const translated = $t(key);
    // If no translation found, return the original category name
@@ -211,22 +206,6 @@
     <div class="progress-bar-container">
       <div class="progress-bar" style="width: {progress}%"></div>
       <span class="progress-text">{currentIndex + 1} {$t('common.of')} {shuffledItems.length}</span>
-    </div>
-
-    <!-- Category bins at top -->
-    <div class="bins-row">
-      {#each categories as category, i}
-        <div
-          class="category-bin"
-          class:correct-bin={feedbackState === 'correct' && currentItem.category === category}
-          style={getCategoryBinStyle(i, feedbackState === 'correct' && currentItem.category === category)}
-        >
-          <span class="bin-label">{translateCategory(category)}</span>
-          {#if binItems[category] && binItems[category].length > 0}
-            <span class="bin-count">{binItems[category].length}</span>
-          {/if}
-        </div>
-      {/each}
     </div>
 
     <!-- Current item card -->
@@ -383,49 +362,6 @@
     font-size: var(--font-size-sm, 14px);
     font-weight: 600;
     color: var(--text, #1f2937);
-  }
-
-  /* Category bins */
-  .bins-row {
-    display: flex;
-    gap: var(--space-sm, 8px);
-    width: 100%;
-    flex-wrap: wrap;
-    justify-content: center;
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-  }
-
-  .category-bin {
-    flex: 1;
-    min-width: 90px;
-    min-height: 56px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 2px;
-    padding: var(--space-sm, 8px) var(--space-xs, 4px);
-    border: 2px dashed;
-    border-radius: var(--radius-md, 12px);
-    transition: all 0.3s ease;
-  }
-
-  .category-bin.correct-bin {
-    border-style: solid;
-    box-shadow: 0 0 12px rgba(34, 197, 94, 0.4);
-    transform: scale(1.05);
-  }
-
-  .bin-label {
-    font-size: var(--font-size-sm, 14px);
-    font-weight: 700;
-    text-transform: capitalize;
-  }
-
-  .bin-count {
-    font-size: var(--font-size-xs, 12px);
-    opacity: 0.7;
   }
 
   /* Item card */

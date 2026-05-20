@@ -402,12 +402,6 @@
     line-height: 1.5;
   }
 
-  .error-container .error-hint {
-    color: var(--text-dim);
-    font-size: var(--font-size-base);
-    line-height: 1.5;
-  }
-
   .error-container .retry-btn {
     display: inline-flex;
     align-items: center;

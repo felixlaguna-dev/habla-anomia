@@ -607,25 +607,6 @@
     margin: 0;
   }
 
-  .score-display {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: var(--space-xs, 4px);
-  }
-
-  .score-number {
-    font-size: 48px;
-    font-weight: 800;
-    color: var(--primary, #3b82f6);
-    line-height: 1;
-  }
-
-  .score-label {
-    font-size: var(--font-size-lg, 20px);
-    color: var(--text-muted, #6b7280);
-  }
-
   .found-words {
     width: 100%;
     text-align: center;

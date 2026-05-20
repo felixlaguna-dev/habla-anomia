@@ -260,7 +260,6 @@
         <img
           src={resolveImageUrl(currentWord.image_url)}
           alt={$t('exercises.picture_naming.what_is_this')}
-          role="img"
           class="exercise-image"
           onerror={handleImageError}
         />

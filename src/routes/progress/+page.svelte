@@ -368,18 +368,6 @@
 {/if}
 
 <style>
-  .loading-container {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    min-height: 60vh;
-  }
-
-  .loading-text {
-    color: var(--text-dim);
-    font-size: var(--font-size-lg);
-  }
-
   .progress-page {
     display: flex;
     flex-direction: column;
@@ -395,13 +383,6 @@
     font-size: var(--font-size-2xl);
     font-weight: 700;
     color: var(--text);
-  }
-
-  .no-data {
-    color: var(--text-dim);
-    text-align: center;
-    line-height: 1.6;
-    padding: var(--space-lg) 0;
   }
 
   /* Encouraging empty state */
@@ -592,12 +573,6 @@
   }
 
   /* Data section */
-  .data-buttons {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-sm);
-  }
-
   /* Modal */
   .modal-content {
     text-align: center;

@@ -99,10 +99,6 @@
     color: var(--text);
   }
 
-  .about-section {
-    /* spacing handled by flex gap */
-  }
-
   .section-heading {
     font-size: var(--font-size-xl);
     font-weight: 600;

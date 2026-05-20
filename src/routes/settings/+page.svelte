@@ -164,7 +164,7 @@
     </div>
   </div>
 {:else if settings}
-  <section class="settings-page" role="region" aria-label={$t('settings.title')}>
+  <section class="settings-page" aria-label={$t('settings.title')}>
     <header class="page-header">
       <h1 class="page-title">{$t('settings.title')}</h1>
     </header>

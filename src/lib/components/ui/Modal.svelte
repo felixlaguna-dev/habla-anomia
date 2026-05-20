@@ -66,12 +66,14 @@
 </script>
 
 {#if open}
-  <!-- svelte-ignore a11y_no_static_element_interactions -->
   <div
     style="position:fixed;inset:0;z-index:50;display:flex;align-items:center;justify-content:center;padding:var(--space-md);background:rgba(0,0,0,0.6);backdrop-filter:blur(4px);"
     onkeydown={handleKeydown}
     onclick={handleBackdropClick}
+    role="presentation"
   >
+    <!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
+    <!-- svelte-ignore a11y_click_events_have_key_events -->
     <div
       id="modal-dialog"
       role="dialog"

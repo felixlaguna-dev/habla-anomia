@@ -192,7 +192,7 @@
             <span class="checkmark">✓</span>
           </button>
 
-          <div class="image-container" onclick={() => toggleDetails(word.id)} role="button" tabindex="0">
+          <div class="image-container" onclick={() => toggleDetails(word.id)} role="button" tabindex="0" onkeydown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggleDetails(word.id); } }}>
             <img
               src={resolveImageUrl(word.image_url)}
               alt={word.word}
@@ -201,7 +201,7 @@
             />
             <span class="status-dot" style="background: {statusColor(imageStatus[word.image_url] || 'loading')}"></span>
           </div>
-          <div class="card-info" onclick={() => toggleDetails(word.id)}>
+          <div class="card-info" onclick={() => toggleDetails(word.id)} role="button" tabindex="0" onkeydown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggleDetails(word.id); } }}>
             <span class="word-name">{word.word}</span>
             <span class="word-category">{word.category}</span>
             <span class="word-difficulty">{'⭐'.repeat(word.difficulty)}</span>

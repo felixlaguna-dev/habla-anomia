@@ -463,59 +463,71 @@
   }
 
   .exercise-chips {
-    display: flex;
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
     gap: 0.5rem;
-    overflow: hidden;
   }
 
   .exercise-chip {
     position: relative;
-    display: inline-flex;
+    display: flex;
+    flex-direction: column;
     align-items: center;
-    padding: 0.6rem 1rem 0.6rem 1.4rem;
+    justify-content: center;
+    gap: 0.25rem;
+    padding: 0.75rem 0.25rem;
     background: var(--surface-2);
     border: 1.5px solid var(--border);
-    border-radius: 2rem;
+    border-radius: var(--radius-lg);
     color: var(--text);
     font-family: var(--font-family);
-    font-size: var(--font-size-base);
+    font-size: var(--font-size-sm);
     font-weight: 600;
     cursor: pointer;
     touch-action: manipulation;
     -webkit-user-select: none;
     user-select: none;
-    min-height: 48px;
-    transition: transform var(--transition-fast), box-shadow var(--transition-fast);
-    flex-shrink: 0;
+    min-height: 72px;
+    transition: transform var(--transition-fast), background var(--transition-fast);
+    text-align: center;
+    line-height: 1.2;
   }
 
   .exercise-chip:active {
     transform: scale(0.95);
+    background: var(--surface-3);
   }
 
   .chip-icon {
-    position: absolute;
-    top: -6px;
-    left: -6px;
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 1.5rem;
-    height: 1.5rem;
+    width: 2rem;
+    height: 2rem;
     border-radius: 50%;
-    font-size: 0.75rem;
-    border: 2px solid var(--surface);
-    box-shadow: 0 1px 3px rgba(0,0,0,0.3);
-    z-index: 1;
+    font-size: 1rem;
+    flex-shrink: 0;
   }
 
   .chip-label {
-    white-space: nowrap;
     line-height: 1.2;
+    word-break: break-word;
+    hyphens: auto;
   }
 
-  /* Mobile responsive */
+  /* Tablet: 4 columns with more space */
+  @media (min-width: 640px) {
+    .exercise-chips {
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0.75rem;
+    }
+    .exercise-chip {
+      min-height: 80px;
+      padding: 0.75rem 0.5rem;
+    }
+  }
+
+  /* Small mobile */
   @media (max-width: 374px) {
     .stats-grid {
       gap: 0.5rem;
@@ -528,11 +540,17 @@
       font-size: 0.65rem;
     }
     .exercise-chips {
-      gap: 0.4rem;
+      gap: 0.35rem;
     }
     .exercise-chip {
-      padding: 0.5rem 0.8rem;
-      font-size: var(--font-size-sm);
+      padding: 0.5rem 0.15rem;
+      min-height: 64px;
+      font-size: 0.7rem;
+    }
+    .chip-icon {
+      width: 1.6rem;
+      height: 1.6rem;
+      font-size: 0.85rem;
     }
   }
 </style>

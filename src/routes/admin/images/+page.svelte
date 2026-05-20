@@ -14,12 +14,12 @@
   let selected = $state<Set<string>>(new Set());
   let copyFeedback = $state('');
 
-  // Get unique categories
-  let categories = $derived([...new Set(allWords.map(w => w.category))].sort());
+  // Get unique categories (flatten multi-category)
+  let categories = $derived([...new Set(allWords.flatMap(w => w.categories))].sort());
 
   // Filtered words
   let filtered = $derived(allWords.filter(w => {
-    if (categoryFilter !== 'all' && w.category !== categoryFilter) return false;
+    if (categoryFilter !== 'all' && !w.categories.includes(categoryFilter)) return false;
     if (onlyMissing && imageStatus[w.image_url] === 'ok') return false;
     if (searchQuery) {
       const q = searchQuery.toLowerCase();
@@ -146,7 +146,7 @@
     <select bind:value={categoryFilter} class="category-select">
       <option value="all">All categories ({allWords.length})</option>
       {#each categories as cat}
-        <option value={cat}>{cat} ({allWords.filter(w => w.category === cat).length})</option>
+        <option value={cat}>{cat} ({allWords.filter(w => w.categories.includes(cat)).length})</option>
       {/each}
     </select>
     <label class="toggle-label">
@@ -203,7 +203,7 @@
           </div>
           <div class="card-info" onclick={() => toggleDetails(word.id)} role="button" tabindex="0" onkeydown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggleDetails(word.id); } }}>
             <span class="word-name">{word.word}</span>
-            <span class="word-category">{word.category}</span>
+            <span class="word-category">{word.categories.join(', ')}</span>
             <span class="word-difficulty">{'⭐'.repeat(word.difficulty)}</span>
           </div>
         </div>

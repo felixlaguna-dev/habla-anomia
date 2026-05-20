@@ -22,6 +22,11 @@ export class HablaAnomiaDB extends Dexie {
     this.version(2).stores({
       spacedRepetition: '++id, word_id, next_review, language, [word_id+language]'
     });
+
+    // v3: category → categories (array). Drop category index, keep language.
+    this.version(3).stores({
+      words: 'id, word, language, difficulty'
+    });
   }
 }
 

@@ -235,7 +235,9 @@ async function getAllPopulatedCategories(language: Language): Promise<Category[]
     .toArray();
   const categorySet = new Set<Category>();
   for (const w of words) {
-    categorySet.add(w.category);
+    for (const cat of w.categories) {
+      categorySet.add(cat);
+    }
   }
   return [...categorySet].sort();
 }

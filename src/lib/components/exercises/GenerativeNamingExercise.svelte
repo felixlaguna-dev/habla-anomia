@@ -38,7 +38,7 @@
   let error = $state('');
 
   // Category derived from words — use i18n if available
-  let categoryName = $derived(category || (words.length > 0 ? (words[0].features?.category ?? words[0].category ?? '') : ''));
+  let categoryName = $derived(category || (words.length > 0 ? (words[0].features?.category ?? words[0].categories[0] ?? '') : ''));
 
   // Build a lookup set of valid words in this category (lowercase)
   let validWordSet = $derived.by(() => {
@@ -58,9 +58,11 @@
       pool.push({ word: w.word, isValid: true });
     }
 
-    // Pull distractors from OTHER categories (never synonyms/related words)
+    // Pull distractors from words whose categories are DISJOINT from the target
+    const targetCats = new Set(words.flatMap(w => w.categories));
     const otherCategoryWords = allWords.filter(
       w => !validWordSet.has(w.word.trim().toLowerCase())
+        && !w.categories.some(c => targetCats.has(c))
     );
     const distractorCount = Math.max(4, 8 - words.length);
     const shuffled = [...otherCategoryWords]

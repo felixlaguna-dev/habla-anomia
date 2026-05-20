@@ -24,13 +24,16 @@ export async function awaitSeedReady(timeout = 15000): Promise<void> {
 
 /**
  * Get all words in a given category for a language.
+ * Checks if the category is in the word's categories array.
  */
 export async function getWordsByCategory(
   category: Category,
   language: Language
 ): Promise<Word[]> {
   return db.words
-    .where({ category, language })
+    .where('language')
+    .equals(language)
+    .filter(w => w.categories.includes(category))
     .toArray();
 }
 
@@ -50,23 +53,21 @@ export async function getWordsByDifficulty(
 
 /**
  * Get random words for exercises. Optionally filter by category.
- * Uses a random offset to pick words from the full matching set.
  */
 export async function getRandomWords(
   count: number,
   language: Language,
   category?: Category
 ): Promise<Word[]> {
-  let collection = category
-    ? db.words.where({ category, language })
-    : db.words.where('language').equals(language);
+  let collection = db.words.where('language').equals(language);
 
   const total = await collection.count();
   if (total === 0) return [];
 
   // If requesting more words than exist, return all shuffled
   if (count >= total) {
-    const all = await collection.toArray();
+    let all = await collection.toArray();
+    if (category) all = all.filter(w => w.categories.includes(category));
     return shuffleArray(all);
   }
 
@@ -75,16 +76,15 @@ export async function getRandomWords(
   const result: Word[] = [];
 
   // First batch: from offset to end
-  const firstBatch = await collection.offset(offset).limit(count).toArray();
+  let firstBatch = await collection.offset(offset).limit(count).toArray();
+  if (category) firstBatch = firstBatch.filter(w => w.categories.includes(category));
   result.push(...firstBatch);
 
   // If we didn't get enough, wrap around from the beginning
   if (result.length < count) {
     const remaining = count - result.length;
-    // Re-query from the start (collection is consumed, so re-create it)
-    const secondBatch = category
-      ? await db.words.where({ category, language }).limit(remaining).toArray()
-      : await db.words.where('language').equals(language).limit(remaining).toArray();
+    let secondBatch = await db.words.where('language').equals(language).limit(remaining).toArray();
+    if (category) secondBatch = secondBatch.filter(w => w.categories.includes(category));
     result.push(...secondBatch);
   }
 
@@ -141,7 +141,9 @@ export async function getCategories(language: Language): Promise<Category[]> {
 
   const categorySet = new Set<Category>();
   for (const w of words) {
-    categorySet.add(w.category);
+    for (const cat of w.categories) {
+      categorySet.add(cat);
+    }
   }
 
   return [...categorySet].sort();

@@ -82,29 +82,30 @@ export async function getAccuracyByCategory(
     .equals(language)
     .toArray();
 
-  // Join with words to get categories
-  const wordCategories = new Map<string, Category>();
+  // Join with words to get categories (multi-category: credit all categories)
+  const wordCategories = new Map<string, Category[]>();
   const wordIds = [...new Set(attempts.map(a => a.word_id))];
 
   // Batch-fetch word categories
   await Promise.all(
     wordIds.map(async (wid) => {
       const word = await db.words.get(wid);
-      if (word) wordCategories.set(wid, word.category);
+      if (word) wordCategories.set(wid, word.categories);
     })
   );
 
-  // Group by category
+  // Group by category — each word credits ALL its categories
   const grouped = new Map<Category, { correct: number; total: number }>();
 
   for (const attempt of attempts) {
-    const cat = wordCategories.get(attempt.word_id);
-    if (!cat) continue;
-
-    const entry = grouped.get(cat) ?? { correct: 0, total: 0 };
-    entry.total++;
-    if (attempt.correct) entry.correct++;
-    grouped.set(cat, entry);
+    const cats = wordCategories.get(attempt.word_id);
+    if (!cats) continue;
+    for (const cat of cats) {
+      const entry = grouped.get(cat) ?? { correct: 0, total: 0 };
+      entry.total++;
+      if (attempt.correct) entry.correct++;
+      grouped.set(cat, entry);
+    }
   }
 
   const results: Array<{ category: Category; accuracy: number; correct: number; total: number }> = [];

@@ -49,7 +49,7 @@ export interface PhoneticCues {
 export interface Word {
   id: string;
   word: string;
-  category: Category;
+  categories: Category[];
   language: Language;
   image_url: string;
   definition: string;

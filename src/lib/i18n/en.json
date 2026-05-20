@@ -128,7 +128,7 @@
   },
   "feedback": {
     "correct": "Correct!",
-    "incorrect": "Not quite",
+    "incorrect_feedback": "Not quite",
     "try_again": "Try again",
     "well_done": "Well done!",
     "excellent": "Excellent!",
@@ -154,6 +154,8 @@
     "new_words": "New words",
     "session_history": "Session history",
     "no_data": "No data yet. Complete an exercise to see your progress!",
+    "empty_title": "Start your first exercise!",
+    "empty_message": "Start practicing and you'll see your progress here",
     "export": "Export data",
     "import": "Import data",
     "clear_data": "Clear data",

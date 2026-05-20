@@ -128,7 +128,7 @@
   },
   "feedback": {
     "correct": "Correcte!",
-    "incorrect": "No és exactament això",
+    "incorrect_feedback": "No és exactament això",
     "try_again": "Torna-ho a intentar",
     "well_done": "Molt bé!",
     "excellent": "Excel·lent!",
@@ -154,6 +154,8 @@
     "new_words": "Paraules noves",
     "session_history": "Historial de sessions",
     "no_data": "Encara no hi ha dades. Completa un exercici per veure el teu progrés!",
+    "empty_title": "Comença el teu primer exercici!",
+    "empty_message": "Comença a practicar i veuràs el teu progrés aquí",
     "export": "Exportar dades",
     "import": "Importar dades",
     "clear_data": "Esborrar dades",

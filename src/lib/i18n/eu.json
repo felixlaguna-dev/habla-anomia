@@ -128,7 +128,7 @@
   },
   "feedback": {
     "correct": "Zuzena!",
-    "incorrect": "Ez da guztiz hori",
+    "incorrect_feedback": "Ez da guztiz hori",
     "try_again": "Saiatu berriro",
     "well_done": "Oso ondo!",
     "excellent": "Bikain!",
@@ -154,6 +154,8 @@
     "new_words": "Hitz berriak",
     "session_history": "Saioen historia",
     "no_data": "Oraindik ez dago daturik. Osatu ariketa bat zure aurrerapena ikusteko!",
+    "empty_title": "Hasi zure lehen ariketa!",
+    "empty_message": "Hasi praktikatzen eta zure aurrerapena hemen ikusiko duzu",
     "export": "Esportatu datuak",
     "import": "Inportatu datuak",
     "clear_data": "Ezabatu datuak",

@@ -286,7 +286,7 @@
     </div>
 
     <!-- Feature multiple choice -->
-    {#if !allFeaturesAnswered && currentPrompt && feedbackState === 'none'}
+    {#if !allFeaturesAnswered && currentPrompt && (feedbackState as string) === 'none'}
       <div class="question-area">
         <p class="question-prompt">{currentPrompt.prompt}</p>
         <div class="options-grid">
@@ -294,10 +294,10 @@
             <button
               class="option-btn"
               class:selected={selectedOption === option}
-              class:is-correct={feedbackState !== 'none' && option === currentPrompt.answer}
-              class:is-wrong={feedbackState === 'incorrect' && selectedOption === option && option !== currentPrompt.answer}
+              class:is-correct={(feedbackState as string) !== 'none' && option === currentPrompt.answer}
+              class:is-wrong={(feedbackState as string) === 'incorrect' && selectedOption === option && option !== currentPrompt.answer}
               onclick={() => selectOption(option)}
-              disabled={feedbackState !== 'none'}
+              disabled={(feedbackState as string) !== 'none'}
             >
               {option}
             </button>

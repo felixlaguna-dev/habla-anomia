@@ -73,7 +73,7 @@
   // Focus management: move focus to heading after page loads for screen readers
   onMount(() => {
     setTimeout(() => {
-      const heading = document.querySelector('h1.exercise-title');
+      const heading = document.querySelector('h1.exercise-title') as HTMLElement | null;
       heading?.focus();
     }, 100);
   });

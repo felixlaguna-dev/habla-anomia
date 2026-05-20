@@ -77,7 +77,7 @@
       const today = new Date().toISOString().split('T')[0];
       const completedSessions = sessions.filter(s => s.ended_at);
       todayCompleted = completedSessions.filter(s => {
-        const d = s.ended_at instanceof Date ? s.ended_at : new Date(s.ended_at);
+        const d = s.ended_at instanceof Date ? s.ended_at : new Date(s.ended_at!);
         return d.toISOString().split('T')[0] === today;
       }).length;
 
@@ -132,7 +132,7 @@
     // Build reason strings for each selected type
     const reasonMap: Record<string, string> = {
       'picture-naming': dueCount > 0
-        ? $t('dashboard.review_due_words', { count: dueCount })
+        ? $t('dashboard.review_due_words', { count: String(dueCount) })
         : $t('dashboard.phonological_practice'),
       'semantic-features': $t('dashboard.practice_weak_category'),
       'phonological-cueing': $t('dashboard.phonological_practice'),

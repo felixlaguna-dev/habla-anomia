@@ -98,9 +98,9 @@ export class SpeechSynthesisService {
 
       // Clean up interval when speech ends
       const originalOnEnd = utterance.onend;
-      utterance.onend = () => {
+      utterance.onend = function (this: SpeechSynthesisUtterance, ev: SpeechSynthesisEvent) {
         clearInterval(keepAlive);
-        originalOnEnd?.();
+        originalOnEnd?.call(this, ev);
       };
     });
   }

@@ -49,7 +49,7 @@ export async function generateSession(
     const withOpposite = await db.words
       .where('language')
       .equals(language)
-      .filter(w => w.opposite && w.opposite !== '')
+      .filter((w: Word) => !!(w.opposite && w.opposite !== ''))
       .toArray();
 
     if (withOpposite.length >= 3) {
@@ -60,7 +60,7 @@ export async function generateSession(
     const withSynonyms = await db.words
       .where('language')
       .equals(language)
-      .filter(w => w.synonyms && w.synonyms.length > 0)
+      .filter((w: Word) => !!(w.synonyms && w.synonyms.length > 0))
       .toArray();
 
     if (withSynonyms.length === 0) {

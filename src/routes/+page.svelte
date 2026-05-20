@@ -464,33 +464,29 @@
 
   .exercise-chips {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 0.5rem;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.75rem;
   }
 
   .exercise-chip {
     position: relative;
     display: flex;
-    flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 0.25rem;
-    padding: 0.75rem 0.25rem;
+    padding: 0.75rem 1rem 0.75rem 1.25rem;
     background: var(--surface-2);
     border: 1.5px solid var(--border);
-    border-radius: var(--radius-lg);
+    border-radius: 2rem;
     color: var(--text);
     font-family: var(--font-family);
-    font-size: var(--font-size-sm);
+    font-size: var(--font-size-base);
     font-weight: 600;
     cursor: pointer;
     touch-action: manipulation;
     -webkit-user-select: none;
     user-select: none;
-    min-height: 72px;
+    min-height: 48px;
     transition: transform var(--transition-fast), background var(--transition-fast);
-    text-align: center;
-    line-height: 1.2;
   }
 
   .exercise-chip:active {
@@ -499,31 +495,34 @@
   }
 
   .chip-icon {
+    position: absolute;
+    top: -8px;
+    left: -8px;
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 2rem;
-    height: 2rem;
+    width: 1.6rem;
+    height: 1.6rem;
     border-radius: 50%;
-    font-size: 1rem;
-    flex-shrink: 0;
+    font-size: 0.7rem;
+    border: 2px solid var(--surface);
+    box-shadow: 0 1px 4px rgba(0,0,0,0.3);
+    z-index: 1;
   }
 
   .chip-label {
     line-height: 1.2;
-    word-break: break-word;
-    hyphens: auto;
+    white-space: nowrap;
   }
 
-  /* Tablet: 4 columns with more space */
+  /* Tablet+: 4 columns */
   @media (min-width: 640px) {
     .exercise-chips {
       grid-template-columns: repeat(4, 1fr);
       gap: 0.75rem;
     }
     .exercise-chip {
-      min-height: 80px;
-      padding: 0.75rem 0.5rem;
+      padding: 0.6rem 0.75rem 0.6rem 1rem;
     }
   }
 
@@ -540,17 +539,18 @@
       font-size: 0.65rem;
     }
     .exercise-chips {
-      gap: 0.35rem;
+      gap: 0.6rem;
     }
     .exercise-chip {
-      padding: 0.5rem 0.15rem;
-      min-height: 64px;
-      font-size: 0.7rem;
+      padding: 0.6rem 0.75rem 0.6rem 1rem;
+      font-size: var(--font-size-sm);
     }
     .chip-icon {
-      width: 1.6rem;
-      height: 1.6rem;
-      font-size: 0.85rem;
+      width: 1.4rem;
+      height: 1.4rem;
+      font-size: 0.6rem;
+      top: -7px;
+      left: -7px;
     }
   }
 </style>

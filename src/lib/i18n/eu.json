@@ -37,6 +37,7 @@
     "select_exercise": "Hautatu ariketa bat",
     "picture_naming": {
       "name": "Irudiak izendatu",
+      "short_name": "Izendatu",
       "description": "Begiratu irudia eta esan edo idatzi zer den",
       "what_is_this": "Zer da hau?",
       "type_answer": "Idatzi zure erantzuna",
@@ -52,6 +53,7 @@
     },
     "semantic_features": {
       "name": "Ezaugarri semantikoak",
+      "short_name": "Semantika",
       "description": "Deskribatu objektua izendatu aurretik",
       "category_prompt": "Zein kategoriatakoa da?",
       "function_prompt": "Zertarako balio du?",
@@ -62,6 +64,7 @@
     },
     "phonological_cueing": {
       "name": "Pista fonologikoak",
+      "short_name": "Fonetika",
       "description": "Jaso soinu-pistak hitza asmatzeko",
       "first_sound": "Lehen silaba: {value}",
       "syllable_count": "Silaba kopurua: {value}",
@@ -77,6 +80,7 @@
     },
     "category_sorting": {
       "name": "Kategoriaka sailkatu",
+      "short_name": "Sailkatu",
       "description": "Sailkatu hitzak bere kategoria zuzenean",
       "sort_into": "Sailkatu hemen: {category}",
       "correct": "Zuzena!",
@@ -85,6 +89,7 @@
     },
     "generative_naming": {
       "name": "Kategoriaka izendatu",
+      "short_name": "Kategoria",
       "description": "Izendatu kategoria bateko hitz ahalik eta gehien",
       "name_all": "Izendatu ahal duzun guztia hemendik: {category}",
       "time_left": "Geratzen den denbora",
@@ -98,6 +103,7 @@
     },
     "word_matching": {
       "name": "Hitzak lotu",
+      "short_name": "Lotu",
       "description": "Lotu hitz bakoitza bere esanahiarekin",
       "match_definition": "Lotu hitza bere definizioarekin",
       "match_word": "Lotu definizioa bere hitzarekin",
@@ -105,6 +111,7 @@
     },
     "sentence_completion": {
       "name": "Esaldiak osatu",
+      "short_name": "Esaldiak",
       "description": "Osatu esaldia hitz egokiarekin",
       "fill_blank": "Bete hutsunea",
       "complete_sentence": "Osatu esaldia",
@@ -118,6 +125,7 @@
     },
     "opposites_synonyms": {
       "name": "Aurkakoak eta sinonimoak",
+      "short_name": "Aurkakoak",
       "description": "Bilatu hitz aurkakoak edo antzeko esanahia dutenak",
       "opposite_of": "Zein da honen aurkakoa?",
       "synonym_of": "Zein hitzek esan nahi du gauza bera?",

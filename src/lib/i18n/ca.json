@@ -37,6 +37,7 @@
     "select_exercise": "Selecciona un exercici",
     "picture_naming": {
       "name": "Anomenar imatges",
+      "short_name": "Anomena",
       "description": "Mira la imatge i digues o escriu què és",
       "what_is_this": "Què és això?",
       "type_answer": "Escriu la teva resposta",
@@ -52,6 +53,7 @@
     },
     "semantic_features": {
       "name": "Característiques semàntiques",
+      "short_name": "Semàntica",
       "description": "Descriu l'objecte abans d'anomenar-lo",
       "category_prompt": "A quina categoria pertany?",
       "function_prompt": "Per a què serveix?",
@@ -62,6 +64,7 @@
     },
     "phonological_cueing": {
       "name": "Pistes fonològiques",
+      "short_name": "Fonètica",
       "description": "Rep pistes de so per endevinar la paraula",
       "first_sound": "Primera síl·laba: {value}",
       "syllable_count": "Nombre de síl·labes: {value}",
@@ -77,6 +80,7 @@
     },
     "category_sorting": {
       "name": "Classificar per categories",
+      "short_name": "Classifica",
       "description": "Classifica les paraules en la seva categoria correcta",
       "sort_into": "Classifica en: {category}",
       "correct": "Correcte!",
@@ -85,6 +89,7 @@
     },
     "generative_naming": {
       "name": "Anomenar per categoria",
+      "short_name": "Categoria",
       "description": "Anomena totes les paraules que puguis d'una categoria",
       "name_all": "Anomena tot el que puguis de: {category}",
       "time_left": "Temps restant",
@@ -98,6 +103,7 @@
     },
     "word_matching": {
       "name": "Relacionar paraules",
+      "short_name": "Relaciona",
       "description": "Relaciona cada paraula amb el seu significat",
       "match_definition": "Relaciona la paraula amb la seva definició",
       "match_word": "Relaciona la definició amb la seva paraula",
@@ -105,6 +111,7 @@
     },
     "sentence_completion": {
       "name": "Completar frases",
+      "short_name": "Frases",
       "description": "Completa la frase amb la paraula adequada",
       "fill_blank": "Omple l'espai en blanc",
       "complete_sentence": "Completa la frase",
@@ -118,6 +125,7 @@
     },
     "opposites_synonyms": {
       "name": "Oposats i sinònims",
+      "short_name": "Oposats",
       "description": "Troba paraules oposades o amb significat semblant",
       "opposite_of": "Quin és l'oposat de?",
       "synonym_of": "Quina paraula significa el mateix que?",

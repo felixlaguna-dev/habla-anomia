@@ -37,6 +37,7 @@
     "select_exercise": "Selecciona un ejercicio",
     "picture_naming": {
       "name": "Nombrar imágenes",
+      "short_name": "Nombra",
       "description": "Mira la imagen y elige la palabra correcta",
       "what_is_this": "¿Qué es esto?",
       "type_answer": "Escribe tu respuesta",
@@ -52,6 +53,7 @@
     },
     "semantic_features": {
       "name": "Características semánticas",
+      "short_name": "Semántica",
       "description": "Describe el objeto antes de nombrarlo",
       "category_prompt": "¿A qué categoría pertenece?",
       "function_prompt": "¿Para qué sirve?",
@@ -62,6 +64,7 @@
     },
     "phonological_cueing": {
       "name": "Pistas fonológicas",
+      "short_name": "Fonética",
       "description": "Usa pistas de sonido para adivinar la palabra",
       "first_sound": "Primera sílaba: {value}",
       "syllable_count": "Número de sílabas: {value}",
@@ -77,6 +80,7 @@
     },
     "category_sorting": {
       "name": "Clasificar por categorías",
+      "short_name": "Clasifica",
       "description": "Agrupa las palabras por su categoría",
       "sort_into": "Clasifica en: {category}",
       "correct": "¡Correcto!",
@@ -85,6 +89,7 @@
     },
     "generative_naming": {
       "name": "Nombrar por categoría",
+      "short_name": "Categoría",
       "description": "Nombra todas las palabras de una categoría",
       "name_all": "Nombra todo lo que puedas de: {category}",
       "time_left": "Tiempo restante",
@@ -98,6 +103,7 @@
     },
     "word_matching": {
       "name": "Relacionar palabras",
+      "short_name": "Relaciona",
       "description": "Conecta cada palabra con su significado",
       "match_definition": "Relaciona la palabra con su definición",
       "match_word": "Relaciona la definición con su palabra",
@@ -105,6 +111,7 @@
     },
     "sentence_completion": {
       "name": "Completar frases",
+      "short_name": "Frases",
       "description": "Completa la frase con la palabra que falta",
       "fill_blank": "Completa el espacio en blanco",
       "complete_sentence": "Completa la frase",
@@ -118,6 +125,7 @@
     },
     "opposites_synonyms": {
       "name": "Opuestos y sinónimos",
+      "short_name": "Opuestos",
       "description": "Encuentra palabras relacionadas",
       "opposite_of": "¿Cuál es lo opuesto de?",
       "synonym_of": "¿Qué palabra significa lo mismo que?",

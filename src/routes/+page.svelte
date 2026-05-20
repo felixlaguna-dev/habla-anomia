@@ -1,7 +1,6 @@
 <script lang="ts">
   import { t } from '$lib/i18n';
   import Card from '$lib/components/ui/Card.svelte';
-  import LargeButton from '$lib/components/ui/LargeButton.svelte';
   import { getSessions } from '$lib/db/sessions';
   import { getAllSettings, getStreakInfo } from '$lib/db';
   import { getSRStats, getDueWords } from '$lib/engine/spaced-repetition';
@@ -259,16 +258,18 @@
   <!-- All Exercises -->
   <section class="exercises-section">
     <h2 class="section-title">{$t('exercises.title')}</h2>
-    <div class="exercise-grid stagger-children">
+    <div class="exercise-chips stagger-children">
       {#each Object.entries(exerciseTypes) as [type, exercise]}
-        <LargeButton
+        <button
+          class="exercise-chip"
           onclick={() => startExercise(type)}
-          label={$t(`exercises.${exercise.key}.name`)}
+          aria-label={$t(`exercises.${exercise.key}.name`)}
         >
-          <span class="exercise-icon" style="background: {exercise.color}20; color: {exercise.color}">
+          <span class="chip-icon" style="background: {exercise.color}30; color: {exercise.color}">
             {exercise.icon}
           </span>
-        </LargeButton>
+          <span class="chip-label">{$t(`exercises.${exercise.key}.short_name`)}</span>
+        </button>
       {/each}
     </div>
   </section>
@@ -454,28 +455,64 @@
     color: var(--success, #10b981);
   }
 
-  /* Exercises */
+  /* Exercise chips */
   .exercises-section {
     display: flex;
     flex-direction: column;
     gap: 0.75rem;
   }
 
-  .exercise-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 0.75rem;
+  .exercise-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
     overflow: hidden;
   }
 
-  .exercise-icon {
+  .exercise-chip {
+    position: relative;
     display: inline-flex;
     align-items: center;
+    padding: 0.6rem 1rem 0.6rem 1.4rem;
+    background: var(--surface-2);
+    border: 1.5px solid var(--border);
+    border-radius: 2rem;
+    color: var(--text);
+    font-family: var(--font-family);
+    font-size: var(--font-size-base);
+    font-weight: 600;
+    cursor: pointer;
+    touch-action: manipulation;
+    -webkit-user-select: none;
+    user-select: none;
+    min-height: 48px;
+    transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+    flex-shrink: 0;
+  }
+
+  .exercise-chip:active {
+    transform: scale(0.95);
+  }
+
+  .chip-icon {
+    position: absolute;
+    top: -6px;
+    left: -6px;
+    display: flex;
+    align-items: center;
     justify-content: center;
-    width: 3rem;
-    height: 3rem;
-    border-radius: 0.75rem;
-    font-size: 1.5rem;
+    width: 1.5rem;
+    height: 1.5rem;
+    border-radius: 50%;
+    font-size: 0.75rem;
+    border: 2px solid var(--surface);
+    box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+    z-index: 1;
+  }
+
+  .chip-label {
+    white-space: nowrap;
+    line-height: 1.2;
   }
 
   /* Mobile responsive */
@@ -490,8 +527,12 @@
     .stat-label {
       font-size: 0.65rem;
     }
-    .exercise-grid {
-      gap: 0.5rem;
+    .exercise-chips {
+      gap: 0.4rem;
+    }
+    .exercise-chip {
+      padding: 0.5rem 0.8rem;
+      font-size: var(--font-size-sm);
     }
   }
 </style>

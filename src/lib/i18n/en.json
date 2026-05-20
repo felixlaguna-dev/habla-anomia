@@ -37,6 +37,7 @@
     "select_exercise": "Select an exercise",
     "picture_naming": {
       "name": "Picture naming",
+      "short_name": "Name",
       "description": "Look at the picture and say or write what it is",
       "what_is_this": "What is this?",
       "type_answer": "Type your answer",
@@ -52,6 +53,7 @@
     },
     "semantic_features": {
       "name": "Semantic features",
+      "short_name": "Semantic",
       "description": "Describe the object before naming it",
       "category_prompt": "What category does it belong to?",
       "function_prompt": "What is it used for?",
@@ -62,6 +64,7 @@
     },
     "phonological_cueing": {
       "name": "Phonological cueing",
+      "short_name": "Phonetic",
       "description": "Get sound clues to guess the word",
       "first_sound": "First syllable: {value}",
       "syllable_count": "Number of syllables: {value}",
@@ -77,6 +80,7 @@
     },
     "category_sorting": {
       "name": "Category sorting",
+      "short_name": "Sort",
       "description": "Sort words into their correct category",
       "sort_into": "Sort into: {category}",
       "correct": "Correct!",
@@ -85,6 +89,7 @@
     },
     "generative_naming": {
       "name": "Generative naming",
+      "short_name": "Generate",
       "description": "Name as many words as you can from a category",
       "name_all": "Name all you can from: {category}",
       "time_left": "Time left",
@@ -98,6 +103,7 @@
     },
     "word_matching": {
       "name": "Word matching",
+      "short_name": "Match",
       "description": "Match each word with its meaning",
       "match_definition": "Match the word with its definition",
       "match_word": "Match the definition with its word",
@@ -105,6 +111,7 @@
     },
     "sentence_completion": {
       "name": "Sentence completion",
+      "short_name": "Sentences",
       "description": "Complete the sentence with the right word",
       "fill_blank": "Fill in the blank",
       "complete_sentence": "Complete the sentence",
@@ -118,6 +125,7 @@
     },
     "opposites_synonyms": {
       "name": "Opposites and synonyms",
+      "short_name": "Opposites",
       "description": "Find opposite words or words with similar meanings",
       "opposite_of": "What is the opposite of?",
       "synonym_of": "What word means the same as?",

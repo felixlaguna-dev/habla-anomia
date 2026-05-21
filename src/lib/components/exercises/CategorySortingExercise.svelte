@@ -9,6 +9,7 @@
   import type { KeyboardNavParams } from '$lib/utils/keyboard-nav';
   import { playCorrectSound, playIncorrectSound } from '$lib/utils/sounds';
   import type { Word, Language, ExerciseType } from '$lib/types';
+  import { getWordCategories } from '$lib/types';
 
   type Props = {
     words: Word[];
@@ -20,7 +21,7 @@
   let { words, language = 'es' as Language, onComplete, onRestart }: Props = $props();
 
   // Derive categories from the word list (flatten multi-category)
-  let categories = $derived([...new Set(words.flatMap(w => w.categories))]);
+  let categories = $derived([...new Set(words.flatMap(w => getWordCategories(w)))]);
 
   // Validate that words span at least 2 categories
   let hasEnoughCategories = $derived(categories.length >= 2);
@@ -57,7 +58,7 @@
     if (!currentItem || feedbackState === 'correct') return;
 
     selectedCategory = category;
-    const correct = currentItem.categories.includes(category);
+    const correct = getWordCategories(currentItem).includes(category);
 
     if (correct) {
       handleCorrect(category);
@@ -244,7 +245,7 @@
           onclick={() => selectCategory(category)}
           disabled={feedbackState === 'correct'}
           class:selected={selectedCategory === category && feedbackState === 'none'}
-          class:correct-btn={feedbackState === 'correct' && currentItem.categories.includes(category)}
+          class:correct-btn={feedbackState === 'correct' && getWordCategories(currentItem).includes(category)}
           class:incorrect-btn={feedbackState === 'incorrect' && selectedCategory === category}
           aria-label={translateCategory(category)}
         >
@@ -304,7 +305,7 @@
         <div class="result-row" class:pass={result.correct} class:fail={!result.correct}>
           <span class="result-word">{result.word.word}</span>
           <span class="result-icon">{result.correct ? '✅' : '❌'}</span>
-          <span class="result-category">📁 {translateCategory(result.word.categories[0])}</span>
+          <span class="result-category">📁 {translateCategory(getWordCategories(result.word)[0])}</span>
         </div>
       {/each}
     </div>

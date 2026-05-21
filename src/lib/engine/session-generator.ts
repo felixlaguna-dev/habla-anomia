@@ -1,4 +1,5 @@
 import type { Language, ExerciseType, Category, Word } from '$lib/types';
+import { getWordCategories } from '$lib/types';
 import { getDueWords } from './spaced-repetition';
 import { getRandomWords, getWordsByCategory, getWordById } from '$lib/db/words';
 import { getAccuracyByCategory } from '$lib/db/attempts';
@@ -235,7 +236,7 @@ async function getAllPopulatedCategories(language: Language): Promise<Category[]
     .toArray();
   const categorySet = new Set<Category>();
   for (const w of words) {
-    for (const cat of w.categories) {
+    for (const cat of getWordCategories(w)) {
       categorySet.add(cat);
     }
   }

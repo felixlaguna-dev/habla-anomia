@@ -24,8 +24,16 @@ export class HablaAnomiaDB extends Dexie {
     });
 
     // v3: category → categories (array). Drop category index, keep language.
+    // Migrate existing data: convert category (string) → categories (array)
     this.version(3).stores({
       words: 'id, word, language, difficulty'
+    }).upgrade(tx => {
+      return tx.table('words').toCollection().modify(word => {
+        if (word.category && !word.categories) {
+          word.categories = [word.category];
+          delete word.category;
+        }
+      });
     });
   }
 }

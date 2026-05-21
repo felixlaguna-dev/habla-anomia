@@ -31,6 +31,16 @@ export type Category =
   | 'family'
   | 'weather';
 
+/**
+ * Safely get a word's categories array.
+ * Handles legacy words that still have `category` (string) instead of `categories` (array).
+ */
+export function getWordCategories(word: { categories?: Category[]; category?: Category }): Category[] {
+  if (word.categories && Array.isArray(word.categories)) return word.categories;
+  if (word.category) return [word.category];
+  return [];
+}
+
 export interface SemanticFeatures {
   category: string;
   function: string;
@@ -50,6 +60,8 @@ export interface Word {
   id: string;
   word: string;
   categories: Category[];
+  /** @deprecated Legacy field from v1-v2. Use getCategories() instead. */
+  category?: Category;
   language: Language;
   image_url: string;
   definition: string;

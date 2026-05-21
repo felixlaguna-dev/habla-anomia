@@ -18,8 +18,8 @@ Free, open-source PWA for anomia (aphasia) rehabilitation.
 
 ## Key Paths
 - Exercises: `src/lib/components/exercises/` (8 types, all multiple-choice / tap-to-select)
-- Word bank: `src/lib/data/words-es.ts` (~387 words, 8190 lines)
-- Database: `src/lib/db/` (Dexie tables: words, attempts, sessions, settings, spacedRepetition)
+- Word bank: `src/lib/data/words-es.ts` (374 words, multi-category `categories: Category[]`, 7924 lines)
+- Database: `src/lib/db/` (Dexie v3 schema — multi-category, no `category` index. Tables: words, attempts, sessions, settings, spacedRepetition)
 - Engine: `src/lib/engine/` (session-generator, spaced-repetition, statistics)
 - UI components: `src/lib/components/ui/` (14 components)
 - Speech: `src/lib/speech/` + `src/lib/components/speech/` (SpeechInput, i18n'd)
@@ -51,4 +51,4 @@ Free, open-source PWA for anomia (aphasia) rehabilitation.
 6. Use multiple choice / tap-to-select (never require typing)
 
 ## Adding words
-Edit `src/lib/data/words-es.ts`. Each word needs: id, word, category, language, image_url, definition, features, phonetic, difficulty, tags, sentence, opposite, synonyms.
+Edit `src/lib/data/words-es.ts`. Each word needs: id, word, **categories** (array of Category enum), language, image_url, definition, features, phonetic, difficulty, tags, sentence, opposite, synonyms. Words can belong to multiple categories (e.g., `categories: ['food', 'nature']`).

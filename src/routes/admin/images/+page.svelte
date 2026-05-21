@@ -2,6 +2,7 @@
   import { WORDS_ES } from '$lib/data/words-es';
   import { onMount } from 'svelte';
   import { resolveImageUrl } from '$lib/utils/paths';
+  import { getWordCategories } from '$lib/types';
 
   type WordLike = typeof WORDS_ES[number];
 
@@ -15,11 +16,11 @@
   let copyFeedback = $state('');
 
   // Get unique categories (flatten multi-category)
-  let categories = $derived([...new Set(allWords.flatMap(w => w.categories))].sort());
+  let categories = $derived([...new Set(allWords.flatMap(w => getWordCategories(w)))].sort());
 
   // Filtered words
   let filtered = $derived(allWords.filter(w => {
-    if (categoryFilter !== 'all' && !w.categories.includes(categoryFilter)) return false;
+    if (categoryFilter !== 'all' && !getWordCategories(w).includes(categoryFilter)) return false;
     if (onlyMissing && imageStatus[w.image_url] === 'ok') return false;
     if (searchQuery) {
       const q = searchQuery.toLowerCase();
@@ -146,7 +147,7 @@
     <select bind:value={categoryFilter} class="category-select">
       <option value="all">All categories ({allWords.length})</option>
       {#each categories as cat}
-        <option value={cat}>{cat} ({allWords.filter(w => w.categories.includes(cat)).length})</option>
+        <option value={cat}>{cat} ({allWords.filter(w => getWordCategories(w).includes(cat)).length})</option>
       {/each}
     </select>
     <label class="toggle-label">
@@ -203,7 +204,7 @@
           </div>
           <div class="card-info" onclick={() => toggleDetails(word.id)} role="button" tabindex="0" onkeydown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggleDetails(word.id); } }}>
             <span class="word-name">{word.word}</span>
-            <span class="word-category">{word.categories.join(', ')}</span>
+            <span class="word-category">{getWordCategories(word).join(', ')}</span>
             <span class="word-difficulty">{'⭐'.repeat(word.difficulty)}</span>
           </div>
         </div>

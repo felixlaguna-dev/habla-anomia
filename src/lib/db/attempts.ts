@@ -1,5 +1,6 @@
 import { db } from './database';
 import type { Attempt, Language, ExerciseType, Category } from '$lib/types';
+import { getWordCategories } from '$lib/types';
 
 /**
  * Record a new attempt. Returns the auto-generated id.
@@ -90,7 +91,7 @@ export async function getAccuracyByCategory(
   await Promise.all(
     wordIds.map(async (wid) => {
       const word = await db.words.get(wid);
-      if (word) wordCategories.set(wid, word.categories);
+      if (word) wordCategories.set(wid, getWordCategories(word));
     })
   );
 

@@ -8,7 +8,8 @@
   import { ProgressBar } from '$lib/components/ui';
   import { keyboardNav } from '$lib/utils/keyboard-nav';
   import type { KeyboardNavParams } from '$lib/utils/keyboard-nav';
-  import type { Word, Language, ExerciseType } from '$lib/types';
+  import type { Word, Language, ExerciseType, Category } from '$lib/types';
+  import { getWordCategories } from '$lib/types';
 
   type Props = {
     words: Word[];
@@ -38,7 +39,7 @@
   let error = $state('');
 
   // Category derived from words — use i18n if available
-  let categoryName = $derived(category || (words.length > 0 ? (words[0].features?.category ?? words[0].categories[0] ?? '') : ''));
+  let categoryName = $derived(category || (words.length > 0 ? (words[0].features?.category ?? getWordCategories(words[0])[0] ?? '') : ''));
 
   // Build a lookup set of valid words in this category (lowercase)
   let validWordSet = $derived.by(() => {
@@ -59,10 +60,10 @@
     }
 
     // Pull distractors from words whose categories are DISJOINT from the target
-    const targetCats = new Set(words.flatMap(w => w.categories));
+    const targetCats = new Set(words.flatMap(w => getWordCategories(w)));
     const otherCategoryWords = allWords.filter(
       w => !validWordSet.has(w.word.trim().toLowerCase())
-        && !w.categories.some(c => targetCats.has(c))
+        && !getWordCategories(w).some((c: Category) => targetCats.has(c))
     );
     const distractorCount = Math.max(4, 8 - words.length);
     const shuffled = [...otherCategoryWords]

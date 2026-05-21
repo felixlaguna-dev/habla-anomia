@@ -1,5 +1,6 @@
 import { db } from './database';
 import type { Word, Language, Category } from '$lib/types';
+import { getWordCategories } from '$lib/types';
 
 /**
  * Global promise that resolves once the word bank has been seeded.
@@ -33,7 +34,7 @@ export async function getWordsByCategory(
   return db.words
     .where('language')
     .equals(language)
-    .filter(w => w.categories.includes(category))
+    .filter(w => getWordCategories(w).includes(category))
     .toArray();
 }
 
@@ -67,7 +68,7 @@ export async function getRandomWords(
   // If requesting more words than exist, return all shuffled
   if (count >= total) {
     let all = await collection.toArray();
-    if (category) all = all.filter(w => w.categories.includes(category));
+    if (category) all = all.filter(w => getWordCategories(w).includes(category));
     return shuffleArray(all);
   }
 
@@ -77,14 +78,14 @@ export async function getRandomWords(
 
   // First batch: from offset to end
   let firstBatch = await collection.offset(offset).limit(count).toArray();
-  if (category) firstBatch = firstBatch.filter(w => w.categories.includes(category));
+  if (category) firstBatch = firstBatch.filter(w => getWordCategories(w).includes(category));
   result.push(...firstBatch);
 
   // If we didn't get enough, wrap around from the beginning
   if (result.length < count) {
     const remaining = count - result.length;
     let secondBatch = await db.words.where('language').equals(language).limit(remaining).toArray();
-    if (category) secondBatch = secondBatch.filter(w => w.categories.includes(category));
+    if (category) secondBatch = secondBatch.filter(w => getWordCategories(w).includes(category));
     result.push(...secondBatch);
   }
 
@@ -141,7 +142,7 @@ export async function getCategories(language: Language): Promise<Category[]> {
 
   const categorySet = new Set<Category>();
   for (const w of words) {
-    for (const cat of w.categories) {
+    for (const cat of getWordCategories(w)) {
       categorySet.add(cat);
     }
   }

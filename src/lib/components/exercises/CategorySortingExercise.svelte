@@ -7,6 +7,7 @@
   import { updateAfterAttempt } from '$lib/engine/spaced-repetition';
   import { SpeechSynthesisService } from '$lib/speech/speech-synthesis';
   import { resolveImageUrl } from '$lib/utils/exercise-helpers';
+  import SpeechInput from '$lib/components/speech/SpeechInput.svelte';
   import { keyboardNav } from '$lib/utils/keyboard-nav';
   import type { KeyboardNavParams } from '$lib/utils/keyboard-nav';
   import { playCorrectSound, playIncorrectSound } from '$lib/utils/sounds';
@@ -209,6 +210,20 @@
     }
   }
 
+  function handleCategoryResult(response: string) {
+    if (!currentItem || feedbackState === 'correct') return;
+    const cleaned = response.trim().toLowerCase();
+    // Match against translated and raw category names
+    const matchedCategory = categories.find(cat => {
+      const translated = translateCategory(cat).toLowerCase();
+      return translated === cleaned || cat.toLowerCase() === cleaned;
+    });
+    if (matchedCategory) {
+      selectCategory(matchedCategory);
+    }
+    // If no match, the user can try again or use tap buttons
+  }
+
   // Keyboard navigation params
   // Number keys 1-N map to category indices
   let keyboardNavParams = $derived<KeyboardNavParams>({
@@ -287,6 +302,15 @@
         </button>
       {/each}
     </div>
+
+    {#if inputMode === 'open'}
+      <SpeechInput
+        language={speechLang}
+        placeholder={$t('exercises.category_sorting.type_answer')}
+        onresult={handleCategoryResult}
+        disabled={feedbackState === 'correct'}
+      />
+    {/if}
 
     <!-- Skip button -->
     {#if feedbackState !== 'correct'}

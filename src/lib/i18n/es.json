@@ -60,7 +60,8 @@
       "location_prompt": "¿Dónde se encuentra?",
       "properties_prompt": "¿Cómo es? (color, forma, tamaño)",
       "associations_prompt": "¿Con qué lo asocias?",
-      "now_name_it": "Ahora intenta nombrarlo"
+      "now_name_it": "Ahora intenta nombrarlo",
+      "type_answer": "Escribe el nombre"
     },
     "phonological_cueing": {
       "name": "Pistas fonológicas",
@@ -85,7 +86,8 @@
       "sort_into": "Clasifica en: {category}",
       "correct": "¡Correcto!",
       "wrong": "Intenta con otra categoría",
-      "need_more_categories": "Se necesitan palabras de al menos 2 categorías diferentes para este ejercicio."
+      "need_more_categories": "Se necesitan palabras de al menos 2 categorías diferentes para este ejercicio.",
+      "type_answer": "Escribe la categoría"
     },
     "generative_naming": {
       "name": "Nombrar por categoría",
@@ -99,7 +101,8 @@
       "results_title": "Resultados",
       "you_found": "Has encontrado {count} palabras",
       "well_done": "¡Muy bien!",
-      "already_said": "Esa palabra ya la dijiste"
+      "already_said": "Esa palabra ya la dijiste",
+      "type_answer": "Escribe una palabra"
     },
     "word_matching": {
       "name": "Relacionar palabras",
@@ -107,7 +110,8 @@
       "description": "Conecta cada palabra con su significado",
       "match_definition": "Relaciona la palabra con su definición",
       "match_word": "Relaciona la definición con su palabra",
-      "select_answer": "Selecciona la respuesta correcta"
+      "select_answer": "Selecciona la respuesta correcta",
+      "type_answer": "Escribe la respuesta"
     },
     "sentence_completion": {
       "name": "Completar frases",

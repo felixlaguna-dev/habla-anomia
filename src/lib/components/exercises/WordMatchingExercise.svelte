@@ -6,6 +6,7 @@
   import { recordAttempt } from '$lib/db/attempts';
   import { updateAfterAttempt } from '$lib/engine/spaced-repetition';
   import { SpeechSynthesisService } from '$lib/speech/speech-synthesis';
+  import SpeechInput from '$lib/components/speech/SpeechInput.svelte';
   import { ProgressBar } from '$lib/components/ui';
   import { playCorrectSound, playIncorrectSound } from '$lib/utils/sounds';
   import { resolveImageUrl, getCardState } from '$lib/utils/exercise-helpers';
@@ -245,6 +246,17 @@
     }
   }
 
+  function handleMatchResult(response: string) {
+    if (feedbackState !== 'none' || !currentWord) return;
+    const cleaned = response.trim().toLowerCase();
+    // Find a matching option
+    const matchedIndex = options.findIndex(opt => opt.text.trim().toLowerCase() === cleaned);
+    if (matchedIndex >= 0) {
+      handleSelect(matchedIndex);
+    }
+    // If no match, the user can try again or use tap buttons
+  }
+
   // Keyboard navigation params
   let keyboardNavParams = $derived<KeyboardNavParams>({
     getFeedbackState: () => feedbackState,
@@ -309,6 +321,14 @@
     {/if}
 
     <!-- Options -->
+    {#if inputMode === 'open' && feedbackState === 'none'}
+      <SpeechInput
+        language={speechLang}
+        placeholder={$t('exercises.word_matching.type_answer')}
+        onresult={handleMatchResult}
+        disabled={feedbackState !== 'none'}
+      />
+    {/if}
     <div class="options-grid">
       {#each options as option, i}
         {@const state = getCardState(i, feedbackState, selectedIndex, correctIndex)}

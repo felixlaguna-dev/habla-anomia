@@ -60,7 +60,8 @@
       "location_prompt": "Non aurkitzen da?",
       "properties_prompt": "Nolakoa da? (kolorea, forma, tamaina)",
       "associations_prompt": "Zerekin lotzen duzu?",
-      "now_name_it": "Orain saiatu izendatzen"
+      "now_name_it": "Orain saiatu izendatzen",
+      "type_answer": "Idatzi hitza"
     },
     "phonological_cueing": {
       "name": "Pista fonologikoak",
@@ -85,7 +86,8 @@
       "sort_into": "Sailkatu hemen: {category}",
       "correct": "Zuzena!",
       "wrong": "Saiatu beste kategoria batekin",
-      "need_more_categories": "Gutxienez 2 kategoria desberdinetako hitzak behar dira ariketa honetarako."
+      "need_more_categories": "Gutxienez 2 kategoria desberdinetako hitzak behar dira ariketa honetarako.",
+      "type_answer": "Idatzi kategoria"
     },
     "generative_naming": {
       "name": "Kategoriaka izendatu",
@@ -99,7 +101,8 @@
       "results_title": "Emaitzak",
       "you_found": "{count} hitz aurkitu dituzu",
       "well_done": "Oso ondo!",
-      "already_said": "Hitz hori esan duzu jada"
+      "already_said": "Hitz hori esan duzu jada",
+      "type_answer": "Idatzi hitz bat"
     },
     "word_matching": {
       "name": "Hitzak lotu",
@@ -107,7 +110,8 @@
       "description": "Lotu hitz bakoitza bere esanahiarekin",
       "match_definition": "Lotu hitza bere definizioarekin",
       "match_word": "Lotu definizioa bere hitzarekin",
-      "select_answer": "Hautatu erantzun zuzena"
+      "select_answer": "Hautatu erantzun zuzena",
+      "type_answer": "Idatzi erantzuna"
     },
     "sentence_completion": {
       "name": "Esaldiak osatu",

@@ -60,7 +60,8 @@
       "location_prompt": "Where is it found?",
       "properties_prompt": "What does it look like? (color, shape, size)",
       "associations_prompt": "What do you associate it with?",
-      "now_name_it": "Now try to name it"
+      "now_name_it": "Now try to name it",
+      "type_answer": "Type the word"
     },
     "phonological_cueing": {
       "name": "Phonological cueing",
@@ -85,7 +86,8 @@
       "sort_into": "Sort into: {category}",
       "correct": "Correct!",
       "wrong": "Try another category",
-      "need_more_categories": "Words from at least 2 different categories are needed for this exercise."
+      "need_more_categories": "Words from at least 2 different categories are needed for this exercise.",
+      "type_answer": "Type the category"
     },
     "generative_naming": {
       "name": "Generative naming",
@@ -99,7 +101,8 @@
       "results_title": "Results",
       "you_found": "You found {count} words",
       "well_done": "Well done!",
-      "already_said": "You already said that word"
+      "already_said": "You already said that word",
+      "type_answer": "Type a word"
     },
     "word_matching": {
       "name": "Word matching",
@@ -107,7 +110,8 @@
       "description": "Match each word with its meaning",
       "match_definition": "Match the word with its definition",
       "match_word": "Match the definition with its word",
-      "select_answer": "Select the correct answer"
+      "select_answer": "Select the correct answer",
+      "type_answer": "Type the answer"
     },
     "sentence_completion": {
       "name": "Sentence completion",

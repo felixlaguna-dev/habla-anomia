@@ -7,6 +7,7 @@
   import { updateAfterAttempt } from '$lib/engine/spaced-repetition';
   import { SpeechSynthesisService } from '$lib/speech/speech-synthesis';
   import { resolveImageUrl } from '$lib/utils/exercise-helpers';
+  import SpeechInput from '$lib/components/speech/SpeechInput.svelte';
   import { keyboardNav } from '$lib/utils/keyboard-nav';
   import type { KeyboardNavParams } from '$lib/utils/keyboard-nav';
   import { playCorrectSound, playIncorrectSound } from '$lib/utils/sounds';
@@ -138,6 +139,13 @@
     if (currentFeatureIndex >= featurePrompts.length) {
       showNamingPrompt = true;
     }
+  }
+
+  function handleNamingResult(response: string) {
+    if (!currentWord || namingCorrect !== null) return;
+    const cleaned = response.trim().toLowerCase();
+    const target = currentWord.word.trim().toLowerCase();
+    selectNamingAnswer(cleaned === target ? currentWord.word : response);
   }
 
   function selectNamingAnswer(word: string) {
@@ -357,19 +365,28 @@
     {#if showNamingPrompt && namingCorrect === null}
       <div class="naming-area">
         <p class="naming-prompt">{$t('exercises.semantic_features.now_name_it')}</p>
-        <div class="options-grid naming-grid">
-          {#each namingOptions as option}
-            <button
-              class="option-btn naming-btn"
-              class:is-correct={namingCorrect !== null && option === currentWord.word}
-              class:is-wrong={namingCorrect === false && option !== currentWord.word}
-              onclick={() => selectNamingAnswer(option)}
-              disabled={namingCorrect !== null}
-            >
-              {option}
-            </button>
-          {/each}
-        </div>
+        {#if inputMode === 'choice'}
+          <div class="options-grid naming-grid">
+            {#each namingOptions as option}
+              <button
+                class="option-btn naming-btn"
+                class:is-correct={namingCorrect !== null && option === currentWord.word}
+                class:is-wrong={namingCorrect === false && option !== currentWord.word}
+                onclick={() => selectNamingAnswer(option)}
+                disabled={namingCorrect !== null}
+              >
+                {option}
+              </button>
+            {/each}
+          </div>
+        {:else}
+          <SpeechInput
+            language={speechLang}
+            placeholder={$t('exercises.semantic_features.type_answer')}
+            onresult={handleNamingResult}
+            disabled={namingCorrect !== null}
+          />
+        {/if}
         <button class="skip-button" onclick={skipNaming}>
           ⏭️ {$t('common.skip')}
         </button>

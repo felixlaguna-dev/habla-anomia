@@ -12,17 +12,16 @@
   import SpeechInput from '$lib/components/speech/SpeechInput.svelte';
   import type { Word, Language, ExerciseType } from '$lib/types';
 
-  type InputMode = 'choice' | 'open';
-
   type Props = {
     words: Word[];
     language: Language;
-    inputMode?: InputMode;
+    speechEnabled?: boolean;
+    speechRate?: number;
     onComplete?: (results: { score: number; total: number; details: Array<{ word: Word; correct: boolean; cuesUsed: number }> }) => void;
     onRestart?: () => void;
   };
 
-  let { words, language = 'es' as Language, inputMode = 'choice', onComplete, onRestart }: Props = $props();
+  let { words, language = 'es' as Language, speechEnabled = true, speechRate = 0.8, onComplete, onRestart }: Props = $props();
 
   // State
   let currentIndex = $state(0);
@@ -45,12 +44,19 @@
   $effect(() => {
     if (SpeechSynthesisService.isSupported()) {
       synthesis = new SpeechSynthesisService();
+      synthesis.setRate(speechRate);
     }
     return () => {
       synthesis?.destroy();
       synthesis = null;
     };
   });
+
+  // Keep rate in sync with prop
+  $effect(() => synthesis?.setRate(speechRate));
+
+  // When speech enabled → open input mode; otherwise multiple choice
+  let inputMode = $derived<'choice' | 'open'>(speechEnabled ? 'open' : 'choice');
 
   // Derived
   let currentWord = $derived(words[currentIndex]);
@@ -116,10 +122,11 @@
   let canShowMoreCues = $derived(cuesRevealed < 5);
   let maxCuesReached = $derived(cuesRevealed >= 5);
 
-  async function speakWord(word: string) {
-    if (synthesis && !isSpeaking) {
+  async function speakWord(word?: string) {
+    const text = word ?? currentWord?.word;
+    if (synthesis && !isSpeaking && text) {
       isSpeaking = true;
-      await synthesis.speak(word, speechLang);
+      await synthesis.speak(text, speechLang);
       isSpeaking = false;
     }
   }
@@ -329,6 +336,9 @@
       <div class="feedback correct" role="status" aria-live="polite">
         <span class="feedback-icon">✅</span>
         <span class="feedback-text">{getRandomEncouragement()}</span>
+        <button class="speak-btn" onclick={() => speakWord()} disabled={isSpeaking} aria-label="Listen">
+          {isSpeaking ? '🔊…' : '🔊'}
+        </button>
       </div>
     {:else if feedbackState === 'incorrect'}
       <div class="feedback incorrect" role="status" aria-live="polite">
@@ -860,5 +870,23 @@
     cursor: pointer;
     min-height: 48px;
     touch-action: manipulation;
+  }
+
+  .speak-btn {
+    background: none;
+    border: none;
+    font-size: 1.4rem;
+    cursor: pointer;
+    padding: 4px 8px;
+    border-radius: var(--radius-md, 8px);
+    transition: background var(--transition-fast, 0.15s);
+    line-height: 1;
+  }
+  .speak-btn:hover {
+    background: var(--surface-2, rgba(255,255,255,0.1));
+  }
+  .speak-btn:disabled {
+    opacity: 0.5;
+    cursor: default;
   }
 </style>

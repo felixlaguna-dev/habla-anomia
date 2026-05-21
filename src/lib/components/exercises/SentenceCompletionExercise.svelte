@@ -2,22 +2,22 @@
   import { t } from '$lib/i18n';
   import { goto } from '$app/navigation';
   import { base } from '$app/paths';
-  import { recordAttempt } from '$lib/db/attempts';
-  import { updateAfterAttempt } from '$lib/engine/spaced-repetition';
-  import SpeechInput from '$lib/components/speech/SpeechInput.svelte';
-  import { ProgressBar } from '$lib/components/ui';
-  import { playCorrectSound, playIncorrectSound } from '$lib/utils/sounds';
-  import { generateOptions, getCardState } from '$lib/utils/exercise-helpers';
+ import { recordAttempt } from '$lib/db/attempts';
+ import { updateAfterAttempt } from '$lib/engine/spaced-repetition';
+ import SpeechInput from '$lib/components/speech/SpeechInput.svelte';
+ import { SpeechSynthesisService } from '$lib/speech/speech-synthesis';
+ import { ProgressBar } from '$lib/components/ui';
+ import { playCorrectSound, playIncorrectSound } from '$lib/utils/sounds';
+ import { generateOptions, getCardState } from '$lib/utils/exercise-helpers';
   import { keyboardNav } from '$lib/utils/keyboard-nav';
-  import type { KeyboardNavParams } from '$lib/utils/keyboard-nav';
-  import type { Word, Language, ExerciseType } from '$lib/types';
-
-  type InputMode = 'choice' | 'open';
+ import type { KeyboardNavParams } from '$lib/utils/keyboard-nav';
+ import type { Word, Language, ExerciseType } from '$lib/types';
 
   type Props = {
     words: Word[];
     language?: Language;
-    inputMode?: InputMode;
+    speechEnabled?: boolean;
+    speechRate?: number;
     onComplete?: (results: { score: number; total: number; details: Array<{ word: Word; correct: boolean; hintsUsed: number }> }) => void;
     onRestart?: () => void;
   };
@@ -25,7 +25,8 @@
   let {
     words,
     language = 'es' as Language,
-    inputMode = 'choice',
+    speechEnabled = true,
+    speechRate = 0.8,
     onComplete,
     onRestart,
   }: Props = $props();
@@ -37,6 +38,21 @@
   let score = $state(0);
   let results = $state<Array<{ word: Word; correct: boolean; hintsUsed: number }>>([]);
   let startTime = $state(Date.now());
+
+  // TTS synthesis
+  let isSpeaking = $state(false);
+  let synthesis: SpeechSynthesisService | null = $state(null);
+  $effect(() => {
+    if (SpeechSynthesisService.isSupported()) {
+      synthesis = new SpeechSynthesisService();
+      synthesis.setRate(speechRate);
+    }
+    return () => synthesis?.destroy();
+  });
+  $effect(() => synthesis?.setRate(speechRate));
+
+  // When speech enabled → open input mode; otherwise multiple choice
+  let inputMode = $derived<'choice' | 'open'>(speechEnabled ? 'open' : 'choice');
 
   // Multiple choice state
   let options = $state<string[]>([]);
@@ -116,6 +132,15 @@
   function showHint() {
     if (canShowMoreHints) {
       hintsUsed++;
+    }
+  }
+
+  async function speakWord(word?: string) {
+    const text = word ?? currentWord?.word;
+    if (synthesis && !isSpeaking && text) {
+      isSpeaking = true;
+      await synthesis.speak(text, speechLang);
+      isSpeaking = false;
     }
   }
 
@@ -279,6 +304,9 @@
       <div class="feedback correct" role="status" aria-live="polite">
         <span>✅</span>
         <span>{getRandomEncouragement()}</span>
+        <button class="speak-btn" onclick={() => speakWord()} disabled={isSpeaking} aria-label="Listen">
+          {isSpeaking ? '🔊…' : '🔊'}
+        </button>
       </div>
     {:else if feedbackState === 'incorrect'}
       <div class="feedback incorrect" role="status" aria-live="polite">
@@ -794,5 +822,23 @@
     cursor: pointer;
     min-height: 48px;
     touch-action: manipulation;
+  }
+
+  .speak-btn {
+    background: none;
+    border: none;
+    font-size: 1.4rem;
+    cursor: pointer;
+    padding: 4px 8px;
+    border-radius: var(--radius-md, 8px);
+    transition: background var(--transition-fast, 0.15s);
+    line-height: 1;
+  }
+  .speak-btn:hover {
+    background: var(--surface-2, rgba(255,255,255,0.1));
+  }
+  .speak-btn:disabled {
+    opacity: 0.5;
+    cursor: default;
   }
 </style>

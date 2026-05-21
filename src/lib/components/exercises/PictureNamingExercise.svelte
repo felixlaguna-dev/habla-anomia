@@ -5,23 +5,23 @@
   import { recordAttempt } from '$lib/db/attempts';
   import { updateAfterAttempt } from '$lib/engine/spaced-repetition';
   import SpeechInput from '$lib/components/speech/SpeechInput.svelte';
+  import { SpeechSynthesisService } from '$lib/speech/speech-synthesis';
   import { playCorrectSound, playIncorrectSound } from '$lib/utils/sounds';
   import { resolveImageUrl, generateOptions, getCardState } from '$lib/utils/exercise-helpers';
   import { keyboardNav } from '$lib/utils/keyboard-nav';
   import type { KeyboardNavParams } from '$lib/utils/keyboard-nav';
   import type { Word, Language, ExerciseType } from '$lib/types';
 
-  type InputMode = 'choice' | 'open';
-
   type Props = {
     words: Word[];
     language: Language;
-    inputMode?: InputMode;
+    speechEnabled?: boolean;
+    speechRate?: number;
     onComplete?: (results: { score: number; total: number; details: Array<{ word: Word; correct: boolean; hintsUsed: number }> }) => void;
     onRestart?: () => void;
   };
 
-  let { words, language = 'es' as Language, inputMode = 'choice', onComplete, onRestart }: Props = $props();
+  let { words, language = 'es' as Language, speechEnabled = true, speechRate = 0.8, onComplete, onRestart }: Props = $props();
 
   // State
   let currentIndex = $state(0);
@@ -32,6 +32,18 @@
   let score = $state(0);
   let results = $state<Array<{ word: Word; correct: boolean; hintsUsed: number }>>([]);
   let startTime = $state(Date.now());
+  let isSpeaking = $state(false);
+
+  // TTS synthesis
+  let synthesis: SpeechSynthesisService | null = $state(null);
+  $effect(() => {
+    if (SpeechSynthesisService.isSupported()) {
+      synthesis = new SpeechSynthesisService();
+      synthesis.setRate(speechRate);
+    }
+    return () => synthesis?.destroy();
+  });
+  $effect(() => synthesis?.setRate(speechRate));
 
   // Multiple choice state
   let options = $state<string[]>([]);
@@ -42,6 +54,8 @@
   let currentWord = $derived(words[currentIndex]);
   let progress = $derived(Math.round(((currentIndex + 1) / words.length) * 100));
   let isFinished = $derived(currentIndex >= words.length);
+  // When speech enabled → open input mode; otherwise multiple choice
+  let inputMode = $derived<'choice' | 'open'>(speechEnabled ? 'open' : 'choice');
 
   // Language code for speech
   let speechLang = $derived(language === 'es' ? 'es-ES' : language === 'ca' ? 'ca-ES' : language === 'eu' ? 'eu-ES' : 'en-US');
@@ -100,6 +114,14 @@
   function showHint() {
     if (canShowMoreHints) {
       hintsUsed++;
+    }
+  }
+
+  async function speakWord() {
+    if (synthesis && !isSpeaking && currentWord) {
+      isSpeaking = true;
+      await synthesis.speak(currentWord.word, speechLang);
+      isSpeaking = false;
     }
   }
 
@@ -278,7 +300,10 @@
     {#if feedbackState === 'correct'}
       <div class="feedback correct" role="status" aria-live="polite">
         <span class="feedback-icon">✅</span>
-        <span class="feedback-text">{getRandomEncouragement()}</span>
+        <span class="feedback-text">{currentWord.word}</span>
+        <button class="speak-btn" onclick={speakWord} disabled={isSpeaking} aria-label={$t('common.listen')}>
+          {isSpeaking ? '🔊…' : '🔊'}
+        </button>
       </div>
     {:else if feedbackState === 'incorrect'}
       <div class="feedback incorrect" role="status" aria-live="polite">
@@ -512,6 +537,26 @@
 
   .feedback-text {
     font-size: var(--font-size-lg, 20px);
+  }
+
+  .speak-btn {
+    background: none;
+    border: none;
+    font-size: 1.4rem;
+    cursor: pointer;
+    padding: 4px 8px;
+    border-radius: var(--radius-md, 8px);
+    transition: background var(--transition-fast, 0.15s);
+    line-height: 1;
+  }
+
+  .speak-btn:hover {
+    background: var(--surface-2, rgba(255,255,255,0.1));
+  }
+
+  .speak-btn:disabled {
+    opacity: 0.5;
+    cursor: default;
   }
 
   /* Hints */

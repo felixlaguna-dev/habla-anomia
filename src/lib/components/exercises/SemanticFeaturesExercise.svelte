@@ -4,6 +4,7 @@
   import { base } from '$app/paths';
   import { recordAttempt } from '$lib/db/attempts';
   import { updateAfterAttempt } from '$lib/engine/spaced-repetition';
+  import { SpeechSynthesisService } from '$lib/speech/speech-synthesis';
   import { resolveImageUrl } from '$lib/utils/exercise-helpers';
   import { keyboardNav } from '$lib/utils/keyboard-nav';
   import type { KeyboardNavParams } from '$lib/utils/keyboard-nav';
@@ -13,11 +14,13 @@
   type Props = {
     words: Word[];
     language: Language;
+    speechEnabled?: boolean;
+    speechRate?: number;
     onComplete?: (results: { score: number; total: number; details: Array<{ word: Word; correct: boolean; featuresCorrect: number }> }) => void;
     onRestart?: () => void;
   };
 
-  let { words, language = 'es' as Language, onComplete, onRestart }: Props = $props();
+  let { words, language = 'es' as Language, speechEnabled = true, speechRate = 0.8, onComplete, onRestart }: Props = $props();
 
   // State
   let currentIndex = $state(0);
@@ -26,6 +29,22 @@
   let score = $state(0);
   let results = $state<Array<{ word: Word; correct: boolean; featuresCorrect: number }>>([]);
   let startTime = $state(Date.now());
+
+  // TTS synthesis
+  let isSpeaking = $state(false);
+  let synthesis: SpeechSynthesisService | null = $state(null);
+  $effect(() => {
+    if (SpeechSynthesisService.isSupported()) {
+      synthesis = new SpeechSynthesisService();
+      synthesis.setRate(speechRate);
+    }
+    return () => synthesis?.destroy();
+  });
+  $effect(() => synthesis?.setRate(speechRate));
+
+  // inputMode concept (not used in UI for this exercise)
+  let inputMode = $derived<'choice' | 'open'>(speechEnabled ? 'open' : 'choice');
+  let speechLang = $derived(language === 'es' ? 'es-ES' : language === 'ca' ? 'ca-ES' : language === 'eu' ? 'eu-ES' : 'en-US');
 
   // Feature tracking
   let currentFeatureIndex = $state(0);
@@ -200,6 +219,15 @@
     onRestart?.();
   }
 
+  async function speakWord(word?: string) {
+    const text = word ?? currentWord?.word;
+    if (synthesis && !isSpeaking && text) {
+      isSpeaking = true;
+      await synthesis.speak(text, speechLang);
+      isSpeaking = false;
+    }
+  }
+
   // Generate naming word choices
   let namingOptions = $derived.by(() => {
     if (!currentWord || !words.length) return [];
@@ -310,6 +338,9 @@
     {#if feedbackState === 'correct' && !showNamingPrompt}
       <div class="feedback correct" role="status" aria-live="polite">
         ✅ {$t('feedback.correct')}
+        <button class="speak-btn" onclick={() => speakWord()} disabled={isSpeaking} aria-label="Listen">
+          {isSpeaking ? '🔊…' : '🔊'}
+        </button>
       </div>
     {/if}
 
@@ -391,6 +422,23 @@
 {/if}
 
 <style>
+  .speak-btn {
+    background: none;
+    border: none;
+    font-size: 1.4rem;
+    cursor: pointer;
+    padding: 4px 8px;
+    border-radius: var(--radius-md, 8px);
+    transition: background var(--transition-fast, 0.15s);
+    line-height: 1;
+  }
+  .speak-btn:hover {
+    background: var(--surface-2, rgba(255,255,255,0.1));
+  }
+  .speak-btn:disabled {
+    opacity: 0.5;
+    cursor: default;
+  }
   .error-text {
     font-size: var(--font-size-lg, 20px);
     color: var(--error, #ef4444);

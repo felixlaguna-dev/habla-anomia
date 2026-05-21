@@ -4,6 +4,7 @@
   import { base } from '$app/paths';
   import { recordAttempt } from '$lib/db/attempts';
   import { updateAfterAttempt } from '$lib/engine/spaced-repetition';
+  import { SpeechSynthesisService } from '$lib/speech/speech-synthesis';
   import Timer from '$lib/components/ui/Timer.svelte';
   import { ProgressBar } from '$lib/components/ui';
   import { keyboardNav } from '$lib/utils/keyboard-nav';
@@ -14,6 +15,8 @@
   type Props = {
     words: Word[];
     allWords?: Word[];
+    speechEnabled?: boolean;
+    speechRate?: number;
     language?: Language;
     category?: string;
     durationSeconds?: number;
@@ -24,7 +27,7 @@
   let {
     words,
     allWords = [],
-    language = 'es' as Language,
+    language = 'es' as Language, speechEnabled = true, speechRate = 0.8,
     category,
     durationSeconds = 60,
     onComplete,
@@ -37,6 +40,22 @@
   let finished = $state(false);
   let selectedWords = $state<Set<string>>(new Set());
   let error = $state('');
+
+  // TTS synthesis
+  let isSpeaking = $state(false);
+  let synthesis: SpeechSynthesisService | null = $state(null);
+  $effect(() => {
+    if (SpeechSynthesisService.isSupported()) {
+      synthesis = new SpeechSynthesisService();
+      synthesis.setRate(speechRate);
+    }
+    return () => synthesis?.destroy();
+  });
+  $effect(() => synthesis?.setRate(speechRate));
+
+  // inputMode concept (not used in UI for this exercise)
+  let inputMode = $derived<'choice' | 'open'>(speechEnabled ? 'open' : 'choice');
+  let speechLang = $derived(language === 'es' ? 'es-ES' : language === 'ca' ? 'ca-ES' : language === 'eu' ? 'eu-ES' : 'en-US');
 
   // Category derived from words — use i18n if available
   let categoryName = $derived(category || (words.length > 0 ? (words[0].features?.category ?? getWordCategories(words[0])[0] ?? '') : ''));
@@ -194,6 +213,15 @@
     onRestart?.();
   }
 
+  async function speakWord(word?: string) {
+    const text = word;
+    if (synthesis && !isSpeaking && text) {
+      isSpeaking = true;
+      await synthesis.speak(text, speechLang);
+      isSpeaking = false;
+    }
+  }
+
   // Keyboard navigation params
   // Number keys 1-4 toggle the first 4 words in the pool
   // Enter: finish early, Escape: finish early
@@ -320,7 +348,12 @@
         <h3>{$t('exercises.generative_naming.words_found')}</h3>
         <div class="word-list">
           {#each validWordsFound as word}
-            <span class="word-chip valid">{word}</span>
+            <span class="word-chip valid">
+              {word}
+              <button class="speak-btn" onclick={() => speakWord(word)} disabled={isSpeaking} aria-label="Listen">
+                {isSpeaking ? '🔊…' : '🔊'}
+              </button>
+            </span>
           {/each}
         </div>
       </div>
@@ -339,6 +372,23 @@
 {/if}
 
 <style>
+  .speak-btn {
+    background: none;
+    border: none;
+    font-size: 1.4rem;
+    cursor: pointer;
+    padding: 4px 8px;
+    border-radius: var(--radius-md, 8px);
+    transition: background var(--transition-fast, 0.15s);
+    line-height: 1;
+  }
+  .speak-btn:hover {
+    background: var(--surface-2, rgba(255,255,255,0.1));
+  }
+  .speak-btn:disabled {
+    opacity: 0.5;
+    cursor: default;
+  }
   .exercise-container {
     display: flex;
     flex-direction: column;

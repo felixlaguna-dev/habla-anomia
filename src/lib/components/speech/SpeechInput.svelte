@@ -56,25 +56,9 @@
       recognition.on('error', (detail: SpeechErrorDetail) => {
         isListening = false;
         interimTranscript = '';
-        // Don't show permission errors if already granted — Chrome sometimes fires these spuriously
-        if (detail.code === 'not-allowed') {
-          // Check if we've already been granted permission — avoid repeated error messages
-          if (navigator.permissions) {
-            navigator.permissions.query({ name: 'microphone' as PermissionName }).then((result) => {
-              if (result.state === 'granted' || result.state === 'prompt') {
-                // Permission is fine — this is a Chrome quirk, don't show error
-                errorMessage = '';
-              } else {
-                errorMessage = $t('speech.errors.' + detail.code);
-              }
-            }).catch(() => {
-              errorMessage = $t('speech.errors.' + detail.code);
-            });
-          } else {
-            errorMessage = $t('speech.errors.' + detail.code);
-          }
-        } else if (detail.code !== 'aborted' && detail.code !== 'no-speech') {
-          // Don't show errors for aborted or no-speech (these are normal)
+        // not-allowed: browser will show its own permission UI — don't pile on with our own error.
+        // aborted / no-speech: normal lifecycle events, not real errors.
+        if (detail.code !== 'not-allowed' && detail.code !== 'aborted' && detail.code !== 'no-speech') {
           errorMessage = $t('speech.errors.' + detail.code);
         }
       });

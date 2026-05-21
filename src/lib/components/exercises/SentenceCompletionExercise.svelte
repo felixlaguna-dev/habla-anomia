@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { onMount } from 'svelte';
   import { t } from '$lib/i18n';
   import { goto } from '$app/navigation';
   import { base } from '$app/paths';
@@ -42,13 +43,15 @@
   // TTS synthesis
   let isSpeaking = $state(false);
   let synthesis: SpeechSynthesisService | null = $state(null);
-  $effect(() => {
+  
+  onMount(() => {
     if (SpeechSynthesisService.isSupported()) {
       synthesis = new SpeechSynthesisService();
       synthesis.setRate(speechRate);
     }
     return () => synthesis?.destroy();
   });
+  
   $effect(() => synthesis?.setRate(speechRate));
 
   // When speech enabled → open input mode; otherwise multiple choice

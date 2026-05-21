@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { onMount } from 'svelte';
   import { t } from '$lib/i18n';
   import { goto } from '$app/navigation';
   import { base } from '$app/paths';
@@ -32,17 +33,19 @@
   let score = $state(0);
   let results = $state<Array<{ word: Word; correct: boolean; hintsUsed: number }>>([]);
   let startTime = $state(Date.now());
-  let isSpeaking = $state(false);
 
   // TTS synthesis
+  let isSpeaking = $state(false);
   let synthesis: SpeechSynthesisService | null = $state(null);
-  $effect(() => {
+  
+  onMount(() => {
     if (SpeechSynthesisService.isSupported()) {
       synthesis = new SpeechSynthesisService();
       synthesis.setRate(speechRate);
     }
     return () => synthesis?.destroy();
   });
+  
   $effect(() => synthesis?.setRate(speechRate));
 
   // Multiple choice state

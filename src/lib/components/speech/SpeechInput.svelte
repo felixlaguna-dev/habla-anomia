@@ -141,8 +141,8 @@
         title={isListening ? $t('speech.stop_listening') : $t('speech.speak')}
       >
         <svg
-          width="28"
-          height="28"
+          width="20"
+          height="20"
           viewBox="0 0 24 24"
           fill="none"
           stroke="currentColor"
@@ -164,8 +164,8 @@
       title={$t('speech.submit')}
     >
       <svg
-        width="24"
-        height="24"
+        width="20"
+        height="20"
         viewBox="0 0 24 24"
         fill="none"
         stroke="currentColor"
@@ -206,12 +206,13 @@
   .input-row {
     display: flex;
     align-items: center;
-    gap: var(--space-sm);
+    gap: var(--space-sm, 8px);
   }
 
   .input-row input {
     flex: 1;
-    min-height: 56px;
+    min-width: 0;
+    min-height: 48px;
     padding: 12px 16px;
     font-size: var(--font-size-lg);
     font-family: var(--font-family);
@@ -236,8 +237,10 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    min-width: 56px;
-    min-height: 56px;
+    min-width: 44px;
+    min-height: 44px;
+    width: 44px;
+    height: 44px;
     border-radius: var(--radius-md);
     background: var(--surface-2);
     color: var(--text);
@@ -269,8 +272,10 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    min-width: 56px;
-    min-height: 56px;
+    min-width: 44px;
+    min-height: 44px;
+    width: 44px;
+    height: 44px;
     border-radius: var(--radius-md);
     background: var(--primary);
     color: #fff;

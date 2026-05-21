@@ -15,10 +15,10 @@
   {#if label || showPercentage}
     <div style="display:flex;justify-content:space-between;align-items:baseline;">
       {#if label}
-        <span style="font-size:var(--font-size-base);font-weight:600;color:var(--text);">{label}</span>
+        <span style="font-size:var(--font-size-sm);font-weight:600;color:var(--text);">{label}</span>
       {/if}
       {#if showPercentage}
-        <span style="font-size:var(--font-size-base);font-weight:700;color:var(--text-dim);">{Math.round(clamped)}%</span>
+        <span style="font-size:var(--font-size-sm);font-weight:700;color:var(--text-dim);margin-left:0.5rem;">{Math.round(clamped)}%</span>
       {/if}
     </div>
   {/if}

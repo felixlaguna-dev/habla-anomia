@@ -265,7 +265,7 @@
           onclick={() => startExercise(type)}
           aria-label={$t(`exercises.${exercise.key}.name`)}
         >
-          <span class="chip-icon" style="background: {exercise.color}30; color: {exercise.color}">
+          <span class="chip-icon" style="background: {exercise.color}; color: white">
             {exercise.icon}
           </span>
           <span class="chip-label">{$t(`exercises.${exercise.key}.short_name`)}</span>

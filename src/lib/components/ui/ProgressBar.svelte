@@ -38,7 +38,7 @@
     <div
       style="
         height:100%;width:{clamped}%;
-        background:{color};border-radius:var(--radius-full);
+        background:{color};
         transition:width 0.4s ease;
       "
     ></div>

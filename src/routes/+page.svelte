@@ -505,7 +505,6 @@
     height: 1.6rem;
     border-radius: 50%;
     font-size: 0.7rem;
-    border: 2px solid var(--surface);
     box-shadow: 0 1px 4px rgba(0,0,0,0.3);
     z-index: 1;
   }

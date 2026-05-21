@@ -419,7 +419,6 @@
   .progress-bar {
     height: 100%;
     background: var(--primary, #3b82f6);
-    border-radius: var(--radius-lg, 16px);
     transition: width 0.4s ease;
   }
 

@@ -21,7 +21,7 @@
 
   // State
   let isListening = $state(false);
-  let hasSpeechSupport = $state(false);
+  let hasSpeechSupport = $state(SpeechRecognitionService.isSupported());
   let interimTranscript = $state('');
   let inputText = $state('');
   let errorMessage = $state('');
@@ -29,7 +29,6 @@
 
   // Initialize speech recognition once on mount
   onMount(() => {
-    hasSpeechSupport = SpeechRecognitionService.isSupported();
     if (!hasSpeechSupport) return;
 
     const svc = new SpeechRecognitionService(language);
@@ -58,23 +57,43 @@
     svc.on('error', (detail: SpeechErrorDetail) => {
       isListening = false;
       interimTranscript = '';
-      // not-allowed: browser handles its own permission UI — don't pile on.
-      // aborted / no-speech: normal lifecycle events, not real errors.
       if (detail.code !== 'not-allowed' && detail.code !== 'aborted' && detail.code !== 'no-speech') {
         errorMessage = $t('speech.errors.' + detail.code);
       }
     });
 
     recognition = svc;
-
-    return () => svc.destroy();
   });
 
   // Re-sync language when prop changes (don't recreate the service)
   $effect(() => recognition?.setLanguage(language));
 
   function toggleListening() {
-    if (!recognition || disabled) return;
+    if (disabled) return;
+
+    // Lazy init if onMount hasn't set it up yet
+    if (!recognition) {
+      if (!SpeechRecognitionService.isSupported()) return;
+      const svc = new SpeechRecognitionService(language);
+
+      svc.on('start', () => { isListening = true; errorMessage = ''; });
+      svc.on('result', (transcript: string) => {
+        inputText = transcript; interimTranscript = ''; isListening = false;
+        onresult?.(transcript);
+      });
+      svc.on('interim', (text: string) => { interimTranscript = text; });
+      svc.on('end', () => { isListening = false; interimTranscript = ''; });
+      svc.on('error', (detail: SpeechErrorDetail) => {
+        isListening = false; interimTranscript = '';
+        if (detail.code !== 'not-allowed' && detail.code !== 'aborted' && detail.code !== 'no-speech') {
+          errorMessage = $t('speech.errors.' + detail.code);
+        }
+      });
+
+      recognition = svc;
+      hasSpeechSupport = true;
+    }
+
     if (isListening) {
       recognition.stop();
     } else {

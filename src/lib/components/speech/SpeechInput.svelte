@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { onMount } from 'svelte';
   import { SpeechRecognitionService, type SpeechErrorDetail } from '$lib/speech';
   import { t } from '$lib/i18n';
 
@@ -26,49 +27,51 @@
   let errorMessage = $state('');
   let recognition: SpeechRecognitionService | null = $state(null);
 
-  // Initialize speech recognition once
-  $effect(() => {
+  // Initialize speech recognition once on mount
+  onMount(() => {
     hasSpeechSupport = SpeechRecognitionService.isSupported();
-    if (hasSpeechSupport && !recognition) {
-      recognition = new SpeechRecognitionService(language);
+    if (!hasSpeechSupport) return;
 
-      recognition.on('start', () => {
-        isListening = true;
-        errorMessage = '';
-      });
+    const svc = new SpeechRecognitionService(language);
 
-      recognition.on('result', (transcript: string) => {
-        inputText = transcript;
-        interimTranscript = '';
-        isListening = false;
-        onresult?.(transcript);
-      });
+    svc.on('start', () => {
+      isListening = true;
+      errorMessage = '';
+    });
 
-      recognition.on('interim', (text: string) => {
-        interimTranscript = text;
-      });
+    svc.on('result', (transcript: string) => {
+      inputText = transcript;
+      interimTranscript = '';
+      isListening = false;
+      onresult?.(transcript);
+    });
 
-      recognition.on('end', () => {
-        isListening = false;
-        interimTranscript = '';
-      });
+    svc.on('interim', (text: string) => {
+      interimTranscript = text;
+    });
 
-      recognition.on('error', (detail: SpeechErrorDetail) => {
-        isListening = false;
-        interimTranscript = '';
-        // not-allowed: browser will show its own permission UI — don't pile on with our own error.
-        // aborted / no-speech: normal lifecycle events, not real errors.
-        if (detail.code !== 'not-allowed' && detail.code !== 'aborted' && detail.code !== 'no-speech') {
-          errorMessage = $t('speech.errors.' + detail.code);
-        }
-      });
-    }
+    svc.on('end', () => {
+      isListening = false;
+      interimTranscript = '';
+    });
+
+    svc.on('error', (detail: SpeechErrorDetail) => {
+      isListening = false;
+      interimTranscript = '';
+      // not-allowed: browser handles its own permission UI — don't pile on.
+      // aborted / no-speech: normal lifecycle events, not real errors.
+      if (detail.code !== 'not-allowed' && detail.code !== 'aborted' && detail.code !== 'no-speech') {
+        errorMessage = $t('speech.errors.' + detail.code);
+      }
+    });
+
+    recognition = svc;
+
+    return () => svc.destroy();
   });
 
   // Re-sync language when prop changes (don't recreate the service)
-  $effect(() => {
-    recognition?.setLanguage(language);
-  });
+  $effect(() => recognition?.setLanguage(language));
 
   function toggleListening() {
     if (!recognition || disabled) return;

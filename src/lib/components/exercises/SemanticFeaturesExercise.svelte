@@ -7,7 +7,6 @@
   import { updateAfterAttempt } from '$lib/engine/spaced-repetition';
   import { SpeechSynthesisService } from '$lib/speech/speech-synthesis';
   import { resolveImageUrl } from '$lib/utils/exercise-helpers';
-  import SpeechInput from '$lib/components/speech/SpeechInput.svelte';
   import { keyboardNav } from '$lib/utils/keyboard-nav';
   import type { KeyboardNavParams } from '$lib/utils/keyboard-nav';
   import { playCorrectSound, playIncorrectSound } from '$lib/utils/sounds';
@@ -16,14 +15,13 @@
   type Props = {
     words: Word[];
     language: Language;
-   speechEnabled?: boolean;
    speechRate?: number;
    speakButtonsEnabled?: boolean;
    onComplete?: (results: { score: number; total: number; details: Array<{ word: Word; correct: boolean; featuresCorrect: number }> }) => void;
     onRestart?: () => void;
   };
 
-  let { words, language = 'es' as Language, speechEnabled = true, speechRate = 0.8, speakButtonsEnabled = true, onComplete, onRestart }: Props = $props();
+  let { words, language = 'es' as Language, speechRate = 0.8, speakButtonsEnabled = true, onComplete, onRestart }: Props = $props();
 
   // State
   let currentIndex = $state(0);
@@ -47,8 +45,6 @@
   
   $effect(() => synthesis?.setRate(speechRate));
 
-  // inputMode concept (not used in UI for this exercise)
-  let inputMode = $derived<'choice' | 'open'>(speechEnabled ? 'open' : 'choice');
   let speechLang = $derived(language === 'es' ? 'es-ES' : language === 'ca' ? 'ca-ES' : language === 'eu' ? 'eu-ES' : 'en-US');
 
   // Feature tracking
@@ -373,7 +369,6 @@
     {#if showNamingPrompt && namingCorrect === null}
       <div class="naming-area">
         <p class="naming-prompt">{$t('exercises.semantic_features.now_name_it')}</p>
-        {#if inputMode === 'choice'}
           <div class="options-grid naming-grid">
             {#each namingOptions as option}
               <button
@@ -392,14 +387,6 @@
               </button>
             {/each}
           </div>
-        {:else}
-          <SpeechInput
-            language={speechLang}
-            placeholder={$t('exercises.semantic_features.type_answer')}
-            onresult={handleNamingResult}
-            disabled={namingCorrect !== null}
-          />
-        {/if}
         <button class="skip-button" onclick={skipNaming}>
           ⏭️ {$t('common.skip')}
         </button>

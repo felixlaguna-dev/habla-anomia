@@ -222,7 +222,6 @@
         {allWords}
         language={settings?.language || 'es'}
         category={planCategory}
-        speechEnabled={settings?.speech_enabled ?? true}
         speechRate={settings?.speech_rate ?? 0.8}
         timerEnabled={settings?.timer_enabled ?? true}
         speakButtonsEnabled={settings?.speak_buttons_enabled ?? true}

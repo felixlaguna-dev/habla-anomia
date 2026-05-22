@@ -6,7 +6,6 @@
   import { recordAttempt } from '$lib/db/attempts';
   import { updateAfterAttempt } from '$lib/engine/spaced-repetition';
   import { SpeechSynthesisService } from '$lib/speech/speech-synthesis';
-  import SpeechInput from '$lib/components/speech/SpeechInput.svelte';
   import Timer from '$lib/components/ui/Timer.svelte';
   import { ProgressBar } from '$lib/components/ui';
   import { keyboardNav } from '$lib/utils/keyboard-nav';
@@ -17,7 +16,6 @@
   type Props = {
     words: Word[];
     allWords?: Word[];
-   speechEnabled?: boolean;
    speechRate?: number;
    speakButtonsEnabled?: boolean;
    timerEnabled?: boolean;
@@ -31,7 +29,7 @@
   let {
     words,
     allWords = [],
-    language = 'es' as Language, speechEnabled = true, speechRate = 0.8, speakButtonsEnabled = true, timerEnabled = true,
+    language = 'es' as Language, speechRate = 0.8, speakButtonsEnabled = true, timerEnabled = true,
     category,
     durationSeconds = 60,
     onComplete,
@@ -59,8 +57,6 @@
   
   $effect(() => synthesis?.setRate(speechRate));
 
-  // inputMode concept (not used in UI for this exercise)
-  let inputMode = $derived<'choice' | 'open'>(speechEnabled ? 'open' : 'choice');
   let speechLang = $derived(language === 'es' ? 'es-ES' : language === 'ca' ? 'ca-ES' : language === 'eu' ? 'eu-ES' : 'en-US');
 
   // Category derived from words — use i18n if available
@@ -228,17 +224,6 @@
     }
   }
 
-  function handleWordResult(response: string) {
-    if (!running) return;
-    const cleaned = response.trim().toLowerCase();
-    // Find a matching word in the pool
-    const poolItem = wordPool.find(item => item.word.trim().toLowerCase() === cleaned);
-    if (poolItem) {
-      toggleWord(poolItem.word);
-    }
-    // If no match, the user can try again
-  }
-
   // Keyboard navigation params
   // Number keys 1-4 toggle the first 4 words in the pool
   // Enter: finish early, Escape: finish early
@@ -340,15 +325,6 @@
     <!-- Error message -->
     {#if error}
       <p class="error-msg" role="alert">{error}</p>
-    {/if}
-
-    {#if inputMode === 'open'}
-      <SpeechInput
-        language={speechLang}
-        placeholder={$t('exercises.generative_naming.type_answer')}
-        onresult={handleWordResult}
-        disabled={!running}
-      />
     {/if}
 
     <!-- Finish early button -->

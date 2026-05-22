@@ -10,20 +10,18 @@
   import { resolveImageUrl, generateOptions, getCardState } from '$lib/utils/exercise-helpers';
   import { keyboardNav } from '$lib/utils/keyboard-nav';
   import type { KeyboardNavParams } from '$lib/utils/keyboard-nav';
-  import SpeechInput from '$lib/components/speech/SpeechInput.svelte';
   import type { Word, Language, ExerciseType } from '$lib/types';
 
   type Props = {
     words: Word[];
     language: Language;
-   speechEnabled?: boolean;
    speechRate?: number;
    speakButtonsEnabled?: boolean;
    onComplete?: (results: { score: number; total: number; details: Array<{ word: Word; correct: boolean; cuesUsed: number }> }) => void;
     onRestart?: () => void;
   };
 
-  let { words, language = 'es' as Language, speechEnabled = true, speechRate = 0.8, speakButtonsEnabled = true, onComplete, onRestart }: Props = $props();
+  let { words, language = 'es' as Language, speechRate = 0.8, speakButtonsEnabled = true, onComplete, onRestart }: Props = $props();
 
   // State
   let currentIndex = $state(0);
@@ -53,19 +51,16 @@
   
   $effect(() => synthesis?.setRate(speechRate));
 
-  // When speech enabled → open input mode; otherwise multiple choice
-  let inputMode = $derived<'choice' | 'open'>(speechEnabled ? 'open' : 'choice');
+  let speechLang = $derived(language === 'es' ? 'es-ES' : language === 'ca' ? 'ca-ES' : language === 'eu' ? 'eu-ES' : 'en-US');
 
   // Derived
   let currentWord = $derived(words[currentIndex]);
   let progress = $derived(Math.round(((currentIndex + 1) / words.length) * 100));
   let isFinished = $derived(currentIndex >= words.length);
 
-  let speechLang = $derived(language === 'es' ? 'es-ES' : language === 'ca' ? 'ca-ES' : language === 'eu' ? 'eu-ES' : 'en-US');
-
   // Rebuild options when word changes
   $effect(() => {
-    if (currentWord && inputMode === 'choice') {
+    if (currentWord) {
       const opts = generateOptions(currentWord.word, words.map(w => w.word));
       options = opts;
       correctOptionIndex = opts.indexOf(currentWord.word);
@@ -254,7 +249,7 @@
   // Keyboard navigation params
   let keyboardNavParams = $derived<KeyboardNavParams>({
     getFeedbackState: () => feedbackState,
-    optionCount: inputMode === 'choice' ? Math.min(options.length, 4) : 0,
+    optionCount: Math.min(options.length, 4),
     onSelectOption: (index) => handleSelectChoice(index),
     onConfirm: () => {
       if (feedbackState !== 'none' && feedbackState !== 'correct') nextWord();
@@ -350,7 +345,6 @@
     <!-- Answer input + controls -->
     {#if feedbackState !== 'correct'}
       <div class="answer-area">
-        {#if inputMode === 'choice'}
           <!-- Multiple choice grid -->
           <div class="options-grid">
             {#each options as option, i}
@@ -373,14 +367,6 @@
               </button>
             {/each}
           </div>
-        {:else}
-          <!-- Open input mode (speech/text) -->
-          <SpeechInput
-            language={speechLang}
-            placeholder={$t('exercises.picture_naming.type_answer')}
-            onresult={checkAnswer}
-          />
-        {/if}
 
         <div class="button-row">
           <button

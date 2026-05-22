@@ -6,7 +6,6 @@
   import { recordAttempt } from '$lib/db/attempts';
   import { updateAfterAttempt } from '$lib/engine/spaced-repetition';
   import { SpeechSynthesisService } from '$lib/speech/speech-synthesis';
-  import SpeechInput from '$lib/components/speech/SpeechInput.svelte';
   import { ProgressBar } from '$lib/components/ui';
   import { playCorrectSound, playIncorrectSound } from '$lib/utils/sounds';
   import { resolveImageUrl, getCardState } from '$lib/utils/exercise-helpers';
@@ -19,7 +18,6 @@
   type Props = {
     words: Word[];
     language?: Language;
-   speechEnabled?: boolean;
    speechRate?: number;
    speakButtonsEnabled?: boolean;
    mode?: MatchingMode;
@@ -29,7 +27,7 @@
 
   let {
     words,
-    language = 'es' as Language, speechEnabled = true, speechRate = 0.8, speakButtonsEnabled = true,
+    language = 'es' as Language, speechRate = 0.8, speakButtonsEnabled = true,
     mode = 'word-to-definition',
     onComplete,
     onRestart,
@@ -59,8 +57,6 @@
   
   $effect(() => synthesis?.setRate(speechRate));
 
-  // inputMode concept (not used in UI for this exercise)
-  let inputMode = $derived<'choice' | 'open'>(speechEnabled ? 'open' : 'choice');
   let speechLang = $derived(language === 'es' ? 'es-ES' : language === 'ca' ? 'ca-ES' : language === 'eu' ? 'eu-ES' : 'en-US');
 
   // Derived
@@ -247,17 +243,6 @@
     }
   }
 
-  function handleMatchResult(response: string) {
-    if (feedbackState !== 'none' || !currentWord) return;
-    const cleaned = response.trim().toLowerCase();
-    // Find a matching option
-    const matchedIndex = options.findIndex(opt => opt.text.trim().toLowerCase() === cleaned);
-    if (matchedIndex >= 0) {
-      handleSelect(matchedIndex);
-    }
-    // If no match, the user can try again or use tap buttons
-  }
-
   // Keyboard navigation params
   let keyboardNavParams = $derived<KeyboardNavParams>({
     getFeedbackState: () => feedbackState,
@@ -334,14 +319,6 @@
     {/if}
 
     <!-- Options -->
-    {#if inputMode === 'open' && feedbackState === 'none'}
-      <SpeechInput
-        language={speechLang}
-        placeholder={$t('exercises.word_matching.type_answer')}
-        onresult={handleMatchResult}
-        disabled={feedbackState !== 'none'}
-      />
-    {/if}
     <div class="options-grid">
       {#each options as option, i}
         {@const state = getCardState(i, feedbackState, selectedIndex, correctIndex)}

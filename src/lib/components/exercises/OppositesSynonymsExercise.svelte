@@ -5,7 +5,6 @@
   import { base } from '$app/paths';
   import { recordAttempt } from '$lib/db/attempts';
   import { updateAfterAttempt } from '$lib/engine/spaced-repetition';
-  import SpeechInput from '$lib/components/speech/SpeechInput.svelte';
   import { SpeechSynthesisService } from '$lib/speech/speech-synthesis';
   import { ProgressBar } from '$lib/components/ui';
   import { playCorrectSound, playIncorrectSound } from '$lib/utils/sounds';
@@ -20,7 +19,6 @@
     words: Word[];
     language?: Language;
     mode?: ExerciseMode;
-   speechEnabled?: boolean;
    speechRate?: number;
    speakButtonsEnabled?: boolean;
    onComplete?: (results: { score: number; total: number; details: Array<{ word: Word; correct: boolean }> }) => void;
@@ -31,7 +29,6 @@
     words: rawWords,
     language = 'es' as Language,
     mode: modeProp = 'opposites' as ExerciseMode,
-    speechEnabled = true,
     speechRate = 0.8,
     speakButtonsEnabled = true,
     onComplete,
@@ -78,9 +75,6 @@
   });
   
   $effect(() => synthesis?.setRate(speechRate));
-
-  // When speech enabled → open input mode; otherwise multiple choice
-  let inputMode = $derived<'choice' | 'open'>(speechEnabled ? 'open' : 'choice');
 
   // Derived
   let currentWord = $derived(words[currentIndex]);
@@ -170,9 +164,7 @@
     if (currentWord) {
       selectedIndex = null;
       feedbackState = 'none';
-      if (inputMode === 'choice') {
-        buildOptions();
-      }
+      buildOptions();
     }
   });
 
@@ -197,24 +189,6 @@
     }
   }
 
-  // Open mode handlers
-  function handleOpenAnswer(response: string) {
-    if (!currentWord || feedbackState === 'correct') return;
-
-    const cleaned = response.trim().toLowerCase();
-    const correct = validAnswers.includes(cleaned) || cleaned === correctAnswer.toLowerCase();
-
-    if (correct) {
-      feedbackState = 'correct';
-      playCorrectSound();
-      score++;
-      results.push({ word: currentWord, correct: true });
-      recordAndAdvance(true, response);
-    } else {
-      feedbackState = 'incorrect';
-      playIncorrectSound();
-    }
-  }
 
   async function recordAndAdvance(correct: boolean, response: string) {
     const responseTime = Date.now() - startTime;
@@ -290,7 +264,7 @@
   // Keyboard navigation params
   let keyboardNavParams = $derived<KeyboardNavParams>({
     getFeedbackState: () => feedbackState,
-    optionCount: inputMode === 'choice' ? Math.min(options.length, 4) : 0,
+    optionCount: Math.min(options.length, 4),
     onSelectOption: (index) => handleSelectChoice(index),
     onConfirm: () => {
       if (feedbackState !== 'none') nextWord();
@@ -366,7 +340,6 @@
     {/if}
 
     <!-- Choice mode -->
-    {#if inputMode === 'choice'}
       <div class="options-grid">
         {#each options as option, i}
           {@const state = getCardState(i, feedbackState, selectedIndex, correctIndex)}
@@ -391,27 +364,6 @@
       <button class="skip-button" onclick={skipWord} aria-label={$t('common.skip')}>
         ⏭️ {$t('common.skip')}
       </button>
-
-    <!-- Open mode -->
-    {:else}
-      <div class="answer-area">
-        {#if feedbackState !== 'correct'}
-          <SpeechInput
-            language={speechLang}
-            placeholder={mode === 'opposites'
-              ? $t('exercises.opposites_synonyms.opposite_of')
-              : $t('exercises.opposites_synonyms.what_means_same')}
-            onresult={handleOpenAnswer}
-          />
-        {/if}
-
-        {#if feedbackState === 'incorrect'}
-          <button class="skip-button" onclick={skipWord} aria-label={$t('common.next')}>
-            ⏭️ {$t('common.next')}
-          </button>
-        {/if}
-      </div>
-    {/if}
   </div>
 {/if}
 
@@ -610,15 +562,6 @@
 
   .option-text {
     font-size: var(--font-size-lg, 20px);
-  }
-
-  /* Answer area (open mode) */
-  .answer-area {
-    width: 100%;
-    max-width: 500px;
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-sm, 8px);
   }
 
   .skip-button {

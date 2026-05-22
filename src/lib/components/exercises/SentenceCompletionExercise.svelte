@@ -5,7 +5,6 @@
   import { base } from '$app/paths';
  import { recordAttempt } from '$lib/db/attempts';
  import { updateAfterAttempt } from '$lib/engine/spaced-repetition';
- import SpeechInput from '$lib/components/speech/SpeechInput.svelte';
  import { SpeechSynthesisService } from '$lib/speech/speech-synthesis';
  import { ProgressBar } from '$lib/components/ui';
  import { playCorrectSound, playIncorrectSound } from '$lib/utils/sounds';
@@ -17,7 +16,6 @@
   type Props = {
     words: Word[];
     language?: Language;
-   speechEnabled?: boolean;
    speechRate?: number;
    speakButtonsEnabled?: boolean;
    onComplete?: (results: { score: number; total: number; details: Array<{ word: Word; correct: boolean; hintsUsed: number }> }) => void;
@@ -27,7 +25,6 @@
   let {
     words,
     language = 'es' as Language,
-    speechEnabled = true,
     speechRate = 0.8,
     speakButtonsEnabled = true,
     onComplete,
@@ -56,9 +53,6 @@
   
   $effect(() => synthesis?.setRate(speechRate));
 
-  // When speech enabled → open input mode; otherwise multiple choice
-  let inputMode = $derived<'choice' | 'open'>(speechEnabled ? 'open' : 'choice');
-
   // Multiple choice state
   let options = $state<string[]>([]);
   let selectedIndex = $state<number | null>(null);
@@ -76,7 +70,7 @@
 
   // Rebuild options when word changes
   $effect(() => {
-    if (currentWord && inputMode === 'choice') {
+    if (currentWord) {
       const opts = generateOptions(currentWord.word, words.map(w => w.word));
       options = opts;
       correctOptionIndex = opts.indexOf(currentWord.word);
@@ -256,7 +250,7 @@
   // Keyboard navigation params
   let keyboardNavParams = $derived<KeyboardNavParams>({
     getFeedbackState: () => feedbackState,
-    optionCount: inputMode === 'choice' ? Math.min(options.length, 4) : 0,
+    optionCount: Math.min(options.length, 4),
     onSelectOption: (index) => handleSelectChoice(index),
     onConfirm: () => {
       if (feedbackState !== 'none' && feedbackState !== 'correct') nextWord();
@@ -347,7 +341,6 @@
     <!-- Input -->
     {#if feedbackState !== 'correct'}
       <div class="answer-area">
-        {#if inputMode === 'choice'}
           <!-- Multiple choice grid -->
           <div class="options-grid">
             {#each options as option, i}
@@ -370,15 +363,6 @@
               </button>
             {/each}
           </div>
-        {:else}
-          <!-- Open input mode (speech/text) -->
-          <SpeechInput
-            language={speechLang}
-            placeholder={$t('exercises.sentence_completion.fill_blank')}
-            onresult={checkAnswer}
-            disabled={isRevealed}
-          />
-        {/if}
 
         <div class="button-row">
           <button

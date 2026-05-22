@@ -7,7 +7,6 @@
   import { updateAfterAttempt } from '$lib/engine/spaced-repetition';
   import { SpeechSynthesisService } from '$lib/speech/speech-synthesis';
   import { resolveImageUrl } from '$lib/utils/exercise-helpers';
-  import SpeechInput from '$lib/components/speech/SpeechInput.svelte';
   import { keyboardNav } from '$lib/utils/keyboard-nav';
   import type { KeyboardNavParams } from '$lib/utils/keyboard-nav';
   import { playCorrectSound, playIncorrectSound } from '$lib/utils/sounds';
@@ -17,14 +16,13 @@
   type Props = {
     words: Word[];
     language: Language;
-   speechEnabled?: boolean;
    speechRate?: number;
    speakButtonsEnabled?: boolean;
    onComplete?: (results: { score: number; total: number; details: Array<{ word: Word; correct: boolean; selectedCategory: string }> }) => void;
     onRestart?: () => void;
   };
 
-  let { words, language = 'es' as Language, speechEnabled = true, speechRate = 0.8, speakButtonsEnabled = true, onComplete, onRestart }: Props = $props();
+  let { words, language = 'es' as Language, speechRate = 0.8, speakButtonsEnabled = true, onComplete, onRestart }: Props = $props();
 
   // Derive categories from the word list (flatten multi-category)
   let categories = $derived([...new Set(words.flatMap(w => getWordCategories(w)))]);
@@ -59,8 +57,6 @@
   
   $effect(() => synthesis?.setRate(speechRate));
 
-  // inputMode concept (not used in UI for this exercise)
-  let inputMode = $derived<'choice' | 'open'>(speechEnabled ? 'open' : 'choice');
   let speechLang = $derived(language === 'es' ? 'es-ES' : language === 'ca' ? 'ca-ES' : language === 'eu' ? 'eu-ES' : 'en-US');
 
   // Initialize
@@ -209,20 +205,6 @@
       await synthesis.speak(text, speechLang);
       isSpeaking = false;
     }
-  }
-
-  function handleCategoryResult(response: string) {
-    if (!currentItem || feedbackState === 'correct') return;
-    const cleaned = response.trim().toLowerCase();
-    // Match against translated and raw category names
-    const matchedCategory = categories.find(cat => {
-      const translated = translateCategory(cat).toLowerCase();
-      return translated === cleaned || cat.toLowerCase() === cleaned;
-    });
-    if (matchedCategory) {
-      selectCategory(matchedCategory);
-    }
-    // If no match, the user can try again or use tap buttons
   }
 
   // Keyboard navigation params

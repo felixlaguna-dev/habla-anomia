@@ -719,4 +719,21 @@
     min-height: 48px;
     touch-action: manipulation;
   }
+
+  /* Tablet layout: wider container, more columns for word pool */
+  @media (min-width: 768px) {
+    .exercise-container {
+      max-width: none;
+    }
+
+    .word-pool {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .word-pool {
+      grid-template-columns: repeat(4, 1fr);
+    }
+  }
 </style>

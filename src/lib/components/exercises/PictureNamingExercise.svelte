@@ -844,4 +844,43 @@
     min-height: 48px;
     touch-action: manipulation;
   }
+
+  /* Tablet layout: image left, options right */
+  @media (min-width: 768px) {
+    .exercise-container:not(.summary) {
+      max-width: none;
+      display: grid;
+      grid-template-columns: 280px 1fr;
+      align-items: start;
+    }
+
+    .progress-bar-container {
+      grid-column: 1 / -1;
+    }
+
+    .image-area {
+      grid-column: 1;
+      grid-row: 2 / span 20;
+      max-width: none;
+      width: 100%;
+      max-height: 280px;
+      aspect-ratio: auto;
+      align-self: center;
+    }
+
+    .prompt,
+    .feedback,
+    .hints-area,
+    .answer-area {
+      grid-column: 2;
+    }
+
+    .options-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .answer-area {
+      max-width: none;
+    }
+  }
 </style>

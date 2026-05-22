@@ -830,4 +830,43 @@
     from { opacity: 0; transform: translateY(-8px); }
     to { opacity: 1; transform: translateY(0); }
   }
+
+  /* Tablet layout: image left, features/naming right */
+  @media (min-width: 768px) {
+    .exercise-container:not(.summary) {
+      max-width: none;
+      display: grid;
+      grid-template-columns: 250px 1fr;
+      align-items: start;
+    }
+
+    .progress-bar-container {
+      grid-column: 1 / -1;
+    }
+
+    .image-area {
+      grid-column: 1;
+      grid-row: 2 / span 20;
+      max-width: none;
+      width: 100%;
+      max-height: 260px;
+      aspect-ratio: auto;
+      align-self: center;
+    }
+
+    .features-bar,
+    .question-area,
+    .feedback,
+    .naming-area {
+      grid-column: 2;
+    }
+
+    .question-area .options-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .naming-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
 </style>

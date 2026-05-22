@@ -880,4 +880,43 @@
     opacity: 0.4;
     cursor: default;
   }
+
+  /* Tablet layout: sentence left, options right */
+  @media (min-width: 768px) {
+    .exercise-container:not(.summary) {
+      max-width: none;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      grid-auto-flow: dense;
+      align-items: start;
+    }
+
+    /* Make ProgressBar (first child component) span full width */
+    .exercise-container:not(.summary) > :first-child {
+      grid-column: 1 / -1;
+    }
+
+    .section-title,
+    .feedback,
+    .hints-area,
+    .revealed-message,
+    .next-btn {
+      grid-column: 1 / -1;
+    }
+
+    .sentence-area {
+      grid-column: 1;
+      grid-row: 3;
+    }
+
+    .answer-area {
+      grid-column: 2;
+      grid-row: 3;
+      max-width: none;
+    }
+
+    .answer-area .options-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
 </style>

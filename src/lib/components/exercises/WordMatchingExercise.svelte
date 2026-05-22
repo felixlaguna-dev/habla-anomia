@@ -702,4 +702,42 @@
     min-height: 48px;
     touch-action: manipulation;
   }
+
+  /* Tablet layout: prompt left, options right */
+  @media (min-width: 768px) {
+    .exercise-container:not(.summary) {
+      max-width: none;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      grid-auto-flow: dense;
+      align-items: start;
+    }
+
+    /* Make ProgressBar (first child component) span full width */
+    .exercise-container:not(.summary) > :first-child {
+      grid-column: 1 / -1;
+    }
+
+    .prompt-label,
+    .feedback,
+    .skip-button {
+      grid-column: 1 / -1;
+    }
+
+    .prompt-area {
+      grid-column: 1;
+      grid-row: 3;
+    }
+
+    .prompt-area .prompt-image {
+      max-height: 200px;
+      object-fit: contain;
+    }
+
+    .options-grid {
+      grid-column: 2;
+      grid-row: 3;
+      grid-template-columns: 1fr;
+    }
+  }
 </style>

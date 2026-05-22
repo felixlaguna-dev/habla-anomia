@@ -57,7 +57,7 @@
     svc.on('error', (detail: SpeechErrorDetail) => {
       isListening = false;
       interimTranscript = '';
-      if (detail.code !== 'not-allowed' && detail.code !== 'aborted' && detail.code !== 'no-speech') {
+      if (detail.code !== 'aborted' && detail.code !== 'no-speech') {
         errorMessage = $t('speech.errors.' + detail.code);
       }
     });
@@ -73,7 +73,10 @@
 
     // Lazy init if onMount hasn't set it up yet
     if (!recognition) {
-      if (!SpeechRecognitionService.isSupported()) return;
+      if (!SpeechRecognitionService.isSupported()) {
+        errorMessage = $t('speech.errors.not-allowed');
+        return;
+      }
       const svc = new SpeechRecognitionService(language);
 
       svc.on('start', () => { isListening = true; errorMessage = ''; });
@@ -98,7 +101,31 @@
       recognition.stop();
     } else {
       errorMessage = '';
-      recognition.start();
+      // Optimistic: show listening immediately, revert if no onstart within 3s
+      isListening = true;
+      const reverted = { value: false };
+      const timeout = setTimeout(() => {
+        if (!reverted.value) {
+          isListening = false;
+          errorMessage = $t('speech.errors.not-allowed');
+        }
+      }, 3000);
+
+      try {
+        recognition.start();
+        // Patch: if onstart fires, cancel the timeout
+        const origOnStart = recognition.on.bind(recognition);
+        // Listen for the next start event to cancel the timeout
+        const unsub = recognition.on('start', () => {
+          reverted.value = true;
+          clearTimeout(timeout);
+          unsub();
+        });
+      } catch (e) {
+        clearTimeout(timeout);
+        isListening = false;
+        errorMessage = $t('speech.errors.not-allowed');
+      }
     }
   }
 

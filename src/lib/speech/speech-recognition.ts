@@ -94,11 +94,12 @@ export class SpeechRecognitionService {
   start(): void {
     if (!this.recognition) return;
     if (this.isListening) return; // Already listening — avoid InvalidStateError
+    this.shouldRestart = false;
     try {
-      this.shouldRestart = false;
       this.recognition.start();
-    } catch {
-      // May throw if called too quickly after stop — safe to ignore
+    } catch (e) {
+      // Surface the error so callers know start failed
+      this.emit('error', this.normalizeError((e as any)?.message || 'not-allowed'));
     }
   }
 

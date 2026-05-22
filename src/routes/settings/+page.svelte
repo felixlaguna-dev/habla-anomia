@@ -686,7 +686,7 @@
     }
 
     /* Data section full-width below */
-    .settings-cards .settings-card:last-child {
+    .settings-cards > :last-child {
       grid-column: 1 / -1;
     }
   }

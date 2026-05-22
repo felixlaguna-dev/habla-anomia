@@ -311,15 +311,6 @@
       {/each}
     </div>
 
-    {#if inputMode === 'open'}
-      <SpeechInput
-        language={speechLang}
-        placeholder={$t('exercises.category_sorting.type_answer')}
-        onresult={handleCategoryResult}
-        disabled={feedbackState === 'correct'}
-      />
-    {/if}
-
     <!-- Skip button -->
     {#if feedbackState !== 'correct'}
       <button class="skip-button" onclick={skipItem}>

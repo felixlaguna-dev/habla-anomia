@@ -107,4 +107,19 @@
     position: relative;
     z-index: 1;
   }
+
+  /* Landscape tablet: use wider layout */
+  @media (min-width: 768px) and (orientation: landscape) {
+    .main-content {
+      max-width: 1024px;
+      padding: 1.5rem 2rem;
+    }
+  }
+
+  /* Large landscape (iPad Pro 12.9", etc) */
+  @media (min-width: 1024px) and (orientation: landscape) {
+    .main-content {
+      max-width: 1100px;
+    }
+  }
 </style>

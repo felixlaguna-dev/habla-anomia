@@ -525,7 +525,7 @@
     }
   }
 
-  /* Tablet (768px+): bigger everything */
+  /* Tablet portrait (768px+): bigger everything */
   @media (min-width: 768px) {
     .dashboard {
       max-width: 700px;
@@ -570,8 +570,30 @@
     }
   }
 
-  /* Larger tablets (1024px+): wider chips grid */
-  @media (min-width: 1024px) {
+  /* Landscape tablet: use full width, 2-column plan */
+  @media (min-width: 768px) and (orientation: landscape) {
+    .dashboard {
+      max-width: 100%;
+    }
+
+    .plan-list {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 0.75rem;
+    }
+
+    .exercise-chips {
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1rem;
+    }
+  }
+
+  /* Larger landscape (1024px+): 4 columns already, wider gap */
+  @media (min-width: 1024px) and (orientation: landscape) {
+    .plan-list {
+      grid-template-columns: repeat(3, 1fr);
+    }
+
     .exercise-chips {
       grid-template-columns: repeat(4, 1fr);
       gap: 1rem;

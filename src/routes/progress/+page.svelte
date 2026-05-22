@@ -258,61 +258,64 @@
         </div>
       </section>
 
-      <!-- Accuracy by category -->
-      {#if categoryBreakdown.length > 0}
-        <section class="breakdown-section">
-          <h2 class="section-title">{$t('progress.by_category')}</h2>
-          <Card>
-            <div class="breakdown-list">
-              {#each categoryBreakdown as item}
-                <div class="breakdown-item">
-                  <div class="breakdown-header">
-                    <span class="breakdown-name">{$t(`categories.${item.category}`) || item.category}</span>
-                    <span class="breakdown-value" style="color: {accuracyColor(item.accuracy)}">
-                      {formatAccuracy(item.accuracy)}
-                    </span>
+      <!-- Breakdowns: side-by-side on landscape tablet -->
+      <div class="breakdowns-row">
+        <!-- Accuracy by category -->
+        {#if categoryBreakdown.length > 0}
+          <section class="breakdown-section">
+            <h2 class="section-title">{$t('progress.by_category')}</h2>
+            <Card>
+              <div class="breakdown-list">
+                {#each categoryBreakdown as item}
+                  <div class="breakdown-item">
+                    <div class="breakdown-header">
+                      <span class="breakdown-name">{$t(`categories.${item.category}`) || item.category}</span>
+                      <span class="breakdown-value" style="color: {accuracyColor(item.accuracy)}">
+                        {formatAccuracy(item.accuracy)}
+                      </span>
+                    </div>
+                    <div class="breakdown-bar-bg">
+                      <div
+                        class="breakdown-bar"
+                        style="width: {item.accuracy}%; background: {accuracyColor(item.accuracy)}"
+                      ></div>
+                    </div>
+                    <span class="breakdown-attempts">{item.attempts} {$t('progress.attempts').toLowerCase()}</span>
                   </div>
-                  <div class="breakdown-bar-bg">
-                    <div
-                      class="breakdown-bar"
-                      style="width: {item.accuracy}%; background: {accuracyColor(item.accuracy)}"
-                    ></div>
-                  </div>
-                  <span class="breakdown-attempts">{item.attempts} {$t('progress.attempts').toLowerCase()}</span>
-                </div>
-              {/each}
-            </div>
-          </Card>
-        </section>
-      {/if}
+                {/each}
+              </div>
+            </Card>
+          </section>
+        {/if}
 
-      <!-- Accuracy by exercise -->
-      {#if exerciseBreakdown.length > 0}
-        <section class="breakdown-section">
-          <h2 class="section-title">{$t('progress.by_exercise')}</h2>
-          <Card>
-            <div class="breakdown-list">
-              {#each exerciseBreakdown as item}
-                <div class="breakdown-item">
-                  <div class="breakdown-header">
-                    <span class="breakdown-name">{$t(getExerciseName(item.exercise))}</span>
-                    <span class="breakdown-value" style="color: {accuracyColor(item.accuracy)}">
-                      {formatAccuracy(item.accuracy)}
-                    </span>
+        <!-- Accuracy by exercise -->
+        {#if exerciseBreakdown.length > 0}
+          <section class="breakdown-section">
+            <h2 class="section-title">{$t('progress.by_exercise')}</h2>
+            <Card>
+              <div class="breakdown-list">
+                {#each exerciseBreakdown as item}
+                  <div class="breakdown-item">
+                    <div class="breakdown-header">
+                      <span class="breakdown-name">{$t(getExerciseName(item.exercise))}</span>
+                      <span class="breakdown-value" style="color: {accuracyColor(item.accuracy)}">
+                        {formatAccuracy(item.accuracy)}
+                      </span>
+                    </div>
+                    <div class="breakdown-bar-bg">
+                      <div
+                        class="breakdown-bar"
+                        style="width: {item.accuracy}%; background: {accuracyColor(item.accuracy)}"
+                      ></div>
+                    </div>
+                    <span class="breakdown-attempts">{item.attempts} {$t('progress.attempts').toLowerCase()}</span>
                   </div>
-                  <div class="breakdown-bar-bg">
-                    <div
-                      class="breakdown-bar"
-                      style="width: {item.accuracy}%; background: {accuracyColor(item.accuracy)}"
-                    ></div>
-                  </div>
-                  <span class="breakdown-attempts">{item.attempts} {$t('progress.attempts').toLowerCase()}</span>
-                </div>
-              {/each}
-            </div>
-          </Card>
-        </section>
-      {/if}
+                {/each}
+              </div>
+            </Card>
+          </section>
+        {/if}
+      </div>
 
       <!-- Session history -->
       {#if recentSessions.length > 0}
@@ -644,6 +647,30 @@
 
     .breakdown-value {
       font-size: var(--font-size-lg);
+    }
+  }
+
+  /* Landscape tablet: use full width, side-by-side breakdowns */
+  @media (min-width: 768px) and (orientation: landscape) {
+    .progress-page {
+      max-width: 100%;
+    }
+
+    .top-stats {
+      grid-template-columns: repeat(2, 1fr);
+      gap: var(--space-md);
+    }
+
+    .counters-row {
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--space-md);
+    }
+
+    /* Side-by-side category + exercise breakdowns */
+    .breakdowns-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-lg);
     }
   }
 </style>

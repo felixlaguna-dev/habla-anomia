@@ -162,6 +162,7 @@
       <h1 class="page-title">{$t('settings.title')}</h1>
     </header>
 
+    <div class="settings-cards">
     <!-- Card 1: Appearance -->
     <Card>
       <div class="card-section">
@@ -354,6 +355,7 @@
         </button>
       </div>
     </Card>
+    </div>
   </section>
 {/if}
 
@@ -676,6 +678,25 @@
 
     .about-link {
       font-size: var(--font-size-lg);
+    }
+  }
+
+  /* Landscape tablet: use wider space, 2-column card grid */
+  @media (min-width: 768px) and (orientation: landscape) {
+    .settings-page {
+      max-width: 100%;
+    }
+
+    .settings-cards {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-lg);
+      align-items: start;
+    }
+
+    /* Data section full-width below */
+    .settings-cards .settings-card:last-child {
+      grid-column: 1 / -1;
     }
   }
 </style>

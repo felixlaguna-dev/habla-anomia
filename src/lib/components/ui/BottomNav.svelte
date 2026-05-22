@@ -183,11 +183,25 @@
   @media (min-width: 768px) {
     .nav-list {
       height: 72px;
+      max-width: 768px;
     }
 
     .icon-wrapper {
       width: 40px;
       height: 40px;
+    }
+  }
+
+  /* Landscape tablet: wider nav bar */
+  @media (min-width: 768px) and (orientation: landscape) {
+    .nav-list {
+      max-width: 1024px;
+    }
+  }
+
+  @media (min-width: 1024px) and (orientation: landscape) {
+    .nav-list {
+      max-width: 1100px;
     }
   }
 </style>

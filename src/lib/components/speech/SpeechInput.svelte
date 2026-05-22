@@ -25,6 +25,7 @@
   let interimTranscript = $state('');
   let inputText = $state('');
   let errorMessage = $state('');
+  let micPermissionGranted = $state(false);
   let recognition: SpeechRecognitionService | null = $state(null);
 
   // Initialize speech recognition once on mount
@@ -65,10 +66,23 @@
     recognition = svc;
   });
 
-  // Re-sync language when prop changes (don't recreate the service)
+  // Re-sync language when prop changes
   $effect(() => recognition?.setLanguage(language));
 
-  function toggleListening() {
+  async function requestMicPermission(): Promise<boolean> {
+    if (micPermissionGranted) return true;
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      // Release the stream immediately — we only needed the permission
+      stream.getTracks().forEach((t) => t.stop());
+      micPermissionGranted = true;
+      return true;
+    } catch {
+      return false;
+    }
+  }
+
+  async function toggleListening() {
     if (disabled) return;
 
     // Lazy init if onMount hasn't set it up yet
@@ -79,16 +93,27 @@
       }
       const svc = new SpeechRecognitionService(language);
 
-      svc.on('start', () => { isListening = true; errorMessage = ''; });
+      svc.on('start', () => {
+        isListening = true;
+        errorMessage = '';
+      });
       svc.on('result', (transcript: string) => {
-        inputText = transcript; interimTranscript = ''; isListening = false;
+        inputText = transcript;
+        interimTranscript = '';
+        isListening = false;
         onresult?.(transcript);
       });
-      svc.on('interim', (text: string) => { interimTranscript = text; });
-      svc.on('end', () => { isListening = false; interimTranscript = ''; });
+      svc.on('interim', (text: string) => {
+        interimTranscript = text;
+      });
+      svc.on('end', () => {
+        isListening = false;
+        interimTranscript = '';
+      });
       svc.on('error', (detail: SpeechErrorDetail) => {
-        isListening = false; interimTranscript = '';
-        if (detail.code !== 'not-allowed' && detail.code !== 'aborted' && detail.code !== 'no-speech') {
+        isListening = false;
+        interimTranscript = '';
+        if (detail.code !== 'aborted' && detail.code !== 'no-speech') {
           errorMessage = $t('speech.errors.' + detail.code);
         }
       });
@@ -99,33 +124,26 @@
 
     if (isListening) {
       recognition.stop();
-    } else {
-      errorMessage = '';
-      // Optimistic: show listening immediately, revert if no onstart within 3s
-      isListening = true;
-      const reverted = { value: false };
-      const timeout = setTimeout(() => {
-        if (!reverted.value) {
-          isListening = false;
-          errorMessage = $t('speech.errors.not-allowed');
-        }
-      }, 3000);
+      return;
+    }
 
-      try {
-        recognition.start();
-        // Patch: if onstart fires, cancel the timeout
-        const origOnStart = recognition.on.bind(recognition);
-        // Listen for the next start event to cancel the timeout
-        const unsub = recognition.on('start', () => {
-          reverted.value = true;
-          clearTimeout(timeout);
-          unsub();
-        });
-      } catch (e) {
-        clearTimeout(timeout);
-        isListening = false;
-        errorMessage = $t('speech.errors.not-allowed');
-      }
+    errorMessage = '';
+
+    // On mobile Chrome, SpeechRecognition.start() silently fails if
+    // the site hasn't been granted mic permission. getUserMedia triggers
+    // the Chrome permission prompt so the user can grant access.
+    const permitted = await requestMicPermission();
+    if (!permitted) {
+      errorMessage = $t('speech.errors.not-allowed');
+      return;
+    }
+
+    try {
+      recognition.start();
+      isListening = true;
+    } catch {
+      isListening = false;
+      errorMessage = $t('speech.errors.not-allowed');
     }
   }
 

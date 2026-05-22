@@ -270,11 +270,6 @@
           <span>{currentItem.word[0].toUpperCase()}</span>
         </div>
       </div>
-      {#if speakButtonsEnabled}
-      <button class="speak-btn" onclick={() => speakWord(currentItem.word)} disabled={isSpeaking} aria-label={$t('common.listen')}>
-        {isSpeaking ? '🔊…' : '🔊'}
-      </button>
-      {/if}
     </div>
 
     <!-- Feedback -->
@@ -307,6 +302,11 @@
           aria-label={translateCategory(category)}
         >
           <span class="btn-text">{translateCategory(category)}</span>
+          {#if speakButtonsEnabled}
+            <button class="speak-btn-inline" onclick={(e) => { e.stopPropagation(); speakWord(translateCategory(category)); }} disabled={isSpeaking} aria-label={$t('common.listen')}>
+              🔊
+            </button>
+          {/if}
         </button>
       {/each}
     </div>
@@ -405,6 +405,25 @@
   }
   .speak-btn:disabled {
     opacity: 0.5;
+    cursor: default;
+  }
+  .speak-btn-inline {
+    background: none;
+    border: none;
+    font-size: 1rem;
+    cursor: pointer;
+    padding: 2px 4px;
+    margin-left: 0.3rem;
+    border-radius: var(--radius-sm, 4px);
+    line-height: 1;
+    opacity: 0.7;
+    transition: opacity var(--transition-fast, 0.15s);
+  }
+  .speak-btn-inline:hover {
+    opacity: 1;
+  }
+  .speak-btn-inline:disabled {
+    opacity: 0.4;
     cursor: default;
   }
   .error-text {

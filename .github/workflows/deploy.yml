@@ -35,7 +35,8 @@ jobs:
 
       - name: Build application
         run: |
-          CONTAINER=$(docker create -e BASE_PATH=/habla-anomia habla-anomia-deploy npm run build)
+          SHORT_SHA=$(git rev-parse --short HEAD)
+          CONTAINER=$(docker create -e BASE_PATH=/habla-anomia -e GIT_HASH=$SHORT_SHA habla-anomia-deploy npm run build)
           docker start -a $CONTAINER
           docker cp $CONTAINER:/app/build ./build
           docker rm $CONTAINER

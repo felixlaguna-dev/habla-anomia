@@ -5,12 +5,14 @@ import { execSync } from 'child_process';
 
 const basePath = process.env.BASE_PATH || '';
 
-// Bake git commit hash at build time
-let gitHash = 'dev';
-try {
-  gitHash = execSync('git rev-parse --short HEAD').toString().trim();
-} catch {
-  // Not in a git repo (e.g. Docker build without .git)
+// Bake git commit hash at build time (fallback to env var for Docker builds)
+let gitHash = process.env.GIT_HASH || 'dev';
+if (gitHash === 'dev') {
+  try {
+    gitHash = execSync('git rev-parse --short HEAD').toString().trim();
+  } catch {
+    // Not in a git repo (e.g. Docker build without .git)
+  }
 }
 
 export default defineConfig({

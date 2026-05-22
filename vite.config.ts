@@ -1,10 +1,22 @@
 import { sveltekit } from '@sveltejs/kit/vite';
 import { defineConfig } from 'vite';
 import { VitePWA } from 'vite-plugin-pwa';
+import { execSync } from 'child_process';
 
 const basePath = process.env.BASE_PATH || '';
 
+// Bake git commit hash at build time
+let gitHash = 'dev';
+try {
+  gitHash = execSync('git rev-parse --short HEAD').toString().trim();
+} catch {
+  // Not in a git repo (e.g. Docker build without .git)
+}
+
 export default defineConfig({
+  define: {
+    __APP_VERSION__: JSON.stringify(gitHash)
+  },
   plugins: [
     sveltekit(),
     VitePWA({

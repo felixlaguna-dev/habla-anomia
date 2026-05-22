@@ -22,7 +22,7 @@ Free, open-source PWA for anomia (aphasia) rehabilitation.
 - Database: `src/lib/db/` (Dexie v3 schema — multi-category, no `category` index. Tables: words, attempts, sessions, settings, spacedRepetition)
 - Engine: `src/lib/engine/` (session-generator, spaced-repetition, statistics)
 - UI components: `src/lib/components/ui/` (14 components)
-- Speech: `src/lib/speech/` + `src/lib/components/speech/` (SpeechInput, i18n'd)
+- Speech: `src/lib/speech/` + `src/lib/components/speech/` (SpeechInput + TTS in all 8 exercises, i18n'd)
 - Utils: `src/lib/utils/sounds.ts` (Web Audio API sound effects)
 - Keyboard nav: `src/lib/utils/keyboard-nav.ts` (useKeyboardNav Svelte action, all 8 exercises)
 - Exercise helpers: `src/lib/utils/exercise-helpers.ts` (shared restart/completion/feedback logic)

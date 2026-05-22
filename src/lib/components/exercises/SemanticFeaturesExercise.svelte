@@ -300,6 +300,11 @@
           <span class="fallback-letter">{currentWord.word[0].toUpperCase()}</span>
         </div>
       {/if}
+      {#if speakButtonsEnabled}
+      <button class="speak-btn" onclick={() => speakWord(currentWord.word)} disabled={isSpeaking} aria-label={$t('common.listen')}>
+        {isSpeaking ? '🔊…' : '🔊'}
+      </button>
+      {/if}
     </div>
 
     <!-- Feature cards (progress indicator) -->

@@ -270,6 +270,11 @@
           <span>{currentItem.word[0].toUpperCase()}</span>
         </div>
       </div>
+      {#if speakButtonsEnabled}
+      <button class="speak-btn" onclick={() => speakWord(currentItem.word)} disabled={isSpeaking} aria-label={$t('common.listen')}>
+        {isSpeaking ? '🔊…' : '🔊'}
+      </button>
+      {/if}
     </div>
 
     <!-- Feedback -->

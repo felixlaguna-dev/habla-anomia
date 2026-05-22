@@ -95,11 +95,11 @@
     color: var(--text-primary-light, #1e293b);
   }
 
+  /* Phone: comfortable padding + clearance for fixed bottom nav */
   .main-content {
     flex: 1;
     padding: 1rem;
-    padding-bottom: calc(64px + var(--safe-bottom, 0px) + 5rem);
-    max-width: 768px;
+    padding-bottom: calc(64px + var(--safe-bottom, 0px) + 1rem);
     width: 100%;
     margin: 0 auto;
     overflow-x: hidden;
@@ -107,11 +107,19 @@
     z-index: 1;
   }
 
-  /* Landscape tablet: use wider layout */
+  /* Tablet portrait: wider, bigger padding for larger nav */
+  @media (min-width: 768px) {
+    .main-content {
+      padding: 1.25rem 1.5rem;
+      padding-bottom: calc(72px + var(--safe-bottom, 0px) + 1.5rem);
+    }
+  }
+
+  /* Tablet landscape: more side padding */
   @media (min-width: 768px) and (orientation: landscape) {
     .main-content {
-      max-width: 960px;
-      padding: 1rem 1.5rem;
+      padding: 1.25rem 2rem;
+      padding-bottom: calc(72px + var(--safe-bottom, 0px) + 1.5rem);
     }
   }
 </style>

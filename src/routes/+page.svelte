@@ -525,13 +525,8 @@
     }
   }
 
-  /* Tablet portrait (768px+): bigger everything */
+  /* Tablet (768px+): bigger everything — fills available width */
   @media (min-width: 768px) {
-    .dashboard {
-      max-width: 700px;
-      margin-inline: auto;
-    }
-
     .app-title {
       font-size: 2.5rem;
     }
@@ -564,23 +559,45 @@
     }
 
     .exercise-chip {
-      min-height: 56px;
-      font-size: 1rem;
-      padding: 1rem 1.25rem;
+      min-height: 64px;
+      font-size: 1.1rem;
+      padding: 1rem 1.5rem;
+      border-radius: 2.5rem;
+    }
+
+    .chip-icon {
+      width: 1.8rem;
+      height: 1.8rem;
+      font-size: 0.75rem;
+      top: -9px;
+      left: -9px;
+    }
+
+    .exercise-chips {
+      gap: 1rem;
     }
   }
 
-  /* Landscape tablet: 2-column plan, 4-column exercises */
+  /* Landscape tablet: 2-column plan, wider exercise grid */
   @media (min-width: 768px) and (orientation: landscape) {
     .plan-list {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
-      gap: 0.75rem;
+      gap: 1rem;
+    }
+
+    .plan-item {
+      padding: 1rem;
     }
 
     .exercise-chips {
       grid-template-columns: repeat(4, 1fr);
-      gap: 1rem;
+      gap: 1.25rem;
+    }
+
+    .exercise-chip {
+      min-height: 68px;
+      font-size: 1.15rem;
     }
   }
 

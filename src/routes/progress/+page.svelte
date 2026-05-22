@@ -602,13 +602,8 @@
     }
   }
 
-  /* Tablet: centered, bigger text */
+  /* Tablet: bigger text */
   @media (min-width: 768px) {
-    .progress-page {
-      max-width: 700px;
-      margin-inline: auto;
-    }
-
     .page-title {
       font-size: var(--font-size-3xl);
     }

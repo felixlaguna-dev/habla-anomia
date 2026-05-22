@@ -620,13 +620,8 @@
     100% { background: #ef4444; transform: scale(1.02); }
   }
 
-  /* Tablet: bigger targets, centered, wider toggles */
+  /* Tablet: bigger targets, wider toggles */
   @media (min-width: 768px) {
-    .settings-page {
-      max-width: 600px;
-      margin-inline: auto;
-    }
-
     .page-title {
       font-size: var(--font-size-3xl);
     }

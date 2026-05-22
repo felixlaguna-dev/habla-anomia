@@ -83,7 +83,6 @@
     display: flex;
     justify-content: space-around;
     align-items: stretch;
-    max-width: 768px;
     margin: 0 auto;
     padding: 0;
     list-style: none;
@@ -179,23 +178,26 @@
     }
   }
 
-  /* Responsive: larger targets on tablet */
+  /* Phone: max-width to keep nav centered */
+  @media (max-width: 767px) {
+    .nav-list {
+      max-width: 768px;
+    }
+  }
+
+  /* Tablet: taller nav, bigger icons, full-width */
   @media (min-width: 768px) {
     .nav-list {
       height: 72px;
-      max-width: 768px;
     }
 
     .icon-wrapper {
       width: 40px;
       height: 40px;
     }
-  }
 
-  /* Landscape tablet: match main content width */
-  @media (min-width: 768px) and (orientation: landscape) {
-    .nav-list {
-      max-width: 960px;
+    .nav-link {
+      font-size: var(--font-size-base);
     }
   }
 </style>

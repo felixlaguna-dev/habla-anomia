@@ -362,6 +362,9 @@
       {#each results as result, i}
         <div class="result-row" class:pass={result.correct} class:fail={!result.correct}>
           <span class="result-word">{result.word.word}</span>
+          <button class="speak-btn" onclick={() => speakWord(result.word.word)} disabled={isSpeaking} aria-label={$t('common.listen')}>
+            {isSpeaking ? '🔊…' : '🔊'}
+          </button>
           <span class="result-icon">{result.correct ? '✅' : '❌'}</span>
           <span class="result-category">📁 {translateCategory(getWordCategories(result.word)[0])}</span>
         </div>

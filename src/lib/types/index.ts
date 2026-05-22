@@ -115,6 +115,7 @@ export interface AppSettings {
   speech_rate: number;
   sound_enabled: boolean;
   haptic_enabled: boolean;
+  timer_enabled: boolean;
   onboarding_complete: boolean;
 }
 

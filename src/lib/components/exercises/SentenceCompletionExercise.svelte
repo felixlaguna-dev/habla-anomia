@@ -291,6 +291,9 @@
           <span class="blank" class:filled={feedbackState === 'correct' || isRevealed}>
             {#if feedbackState === 'correct' || isRevealed}
               {currentWord.word}
+              <button class="speak-btn" onclick={() => speakWord(currentWord.word)} disabled={isSpeaking} aria-label={$t('common.listen')}>
+                {isSpeaking ? '🔊…' : '🔊'}
+              </button>
             {:else}
               ___________
             {/if}
@@ -298,7 +301,11 @@
           <span class="sentence-part">{sentenceParts.after}</span>
         </p>
       {:else}
-        <p class="sentence-fallback">{$t('exercises.sentence_completion.complete_sentence')}: <strong>{currentWord.word}</strong></p>
+        <p class="sentence-fallback">{$t('exercises.sentence_completion.complete_sentence')}: <strong>{currentWord.word}</strong>
+          <button class="speak-btn" onclick={() => speakWord(currentWord.word)} disabled={isSpeaking} aria-label={$t('common.listen')}>
+            {isSpeaking ? '🔊…' : '🔊'}
+          </button>
+        </p>
       {/if}
     </div>
 
@@ -380,7 +387,11 @@
     <!-- If fully revealed, auto-advance -->
     {#if isRevealed && feedbackState !== 'correct'}
       <div class="revealed-message">
-        <p>{$t('feedback.the_answer_was', { answer: currentWord.word })}</p>
+        <p>{$t('feedback.the_answer_was', { answer: currentWord.word })}
+          <button class="speak-btn" onclick={() => speakWord(currentWord.word)} disabled={isSpeaking} aria-label={$t('common.listen')}>
+            {isSpeaking ? '🔊…' : '🔊'}
+          </button>
+        </p>
       </div>
       <button class="next-btn" onclick={skipWord} aria-label={$t('common.next')}>
         {$t('common.next')} →
@@ -410,6 +421,9 @@
       {#each results as result, i}
         <div class="result-row" class:pass={result.correct} class:fail={!result.correct}>
           <span class="result-word">{result.word.word}</span>
+          <button class="speak-btn" onclick={() => speakWord(result.word.word)} disabled={isSpeaking} aria-label={$t('common.listen')}>
+            {isSpeaking ? '🔊…' : '🔊'}
+          </button>
           <span class="result-icon">{result.correct ? '✅' : '❌'}</span>
           {#if result.hintsUsed > 0}
             <span class="result-hints">💡×{result.hintsUsed}</span>
@@ -479,7 +493,9 @@
   }
 
   .blank {
-    display: inline-block;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
     min-width: 100px;
     border-bottom: 3px solid var(--primary, #3b82f6);
     color: var(--primary, #3b82f6);

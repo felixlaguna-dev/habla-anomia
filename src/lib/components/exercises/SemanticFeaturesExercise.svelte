@@ -397,10 +397,16 @@
     {#if namingCorrect === true}
       <div class="feedback correct" role="status" aria-live="polite">
         ✅ {$t('feedback.correct')}
+        <button class="speak-btn" onclick={() => speakWord(currentWord.word)} disabled={isSpeaking} aria-label={$t('common.listen')}>
+          {isSpeaking ? '🔊…' : '🔊'}
+        </button>
       </div>
     {:else if namingCorrect === false}
       <div class="feedback incorrect" role="status" aria-live="polite">
         ❌ {$t('feedback.the_answer_was', { answer: currentWord.word })}
+        <button class="speak-btn" onclick={() => speakWord(currentWord.word)} disabled={isSpeaking} aria-label={$t('common.listen')}>
+          {isSpeaking ? '🔊…' : '🔊'}
+        </button>
       </div>
     {/if}
   </div>
@@ -427,6 +433,9 @@
       {#each results as result}
         <div class="result-row" class:pass={result.correct} class:fail={!result.correct}>
           <span class="result-word">{result.word.word}</span>
+          <button class="speak-btn" onclick={() => speakWord(result.word.word)} disabled={isSpeaking} aria-label={$t('common.listen')}>
+            {isSpeaking ? '🔊…' : '🔊'}
+          </button>
           <span class="result-icon">{result.correct ? '✅' : '❌'}</span>
           <span class="result-features">📋 {result.featuresCorrect}/4</span>
         </div>

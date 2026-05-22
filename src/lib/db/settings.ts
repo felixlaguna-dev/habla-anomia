@@ -10,6 +10,7 @@ const DEFAULTS: AppSettings = {
   speech_rate: 0.8,
   sound_enabled: true,
   haptic_enabled: true,
+  timer_enabled: true,
   onboarding_complete: false
 };
 
@@ -44,6 +45,7 @@ export async function getAllSettings(): Promise<AppSettings> {
     speech_rate: settingsMap.get('speech_rate') ?? DEFAULTS.speech_rate,
     sound_enabled: settingsMap.get('sound_enabled') ?? DEFAULTS.sound_enabled,
     haptic_enabled: settingsMap.get('haptic_enabled') ?? DEFAULTS.haptic_enabled,
+    timer_enabled: settingsMap.get('timer_enabled') ?? DEFAULTS.timer_enabled,
     onboarding_complete: settingsMap.get('onboarding_complete') ?? DEFAULTS.onboarding_complete
   };
 }

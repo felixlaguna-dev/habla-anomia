@@ -19,6 +19,7 @@
     allWords?: Word[];
     speechEnabled?: boolean;
     speechRate?: number;
+    timerEnabled?: boolean;
     language?: Language;
     category?: string;
     durationSeconds?: number;
@@ -29,7 +30,7 @@
   let {
     words,
     allWords = [],
-    language = 'es' as Language, speechEnabled = true, speechRate = 0.8,
+    language = 'es' as Language, speechEnabled = true, speechRate = 0.8, timerEnabled = true,
     category,
     durationSeconds = 60,
     onComplete,
@@ -273,9 +274,11 @@
     </h2>
     <p class="description">{$t('exercises.generative_naming.description')}</p>
 
+    {#if timerEnabled}
     <div class="timer-preview">
       <Timer seconds={durationSeconds} running={false} showProgress={true} />
     </div>
+    {/if}
 
     <button class="start-btn" onclick={startExercise} aria-label={$t('common.start')}>
       {$t('common.start')}
@@ -293,7 +296,9 @@
     </h2>
 
     <!-- Timer -->
+    {#if timerEnabled}
     <Timer seconds={durationSeconds} {running} ontimeout={handleTimeout} showProgress={true} />
+    {/if}
 
     <!-- Word count -->
     <div class="word-count">
@@ -305,13 +310,14 @@
     <div class="word-pool">
       {#each wordPool as item}
         {@const state = getWordState(item.word)}
-        <button
+        <div
           class="pool-word"
           class:unselected={state === 'unselected'}
           class:selected-valid={state === 'selected-valid'}
           class:selected-invalid={state === 'selected-invalid'}
           onclick={() => toggleWord(item.word)}
-          disabled={!running}
+          role="button"
+          tabindex="0"
           aria-label={item.word}
           aria-pressed={isSelected(item.word)}
         >
@@ -321,7 +327,10 @@
             <span class="word-cross">✗</span>
           {/if}
           <span class="pool-word-text">{item.word}</span>
-        </button>
+          <button class="speak-btn" onclick={(e) => { e.stopPropagation(); speakWord(item.word); }} disabled={isSpeaking} aria-label={$t('common.listen')}>
+            {isSpeaking ? '🔊…' : '🔊'}
+          </button>
+        </div>
       {/each}
     </div>
 

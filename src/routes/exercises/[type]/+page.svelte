@@ -10,6 +10,7 @@
   import { generateSession } from '$lib/engine/session-generator';
   import { browser } from '$app/environment';
   import { playCompleteSound } from '$lib/utils/sounds';
+  import { SpeechSynthesisService } from '$lib/speech/speech-synthesis';
   import type { ExerciseType, Language, Word, AppSettings } from '$lib/types';
 
   import {
@@ -35,6 +36,18 @@
   let showConfetti = $state(false);
   let planCategory: string | undefined = $state();
   let allWords = $state<Word[]>([]);
+
+  // TTS for results overlay
+  let resultSynthesis: SpeechSynthesisService | null = $state(null);
+  let speakingWord = $state<string | null>(null);
+
+  function speakWord(word: string, lang: Language) {
+    if (!resultSynthesis) return;
+    speakingWord = word;
+    resultSynthesis.speak(word, lang);
+    // Clear after estimated duration
+    setTimeout(() => { speakingWord = null; }, 1500);
+  }
 
   // Resolve component in script block, not template
   let ExerciseComponent = $derived.by(() => {
@@ -76,6 +89,13 @@
   }
 
   onMount(initExercise);
+
+  onMount(() => {
+    if (SpeechSynthesisService.isSupported()) {
+      resultSynthesis = new SpeechSynthesisService();
+    }
+    return () => resultSynthesis?.destroy();
+  });
 
   // Focus management: move focus to heading after page loads for screen readers
   onMount(() => {
@@ -204,6 +224,7 @@
         category={planCategory}
         speechEnabled={settings?.speech_enabled ?? true}
         speechRate={settings?.speech_rate ?? 0.8}
+        timerEnabled={settings?.timer_enabled ?? true}
         oncomplete={handleComplete}
         onrestart={handleRestart}
       />
@@ -276,7 +297,9 @@
           <h3 class="breakdown-title correct-title">✅ {$t('feedback.correct')} ({correctWords.length})</h3>
           <div class="word-chips">
             {#each correctWords.slice(0, 10) as word}
-              <span class="word-chip correct-chip">{word.word}</span>
+              <button class="word-chip correct-chip" class:speaking={speakingWord === word.word} onclick={() => speakWord(word.word, settings?.language ?? 'es')}>
+                {word.word} 🔊
+              </button>
             {/each}
           </div>
         </div>
@@ -287,7 +310,9 @@
           <h3 class="breakdown-title incorrect-title">❌ {$t('feedback.incorrect')} ({incorrectWords.length})</h3>
           <div class="word-chips">
             {#each incorrectWords.slice(0, 10) as word}
-              <span class="word-chip incorrect-chip">{word.word}</span>
+              <button class="word-chip incorrect-chip" class:speaking={speakingWord === word.word} onclick={() => speakWord(word.word, settings?.language ?? 'es')}>
+                {word.word} 🔊
+              </button>
             {/each}
           </div>
         </div>
@@ -545,11 +570,25 @@
   }
 
   .word-chip {
-    display: inline-block;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.2rem;
     padding: 0.15rem 0.5rem;
     border-radius: 1rem;
     font-size: 0.8rem;
     font-weight: 500;
+    border: none;
+    cursor: pointer;
+    font-family: var(--font-family);
+    transition: opacity var(--transition-fast);
+  }
+
+  .word-chip:active {
+    opacity: 0.7;
+  }
+
+  .word-chip.speaking {
+    opacity: 0.6;
   }
 
   .correct-chip {

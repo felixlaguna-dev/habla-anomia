@@ -308,6 +308,30 @@
       </Card>
     </section>
 
+    <!-- Timer -->
+    <section class="setting-section">
+      <h2 class="setting-label">{$t('settings.timer_enabled')}</h2>
+      <Card>
+        <div class="setting-content">
+          <div class="toggle-row">
+            <button
+              class="toggle-switch"
+              class:toggle-on={settings.timer_enabled}
+              onclick={() => updateSetting('timer_enabled', !settings!.timer_enabled)}
+              role="switch"
+              aria-checked={settings.timer_enabled}
+              aria-label={$t('settings.timer_enabled')}
+            >
+              <span class="toggle-track">
+                <span class="toggle-thumb"></span>
+              </span>
+              <span class="toggle-label-text">{settings.timer_enabled ? 'Sí' : 'No'}</span>
+            </button>
+          </div>
+        </div>
+      </Card>
+    </section>
+
     <!-- About link -->
     <section class="setting-section">
       <Card>

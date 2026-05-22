@@ -327,6 +327,9 @@
     <!-- Prompt -->
     <div class="prompt-area">
       <p class="prompt-text">{promptText}</p>
+      <button class="speak-btn" onclick={() => speakWord(currentWord.word)} disabled={isSpeaking} aria-label={$t('common.listen')}>
+        {isSpeaking ? '🔊…' : '🔊'}
+      </button>
     </div>
 
     <!-- Feedback -->
@@ -348,6 +351,9 @@
             {$t('feedback.the_answer_was', { answer: correctAnswer })}
           {/if}
         </span>
+        <button class="speak-btn" onclick={() => speakWord(correctAnswer)} disabled={isSpeaking} aria-label={$t('common.listen')}>
+          {isSpeaking ? '🔊…' : '🔊'}
+        </button>
       </div>
     {/if}
 
@@ -417,10 +423,19 @@
       {#each results as result, i}
         <div class="result-row" class:pass={result.correct} class:fail={!result.correct}>
           <span class="result-word">{result.word.word}</span>
+          <button class="speak-btn" onclick={() => speakWord(result.word.word)} disabled={isSpeaking} aria-label={$t('common.listen')}>
+            {isSpeaking ? '🔊…' : '🔊'}
+          </button>
           {#if mode === 'opposites' && result.word.opposite}
             <span class="result-answer">→ {result.word.opposite}</span>
+            <button class="speak-btn" onclick={() => speakWord(result.word.opposite)} disabled={isSpeaking} aria-label={$t('common.listen')}>
+              {isSpeaking ? '🔊…' : '🔊'}
+            </button>
           {:else if mode === 'synonyms' && result.word.synonyms?.[0]}
             <span class="result-answer">→ {result.word.synonyms[0]}</span>
+            <button class="speak-btn" onclick={() => speakWord(result.word.synonyms?.[0])} disabled={isSpeaking} aria-label={$t('common.listen')}>
+              {isSpeaking ? '🔊…' : '🔊'}
+            </button>
           {/if}
           <span class="result-icon">{result.correct ? '✅' : '❌'}</span>
         </div>
@@ -481,6 +496,10 @@
     border-radius: var(--radius-lg, 16px);
     border: 2px solid var(--border, #e5e7eb);
     text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-sm, 8px);
   }
 
   .prompt-text {

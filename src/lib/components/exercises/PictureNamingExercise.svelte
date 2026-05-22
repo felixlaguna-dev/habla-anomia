@@ -120,10 +120,11 @@
     }
   }
 
-  async function speakWord() {
-    if (synthesis && !isSpeaking && currentWord) {
+  async function speakWord(word?: string) {
+    const text = word ?? currentWord?.word;
+    if (synthesis && !isSpeaking && text) {
       isSpeaking = true;
-      await synthesis.speak(currentWord.word, speechLang);
+      await synthesis.speak(text, speechLang);
       isSpeaking = false;
     }
   }
@@ -304,7 +305,7 @@
       <div class="feedback correct" role="status" aria-live="polite">
         <span class="feedback-icon">✅</span>
         <span class="feedback-text">{currentWord.word}</span>
-        <button class="speak-btn" onclick={speakWord} disabled={isSpeaking} aria-label={$t('common.listen')}>
+        <button class="speak-btn" onclick={() => speakWord()} disabled={isSpeaking} aria-label={$t('common.listen')}>
           {isSpeaking ? '🔊…' : '🔊'}
         </button>
       </div>
@@ -394,10 +395,13 @@
     </div>
     <p class="summary-score" aria-atomic="true">{$t('feedback.score')}: {score} / {words.length}</p>
     <div class="summary-details">
-      {#each results as result, i}
-        <div class="result-row" class:pass={result.correct} class:fail={!result.correct}>
-          <span class="result-word">{result.word.word}</span>
-          <span class="result-icon">{result.correct ? '✅' : '❌'}</span>
+    {#each results as result, i}
+       <div class="result-row" class:pass={result.correct} class:fail={!result.correct}>
+         <span class="result-word">{result.word.word}</span>
+         <button class="speak-btn" onclick={() => speakWord(result.word.word)} disabled={isSpeaking} aria-label={$t('common.listen')}>
+           {isSpeaking ? '🔊…' : '🔊'}
+         </button>
+         <span class="result-icon">{result.correct ? '✅' : '❌'}</span>
           {#if result.hintsUsed > 0}
             <span class="result-hints">💡×{result.hintsUsed}</span>
           {/if}

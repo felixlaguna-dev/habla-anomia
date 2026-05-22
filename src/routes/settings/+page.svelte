@@ -162,40 +162,40 @@
       <h1 class="page-title">{$t('settings.title')}</h1>
     </header>
 
-    <!-- Text size -->
-    <section class="setting-section">
-      <h2 class="setting-label">{$t('settings.text_size')}</h2>
-      <Card>
-        <div class="setting-content">
-          <ChipGroup
-            options={textSizeOptions.map(o => ({ value: o.value, label: $t(o.labelKey) }))}
-            selectedValue={settings.text_size}
-            onchange={(value: string) => updateSetting('text_size', value as AppSettings['text_size'])}
-          />
-        </div>
-      </Card>
-    </section>
+    <!-- Card 1: Appearance -->
+    <Card>
+      <div class="card-section">
+        <h2 class="card-heading">{$t('settings.appearance')}</h2>
 
-    <!-- Theme -->
-    <section class="setting-section">
-      <h2 class="setting-label">{$t('settings.theme')}</h2>
-      <Card>
-        <div class="setting-content">
-          <ChipGroup
-            options={themeOptions.map(o => ({ value: o.value, label: $t(o.labelKey) }))}
-            selectedValue={settings.theme}
-            onchange={(value: string) => updateSetting('theme', value as AppSettings['theme'])}
-          />
+        <div class="setting-row">
+          <span class="setting-name">{$t('settings.text_size')}</span>
+          <div class="setting-control">
+            <ChipGroup
+              options={textSizeOptions.map(o => ({ value: o.value, label: $t(o.labelKey) }))}
+              selectedValue={settings.text_size}
+              onchange={(value: string) => updateSetting('text_size', value as AppSettings['text_size'])}
+            />
+          </div>
         </div>
-      </Card>
-    </section>
 
-    <!-- High contrast toggle -->
-    <section class="setting-section">
-      <h2 class="setting-label">{$t('settings.high_contrast')}</h2>
-      <Card>
-        <div class="setting-content">
-          <div class="toggle-row">
+        <div class="setting-divider"></div>
+
+        <div class="setting-row">
+          <span class="setting-name">{$t('settings.theme')}</span>
+          <div class="setting-control">
+            <ChipGroup
+              options={themeOptions.map(o => ({ value: o.value, label: $t(o.labelKey) }))}
+              selectedValue={settings.theme}
+              onchange={(value: string) => updateSetting('theme', value as AppSettings['theme'])}
+            />
+          </div>
+        </div>
+
+        <div class="setting-divider"></div>
+
+        <div class="setting-row">
+          <span class="setting-name">{$t('settings.high_contrast')}</span>
+          <div class="setting-control">
             <button
               class="toggle-switch"
               class:toggle-on={settings.high_contrast}
@@ -211,61 +211,17 @@
             </button>
           </div>
         </div>
-      </Card>
-    </section>
+      </div>
+    </Card>
 
-    <!-- Speech recognition toggle -->
-    <section class="setting-section">
-      <h2 class="setting-label">{$t('settings.speech_recognition')}</h2>
-      <Card>
-        <div class="setting-content">
-          <div class="toggle-row">
-            <button
-              class="toggle-switch"
-              class:toggle-on={settings.speech_enabled}
-              onclick={() => updateSetting('speech_enabled', !settings!.speech_enabled)}
-              role="switch"
-              aria-checked={settings.speech_enabled}
-              aria-label={$t('settings.speech_recognition')}
-            >
-              <span class="toggle-track">
-                <span class="toggle-thumb"></span>
-              </span>
-              <span class="toggle-label-text">{settings.speech_enabled ? 'Sí' : 'No'}</span>
-            </button>
-          </div>
-        </div>
-      </Card>
-    </section>
+    <!-- Card 2: Audio & vibration -->
+    <Card>
+      <div class="card-section">
+        <h2 class="card-heading">{$t('settings.audio_vibration')}</h2>
 
-    <!-- Speech rate -->
-    <section class="setting-section">
-      <h2 class="setting-label">{$t('settings.speech_rate')}</h2>
-      <Card>
-        <div class="setting-content">
-          <div class="slider-container">
-            <input
-              type="range"
-              min="0.5"
-              max="1.5"
-              step="0.1"
-              value={settings.speech_rate}
-              oninput={(e: Event) => updateSetting('speech_rate', parseFloat((e.target as HTMLInputElement).value))}
-              class="slider"
-              aria-label={$t('settings.speech_rate')}
-            />
-            <span class="slider-value" aria-atomic="true">{settings.speech_rate.toFixed(1)}x</span>
-          </div>
-        </div>
-      </Card>
-    </section>
-
-    <!-- Sound effects -->
-    <section class="setting-section">
-      <h2 class="setting-label">{$t('settings.sound_effects')}</h2>
-      <Card>
-        <div class="setting-content">
-          <div class="toggle-row">
+        <div class="setting-row">
+          <span class="setting-name">{$t('settings.sound_effects')}</span>
+          <div class="setting-control">
             <button
               class="toggle-switch"
               class:toggle-on={settings.sound_enabled}
@@ -281,63 +237,12 @@
             </button>
           </div>
         </div>
-      </Card>
-    </section>
 
-    <!-- Haptic feedback -->
-    <section class="setting-section">
-      <h2 class="setting-label">{$t('settings.haptic_feedback')}</h2>
-      <Card>
-        <div class="setting-content">
-          <div class="toggle-row">
-            <button
-              class="toggle-switch"
-              class:toggle-on={settings.haptic_enabled}
-              onclick={() => updateSetting('haptic_enabled', !settings!.haptic_enabled)}
-              role="switch"
-              aria-checked={settings.haptic_enabled}
-              aria-label={$t('settings.haptic_feedback')}
-            >
-              <span class="toggle-track">
-                <span class="toggle-thumb"></span>
-              </span>
-              <span class="toggle-label-text">{settings.haptic_enabled ? 'Sí' : 'No'}</span>
-            </button>
-          </div>
-        </div>
-      </Card>
-    </section>
+        <div class="setting-divider"></div>
 
-    <!-- Timer -->
-    <section class="setting-section">
-      <h2 class="setting-label">{$t('settings.timer_enabled')}</h2>
-      <Card>
-        <div class="setting-content">
-          <div class="toggle-row">
-            <button
-              class="toggle-switch"
-              class:toggle-on={settings.timer_enabled}
-              onclick={() => updateSetting('timer_enabled', !settings!.timer_enabled)}
-              role="switch"
-              aria-checked={settings.timer_enabled}
-              aria-label={$t('settings.timer_enabled')}
-            >
-              <span class="toggle-track">
-                <span class="toggle-thumb"></span>
-              </span>
-              <span class="toggle-label-text">{settings.timer_enabled ? 'Sí' : 'No'}</span>
-            </button>
-          </div>
-        </div>
-      </Card>
-    </section>
-
-    <!-- Speak buttons -->
-    <section class="setting-section">
-      <h2 class="setting-label">{$t('settings.speak_buttons')}</h2>
-      <Card>
-        <div class="setting-content">
-          <div class="toggle-row">
+        <div class="setting-row">
+          <span class="setting-name">{$t('settings.speak_buttons')}</span>
+          <div class="setting-control">
             <button
               class="toggle-switch"
               class:toggle-on={settings.speak_buttons_enabled}
@@ -353,41 +258,102 @@
             </button>
           </div>
         </div>
-      </Card>
-    </section>
 
-    <!-- About link -->
-    <section class="setting-section">
-      <Card>
+        <div class="setting-divider"></div>
+
+        <div class="setting-row">
+          <span class="setting-name">{$t('settings.speech_rate')}</span>
+          <div class="setting-control slider-control">
+            <input
+              type="range"
+              min="0.5"
+              max="1.5"
+              step="0.1"
+              value={settings.speech_rate}
+              oninput={(e: Event) => updateSetting('speech_rate', parseFloat((e.target as HTMLInputElement).value))}
+              class="slider"
+              aria-label={$t('settings.speech_rate')}
+            />
+            <span class="slider-value" aria-atomic="true">{settings.speech_rate.toFixed(1)}x</span>
+          </div>
+        </div>
+
+        <div class="setting-divider"></div>
+
+        <div class="setting-row">
+          <span class="setting-name">{$t('settings.haptic_feedback')}</span>
+          <div class="setting-control">
+            <button
+              class="toggle-switch"
+              class:toggle-on={settings.haptic_enabled}
+              onclick={() => updateSetting('haptic_enabled', !settings!.haptic_enabled)}
+              role="switch"
+              aria-checked={settings.haptic_enabled}
+              aria-label={$t('settings.haptic_feedback')}
+            >
+              <span class="toggle-track">
+                <span class="toggle-thumb"></span>
+              </span>
+              <span class="toggle-label-text">{settings.haptic_enabled ? 'Sí' : 'No'}</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="setting-divider"></div>
+
+        <div class="setting-row">
+          <span class="setting-name">{$t('settings.timer_enabled')}</span>
+          <div class="setting-control">
+            <button
+              class="toggle-switch"
+              class:toggle-on={settings.timer_enabled}
+              onclick={() => updateSetting('timer_enabled', !settings!.timer_enabled)}
+              role="switch"
+              aria-checked={settings.timer_enabled}
+              aria-label={$t('settings.timer_enabled')}
+            >
+              <span class="toggle-track">
+                <span class="toggle-thumb"></span>
+              </span>
+              <span class="toggle-label-text">{settings.timer_enabled ? 'Sí' : 'No'}</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </Card>
+
+    <!-- Card 3: Data -->
+    <Card>
+      <div class="card-section">
+        <h2 class="card-heading">{$t('settings.data')}</h2>
+
+        <div class="data-buttons">
+          <Button variant="secondary" fullWidth onclick={handleExport} aria-label={$t('progress.export')}>
+            {$t('progress.export')}
+          </Button>
+          <Button variant="secondary" fullWidth onclick={handleImport} aria-label={$t('progress.import')}>
+            {$t('progress.import')}
+          </Button>
+          <button
+            class="delete-data-btn"
+            class:confirming={deleteConfirming}
+            onclick={handleClearAll}
+            aria-label={deleteConfirming ? '¿Seguro? Toca de nuevo' : $t('progress.clear_data')}
+          >
+            {deleteConfirming ? '⚠️ ¿Seguro? Toca de nuevo' : $t('progress.clear_data')}
+          </button>
+        </div>
+
+        <div class="setting-divider"></div>
+
         <button class="about-link" onclick={() => goto(`${base}/about`)} aria-label={$t('settings.about')}>
           <span>{$t('settings.about')}</span>
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
             <polyline points="9 18 15 12 9 6"/>
           </svg>
         </button>
-      </Card>
-    </section>
-
-    <!-- Data management -->
-    <section class="setting-section">
-      <h2 class="setting-label">{$t('settings.title')}</h2>
-      <div class="data-buttons">
-        <Button variant="secondary" fullWidth onclick={handleExport} aria-label={$t('progress.export')}>
-          {$t('progress.export')}
-        </Button>
-        <Button variant="secondary" fullWidth onclick={handleImport} aria-label={$t('progress.import')}>
-          {$t('progress.import')}
-        </Button>
-        <button
-          class="delete-data-btn"
-          class:confirming={deleteConfirming}
-          onclick={handleClearAll}
-          aria-label={deleteConfirming ? '¿Seguro? Toca de nuevo' : $t('progress.clear_data')}
-        >
-          {deleteConfirming ? '⚠️ ¿Seguro? Toca de nuevo' : $t('progress.clear_data')}
-        </button>
       </div>
-    </section>
+    </Card>
   </section>
 {/if}
 
@@ -441,28 +407,43 @@
     color: var(--text);
   }
 
-  .setting-section {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-sm);
-  }
-
-  .setting-label {
-    font-size: var(--font-size-base);
-    font-weight: 600;
-    color: var(--text-dim);
-    padding-left: var(--space-xs);
-  }
-
-  .setting-content {
+  /* Card section layout */
+  .card-section {
     padding: var(--space-sm);
   }
 
-  /* Toggle row */
-  .toggle-row {
+  .card-heading {
+    font-size: var(--font-size-lg);
+    font-weight: 700;
+    color: var(--text);
+    margin: 0 0 var(--space-md) 0;
+    padding: 0 var(--space-xs);
+  }
+
+  /* Setting rows */
+  .setting-row {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xs);
+    padding: var(--space-sm) var(--space-xs);
+  }
+
+  .setting-name {
+    font-size: var(--font-size-base);
+    font-weight: 600;
+    color: var(--text);
+  }
+
+  .setting-control {
     display: flex;
     align-items: center;
     justify-content: flex-end;
+  }
+
+  .setting-divider {
+    height: 1px;
+    background: var(--border);
+    margin: var(--space-xs) var(--space-xs);
   }
 
   /* Toggle switch button */
@@ -534,9 +515,8 @@
   }
 
   /* Slider */
-  .slider-container {
-    display: flex;
-    align-items: center;
+  .slider-control {
+    width: 100%;
     gap: var(--space-md);
   }
 
@@ -589,9 +569,10 @@
     border: none;
     color: var(--text);
     font-size: var(--font-size-base);
-    padding: var(--space-md);
+    padding: var(--space-md) var(--space-xs);
     cursor: pointer;
     min-height: var(--touch-min);
+    font-family: var(--font-family);
   }
 
   /* Data buttons */
@@ -599,6 +580,7 @@
     display: flex;
     flex-direction: column;
     gap: var(--space-sm);
+    padding: 0 var(--space-xs);
   }
 
   /* Delete data button with double-tap confirm */
@@ -636,4 +618,64 @@
     100% { background: #ef4444; transform: scale(1.02); }
   }
 
+  /* Tablet: bigger targets, centered, wider toggles */
+  @media (min-width: 768px) {
+    .settings-page {
+      max-width: 600px;
+      margin-inline: auto;
+    }
+
+    .page-title {
+      font-size: var(--font-size-3xl);
+    }
+
+    .card-heading {
+      font-size: var(--font-size-xl);
+    }
+
+    .setting-name {
+      font-size: var(--font-size-lg);
+    }
+
+    .toggle-track {
+      width: 64px;
+      height: 36px;
+      border-radius: 18px;
+    }
+
+    .toggle-thumb {
+      width: 28px;
+      height: 28px;
+    }
+
+    .toggle-on .toggle-thumb {
+      transform: translateX(28px);
+    }
+
+    .toggle-label-text {
+      font-size: var(--font-size-lg);
+    }
+
+    .slider {
+      height: 8px;
+    }
+
+    .slider::-webkit-slider-thumb {
+      width: 28px;
+      height: 28px;
+    }
+
+    .slider::-moz-range-thumb {
+      width: 28px;
+      height: 28px;
+    }
+
+    .slider-value {
+      font-size: var(--font-size-xl);
+    }
+
+    .about-link {
+      font-size: var(--font-size-lg);
+    }
+  }
 </style>

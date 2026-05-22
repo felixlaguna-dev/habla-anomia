@@ -525,6 +525,59 @@
     }
   }
 
+  /* Tablet (768px+): bigger everything */
+  @media (min-width: 768px) {
+    .dashboard {
+      max-width: 700px;
+      margin-inline: auto;
+    }
+
+    .app-title {
+      font-size: 2.5rem;
+    }
+
+    .stat-number {
+      font-size: 2rem;
+    }
+
+    .stat-label {
+      font-size: 0.9rem;
+    }
+
+    .section-title {
+      font-size: 1.5rem;
+    }
+
+    .plan-icon {
+      width: 3rem;
+      height: 3rem;
+      font-size: 1.5rem;
+    }
+
+    .plan-label {
+      font-size: 1.15rem;
+    }
+
+    .plan-start-btn {
+      min-height: 56px;
+      font-size: 1rem;
+    }
+
+    .exercise-chip {
+      min-height: 56px;
+      font-size: 1rem;
+      padding: 1rem 1.25rem;
+    }
+  }
+
+  /* Larger tablets (1024px+): wider chips grid */
+  @media (min-width: 1024px) {
+    .exercise-chips {
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1rem;
+    }
+  }
+
   /* Small mobile */
   @media (max-width: 374px) {
     .stats-grid {

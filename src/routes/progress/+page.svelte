@@ -598,4 +598,52 @@
       grid-template-columns: repeat(2, 1fr);
     }
   }
+
+  /* Tablet: centered, bigger text */
+  @media (min-width: 768px) {
+    .progress-page {
+      max-width: 700px;
+      margin-inline: auto;
+    }
+
+    .page-title {
+      font-size: var(--font-size-3xl);
+    }
+
+    .section-title {
+      font-size: var(--font-size-2xl);
+    }
+
+    .overall-value {
+      font-size: 3rem;
+    }
+
+    .streak-value {
+      font-size: 2.5rem;
+    }
+
+    .overall-label {
+      font-size: var(--font-size-lg);
+    }
+
+    .counter-value {
+      font-size: var(--font-size-3xl);
+    }
+
+    .counter-label {
+      font-size: var(--font-size-base);
+    }
+
+    .breakdown-bar-bg {
+      height: 10px;
+    }
+
+    .breakdown-name {
+      font-size: var(--font-size-lg);
+    }
+
+    .breakdown-value {
+      font-size: var(--font-size-lg);
+    }
+  }
 </style>

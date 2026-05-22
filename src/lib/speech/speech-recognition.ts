@@ -13,6 +13,9 @@ export class SpeechRecognitionService {
   private recognition: any = null;
   private isListening = false;
   private shouldRestart = false; // Safari auto-restart guard
+  private silenceTimer: ReturnType<typeof setTimeout> | null = null;
+  private readonly SILENCE_TIMEOUT_MS = 4000; // Auto-stop after 4s of no new speech
+  private lastSpeechTime = 0;
   private callbacks: Map<SpeechEventType, Function[]> = new Map();
 
   constructor(language: string = 'es-ES') {
@@ -46,9 +49,11 @@ export class SpeechRecognitionService {
       }
 
       if (finalTranscript) {
+        this.clearSilenceTimer();
         this.emit('result', finalTranscript.trim());
       }
       if (interimTranscript) {
+        this.resetSilenceTimer();
         this.emit('interim', interimTranscript.trim());
       }
     };
@@ -59,6 +64,7 @@ export class SpeechRecognitionService {
     };
 
     this.recognition.onend = () => {
+      this.clearSilenceTimer();
       this.isListening = false;
       this.emit('end', undefined);
 
@@ -78,6 +84,7 @@ export class SpeechRecognitionService {
 
     this.recognition.onstart = () => {
       this.isListening = true;
+      this.resetSilenceTimer();
       this.emit('start', undefined);
     };
   }
@@ -95,6 +102,7 @@ export class SpeechRecognitionService {
     if (!this.recognition) return;
     if (this.isListening) return; // Already listening — avoid InvalidStateError
     this.shouldRestart = false;
+    this.clearSilenceTimer();
     try {
       this.recognition.start();
     } catch (e) {
@@ -106,6 +114,7 @@ export class SpeechRecognitionService {
   stop(): void {
     if (!this.recognition) return;
     this.shouldRestart = false;
+    this.clearSilenceTimer();
     try {
       this.recognition.stop();
     } catch {
@@ -141,6 +150,27 @@ export class SpeechRecognitionService {
   setLanguage(lang: string): void {
     if (this.recognition) {
       this.recognition.lang = lang;
+    }
+  }
+
+  // --- Silence timer (iOS Safari workaround) ---
+
+  /** Reset the silence countdown — called on each interim result and on start */
+  private resetSilenceTimer(): void {
+    this.clearSilenceTimer();
+    this.lastSpeechTime = Date.now();
+    this.silenceTimer = setTimeout(() => {
+      if (this.isListening) {
+        this.stop(); // Auto-stop after silence
+      }
+    }, this.SILENCE_TIMEOUT_MS);
+  }
+
+  /** Clear the silence countdown */
+  private clearSilenceTimer(): void {
+    if (this.silenceTimer !== null) {
+      clearTimeout(this.silenceTimer);
+      this.silenceTimer = null;
     }
   }
 

@@ -650,12 +650,8 @@
     }
   }
 
-  /* Landscape tablet: use full width, side-by-side breakdowns */
+  /* Landscape tablet: side-by-side breakdowns */
   @media (min-width: 768px) and (orientation: landscape) {
-    .progress-page {
-      max-width: 100%;
-    }
-
     .top-stats {
       grid-template-columns: repeat(2, 1fr);
       gap: var(--space-md);

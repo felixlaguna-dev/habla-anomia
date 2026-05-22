@@ -681,12 +681,8 @@
     }
   }
 
-  /* Landscape tablet: use wider space, 2-column card grid */
+  /* Landscape tablet: 2-column card grid */
   @media (min-width: 768px) and (orientation: landscape) {
-    .settings-page {
-      max-width: 100%;
-    }
-
     .settings-cards {
       display: grid;
       grid-template-columns: 1fr 1fr;

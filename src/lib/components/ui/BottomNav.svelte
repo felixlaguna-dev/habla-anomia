@@ -192,16 +192,10 @@
     }
   }
 
-  /* Landscape tablet: wider nav bar */
+  /* Landscape tablet: match main content width */
   @media (min-width: 768px) and (orientation: landscape) {
     .nav-list {
-      max-width: 1024px;
-    }
-  }
-
-  @media (min-width: 1024px) and (orientation: landscape) {
-    .nav-list {
-      max-width: 1100px;
+      max-width: 960px;
     }
   }
 </style>

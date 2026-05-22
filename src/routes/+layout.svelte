@@ -88,7 +88,6 @@
     color: var(--text-primary, #f1f5f9);
     overflow-x: hidden;
     width: 100%;
-    max-width: 100vw;
   }
 
   .light-theme {
@@ -111,15 +110,8 @@
   /* Landscape tablet: use wider layout */
   @media (min-width: 768px) and (orientation: landscape) {
     .main-content {
-      max-width: 1024px;
-      padding: 1.5rem 2rem;
-    }
-  }
-
-  /* Large landscape (iPad Pro 12.9", etc) */
-  @media (min-width: 1024px) and (orientation: landscape) {
-    .main-content {
-      max-width: 1100px;
+      max-width: 960px;
+      padding: 1rem 1.5rem;
     }
   }
 </style>

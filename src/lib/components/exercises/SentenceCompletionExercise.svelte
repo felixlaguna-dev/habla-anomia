@@ -17,9 +17,10 @@
   type Props = {
     words: Word[];
     language?: Language;
-    speechEnabled?: boolean;
-    speechRate?: number;
-    onComplete?: (results: { score: number; total: number; details: Array<{ word: Word; correct: boolean; hintsUsed: number }> }) => void;
+   speechEnabled?: boolean;
+   speechRate?: number;
+   speakButtonsEnabled?: boolean;
+   onComplete?: (results: { score: number; total: number; details: Array<{ word: Word; correct: boolean; hintsUsed: number }> }) => void;
     onRestart?: () => void;
   };
 
@@ -28,6 +29,7 @@
     language = 'es' as Language,
     speechEnabled = true,
     speechRate = 0.8,
+    speakButtonsEnabled = true,
     onComplete,
     onRestart,
   }: Props = $props();
@@ -289,11 +291,13 @@
         <p class="sentence">
           <span class="sentence-part">{sentenceParts.before}</span>
           <span class="blank" class:filled={feedbackState === 'correct' || isRevealed}>
-            {#if feedbackState === 'correct' || isRevealed}
-              {currentWord.word}
-              <button class="speak-btn" onclick={() => speakWord(currentWord.word)} disabled={isSpeaking} aria-label={$t('common.listen')}>
-                {isSpeaking ? '🔊…' : '🔊'}
-              </button>
+           {#if feedbackState === 'correct' || isRevealed}
+             {currentWord.word}
+             {#if speakButtonsEnabled}
+             <button class="speak-btn" onclick={() => speakWord(currentWord.word)} disabled={isSpeaking} aria-label={$t('common.listen')}>
+               {isSpeaking ? '🔊…' : '🔊'}
+             </button>
+             {/if}
             {:else}
               ___________
             {/if}
@@ -301,10 +305,12 @@
           <span class="sentence-part">{sentenceParts.after}</span>
         </p>
       {:else}
-        <p class="sentence-fallback">{$t('exercises.sentence_completion.complete_sentence')}: <strong>{currentWord.word}</strong>
-          <button class="speak-btn" onclick={() => speakWord(currentWord.word)} disabled={isSpeaking} aria-label={$t('common.listen')}>
-            {isSpeaking ? '🔊…' : '🔊'}
-          </button>
+       <p class="sentence-fallback">{$t('exercises.sentence_completion.complete_sentence')}: <strong>{currentWord.word}</strong>
+         {#if speakButtonsEnabled}
+         <button class="speak-btn" onclick={() => speakWord(currentWord.word)} disabled={isSpeaking} aria-label={$t('common.listen')}>
+           {isSpeaking ? '🔊…' : '🔊'}
+         </button>
+         {/if}
         </p>
       {/if}
     </div>
@@ -313,10 +319,12 @@
     {#if feedbackState === 'correct'}
       <div class="feedback correct" role="status" aria-live="polite">
         <span>✅</span>
-        <span>{getRandomEncouragement()}</span>
-        <button class="speak-btn" onclick={() => speakWord()} disabled={isSpeaking} aria-label="Listen">
-          {isSpeaking ? '🔊…' : '🔊'}
-        </button>
+       <span>{getRandomEncouragement()}</span>
+       {#if speakButtonsEnabled}
+       <button class="speak-btn" onclick={() => speakWord()} disabled={isSpeaking} aria-label="Listen">
+         {isSpeaking ? '🔊…' : '🔊'}
+       </button>
+       {/if}
       </div>
     {:else if feedbackState === 'incorrect'}
       <div class="feedback incorrect" role="status" aria-live="polite">
@@ -387,10 +395,12 @@
     <!-- If fully revealed, auto-advance -->
     {#if isRevealed && feedbackState !== 'correct'}
       <div class="revealed-message">
-        <p>{$t('feedback.the_answer_was', { answer: currentWord.word })}
-          <button class="speak-btn" onclick={() => speakWord(currentWord.word)} disabled={isSpeaking} aria-label={$t('common.listen')}>
-            {isSpeaking ? '🔊…' : '🔊'}
-          </button>
+       <p>{$t('feedback.the_answer_was', { answer: currentWord.word })}
+         {#if speakButtonsEnabled}
+         <button class="speak-btn" onclick={() => speakWord(currentWord.word)} disabled={isSpeaking} aria-label={$t('common.listen')}>
+           {isSpeaking ? '🔊…' : '🔊'}
+         </button>
+         {/if}
         </p>
       </div>
       <button class="next-btn" onclick={skipWord} aria-label={$t('common.next')}>
@@ -420,10 +430,12 @@
     <div class="summary-details">
       {#each results as result, i}
         <div class="result-row" class:pass={result.correct} class:fail={!result.correct}>
-          <span class="result-word">{result.word.word}</span>
-          <button class="speak-btn" onclick={() => speakWord(result.word.word)} disabled={isSpeaking} aria-label={$t('common.listen')}>
-            {isSpeaking ? '🔊…' : '🔊'}
-          </button>
+         <span class="result-word">{result.word.word}</span>
+         {#if speakButtonsEnabled}
+         <button class="speak-btn" onclick={() => speakWord(result.word.word)} disabled={isSpeaking} aria-label={$t('common.listen')}>
+           {isSpeaking ? '🔊…' : '🔊'}
+         </button>
+         {/if}
           <span class="result-icon">{result.correct ? '✅' : '❌'}</span>
           {#if result.hintsUsed > 0}
             <span class="result-hints">💡×{result.hintsUsed}</span>

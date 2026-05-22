@@ -17,13 +17,14 @@
   type Props = {
     words: Word[];
     language: Language;
-    speechEnabled?: boolean;
-    speechRate?: number;
-    onComplete?: (results: { score: number; total: number; details: Array<{ word: Word; correct: boolean; selectedCategory: string }> }) => void;
+   speechEnabled?: boolean;
+   speechRate?: number;
+   speakButtonsEnabled?: boolean;
+   onComplete?: (results: { score: number; total: number; details: Array<{ word: Word; correct: boolean; selectedCategory: string }> }) => void;
     onRestart?: () => void;
   };
 
-  let { words, language = 'es' as Language, speechEnabled = true, speechRate = 0.8, onComplete, onRestart }: Props = $props();
+  let { words, language = 'es' as Language, speechEnabled = true, speechRate = 0.8, speakButtonsEnabled = true, onComplete, onRestart }: Props = $props();
 
   // Derive categories from the word list (flatten multi-category)
   let categories = $derived([...new Set(words.flatMap(w => getWordCategories(w)))]);
@@ -274,10 +275,12 @@
     <!-- Feedback -->
     {#if feedbackState === 'correct'}
       <div class="feedback correct" role="status" aria-live="polite">
-        ✅ {$t('exercises.category_sorting.correct')}
-        <button class="speak-btn" onclick={() => speakWord()} disabled={isSpeaking} aria-label="Listen">
-          {isSpeaking ? '🔊…' : '🔊'}
-        </button>
+       ✅ {$t('exercises.category_sorting.correct')}
+       {#if speakButtonsEnabled}
+       <button class="speak-btn" onclick={() => speakWord()} disabled={isSpeaking} aria-label="Listen">
+         {isSpeaking ? '🔊…' : '🔊'}
+       </button>
+       {/if}
       </div>
     {:else if feedbackState === 'incorrect'}
       <div class="feedback incorrect" role="status" aria-live="polite">
@@ -361,10 +364,12 @@
     <div class="summary-details">
       {#each results as result, i}
         <div class="result-row" class:pass={result.correct} class:fail={!result.correct}>
-          <span class="result-word">{result.word.word}</span>
-          <button class="speak-btn" onclick={() => speakWord(result.word.word)} disabled={isSpeaking} aria-label={$t('common.listen')}>
-            {isSpeaking ? '🔊…' : '🔊'}
-          </button>
+         <span class="result-word">{result.word.word}</span>
+         {#if speakButtonsEnabled}
+         <button class="speak-btn" onclick={() => speakWord(result.word.word)} disabled={isSpeaking} aria-label={$t('common.listen')}>
+           {isSpeaking ? '🔊…' : '🔊'}
+         </button>
+         {/if}
           <span class="result-icon">{result.correct ? '✅' : '❌'}</span>
           <span class="result-category">📁 {translateCategory(getWordCategories(result.word)[0])}</span>
         </div>

@@ -17,9 +17,10 @@
   type Props = {
     words: Word[];
     allWords?: Word[];
-    speechEnabled?: boolean;
-    speechRate?: number;
-    timerEnabled?: boolean;
+   speechEnabled?: boolean;
+   speechRate?: number;
+   speakButtonsEnabled?: boolean;
+   timerEnabled?: boolean;
     language?: Language;
     category?: string;
     durationSeconds?: number;
@@ -30,7 +31,7 @@
   let {
     words,
     allWords = [],
-    language = 'es' as Language, speechEnabled = true, speechRate = 0.8, timerEnabled = true,
+    language = 'es' as Language, speechEnabled = true, speechRate = 0.8, speakButtonsEnabled = true, timerEnabled = true,
     category,
     durationSeconds = 60,
     onComplete,
@@ -326,10 +327,12 @@
           {:else if state === 'selected-invalid'}
             <span class="word-cross">✗</span>
           {/if}
-          <span class="pool-word-text">{item.word}</span>
-          <button class="speak-btn" onclick={(e) => { e.stopPropagation(); speakWord(item.word); }} disabled={isSpeaking} aria-label={$t('common.listen')}>
-            {isSpeaking ? '🔊…' : '🔊'}
-          </button>
+         <span class="pool-word-text">{item.word}</span>
+         {#if speakButtonsEnabled}
+         <button class="speak-btn" onclick={(e) => { e.stopPropagation(); speakWord(item.word); }} disabled={isSpeaking} aria-label={$t('common.listen')}>
+           {isSpeaking ? '🔊…' : '🔊'}
+         </button>
+         {/if}
         </div>
       {/each}
     </div>
@@ -381,11 +384,13 @@
         <h3>{$t('exercises.generative_naming.words_found')}</h3>
         <div class="word-list">
           {#each validWordsFound as word}
-            <span class="word-chip valid">
-              {word}
-              <button class="speak-btn" onclick={() => speakWord(word)} disabled={isSpeaking} aria-label="Listen">
-                {isSpeaking ? '🔊…' : '🔊'}
-              </button>
+           <span class="word-chip valid">
+             {word}
+             {#if speakButtonsEnabled}
+             <button class="speak-btn" onclick={() => speakWord(word)} disabled={isSpeaking} aria-label="Listen">
+               {isSpeaking ? '🔊…' : '🔊'}
+             </button>
+             {/if}
             </span>
           {/each}
         </div>

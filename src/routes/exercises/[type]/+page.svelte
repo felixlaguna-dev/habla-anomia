@@ -225,6 +225,7 @@
         speechEnabled={settings?.speech_enabled ?? true}
         speechRate={settings?.speech_rate ?? 0.8}
         timerEnabled={settings?.timer_enabled ?? true}
+        speakButtonsEnabled={settings?.speak_buttons_enabled ?? true}
         oncomplete={handleComplete}
         onrestart={handleRestart}
       />
@@ -298,7 +299,7 @@
           <div class="word-chips">
             {#each correctWords.slice(0, 10) as word}
               <button class="word-chip correct-chip" class:speaking={speakingWord === word.word} onclick={() => speakWord(word.word, settings?.language ?? 'es')}>
-                {word.word} 🔊
+                {word.word}{#if settings?.speak_buttons_enabled ?? true} 🔊{/if}
               </button>
             {/each}
           </div>
@@ -311,7 +312,7 @@
           <div class="word-chips">
             {#each incorrectWords.slice(0, 10) as word}
               <button class="word-chip incorrect-chip" class:speaking={speakingWord === word.word} onclick={() => speakWord(word.word, settings?.language ?? 'es')}>
-                {word.word} 🔊
+                {word.word}{#if settings?.speak_buttons_enabled ?? true} 🔊{/if}
               </button>
             {/each}
           </div>

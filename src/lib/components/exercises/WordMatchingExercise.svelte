@@ -19,16 +19,17 @@
   type Props = {
     words: Word[];
     language?: Language;
-    speechEnabled?: boolean;
-    speechRate?: number;
-    mode?: MatchingMode;
+   speechEnabled?: boolean;
+   speechRate?: number;
+   speakButtonsEnabled?: boolean;
+   mode?: MatchingMode;
     onComplete?: (results: { score: number; total: number; details: Array<{ word: Word; correct: boolean }> }) => void;
     onRestart?: () => void;
   };
 
   let {
     words,
-    language = 'es' as Language, speechEnabled = true, speechRate = 0.8,
+    language = 'es' as Language, speechEnabled = true, speechRate = 0.8, speakButtonsEnabled = true,
     mode = 'word-to-definition',
     onComplete,
     onRestart,
@@ -300,10 +301,12 @@
           onerror={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
         />
       {:else}
-        <p class="prompt-text">{promptText}</p>
-        <button class="speak-btn" onclick={() => speakWord(currentWord.word)} disabled={isSpeaking} aria-label={$t('common.listen')}>
-          {isSpeaking ? '🔊…' : '🔊'}
-        </button>
+       <p class="prompt-text">{promptText}</p>
+       {#if speakButtonsEnabled}
+       <button class="speak-btn" onclick={() => speakWord(currentWord.word)} disabled={isSpeaking} aria-label={$t('common.listen')}>
+         {isSpeaking ? '🔊…' : '🔊'}
+       </button>
+       {/if}
       {/if}
     </div>
 
@@ -311,18 +314,22 @@
     {#if feedbackState === 'correct'}
       <div class="feedback correct" role="status" aria-live="polite">
         <span>✅</span>
-        <span>{getRandomEncouragement()}</span>
-        <button class="speak-btn" onclick={() => speakWord()} disabled={isSpeaking} aria-label="Listen">
-          {isSpeaking ? '🔊…' : '🔊'}
-        </button>
+       <span>{getRandomEncouragement()}</span>
+       {#if speakButtonsEnabled}
+       <button class="speak-btn" onclick={() => speakWord()} disabled={isSpeaking} aria-label="Listen">
+         {isSpeaking ? '🔊…' : '🔊'}
+       </button>
+       {/if}
       </div>
     {:else if feedbackState === 'incorrect'}
       <div class="feedback incorrect" role="status" aria-live="polite">
         <span>❌</span>
-        <span>{$t('feedback.the_answer_was', { answer: options[correctIndex]?.text || '' })}</span>
-        <button class="speak-btn" onclick={() => speakWord(options[correctIndex]?.text)} disabled={isSpeaking} aria-label={$t('common.listen')}>
-          {isSpeaking ? '🔊…' : '🔊'}
-        </button>
+       <span>{$t('feedback.the_answer_was', { answer: options[correctIndex]?.text || '' })}</span>
+       {#if speakButtonsEnabled}
+       <button class="speak-btn" onclick={() => speakWord(options[correctIndex]?.text)} disabled={isSpeaking} aria-label={$t('common.listen')}>
+         {isSpeaking ? '🔊…' : '🔊'}
+       </button>
+       {/if}
       </div>
     {/if}
 
@@ -380,10 +387,12 @@
     <div class="summary-details">
       {#each results as result, i}
         <div class="result-row" class:pass={result.correct} class:fail={!result.correct}>
-          <span class="result-word">{result.word.word}</span>
-          <button class="speak-btn" onclick={() => speakWord(result.word.word)} disabled={isSpeaking} aria-label={$t('common.listen')}>
-            {isSpeaking ? '🔊…' : '🔊'}
-          </button>
+         <span class="result-word">{result.word.word}</span>
+         {#if speakButtonsEnabled}
+         <button class="speak-btn" onclick={() => speakWord(result.word.word)} disabled={isSpeaking} aria-label={$t('common.listen')}>
+           {isSpeaking ? '🔊…' : '🔊'}
+         </button>
+         {/if}
           <span class="result-icon">{result.correct ? '✅' : '❌'}</span>
         </div>
       {/each}

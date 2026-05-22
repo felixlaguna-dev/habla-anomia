@@ -332,6 +332,30 @@
       </Card>
     </section>
 
+    <!-- Speak buttons -->
+    <section class="setting-section">
+      <h2 class="setting-label">{$t('settings.speak_buttons')}</h2>
+      <Card>
+        <div class="setting-content">
+          <div class="toggle-row">
+            <button
+              class="toggle-switch"
+              class:toggle-on={settings.speak_buttons_enabled}
+              onclick={() => updateSetting('speak_buttons_enabled', !settings!.speak_buttons_enabled)}
+              role="switch"
+              aria-checked={settings.speak_buttons_enabled}
+              aria-label={$t('settings.speak_buttons')}
+            >
+              <span class="toggle-track">
+                <span class="toggle-thumb"></span>
+              </span>
+              <span class="toggle-label-text">{settings.speak_buttons_enabled ? 'Sí' : 'No'}</span>
+            </button>
+          </div>
+        </div>
+      </Card>
+    </section>
+
     <!-- About link -->
     <section class="setting-section">
       <Card>

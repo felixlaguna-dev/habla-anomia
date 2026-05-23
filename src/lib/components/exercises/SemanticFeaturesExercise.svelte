@@ -850,7 +850,7 @@
     .exercise-container:not(.summary) {
       max-width: none;
       display: grid;
-      grid-template-columns: 250px 1fr;
+      grid-template-columns: 280px 1fr;
       align-items: start;
     }
 
@@ -875,12 +875,20 @@
       grid-column: 2;
     }
 
+    .question-area {
+      max-width: none;
+    }
+
     .question-area .options-grid {
       grid-template-columns: 1fr 1fr;
     }
 
     .naming-grid {
       grid-template-columns: 1fr 1fr;
+    }
+
+    .naming-area {
+      max-width: none;
     }
   }
 </style>

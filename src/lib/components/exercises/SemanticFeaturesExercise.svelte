@@ -860,7 +860,7 @@
 
     .image-area {
       grid-column: 1;
-      grid-row: 2;
+      grid-row: 2 / span 20;
       max-width: none;
       width: 100%;
       max-height: 350px;

@@ -775,7 +775,7 @@
 
     .item-card {
       grid-column: 1;
-      grid-row: 2;
+      grid-row: 2 / span 20;
       align-self: start;
     }
 

@@ -906,12 +906,12 @@
 
     .sentence-area {
       grid-column: 1;
-      grid-row: 3;
+      grid-row: 3 / span 20;
     }
 
     .answer-area {
       grid-column: 2;
-      grid-row: 3;
+      grid-row: 3 / span 20;
       max-width: none;
     }
 

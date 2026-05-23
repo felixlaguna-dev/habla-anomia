@@ -767,12 +767,12 @@
 
     .prompt-area {
       grid-column: 1;
-      grid-row: 3;
+      grid-row: 3 / span 20;
     }
 
     .options-grid {
       grid-column: 2;
-      grid-row: 3;
+      grid-row: 3 / span 20;
       grid-template-columns: 1fr 1fr;
     }
   }

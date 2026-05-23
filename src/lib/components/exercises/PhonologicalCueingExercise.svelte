@@ -935,6 +935,17 @@
       grid-column: 2;
     }
 
+    .cues-area {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-xs, 6px);
+    }
+
+    .cue-card {
+      flex: 1 1 calc(50% - 6px);
+      min-width: 0;
+    }
+
     .options-grid {
       grid-template-columns: 1fr 1fr;
     }

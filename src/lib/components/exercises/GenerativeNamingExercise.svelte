@@ -727,13 +727,25 @@
     }
 
     .word-pool {
-      grid-template-columns: repeat(3, 1fr);
+      grid-template-columns: repeat(4, 1fr);
+      max-width: none;
+      gap: var(--space-xs, 6px);
+    }
+
+    .pool-word {
+      min-height: 48px;
+      padding: 8px 10px;
+      font-size: var(--font-size-base, 16px);
+    }
+
+    .pool-word-text {
+      font-size: var(--font-size-base, 16px);
     }
   }
 
   @media (min-width: 1024px) {
     .word-pool {
-      grid-template-columns: repeat(4, 1fr);
+      grid-template-columns: repeat(5, 1fr);
     }
   }
 </style>

@@ -937,8 +937,10 @@
 
     .cues-area {
       display: flex;
+      flex-direction: row;
       flex-wrap: wrap;
       gap: var(--space-xs, 6px);
+      max-width: none;
     }
 
     .cue-card {

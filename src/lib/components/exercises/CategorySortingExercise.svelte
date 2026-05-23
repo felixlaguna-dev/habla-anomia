@@ -775,12 +775,12 @@
 
     .item-card {
       grid-column: 1;
-      grid-row: 2 / span 20;
-      align-self: center;
+      grid-row: 2;
+      align-self: start;
     }
 
     .item-image-wrapper {
-      max-height: 220px;
+      max-height: 280px;
     }
 
     .feedback,

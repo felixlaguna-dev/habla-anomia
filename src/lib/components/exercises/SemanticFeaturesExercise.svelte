@@ -77,6 +77,9 @@
   let currentPrompt = $derived(featurePrompts[currentFeatureIndex]);
   let featuresCorrectCount = $derived(Object.values(answeredFeatures).filter(Boolean).length);
 
+  // All valid category keys for distractor generation
+  const ALL_CATEGORIES = ['animals', 'food', 'body-parts', 'clothing', 'colors', 'emotions', 'family', 'household', 'nature', 'places', 'professions', 'tools', 'vehicles', 'weather', 'actions'];
+
   // Generate multiple choice options from other words' features
   $effect(() => {
     if (!currentPrompt || !words.length) {
@@ -87,18 +90,29 @@
     const correctAnswer = currentPrompt.answer;
     const key = currentPrompt.key;
 
-    // Collect all possible answers from other words
-    const allAnswers = words
-      .filter(w => w.id !== currentWord?.id)
-      .map(w => {
-        const val = w.features?.[key as keyof typeof w.features];
-        return typeof val === 'string' ? val : '';
-      })
-      .filter(v => v && v !== correctAnswer);
+    let wrongOptions: string[];
 
-    // Pick 3 unique wrong answers
-    const shuffled = [...new Set(allAnswers)].sort(() => Math.random() - 0.5);
-    const wrongOptions = shuffled.slice(0, 3);
+    if (key === 'category') {
+      // For category questions, use all 15 categories as distractor pool
+      // since session words are all from the same category
+      wrongOptions = ALL_CATEGORIES
+        .filter(c => c !== correctAnswer)
+        .sort(() => Math.random() - 0.5)
+        .slice(0, 3);
+    } else {
+      // Collect all possible answers from other words
+      const allAnswers = words
+        .filter(w => w.id !== currentWord?.id)
+        .map(w => {
+          const val = w.features?.[key as keyof typeof w.features];
+          return typeof val === 'string' ? val : '';
+        })
+        .filter(v => v && v !== correctAnswer);
+
+      // Pick 3 unique wrong answers
+      const shuffled = [...new Set(allAnswers)].sort(() => Math.random() - 0.5);
+      wrongOptions = shuffled.slice(0, 3);
+    }
 
     // Combine correct + wrong, shuffle
     const options = [correctAnswer, ...wrongOptions].sort(() => Math.random() - 0.5);
@@ -335,7 +349,7 @@
               onclick={() => selectOption(option)}
               disabled={(feedbackState as string) !== 'none'}
             >
-              {option}
+              {currentPrompt.key === 'category' ? $t('categories.' + option) : option}
               {#if speakButtonsEnabled}
                 <button class="speak-btn-inline" onclick={(e) => { e.stopPropagation(); speakWord(option); }} disabled={isSpeaking} aria-label={$t('common.listen')}>
                   🔊
@@ -361,7 +375,7 @@
 
     {#if feedbackState === 'incorrect' && !showNamingPrompt}
       <div class="feedback incorrect" role="status" aria-live="polite">
-        ❌ {$t('feedback.try_again')} → {currentPrompt.answer}
+        ❌ {$t('feedback.try_again')} → {currentPrompt.key === 'category' ? $t('categories.' + currentPrompt.answer) : currentPrompt.answer}
       </div>
     {/if}
 
@@ -846,12 +860,12 @@
 
     .image-area {
       grid-column: 1;
-      grid-row: 2 / span 20;
+      grid-row: 2;
       max-width: none;
       width: 100%;
-      max-height: 260px;
+      max-height: 350px;
       aspect-ratio: auto;
-      align-self: center;
+      align-self: start;
     }
 
     .features-bar,

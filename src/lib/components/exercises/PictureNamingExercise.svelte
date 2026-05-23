@@ -860,12 +860,12 @@
 
     .image-area {
       grid-column: 1;
-      grid-row: 2 / span 20;
+      grid-row: 2;
       max-width: none;
       width: 100%;
-      max-height: 280px;
+      max-height: 350px;
       aspect-ratio: auto;
-      align-self: center;
+      align-self: start;
     }
 
     .prompt,

@@ -29,7 +29,12 @@ export type Category =
   | 'emotions'
   | 'nature'
   | 'family'
-  | 'weather';
+  | 'weather'
+  | 'school'
+  | 'technology'
+  | 'sports'
+  | 'music'
+  | 'toys';
 
 /**
  * Safely get a word's categories array.
@@ -64,6 +69,8 @@ export interface Word {
   category?: Category;
   language: Language;
   image_url: string;
+  /** Whether a real image file exists. Defaults to true. Words without images are excluded from image-dependent exercises (PictureNaming, SemanticFeatures, PhonologicalCueing, CategorySorting). */
+  has_image?: boolean;
   definition: string;
   features: SemanticFeatures;
   phonetic: PhoneticCues;
@@ -72,6 +79,19 @@ export interface Word {
   sentence?: string;
   opposite?: string;
   synonyms?: string[];
+}
+
+/** Exercises that require an image (words without images are excluded). */
+export const IMAGE_DEPENDENT_EXERCISES: ExerciseType[] = [
+  'picture-naming',
+  'semantic-features',
+  'phonological-cueing',
+  'category-sorting',
+];
+
+/** Check if a word has a usable image. */
+export function wordHasImage(word: Word): boolean {
+  return word.has_image !== false;
 }
 
 export interface Attempt {

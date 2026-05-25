@@ -246,7 +246,12 @@
     "tools": "Tools",
     "vehicles": "Vehicles",
     "weather": "Weather",
-    "actions": "Actions"
+    "actions": "Actions",
+    "school": "School",
+    "technology": "Technology",
+    "sports": "Sports",
+    "music": "Music",
+    "toys": "Toys"
   },
   "speech": {
     "placeholder": "Tap to speak or type here...",

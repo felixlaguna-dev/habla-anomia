@@ -246,7 +246,12 @@
     "tools": "Herramientas",
     "vehicles": "Vehículos",
     "weather": "Clima",
-    "actions": "Acciones"
+    "actions": "Acciones",
+    "school": "Escuela",
+    "technology": "Tecnología",
+    "sports": "Deportes",
+    "music": "Música",
+    "toys": "Juguetes"
   },
   "speech": {
     "placeholder": "Toca para hablar o escribe aquí...",

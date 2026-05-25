@@ -246,7 +246,12 @@
     "tools": "Tresnak",
     "vehicles": "Ibilgailuak",
     "weather": "Eguraldia",
-    "actions": "Ekintzak"
+    "actions": "Ekintzak",
+    "school": "Eskola",
+    "technology": "Teknologia",
+    "sports": "Kirolak",
+    "music": "Musika",
+    "toys": "Jostailuak"
   },
   "speech": {
     "placeholder": "Sakatu hitz egiteko edo idatzi hemen...",

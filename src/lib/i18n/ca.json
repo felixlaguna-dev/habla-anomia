@@ -246,7 +246,12 @@
     "tools": "Eines",
     "vehicles": "Vehicles",
     "weather": "Clima",
-    "actions": "Accions"
+    "actions": "Accions",
+    "school": "Escola",
+    "technology": "Tecnologia",
+    "sports": "Esports",
+    "music": "Música",
+    "toys": "Joguines"
   },
   "speech": {
     "placeholder": "Toca per parlar o escriu aquí...",

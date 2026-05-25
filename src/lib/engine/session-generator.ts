@@ -1,5 +1,5 @@
 import type { Language, ExerciseType, Category, Word } from '$lib/types';
-import { getWordCategories } from '$lib/types';
+import { getWordCategories, wordHasImage, IMAGE_DEPENDENT_EXERCISES } from '$lib/types';
 import { getDueWords } from './spaced-repetition';
 import { getRandomWords, getWordsByCategory, getWordById } from '$lib/db/words';
 import { getAccuracyByCategory } from '$lib/db/attempts';
@@ -28,17 +28,20 @@ export async function generateSession(
 ): Promise<SessionPlan> {
   const selectedIds = new Set<string>();
   const words: Word[] = [];
+  const needsImage = IMAGE_DEPENDENT_EXERCISES.includes(exerciseType);
 
   // ── Special handling for category-sorting: need ≥2 categories ──
   if (exerciseType === 'category-sorting') {
-    const categories = await pickCategories(language, Math.min(4, wordCount));
+    const categories = await pickCategories(language, Math.min(4, wordCount), needsImage);
     if (categories.length < 2) {
       return { exerciseType, words: [] };
     }
     const perCat = Math.max(2, Math.ceil(wordCount / categories.length));
     const sortingWords: Word[] = [];
     for (const cat of categories) {
-      const catWords = shuffleArray(await getWordsByCategory(cat, language)).slice(0, perCat);
+      const catWords = shuffleArray(await getWordsByCategory(cat, language))
+        .filter(w => !needsImage || wordHasImage(w))
+        .slice(0, perCat);
       sortingWords.push(...catWords);
     }
     return { exerciseType, words: shuffleArray(sortingWords).slice(0, wordCount) };
@@ -50,7 +53,7 @@ export async function generateSession(
     const withOpposite = await db.words
       .where('language')
       .equals(language)
-      .filter((w: Word) => !!(w.opposite && w.opposite !== ''))
+      .filter((w: Word) => !!(w.opposite && w.opposite !== '') && (!needsImage || wordHasImage(w)))
       .toArray();
 
     if (withOpposite.length >= 3) {
@@ -61,7 +64,7 @@ export async function generateSession(
     const withSynonyms = await db.words
       .where('language')
       .equals(language)
-      .filter((w: Word) => !!(w.synonyms && w.synonyms.length > 0))
+      .filter((w: Word) => !!(w.synonyms && w.synonyms.length > 0) && (!needsImage || wordHasImage(w)))
       .toArray();
 
     if (withSynonyms.length === 0) {
@@ -76,12 +79,13 @@ export async function generateSession(
 
   // ── Special handling for generative-naming: need a category ──
   if (exerciseType === 'generative-naming') {
-    const allCats = await getAllPopulatedCategories(language);
+    const allCats = await getAllPopulatedCategories(language, needsImage);
     if (allCats.length === 0) {
       return { exerciseType, words: [] };
     }
     const cat = allCats[Math.floor(Math.random() * allCats.length)];
-    const catWords = await getWordsByCategory(cat, language);
+    const catWords = (await getWordsByCategory(cat, language))
+      .filter(w => !needsImage || wordHasImage(w));
     return {
       exerciseType,
       words: shuffleArray(catWords).slice(0, wordCount),
@@ -94,7 +98,7 @@ export async function generateSession(
   for (const id of dueIds) {
     if (selectedIds.size >= wordCount) break;
     const word = await getWordById(id);
-    if (word) {
+    if (word && (!needsImage || wordHasImage(word))) {
       selectedIds.add(id);
       words.push(word);
     }
@@ -105,7 +109,8 @@ export async function generateSession(
     const weakCategories = await getWeakCategories(language, 3);
     for (const cat of weakCategories) {
       if (words.length >= wordCount) break;
-      const catWords = await getWordsByCategory(cat, language);
+      const catWords = (await getWordsByCategory(cat, language))
+        .filter(w => !needsImage || wordHasImage(w));
       const shuffled = shuffleArray(catWords);
       for (const w of shuffled) {
         if (words.length >= wordCount) break;
@@ -121,7 +126,8 @@ export async function generateSession(
   if (words.length < wordCount) {
     const remaining = wordCount - words.length;
     // Fetch more than needed to allow for overlap filtering
-    const randomWords = await getRandomWords(remaining * 2, language);
+    let randomWords = await getRandomWords(remaining * 2, language);
+    if (needsImage) randomWords = randomWords.filter(wordHasImage);
     for (const w of randomWords) {
       if (words.length >= wordCount) break;
       if (!selectedIds.has(w.id)) {
@@ -175,10 +181,11 @@ export async function generateDailyPlan(language: Language): Promise<SessionPlan
   // 3. Category sorting – mix words from two categories
   const categories = weakCategories.length >= 2
     ? weakCategories.slice(0, 2)
-    : await pickCategories(language, 2);
+    : await pickCategories(language, 2, true);
   const sortingWords: Word[] = [];
   for (const cat of categories) {
-    const catWords = await getWordsByCategory(cat, language);
+    const catWords = (await getWordsByCategory(cat, language))
+      .filter(w => wordHasImage(w));
     sortingWords.push(...shuffleArray(catWords).slice(0, 4));
   }
   plans.push({
@@ -228,14 +235,16 @@ export async function getWeakCategories(
 
 /**
  * Get all categories that actually have words in the DB for a given language.
+ * If needsImage is true, only counts words that have images.
  */
-async function getAllPopulatedCategories(language: Language): Promise<Category[]> {
+async function getAllPopulatedCategories(language: Language, needsImage: boolean = false): Promise<Category[]> {
   const words = await db.words
     .where('language')
     .equals(language)
     .toArray();
   const categorySet = new Set<Category>();
   for (const w of words) {
+    if (needsImage && !wordHasImage(w)) continue;
     for (const cat of getWordCategories(w)) {
       categorySet.add(cat);
     }
@@ -245,12 +254,14 @@ async function getAllPopulatedCategories(language: Language): Promise<Category[]
 
 /**
  * Pick N distinct categories from the word bank (randomly).
+ * If needsImage is true, only picks categories that have image-bearing words.
  */
 async function pickCategories(
   language: Language,
-  count: number
+  count: number,
+  needsImage: boolean = false
 ): Promise<Category[]> {
-  const all = await getAllPopulatedCategories(language);
+  const all = await getAllPopulatedCategories(language, needsImage);
   return shuffleArray(all).slice(0, count);
 }
 

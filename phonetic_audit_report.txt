@@ -1,0 +1,213 @@
+======================================================================
+PHONETIC AUDIT REPORT: 235 has_image:false WORDS
+Castilian Spanish IPA Verification
+======================================================================
+
+ISSUE 1: FIRST_SOUND ERRORS (8 issues)
+--------------------------------------------------
+  #  7 'celoso': '/s/' → '/θ/'
+  # 43 'hijastro': '/Ø/' → '/i/'
+  # 44 'hijastra': '/Ø/' → '/i/'
+  # 82 'hotel': '/Ø/' → '/o/'
+  #120 'arpa': '/aɾ/' → '/a/'
+  #156 'wifi': '/ɡ/' → '/w/'
+  #193 'xilófono': '/x/' → '/ks/'
+  #213 'cementerio': '/s/' → '/θ/'
+
+ISSUE 2: SYLLABLE COUNT ERRORS (16 issues)
+--------------------------------------------------
+  # 53 'alicate': 3 → 4
+  # 64 'rocío': 2 → 3
+  # 71 'sequía': 2 → 3
+  # 80 'comisaría': 4 → 5
+  # 81 'oficina': 3 → 4
+  #105 'carretilla elevadora': 7 → 9
+  #107 'autobús escolar': 5 → 6
+  #121 'polideportivo': 5 → 6
+  #124 'calendario': 5 → 4
+  #133 'memoria': 4 → 3
+  #158 'correo': 2 → 3
+  #179 'castillo de arena': 6 → 7
+  #213 'cementerio': 5 → 4
+  #216 'diccionario': 5 → 4
+  #224 'microscopio': 5 → 4
+  #225 'telescopio': 5 → 4
+
+ISSUE 3: RHYMING WORD ERRORS (69 issues)
+--------------------------------------------------
+  # 14 'nostálgico': 'trágico' doesn't rhyme ('algico' ≠ 'agico')
+  # 26 'suegra': 'sierra' doesn't rhyme ('egra' ≠ 'erra')
+  # 42 'madrastra': 'diestra' doesn't rhyme ('astra' ≠ 'estra')
+  # 44 'hijastra': 'maestra' doesn't rhyme ('astra' ≠ 'estra')
+  # 49 'taladro': 'lado' doesn't rhyme ('adro' ≠ 'ado')
+  # 51 'escuadra': 'muestra' doesn't rhyme ('adra' ≠ 'estra')
+  # 53 'alicate': 'coyote' doesn't rhyme ('ate' ≠ 'ote')
+  # 54 'engranaje': 'trabajo' doesn't rhyme ('aje' ≠ 'ajo')
+  # 57 'bisagra': 'espiga' doesn't rhyme ('agra' ≠ 'iga')
+  # 59 'cinta métrica': 'índica' doesn't rhyme ('etrica' ≠ 'indica')
+  # 61 'carrete': 'parece' doesn't rhyme ('ete' ≠ 'ece')
+  # 66 'ventisca': 'risa' doesn't rhyme ('isca' ≠ 'isa')
+  # 68 'alba': 'falda' doesn't rhyme ('alba' ≠ 'alda')
+  # 69 'crepúsculo': 'rito' doesn't rhyme ('usculo' ≠ 'ito')
+  # 72 'chubasco': 'vaso' doesn't rhyme ('asco' ≠ 'aso')
+  # 73 'calima': 'espalda' doesn't rhyme ('ima' ≠ 'alda')
+  # 74 'llovizna': 'oficina' doesn't rhyme ('izna' ≠ 'ina')
+  # 76 'borrasca': 'terca' doesn't rhyme ('asca' ≠ 'erca')
+  # 78 'termómetro': 'comedor' doesn't rhyme ('ometro' ≠ 'or')
+  # 83 'acera': 'piedra' doesn't rhyme ('era' ≠ 'edra')
+  # 87 'blusa': 'musulma' doesn't rhyme ('usa' ≠ 'ulma')
+  # 89 'gorra': 'torre' doesn't rhyme ('orra' ≠ 'orre')
+  # 90 'leotardos': 'recodos' doesn't rhyme ('ardos' ≠ 'odos')
+  # 94 'pañuelo': 'consejo' doesn't rhyme ('elo' ≠ 'ejo')
+  # 96 'alpargatas': 'pirañas' doesn't rhyme ('atas' ≠ 'añas')
+  # 97 'zapatillas': 'granzas' doesn't rhyme ('illas' ≠ 'anzas')
+  # 98 'gafas de sol': 'olas' doesn't rhyme ('ol' ≠ 'olas')
+  #100 'quad': 'club' doesn't rhyme ('ad' ≠ 'ub')
+  #101 'moto de agua': 'totuga' doesn't rhyme ('ua' ≠ 'uga')
+  #102 'catamarán': 'willamáng' doesn't rhyme ('an' ≠ 'ang')
+  #103 'barcaza': 'maleza' doesn't rhyme ('aza' ≠ 'eza')
+  #107 'autobús escolar': 'corral' doesn't rhyme ('usescolar' ≠ 'al')
+  #111 'kayac': 'taca' doesn't rhyme ('ac' ≠ 'aca')
+  #114 'arco': 'roco' doesn't rhyme ('arco' ≠ 'oco')
+  #115 'metrónomo': 'nombre' doesn't rhyme ('onomo' ≠ 'ombre')
+  #118 'órgano': 'gano' doesn't rhyme ('organo' ≠ 'ano')
+  #125 'bolígrafo': 'esfuerzo' doesn't rhyme ('igrafo' ≠ 'erzo')
+  #127 'carpeta': 'experta' doesn't rhyme ('eta' ≠ 'erta')
+  #129 'cronómetro': 'metro' doesn't rhyme ('ometro' ≠ 'etro')
+  #132 'satélite': 'litre' doesn't rhyme ('elite' ≠ 'itre')
+  #135 'burbuja': 'tuba' doesn't rhyme ('uja' ≠ 'uba')
+  #139 'rugby': 'guppy' doesn't rhyme ('ugby' ≠ 'uppy')
+  #142 'surf': 'surco' doesn't rhyme ('urf' ≠ 'urco')
+  #144 'golf': 'golfo' doesn't rhyme ('olf' ≠ 'olfo')
+  #156 'wifi': 'marroquí' doesn't rhyme ('ifi' ≠ 'i')
+  #159 'bluetooth': 'actitud' doesn't rhyme ('oth' ≠ 'ud')
+  #165 'escáner': 'mujer' doesn't rhyme ('aner' ≠ 'er')
+  #166 'mando': 'fondo' doesn't rhyme ('ando' ≠ 'ondo')
+  #167 'alarma': 'calma' doesn't rhyme ('arma' ≠ 'alma')
+  #170 'smartwatch': 'capacho' doesn't rhyme ('atch' ≠ 'acho')
+  #172 'micrófono': 'tono' doesn't rhyme ('ofono' ≠ 'ono')
+  #173 'webcam': 'clan' doesn't rhyme ('am' ≠ 'an')
+  #174 'GPS': 'inglés' doesn't rhyme ('gps' ≠ 'es')
+  #175 'módem': 'edén' doesn't rhyme ('odem' ≠ 'en')
+  #182 'diábolo': 'solo' doesn't rhyme ('abolo' ≠ 'olo')
+  #185 'peonza': 'lanza' doesn't rhyme ('onza' ≠ 'anza')
+  #188 'máscara': 'guitarra' doesn't rhyme ('ascara' ≠ 'arra')
+  #190 'títere': 'quiere' doesn't rhyme ('itere' ≠ 'ere')
+  #193 'xilófono': 'teléfono' doesn't rhyme ('ofono' ≠ 'efono')
+  #197 'clarinete': 'neto' doesn't rhyme ('ete' ≠ 'eto')
+  #199 'ukelele': 'telé' doesn't rhyme ('ele' ≠ 'e')
+  #204 'afinador': 'dorado' doesn't rhyme ('or' ≠ 'ado')
+  #205 'banjo': 'conjo' doesn't rhyme ('anjo' ≠ 'onjo')
+  #211 'cítara': 'cita' doesn't rhyme ('itara' ≠ 'ita')
+  #217 'tiza': 'risa' doesn't rhyme ('iza' ≠ 'isa')
+  #223 'ábaco': 'paco' doesn't rhyme ('abaco' ≠ 'aco')
+  #228 'examen': 'men' doesn't rhyme ('amen' ≠ 'en')
+  #233 'atlas': 'rás' doesn't rhyme ('atlas' ≠ 'as')
+  #234 'mochila': 'miga' doesn't rhyme ('ila' ≠ 'iga')
+
+ISSUE 4: FIRST_PHONEMES ERRORS (94 issues)
+--------------------------------------------------
+  #  1 'enojado': '/eno/' → '/e/'
+  #  2 'emocionado': '/emo/' → '/e/'
+  #  7 'celoso': '/se/' → '/θe/'
+  # 12 'aliviado': '/al/' → '/a/'
+  # 26 'suegra': '/su/' → '/swe/'
+  # 27 'yerno': '/ʝe/' → '/ʝeɾ/'
+  # 28 'nuera': '/nu/' → '/nwe/'
+  # 31 'primo': '/p/' → '/pɾi/'
+  # 32 'prima': '/p/' → '/pɾi/'
+  # 33 'tío': '/t/' → '/ti/'
+  # 34 'tía': '/t/' → '/ti/'
+  # 43 'hijastro': '/Øi/' → '/i/'
+  # 44 'hijastra': '/Øi/' → '/i/'
+  # 51 'escuadra': '/e/' → '/es/'
+  # 54 'engranaje': '/e/' → '/en/'
+  # 65 'escarcha': '/e/' → '/es/'
+  # 66 'ventisca': '/be/' → '/ben/'
+  # 68 'alba': '/a/' → '/al/'
+  # 69 'crepúsculo': '/k/' → '/kre/'
+  # 72 'chubasco': '/tʃe/' → '/tʃu/'
+  # 74 'llovizna': '/ʎe/' → '/ʎo/'
+  # 75 'ventolera': '/be/' → '/ben/'
+  # 77 'anticiclón': '/a/' → '/an/'
+  # 79 'estación': '/e/' → '/es/'
+  # 82 'hotel': '/Øo/' → '/o/'
+  # 84 'glorieta': '/g/' → '/glo/'
+  # 87 'blusa': '/b/' → '/blu/'
+  # 88 'chaleco': '/tʃe/' → '/tʃa/'
+  # 95 'chubasquero': '/tʃe/' → '/tʃu/'
+  # 96 'alpargatas': '/a/' → '/al/'
+  #103 'barcaza': '/ba/' → '/baɾ/'
+  #106 'grúa': '/g/' → '/gɾu/'
+  #108 'tranvía': '/t/' → '/tɾan/'
+  #110 'triciclo': '/t/' → '/tɾi/'
+  #129 'cronómetro': '/kro/' → '/kɾo/'
+  #137 'balonmano': '/b/' → '/ba/'
+  #138 'voleibol': '/b/' → '/bo/'
+  #140 'judo': '/x/' → '/xu/'
+  #141 'karate': '/k/' → '/ka/'
+  #142 'surf': '/s/' → '/sɜːf/'
+  #143 'escalada': '/e/' → '/es/'
+  #144 'golf': '/ɡ/' → '/ɡolf/'
+  #146 'esgrima': '/e/' → '/es/'
+  #147 'remo': '/r/' → '/re/'
+  #148 'vela': '/b/' → '/be/'
+  #149 'maratón': '/m/' → '/ma/'
+  #150 'colchoneta': '/k/' → '/kol/'
+  #151 'jabalina': '/x/' → '/xa/'
+  #152 'obstáculo': '/o/' → '/obs/'
+  #154 'espinillera': '/e/' → '/es/'
+  #155 'silbato': '/s/' → '/sil/'
+  #156 'wifi': '/ɡ/' → '/wi/'
+  #158 'correo': '/k/' → '/ko/'
+  #159 'bluetooth': '/b/' → '/blu/'
+  #160 'disco duro': '/d/' → '/dis/'
+  #161 'tarjeta': '/t/' → '/taɾ/'
+  #162 'procesador': '/p/' → '/pɾo/'
+  #163 'monitor': '/m/' → '/mo/'
+  #164 'proyector': '/p/' → '/pɾo/'
+  #165 'escáner': '/e/' → '/es/'
+  #166 'mando': '/m/' → '/man/'
+  #168 'pila': '/p/' → '/pi/'
+  #169 'altavoz': '/a/' → '/al/'
+  #170 'smartwatch': '/s/' → '/smaɾ/'
+  #171 'antena': '/a/' → '/an/'
+  #172 'micrófono': '/m/' → '/mi/'
+  #173 'webcam': '/b/' → '/web/'
+  #174 'GPS': '/x/' → '/xe/'
+  #175 'módem': '/m/' → '/mo/'
+  #176 'consola': '/k/' → '/kon/'
+  #177 'linterna': '/l/' → '/lin/'
+  #178 'balancín': '/b/' → '/ba/'
+  #179 'castillo de arena': '/k/' → '/kas/'
+  #180 'mecano': '/m/' → '/me/'
+  #181 'sonajero': '/s/' → '/so/'
+  #182 'diábolo': '/d/' → '/di/'
+  #184 'zancos': '/θ/' → '/θan/'
+  #185 'peonza': '/p/' → '/pe/'
+  #186 'tirachinas': '/t/' → '/ti/'
+  #187 'disfraz': '/d/' → '/dis/'
+  #188 'máscara': '/m/' → '/mas/'
+  #189 'careta': '/k/' → '/ka/'
+  #190 'títere': '/t/' → '/ti/'
+  #191 'marioneta': '/m/' → '/ma/'
+  #192 'palo de lluvia': '/p/' → '/pa/'
+  #193 'xilófono': '/x/' → '/ksi/'
+  #194 'tambor': '/t/' → '/tam/'
+  #195 'columpio': '/k/' → '/ko/'
+  #205 'banjo': '/ba/' → '/ban/'
+  #213 'cementerio': '/se/' → '/θe/'
+  #216 'diccionario': '/di/' → '/dik/'
+  #228 'examen': '/e/' → '/eks/'
+  #229 'lección': '/le/' → '/lek/'
+  #233 'atlas': '/a/' → '/at/'
+
+======================================================================
+SUMMARY
+======================================================================
+  first_sound errors:    8
+  syllable count errors: 16
+  rhyming word errors:   69
+  first_phonemes errors: 94
+  TOTAL ISSUES:          187
+  Unique words affected: 142 / 235

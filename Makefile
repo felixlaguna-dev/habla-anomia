@@ -1,4 +1,4 @@
-.PHONY: dev build up down logs url rebuild clean
+.PHONY: dev build up down logs url rebuild clean generate-images
 
 dev:
 	npm run dev -- --host 0.0.0.0 --port 5173
@@ -27,6 +27,9 @@ rebuild:
 clean:
 	docker compose down -v
 	rm -rf node_modules .svelte-kit build
+
+generate-images:
+	python3 scripts/generate-images.py $(ARGS)
 
 install:
 	npm install

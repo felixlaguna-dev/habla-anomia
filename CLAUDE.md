@@ -18,7 +18,7 @@ Free, open-source PWA for anomia (aphasia) rehabilitation.
 
 ## Key Paths
 - Exercises: `src/lib/components/exercises/` (8 types, all multiple-choice / tap-to-select)
-- Word bank: `src/lib/data/words-es.ts` (374 words, multi-category `categories: Category[]`, 7924 lines)
+- Word bank: `src/lib/data/words-es.ts` (609 words across 20 categories, multi-category `categories: Category[]`, ~12,861 lines). 235 new words pending images (`has_image: false`)
 - Database: `src/lib/db/` (Dexie v3 schema — multi-category, no `category` index. Tables: words, attempts, sessions, settings, spacedRepetition)
 - Engine: `src/lib/engine/` (session-generator, spaced-repetition, statistics)
 - UI components: `src/lib/components/ui/` (14 components)

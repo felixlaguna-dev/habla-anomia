@@ -42,21 +42,24 @@ IMAGE_DIR = PROJECT_ROOT / "static/images/words"
 # Auth
 # ---------------------------------------------------------------------------
 def get_codex_token() -> tuple[str, dict]:
-    """Read Codex OAuth token + account ID from Hermes auth store."""
-    if not HERMES_AUTH.exists():
-        print("ERROR: ~/.hermes/auth.json not found. Run 'hermes auth' first.", file=sys.stderr)
+    """Read Codex OAuth token from Codex CLI credentials (~/.codex/auth.json)."""
+    codex_auth = Path.home() / ".codex" / "auth.json"
+    if not codex_auth.exists():
+        print("ERROR: ~/.codex/auth.json not found. Run 'codex login' first.", file=sys.stderr)
         sys.exit(1)
 
-    with open(HERMES_AUTH) as f:
+    with open(codex_auth) as f:
         auth = json.load(f)
 
-    tokens = auth.get("providers", {}).get("openai-codex", {}).get("tokens", {})
+    tokens = auth.get("tokens", {})
     access_token = tokens.get("access_token", "")
+    acct_id = tokens.get("account_id", "")
+
     if not access_token:
-        print("ERROR: No Codex access token in Hermes auth store.", file=sys.stderr)
+        print("ERROR: No access_token in ~/.codex/auth.json. Run 'codex login'.", file=sys.stderr)
         sys.exit(1)
 
-    # Decode JWT to get account ID and check expiry
+    # Decode JWT to check expiry
     payload_b64 = access_token.split(".")[1]
     payload_b64 += "=" * (-len(payload_b64) % 4)
     claims = json.loads(base64.urlsafe_b64decode(payload_b64))
@@ -65,10 +68,9 @@ def get_codex_token() -> tuple[str, dict]:
     exp = datetime.datetime.fromtimestamp(claims.get("exp", 0), tz=datetime.timezone.utc)
     now = datetime.datetime.now(datetime.timezone.utc)
     if now > exp:
-        print(f"ERROR: Codex token expired at {exp}. Run 'hermes auth' to refresh.", file=sys.stderr)
+        print(f"ERROR: Codex token expired at {exp}. Run 'codex login' to refresh.", file=sys.stderr)
         sys.exit(1)
 
-    acct_id = claims.get("https://api.openai.com/auth", {}).get("chatgpt_account_id", "")
     print(f"Token valid until {exp.strftime('%Y-%m-%d %H:%M UTC')}")
     return access_token, {"account_id": acct_id}
 
@@ -190,7 +192,7 @@ def generate_image(access_token: str, account_id: str, prompt: str) -> tuple[byt
 
     image_b64 = None
 
-    with httpx.stream("POST", url, json=body, headers=headers, timeout=120) as resp:
+    with httpx.stream("POST", f"{CODEX_BASE_URL}/responses", json=body, headers=headers, timeout=180) as resp:
         if resp.status_code != 200:
             error_text = resp.read().decode("utf-8", errors="replace")[:300]
             return None, f"HTTP {resp.status_code}: {error_text}"

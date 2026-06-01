@@ -7956,7 +7956,7 @@ export const WORDS_ES: Word[] = [
   word: 'emocionado',
   categories: ['emotions'],
   language: 'es',
-  image_url: '',
+  image_url: '/images/words/emocionado.webp',
   has_image: true,
   definition: 'Que siente una emoción intensa y positiva ante algo especial.',
   features: {
@@ -7984,7 +7984,7 @@ export const WORDS_ES: Word[] = [
   word: 'confundido',
   categories: ['emotions'],
   language: 'es',
-  image_url: '',
+  image_url: '/images/words/confundido.webp',
   has_image: true,
   definition: 'Que no entiende algo o tiene dudas sobre lo que pasa.',
   features: {
@@ -8012,7 +8012,7 @@ export const WORDS_ES: Word[] = [
   word: 'frustrado',
   categories: ['emotions'],
   language: 'es',
-  image_url: '',
+  image_url: '/images/words/frustrado.webp',
   has_image: true,
   definition: 'Que no puede lograr lo que desea y se siente bloqueado.',
   features: {
@@ -8040,7 +8040,7 @@ export const WORDS_ES: Word[] = [
   word: 'celoso',
   categories: ['emotions'],
   language: 'es',
-  image_url: '',
+  image_url: '/images/words/celoso.webp',
   has_image: true,
   definition: 'Que siente envidia o temor de perder lo que tiene o quiere.',
   features: {
@@ -8068,7 +8068,7 @@ export const WORDS_ES: Word[] = [
   word: 'aburrido',
   categories: ['emotions'],
   language: 'es',
-  image_url: '',
+  image_url: '/images/words/aburrido.webp',
   has_image: true,
   definition: 'Que siente falta de interés o entretenimiento.',
   features: {
@@ -8096,7 +8096,7 @@ export const WORDS_ES: Word[] = [
   word: 'curioso',
   categories: ['emotions'],
   language: 'es',
-  image_url: '',
+  image_url: '/images/words/curioso.webp',
   has_image: true,
   definition: 'Que tiene gran deseo de saber o conocer algo nuevo.',
   features: {
@@ -8124,7 +8124,7 @@ export const WORDS_ES: Word[] = [
   word: 'ansioso',
   categories: ['emotions'],
   language: 'es',
-  image_url: '',
+  image_url: '/images/words/ansioso.webp',
   has_image: true,
   definition: 'Que siente ansiedad, inquietud o deseo intenso por algo.',
   features: {
@@ -8152,7 +8152,7 @@ export const WORDS_ES: Word[] = [
   word: 'valiente',
   categories: ['emotions'],
   language: 'es',
-  image_url: '',
+  image_url: '/images/words/valiente.webp',
   has_image: true,
   definition: 'Que siente determinación y coraje para enfrentar algo difícil.',
   features: {
@@ -8180,7 +8180,7 @@ export const WORDS_ES: Word[] = [
   word: 'sereno',
   categories: ['emotions'],
   language: 'es',
-  image_url: '',
+  image_url: '/images/words/sereno.webp',
   has_image: true,
   definition: 'Que se siente tranquilo, en paz y sin preocupaciones.',
   features: {
@@ -8208,7 +8208,7 @@ export const WORDS_ES: Word[] = [
   word: 'temeroso',
   categories: ['emotions'],
   language: 'es',
-  image_url: '',
+  image_url: '/images/words/temeroso.webp',
   has_image: true,
   definition: 'Que siente miedo o temor ante algo que lo asusta.',
   features: {
@@ -8236,7 +8236,7 @@ export const WORDS_ES: Word[] = [
     word: 'suegra',
     categories: ["family"],
     language: 'es',
-    image_url: '',
+    image_url: '/images/words/suegra.webp',
     has_image: true,
     definition: 'Madre del esposo o de la esposa',
     features: {
@@ -8259,7 +8259,7 @@ export const WORDS_ES: Word[] = [
     word: 'yerno',
     categories: ["family"],
     language: 'es',
-    image_url: '',
+    image_url: '/images/words/yerno.webp',
     has_image: true,
     definition: 'Esposo de la hija',
     features: {
@@ -8282,7 +8282,7 @@ export const WORDS_ES: Word[] = [
     word: 'nuera',
     categories: ["family"],
     language: 'es',
-    image_url: '',
+    image_url: '/images/words/nuera.webp',
     has_image: true,
     definition: 'Esposa del hijo',
     features: {
@@ -8305,7 +8305,7 @@ export const WORDS_ES: Word[] = [
     word: 'cuñado',
     categories: ["family"],
     language: 'es',
-    image_url: '',
+    image_url: '/images/words/cunado.webp',
     has_image: true,
     definition: 'Hermano del esposo o de la esposa',
     features: {
@@ -8328,7 +8328,7 @@ export const WORDS_ES: Word[] = [
     word: 'cuñada',
     categories: ["family"],
     language: 'es',
-    image_url: '',
+    image_url: '/images/words/cunada.webp',
     has_image: true,
     definition: 'Hermana del esposo o de la esposa',
     features: {
@@ -8351,7 +8351,7 @@ export const WORDS_ES: Word[] = [
     word: 'primo',
     categories: ["family"],
     language: 'es',
-    image_url: '',
+    image_url: '/images/words/primo.webp',
     has_image: true,
     definition: 'Hijo del tío o de la tía',
     features: {
@@ -8374,7 +8374,7 @@ export const WORDS_ES: Word[] = [
     word: 'prima',
     categories: ["family"],
     language: 'es',
-    image_url: '',
+    image_url: '/images/words/prima.webp',
     has_image: true,
     definition: 'Hija del tío o de la tía',
     features: {
@@ -8397,7 +8397,7 @@ export const WORDS_ES: Word[] = [
     word: 'tío',
     categories: ["family"],
     language: 'es',
-    image_url: '',
+    image_url: '/images/words/tio.webp',
     has_image: true,
     definition: 'Hermano del padre o de la madre',
     features: {
@@ -8420,7 +8420,7 @@ export const WORDS_ES: Word[] = [
     word: 'tía',
     categories: ["family"],
     language: 'es',
-    image_url: '',
+    image_url: '/images/words/tia.webp',
     has_image: true,
     definition: 'Hermana del padre o de la madre',
     features: {
@@ -8443,7 +8443,7 @@ export const WORDS_ES: Word[] = [
     word: 'sobrino',
     categories: ["family"],
     language: 'es',
-    image_url: '',
+    image_url: '/images/words/sobrino.webp',
     has_image: true,
     definition: 'Hijo del hermano o de la hermana',
     features: {
@@ -8466,7 +8466,7 @@ export const WORDS_ES: Word[] = [
     word: 'sobrina',
     categories: ["family"],
     language: 'es',
-    image_url: '',
+    image_url: '/images/words/sobrina.webp',
     has_image: true,
     definition: 'Hija del hermano o de la hermana',
     features: {
@@ -8489,7 +8489,7 @@ export const WORDS_ES: Word[] = [
     word: 'padrino',
     categories: ["family"],
     language: 'es',
-    image_url: '',
+    image_url: '/images/words/padrino.webp',
     has_image: true,
     definition: 'Hombre que apadrina a alguien en el bautizo o la boda',
     features: {
@@ -8512,7 +8512,7 @@ export const WORDS_ES: Word[] = [
     word: 'madrina',
     categories: ["family"],
     language: 'es',
-    image_url: '',
+    image_url: '/images/words/madrina.webp',
     has_image: true,
     definition: 'Mujer que apadrina a alguien en el bautizo o la boda',
     features: {
@@ -8535,7 +8535,7 @@ export const WORDS_ES: Word[] = [
     word: 'ahijado',
     categories: ["family"],
     language: 'es',
-    image_url: '',
+    image_url: '/images/words/ahijado.webp',
     has_image: true,
     definition: 'Persona que es apadrinada por un padrino o una madrina',
     features: {
@@ -8558,7 +8558,7 @@ export const WORDS_ES: Word[] = [
     word: 'padrastro',
     categories: ["family"],
     language: 'es',
-    image_url: '',
+    image_url: '/images/words/padrastro.webp',
     has_image: true,
     definition: 'Nuevo esposo de la madre',
     features: {
@@ -8581,7 +8581,7 @@ export const WORDS_ES: Word[] = [
     word: 'madrastra',
     categories: ["family"],
     language: 'es',
-    image_url: '',
+    image_url: '/images/words/madrastra.webp',
     has_image: true,
     definition: 'Nueva esposa del padre',
     features: {
@@ -8604,7 +8604,7 @@ export const WORDS_ES: Word[] = [
     word: 'hijastro',
     categories: ["family"],
     language: 'es',
-    image_url: '',
+    image_url: '/images/words/hijastro.webp',
     has_image: true,
     definition: 'Hijo de la pareja pero no propio',
     features: {
@@ -8627,7 +8627,7 @@ export const WORDS_ES: Word[] = [
     word: 'hijastra',
     categories: ["family"],
     language: 'es',
-    image_url: '',
+    image_url: '/images/words/hijastra.webp',
     has_image: true,
     definition: 'Hija de la pareja pero no propia',
     features: {
@@ -8650,7 +8650,7 @@ export const WORDS_ES: Word[] = [
     word: 'bisabuelo',
     categories: ["family"],
     language: 'es',
-    image_url: '',
+    image_url: '/images/words/bisabuelo.webp',
     has_image: true,
     definition: 'Padre del abuelo o de la abuela',
     features: {
@@ -8673,7 +8673,7 @@ export const WORDS_ES: Word[] = [
     word: 'bisabuela',
     categories: ["family"],
     language: 'es',
-    image_url: '',
+    image_url: '/images/words/bisabuela.webp',
     has_image: true,
     definition: 'Madre del abuelo o de la abuela',
     features: {
@@ -8696,7 +8696,7 @@ export const WORDS_ES: Word[] = [
     word: 'gemelo',
     categories: ["family"],
     language: 'es',
-    image_url: '',
+    image_url: '/images/words/gemelo.webp',
     has_image: true,
     definition: 'Hermano nacido del mismo parto que otro',
     features: {
@@ -8719,7 +8719,7 @@ export const WORDS_ES: Word[] = [
     word: 'taladro',
     categories: ["tools"],
     language: 'es',
-    image_url: '',
+    image_url: '/images/words/taladro.webp',
     has_image: true,
     definition: 'Herramienta que sirve para hacer agujeros en superficies',
     features: {
@@ -8742,7 +8742,7 @@ export const WORDS_ES: Word[] = [
     word: 'lima',
     categories: ["tools"],
     language: 'es',
-    image_url: '',
+    image_url: '/images/words/lima.webp',
     has_image: true,
     definition: 'Herramienta de metal con rugosidad para limar o pulir',
     features: {
@@ -8765,7 +8765,7 @@ export const WORDS_ES: Word[] = [
     word: 'escuadra',
     categories: ["tools"],
     language: 'es',
-    image_url: '',
+    image_url: '/images/words/escuadra.webp',
     has_image: true,
     definition: 'Instrumento en forma de ángulo recto para trazar líneas perpendiculares',
     features: {
@@ -8788,7 +8788,7 @@ export const WORDS_ES: Word[] = [
     word: 'nivel',
     categories: ["tools"],
     language: 'es',
-    image_url: '',
+    image_url: '/images/words/nivel.webp',
     has_image: true,
     definition: 'Instrumento para comprobar si una superficie está horizontal o vertical',
     features: {
@@ -8811,7 +8811,7 @@ export const WORDS_ES: Word[] = [
     word: 'alicate',
     categories: ["tools"],
     language: 'es',
-    image_url: '',
+    image_url: '/images/words/alicate.webp',
     has_image: true,
     definition: 'Herramienta con dos brazos que sirve para sujetar o cortar alambres',
     features: {
@@ -8834,7 +8834,7 @@ export const WORDS_ES: Word[] = [
     word: 'engranaje',
     categories: ["tools"],
     language: 'es',
-    image_url: '',
+    image_url: '/images/words/engranaje.webp',
     has_image: true,
     definition: 'Mecanismo formado por ruedas dentadas que transmiten movimiento',
     features: {
@@ -8857,7 +8857,7 @@ export const WORDS_ES: Word[] = [
     word: 'polea',
     categories: ["tools"],
     language: 'es',
-    image_url: '',
+    image_url: '/images/words/polea.webp',
     has_image: true,
     definition: 'Rueda con canal por donde pasa una cuerda para levantar pesos',
     features: {
@@ -8880,7 +8880,7 @@ export const WORDS_ES: Word[] = [
     word: 'cadena',
     categories: ["tools"],
     language: 'es',
-    image_url: '',
+    image_url: '/images/words/cadena.webp',
     has_image: true,
     definition: 'Serie de eslabones de metal unidos entre sí',
     features: {
@@ -8903,7 +8903,7 @@ export const WORDS_ES: Word[] = [
     word: 'bisagra',
     categories: ["tools"],
     language: 'es',
-    image_url: '',
+    image_url: '/images/words/bisagra.webp',
     has_image: true,
     definition: 'Dispositivo metálico que permite el giro de una puerta o ventana',
     features: {
@@ -8926,7 +8926,7 @@ export const WORDS_ES: Word[] = [
     word: 'candado',
     categories: ["tools"],
     language: 'es',
-    image_url: '',
+    image_url: '/images/words/candado.webp',
     has_image: true,
     definition: 'Cerradura portátil que se abre con llave o combinación',
     features: {
@@ -8949,7 +8949,7 @@ export const WORDS_ES: Word[] = [
     word: 'cinta métrica',
     categories: ["tools"],
     language: 'es',
-    image_url: '',
+    image_url: '/images/words/cinta-metrica.webp',
     has_image: true,
     definition: 'Cinta flexible con marcas de medición que se enrolla automáticamente',
     features: {
@@ -8972,7 +8972,7 @@ export const WORDS_ES: Word[] = [
     word: 'carretilla',
     categories: ["tools"],
     language: 'es',
-    image_url: '',
+    image_url: '/images/words/carretilla.webp',
     has_image: true,
     definition: 'Recipiente con una rueda y dos mangos para transportar materiales',
     features: {
@@ -8995,7 +8995,7 @@ export const WORDS_ES: Word[] = [
     word: 'carrete',
     categories: ["tools"],
     language: 'es',
-    image_url: '',
+    image_url: '/images/words/carrete.webp',
     has_image: true,
     definition: 'Cilindro alrededor del cual se enrolla hilo, cable o cinta',
     features: {
@@ -9018,7 +9018,7 @@ export const WORDS_ES: Word[] = [
     word: 'guillotina',
     categories: ["tools"],
     language: 'es',
-    image_url: '',
+    image_url: '/images/words/guillotina.webp',
     has_image: true,
     definition: 'Máquina con cuchilla que corta papel o material de forma precisa',
     features: {
@@ -9041,7 +9041,7 @@ export const WORDS_ES: Word[] = [
     word: 'soldador',
     categories: ["tools"],
     language: 'es',
-    image_url: '',
+    image_url: '/images/words/soldador.webp',
     has_image: true,
     definition: 'Herramienta o persona que une piezas metálicas mediante calor',
     features: {
@@ -9064,7 +9064,7 @@ export const WORDS_ES: Word[] = [
     word: 'rocío',
     categories: ["weather"],
     language: 'es',
-    image_url: '',
+    image_url: '/images/words/rocio.webp',
     has_image: true,
     definition: 'Gotas de agua que se forman por la noche sobre las superficies',
     features: {

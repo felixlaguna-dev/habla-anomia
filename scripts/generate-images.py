@@ -251,6 +251,7 @@ def main():
     parser.add_argument("--dry-run", action="store_true", help="Preview without generating")
     parser.add_argument("--limit", type=int, default=0, help="Max images to generate (0=all)")
     parser.add_argument("--word", type=str, help="Generate for a specific word only")
+    parser.add_argument("--custom-prompts", type=str, help="JSON file with {word: prompt} overrides")
     args = parser.parse_args()
 
     print("=== Habla Anomia Image Generator ===")
@@ -289,6 +290,13 @@ def main():
     print(f"\nWill generate: {len(missing)} images")
     print()
 
+    # Load custom prompts if provided
+    custom_prompts = {}
+    if args.custom_prompts:
+        with open(args.custom_prompts) as f:
+            custom_prompts = json.load(f)
+        print(f"Loaded {len(custom_prompts)} custom prompt overrides\n")
+
     if args.dry_run:
         for i, e in enumerate(missing):
             fname = normalize_filename(e["word"])
@@ -304,8 +312,10 @@ def main():
     for i, entry in enumerate(missing):
         fname = normalize_filename(entry["word"])
         prompt = build_prompt(entry)
-        outpath = IMAGE_DIR / f"{fname}.webp"
+        if entry["word"] in custom_prompts:
+            prompt = custom_prompts[entry["word"]]
 
+        outpath = IMAGE_DIR / f"{fname}.webp"
         print(f"[{i+1}/{len(missing)}] {entry['word']} ({entry['category']})...", flush=True)
         print(f"  prompt: {prompt[:80]}...", flush=True)
 

@@ -10,7 +10,7 @@
   import { keyboardNav } from '$lib/utils/keyboard-nav';
   import type { KeyboardNavParams } from '$lib/utils/keyboard-nav';
   import { playCorrectSound, playIncorrectSound } from '$lib/utils/sounds';
-  import type { Word, Language, ExerciseType } from '$lib/types';
+  import type { Word, Language, ExerciseType, Category } from '$lib/types';
   import { getWordCategories } from '$lib/types';
 
   type Props = {
@@ -18,7 +18,7 @@
     language: Language;
    speechRate?: number;
    speakButtonsEnabled?: boolean;
-   onComplete?: (results: { score: number; total: number; details: Array<{ word: Word; correct: boolean; selectedCategory: string }> }) => void;
+   onComplete?: (results: { score: number; total: number; details: Array<{ word: Word; correct: boolean; selectedCategory: Category | null }> }) => void;
     onRestart?: () => void;
   };
 
@@ -36,9 +36,9 @@
   let feedbackState = $state<'none' | 'correct' | 'incorrect'>('none');
   let incorrectAttempt = $state(false);
   let score = $state(0);
-  let results = $state<Array<{ word: Word; correct: boolean; selectedCategory: string }>>([]);
+  let results = $state<Array<{ word: Word; correct: boolean; selectedCategory: Category | null }>>([]);
   let startTime = $state(Date.now());
-  let selectedCategory = $state<string | null>(null);
+  let selectedCategory = $state<Category | null>(null);
 
   // Track items sorted into each category bin (for visual feedback)
   let binItems = $state<Record<string, Word[]>>({});
@@ -74,7 +74,7 @@
   let progress = $derived(Math.round(((currentIndex + 1) / shuffledItems.length) * 100));
   let isFinished = $derived(currentIndex >= shuffledItems.length);
 
-  function selectCategory(category: string) {
+  function selectCategory(category: Category) {
     if (!currentItem || feedbackState === 'correct') return;
 
     selectedCategory = category;
@@ -87,7 +87,7 @@
     }
   }
 
-  async function handleCorrect(category: string) {
+  async function handleCorrect(category: Category) {
     feedbackState = 'correct';
     playCorrectSound();
     incorrectAttempt = false;
@@ -130,7 +130,7 @@
   function skipItem() {
     if (!currentItem) return;
 
-    results.push({ word: currentItem, correct: false, selectedCategory: selectedCategory || '' });
+    results.push({ word: currentItem, correct: false, selectedCategory });
 
     recordAttempt({
       word_id: currentItem.id,
@@ -186,7 +186,7 @@
     return `background:${c.bg};border-color:${c.border};color:${c.text};`;
   }
 
-  function translateCategory(category: string): string {
+  function translateCategory(category: Category): string {
    const key = `categories.${category}`;
    const translated = $t(key);
    // If no translation found, return the original category name

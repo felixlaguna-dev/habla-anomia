@@ -2,13 +2,13 @@
   import { WORDS_ES } from '$lib/data/words-es';
   import { onMount } from 'svelte';
   import { resolveImageUrl } from '$lib/utils/paths';
-  import { getWordCategories } from '$lib/types';
+  import { getWordCategories, type Category } from '$lib/types';
 
   type WordLike = typeof WORDS_ES[number];
 
   let allWords = $state<WordLike[]>([...WORDS_ES]);
   let searchQuery = $state('');
-  let categoryFilter = $state('all');
+  let categoryFilter = $state<Category | 'all'>('all');
   let showDetails = $state<Set<string>>(new Set());
   let imageStatus = $state<Record<string, 'ok' | 'missing' | 'loading'>>({});
   let onlyMissing = $state(false);

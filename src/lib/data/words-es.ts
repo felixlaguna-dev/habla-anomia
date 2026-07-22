@@ -9027,7 +9027,7 @@ export const WORDS_ES: Word[] = [
 {
     id: 'es-clothing-034',
     word: 'gafas de sol',
-    categories: ["clothing", "accessories"],
+    categories: ["clothing"],
     language: 'es',
     image_url: '/images/words/gafas-de-sol.webp',
     has_image: true,

@@ -3,8 +3,8 @@
   import { browser } from '$app/environment';
   import { Card } from '$lib/components/ui';
 
-  const APP_VERSION = '1.1.0';
-  const GIT_HASH: string = typeof __APP_VERSION__ !== 'undefined' ? __APP_VERSION__ : 'dev';
+  const APP_VERSION: string = __APP_VERSION__ ?? '0.0.0';
+  const GIT_HASH: string = __APP_GIT_HASH__ ?? 'dev';
 
   const exerciseDescriptions = [
     { key: 'picture_naming', icon: '🖼️', color: '#3b82f6' },

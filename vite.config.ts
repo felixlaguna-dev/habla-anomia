@@ -2,8 +2,12 @@ import { sveltekit } from '@sveltejs/kit/vite';
 import { defineConfig } from 'vite';
 import { VitePWA } from 'vite-plugin-pwa';
 import { execSync } from 'child_process';
+import { readFileSync } from 'fs';
 
 const basePath = process.env.BASE_PATH || '';
+
+// App version — single source of truth is package.json
+const pkg = JSON.parse(readFileSync(new URL('./package.json', import.meta.url), 'utf8'));
 
 // Bake git commit hash at build time (fallback to env var for Docker builds)
 let gitHash = process.env.GIT_HASH || 'dev';
@@ -17,7 +21,8 @@ if (gitHash === 'dev') {
 
 export default defineConfig({
   define: {
-    __APP_VERSION__: JSON.stringify(gitHash)
+    __APP_VERSION__: JSON.stringify(pkg.version),
+    __APP_GIT_HASH__: JSON.stringify(gitHash)
   },
   plugins: [
     sveltekit(),

@@ -40,7 +40,7 @@
     aria-live="polite"
     aria-atomic="true"
     style="
-      position:fixed;bottom:calc(80px + var(--safe-bottom));left:50%;
+      position:fixed;bottom:var(--above-bottom-nav);left:50%;
       transform:translateX(-50%) translateY({visible ? '0' : '100%'});
       min-width:min(90vw,400px);max-width:90vw;
       padding:var(--space-md) var(--space-lg);

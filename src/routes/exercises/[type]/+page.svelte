@@ -373,9 +373,13 @@
     font-size: var(--font-size-xl);
     font-weight: 600;
     color: var(--text);
-    white-space: nowrap;
+    /* Allow the title to wrap to 2 lines on narrow screens instead of truncating */
+    overflow-wrap: break-word;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
     overflow: hidden;
-    text-overflow: ellipsis;
   }
 
   .header-spacer {

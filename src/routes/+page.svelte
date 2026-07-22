@@ -320,9 +320,8 @@
 
   .stats-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 0.75rem;
-    overflow: hidden;
   }
 
   .stat {
@@ -341,9 +340,7 @@
     font-size: 0.75rem;
     color: var(--text-secondary, #94a3b8);
     text-align: center;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+    overflow-wrap: break-word;
   }
 
   .section-title {
@@ -368,7 +365,7 @@
   .plan-item {
     display: flex;
     justify-content: space-between;
-    align-items: center;
+    align-items: flex-start;
     gap: 0.75rem;
     padding: 0.5rem 0;
   }
@@ -407,17 +404,13 @@
     font-weight: 600;
     font-size: 0.95rem;
     color: var(--text);
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+    overflow-wrap: break-word;
   }
 
   .plan-reason {
     font-size: 0.75rem;
     color: var(--text-secondary, #94a3b8);
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+    overflow-wrap: break-word;
   }
 
   .plan-start-btn {
@@ -582,7 +575,7 @@
   @media (min-width: 768px) and (orientation: landscape) {
     .plan-list {
       display: grid;
-      grid-template-columns: repeat(2, 1fr);
+      grid-template-columns: repeat(2, minmax(0, 1fr));
       gap: 1rem;
     }
 
@@ -602,16 +595,15 @@
   }
 
   /* Small mobile */
-  @media (max-width: 374px) {
+  @media (max-width: 399px) {
     .stats-grid {
       gap: 0.5rem;
-      grid-template-columns: repeat(3, 1fr);
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      /* Tighten Card padding so stat labels have room to wrap readably */
+      --card-pad: var(--space-sm) var(--space-xs);
     }
     .stat-number {
       font-size: 1.25rem;
-    }
-    .stat-label {
-      font-size: 0.65rem;
     }
     .exercise-chips {
       gap: 0.6rem;

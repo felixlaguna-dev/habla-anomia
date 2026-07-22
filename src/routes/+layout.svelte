@@ -87,7 +87,7 @@
   .main-content {
     flex: 1;
     padding: 1rem;
-    padding-bottom: calc(64px + var(--safe-bottom, 0px) + 1rem);
+    padding-bottom: calc(var(--bottom-nav-height) + var(--safe-bottom, 0px) + 1rem);
     width: 100%;
     margin: 0 auto;
     overflow-x: hidden;
@@ -99,7 +99,7 @@
   @media (min-width: 768px) {
     .main-content {
       padding: 1.25rem 1.5rem;
-      padding-bottom: calc(72px + var(--safe-bottom, 0px) + 1.5rem);
+      padding-bottom: calc(var(--bottom-nav-height) + var(--safe-bottom, 0px) + 1.5rem);
     }
   }
 
@@ -107,7 +107,7 @@
   @media (min-width: 768px) and (orientation: landscape) {
     .main-content {
       padding: 1.25rem 2rem;
-      padding-bottom: calc(72px + var(--safe-bottom, 0px) + 1.5rem);
+      padding-bottom: calc(var(--bottom-nav-height) + var(--safe-bottom, 0px) + 1.5rem);
     }
   }
 </style>

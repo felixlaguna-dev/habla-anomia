@@ -528,9 +528,10 @@
 
   .category-btn {
     flex: 1;
-    min-width: 70px;
+    min-width: 8rem;
     min-height: 56px;
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
     justify-content: center;
     padding: var(--space-sm, 8px) var(--space-xs, 4px);
@@ -540,11 +541,8 @@
     font-family: var(--font-family, sans-serif);
     font-size: var(--font-size-base, 16px);
     font-weight: 700;
-    text-transform: capitalize;
     touch-action: manipulation;
     user-select: none;
-    word-break: break-word;
-    hyphens: auto;
     line-height: 1.2;
     text-align: center;
     transition: transform var(--transition-fast, 0.15s), box-shadow var(--transition-fast, 0.15s),
@@ -686,7 +684,6 @@
 
   .summary-bin-label {
     font-weight: 700;
-    text-transform: capitalize;
   }
 
   .summary-bin-items {

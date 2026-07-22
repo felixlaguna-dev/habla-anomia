@@ -7,6 +7,24 @@ import type { AppSettings } from '$lib/types';
 const TEXT_SIZE_CLASSES = ['text-small', 'text-medium', 'text-large', 'text-extra-large'] as const;
 
 /**
+ * Sync `<meta name="theme-color">` with the active theme's `--primary`.
+ *
+ * Reads the *live* computed value from `el` — whose `light-theme` /
+ * `high-contrast` classes the caller has just toggled, so the cascade already
+ * reflects the new theme. This keeps `theme.css` as the single source of truth
+ * for the brand colour: no second hardcoded copy that can drift when someone
+ * edits `--primary`. No-ops outside the browser or when the tag/variable is
+ * unavailable.
+ */
+function applyThemeColor(el: HTMLElement): void {
+  if (typeof document === 'undefined') return;
+  const color = getComputedStyle(el).getPropertyValue('--primary').trim();
+  if (!color) return;
+  const meta = document.querySelector('meta[name="theme-color"]');
+  if (meta) meta.setAttribute('content', color);
+}
+
+/**
  * Map a `text_size` setting value to its CSS class.
  * `normal` (and any unexpected value) falls back to the medium/base scale.
  */
@@ -47,4 +65,6 @@ export function applyAppearance(
   el.classList.add(getFontScaleClass(settings.text_size));
 
   el.classList.toggle('high-contrast', settings.high_contrast);
+
+  applyThemeColor(el);
 }

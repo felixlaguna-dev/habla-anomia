@@ -1,4 +1,4 @@
-.PHONY: dev build up down logs url rebuild clean generate-images optimize-images
+.PHONY: dev build up down logs url rebuild clean generate-images optimize-images generate-icons
 
 dev:
 	npm run dev -- --host 0.0.0.0 --port 5173
@@ -33,6 +33,9 @@ generate-images:
 
 optimize-images:
 	npm run optimize:images -- $(ARGS)
+
+generate-icons:
+	npm run generate:icons
 
 install:
 	npm install

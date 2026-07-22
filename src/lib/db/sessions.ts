@@ -52,47 +52,6 @@ export async function getSessionById(id: number): Promise<Session | undefined> {
 }
 
 /**
- * Calculate the current daily streak for a language.
- * A streak is consecutive days (starting from today) with at least 1 session.
- */
-export async function getStreak(language: Language): Promise<number> {
-  const sessions = await db.sessions
-    .where('language')
-    .equals(language)
-    .toArray();
-
-  if (sessions.length === 0) return 0;
-
-  // Collect unique dates that had sessions
-  const sessionDates = new Set<string>();
-  for (const s of sessions) {
-    const d = s.started_at instanceof Date ? s.started_at : new Date(s.started_at);
-    sessionDates.add(formatDate(d));
-  }
-
-  // Start from today and count consecutive days backwards
-  let streak = 0;
-  const today = new Date();
-  today.setHours(0, 0, 0, 0);
-
-  for (let i = 0; i < 365; i++) {
-    const checkDate = new Date(today);
-    checkDate.setDate(checkDate.getDate() - i);
-    const key = formatDate(checkDate);
-
-    if (sessionDates.has(key)) {
-      streak++;
-    } else {
-      // If today has no session yet, don't break the streak —
-      // the day isn't over. Only break if a past day is missing.
-      if (i > 0) break;
-    }
-  }
-
-  return streak;
-}
-
-/**
  * Get daily stats for the last N days for charts.
  * Returns an array of { date, sessions, exercises, accuracy, words_practiced }.
  */

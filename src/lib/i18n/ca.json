@@ -40,8 +40,6 @@
       "short_name": "Anomena",
       "description": "Mira la imatge i digues o escriu què és",
       "what_is_this": "Què és això?",
-      "type_answer": "Escriu la teva resposta",
-      "speak_answer": "Parla la teva resposta",
       "hint": "Pista",
       "hints": {
         "category": "Categoria: {value}",
@@ -60,8 +58,7 @@
       "location_prompt": "On es troba?",
       "properties_prompt": "Com és? (color, forma, mida)",
       "associations_prompt": "Amb què ho associes?",
-      "now_name_it": "Ara intenta anomenar-lo",
-      "type_answer": "Escriu el nom"
+      "now_name_it": "Ara intenta anomenar-lo"
     },
     "phonological_cueing": {
       "name": "Pistes fonològiques",
@@ -86,8 +83,7 @@
       "sort_into": "Classifica en: {category}",
       "correct": "Correcte!",
       "wrong": "Prova amb una altra categoria",
-      "need_more_categories": "Es necessiten paraules d'almenys 2 categories diferents per a aquest exercici.",
-      "type_answer": "Escriu la categoria"
+      "need_more_categories": "Es necessiten paraules d'almenys 2 categories diferents per a aquest exercici."
     },
     "generative_naming": {
       "name": "Anomenar per categoria",
@@ -101,8 +97,7 @@
       "results_title": "Resultats",
       "you_found": "Has trobat {count} paraules",
       "well_done": "Molt bé!",
-      "already_said": "Ja has dit aquesta paraula",
-      "type_answer": "Escriu una paraula"
+      "already_said": "Ja has dit aquesta paraula"
     },
     "word_matching": {
       "name": "Relacionar paraules",
@@ -110,8 +105,7 @@
       "description": "Relaciona cada paraula amb el seu significat",
       "match_definition": "Relaciona la paraula amb la seva definició",
       "match_word": "Relaciona la definició amb la seva paraula",
-      "select_answer": "Selecciona la resposta correcta",
-      "type_answer": "Escriu la resposta"
+      "select_answer": "Selecciona la resposta correcta"
     },
     "sentence_completion": {
       "name": "Completar frases",
@@ -252,23 +246,6 @@
     "sports": "Esports",
     "music": "Música",
     "toys": "Joguines"
-  },
-  "speech": {
-    "placeholder": "Toca per parlar o escriu aquí...",
-    "answer": "Resposta",
-    "stop_listening": "Deixar d'escoltar",
-    "speak": "Parlar",
-    "listening": "Escoltant...",
-    "submit": "Enviar",
-    "submit_answer": "Enviar resposta",
-    "errors": {
-      "no-speech": "No s'ha detectat veu. Torna a intentar-ho.",
-      "audio-capture": "No s'ha trobat micròfon. Verifica el teu dispositiu.",
-      "not-allowed": "Permís de micròfon denegat. Activa'l als ajustos.",
-      "network": "Error de xarxa. Verifica la teva connexió a internet.",
-      "aborted": "Reconeixement cancel·lat.",
-      "unknown": "Error desconegut en el reconeixement de veu."
-    }
   },
   "install_prompt": {
     "title": "Instal·lar Habla Anomia",

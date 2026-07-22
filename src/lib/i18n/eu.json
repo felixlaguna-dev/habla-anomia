@@ -40,8 +40,6 @@
       "short_name": "Izendatu",
       "description": "Begiratu irudia eta esan edo idatzi zer den",
       "what_is_this": "Zer da hau?",
-      "type_answer": "Idatzi zure erantzuna",
-      "speak_answer": "Esan zure erantzuna",
       "hint": "Pista",
       "hints": {
         "category": "Kategoria: {value}",
@@ -60,8 +58,7 @@
       "location_prompt": "Non aurkitzen da?",
       "properties_prompt": "Nolakoa da? (kolorea, forma, tamaina)",
       "associations_prompt": "Zerekin lotzen duzu?",
-      "now_name_it": "Orain saiatu izendatzen",
-      "type_answer": "Idatzi hitza"
+      "now_name_it": "Orain saiatu izendatzen"
     },
     "phonological_cueing": {
       "name": "Pista fonologikoak",
@@ -86,8 +83,7 @@
       "sort_into": "Sailkatu hemen: {category}",
       "correct": "Zuzena!",
       "wrong": "Saiatu beste kategoria batekin",
-      "need_more_categories": "Gutxienez 2 kategoria desberdinetako hitzak behar dira ariketa honetarako.",
-      "type_answer": "Idatzi kategoria"
+      "need_more_categories": "Gutxienez 2 kategoria desberdinetako hitzak behar dira ariketa honetarako."
     },
     "generative_naming": {
       "name": "Kategoriaka izendatu",
@@ -101,8 +97,7 @@
       "results_title": "Emaitzak",
       "you_found": "{count} hitz aurkitu dituzu",
       "well_done": "Oso ondo!",
-      "already_said": "Hitz hori esan duzu jada",
-      "type_answer": "Idatzi hitz bat"
+      "already_said": "Hitz hori esan duzu jada"
     },
     "word_matching": {
       "name": "Hitzak lotu",
@@ -110,8 +105,7 @@
       "description": "Lotu hitz bakoitza bere esanahiarekin",
       "match_definition": "Lotu hitza bere definizioarekin",
       "match_word": "Lotu definizioa bere hitzarekin",
-      "select_answer": "Hautatu erantzun zuzena",
-      "type_answer": "Idatzi erantzuna"
+      "select_answer": "Hautatu erantzun zuzena"
     },
     "sentence_completion": {
       "name": "Esaldiak osatu",
@@ -252,23 +246,6 @@
     "sports": "Kirolak",
     "music": "Musika",
     "toys": "Jostailuak"
-  },
-  "speech": {
-    "placeholder": "Sakatu hitz egiteko edo idatzi hemen...",
-    "answer": "Erantzuna",
-    "stop_listening": "Gelditu entzutea",
-    "speak": "Hitz egin",
-    "listening": "Entzuten...",
-    "submit": "Bidali",
-    "submit_answer": "Bidali erantzuna",
-    "errors": {
-      "no-speech": "Ez da ahotsik antzeman. Saiatu berriro.",
-      "audio-capture": "Ez da mikrorik aurkitu. Egiaztatu zure gailua.",
-      "not-allowed": "Mikrofonoaren baimena ukatuta. Gaitu ezarpenetan.",
-      "network": "Sare-errorea. Egiaztatu zure internet-konexioa.",
-      "aborted": "Aitortza bertan behera utzita.",
-      "unknown": "Ahots-ezagutzaren errore ezezaguna."
-    }
   },
   "install_prompt": {
     "title": "Instalatu Habla Anomia",

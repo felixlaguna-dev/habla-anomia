@@ -21,7 +21,6 @@ A fully offline Progressive Web App with 8 evidence-based exercises, adaptive di
 
 - **Fully offline** — works without internet after first load (PWA with Service Worker)
 - **No server required** — all data stored locally in IndexedDB
-- **Voice input** — speech recognition for users who struggle with typing
 - **Adaptive difficulty** — spaced repetition algorithm prioritizes words needing practice
 - **Accessibility-first** — extra-large text options, high contrast, minimum 56px touch targets
 - **i18n-ready** — Spanish (primary), Catalan, Basque, English

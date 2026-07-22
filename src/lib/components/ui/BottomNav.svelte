@@ -17,8 +17,6 @@
   /** Map icon name to SVG path data */
   let iconPaths: Record<string, string> = {
     home: 'M3 12l9-8 9 8m-3 0v7a1 1 0 0 1-1 1h-4v-5H9v5H5a1 1 0 0 1-1-1v-7',
-    exercises:
-      'M4 4h6v6H4V4zm10 0h6v6h-6V4zM4 14h6v6H4v-6zm10 0h6v6h-6v-6z',
     progress:
       'M3 3v18h18M8 16l3-4 3 2 4-5',
     settings:

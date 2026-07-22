@@ -11,7 +11,9 @@
   import { browser } from '$app/environment';
   import { playCompleteSound } from '$lib/utils/sounds';
   import { SpeechSynthesisService } from '$lib/speech/speech-synthesis';
-  import type { ExerciseType, Language, Word, AppSettings } from '$lib/types';
+  import { Spinner } from '$lib/components/ui';
+  import type { ExerciseType, Language, Word, AppSettings, Category } from '$lib/types';
+  import { CATEGORIES } from '$lib/types';
 
   import {
     PictureNamingExercise,
@@ -25,6 +27,12 @@
   } from '$lib/components/exercises';
 
   let exerciseType = $derived($page.params.type as ExerciseType);
+  // Optional "?category=" restricts the session to one semantic field
+  // (entry point: "Practicar una categoría" chooser). Invalid values are ignored.
+  let routeCategory = $derived.by(() => {
+    const raw = $page.url.searchParams.get('category');
+    return raw && CATEGORIES.includes(raw as Category) ? (raw as Category) : undefined;
+  });
   let settings = $state<AppSettings | null>(null);
   let words = $state<Word[]>([]);
   let loading = $state(true);
@@ -75,7 +83,12 @@
     const s = await getAllSettings();
     settings = s;
 
-    const plan = await generateSession(s.language, exerciseType, 10);
+    const plan = await generateSession(
+      s.language,
+      exerciseType,
+      10,
+      routeCategory ? { category: routeCategory } : {}
+    );
     words = plan.words;
     planCategory = plan.category;
 
@@ -153,6 +166,13 @@
     await initExercise();
   }
 
+  function goBack() {
+    // From "Practicar una categoría": return to that category's chooser rather
+    // than bouncing through /exercises → home.
+    if (routeCategory) goto(`${base}/practice/${routeCategory}`);
+    else goto(`${base}/exercises`);
+  }
+
   function handleCloseResults() {
     showResults = false;
     showConfetti = false;
@@ -197,7 +217,7 @@
 
 <section class="exercise-page">
   <header class="exercise-header">
-    <button class="back-btn" onclick={() => goto(`${base}/exercises`)} aria-label={$t('common.back')}>
+    <button class="back-btn" onclick={goBack} aria-label={$t('common.back')}>
       <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
         <polyline points="15 18 9 12 15 6"/>
       </svg>
@@ -209,12 +229,7 @@
   </header>
 
   {#if loading}
-    <div class="loading-container">
-      <div class="loading-content">
-        <div class="loading-spinner" aria-hidden="true"></div>
-        <p class="loading-text">{$t('common.loading')}</p>
-      </div>
-    </div>
+    <Spinner label={$t('common.loading')} />
   {:else if words.length > 0 && ExerciseComponent}
     <div class="exercise-content slide-up">
       <ExerciseComponent
@@ -385,38 +400,6 @@
   .header-spacer {
     width: var(--touch-min);
     flex-shrink: 0;
-  }
-
-  .loading-container {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    min-height: 40vh;
-  }
-
-  .loading-content {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: var(--space-md);
-  }
-
-  .loading-spinner {
-    width: 40px;
-    height: 40px;
-    border: 3px solid var(--surface-2);
-    border-top-color: var(--primary);
-    border-radius: 50%;
-    animation: spin 0.8s linear infinite;
-  }
-
-  @keyframes spin {
-    to { transform: rotate(360deg); }
-  }
-
-  .loading-text {
-    color: var(--text-dim);
-    font-size: var(--font-size-lg);
   }
 
   .error-container {

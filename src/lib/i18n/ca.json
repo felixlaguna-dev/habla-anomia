@@ -247,6 +247,15 @@
     "music": "Música",
     "toys": "Joguines"
   },
+  "practice": {
+    "section_title": "Practicar una categoria",
+    "choose_exercise": "Tria un exercici",
+    "picture_naming_desc": "Anomena imatges d'aquesta categoria",
+    "sentence_completion_desc": "Completa frases amb aquestes paraules",
+    "not_available": "Aquesta categoria no té prou paraules encara.",
+    "invalid_category": "Categoria no trobada.",
+    "back_home": "Tornar a l'inici"
+  },
   "install_prompt": {
     "title": "Instal·lar Habla Anomia",
     "description": "Afegeix l'app a la teva pantalla d'inici per accés ràpid",

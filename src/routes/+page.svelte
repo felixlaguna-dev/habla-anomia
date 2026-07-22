@@ -1,15 +1,17 @@
 <script lang="ts">
   import { t } from '$lib/i18n';
   import Card from '$lib/components/ui/Card.svelte';
+  import { CategoryIcon } from '$lib/components/ui';
   import { getSessions } from '$lib/db/sessions';
   import { getAllSettings, getStreakInfo } from '$lib/db';
-  import { getSRStats, getDueWords } from '$lib/engine/spaced-repetition';
-  import { getWeakCategories } from '$lib/engine/session-generator';
+  import { getCategoriesWithEnoughWords, awaitSeedReady, DRILLABLE_CATEGORY_MIN } from '$lib/db/words';
+  import { getSRStats } from '$lib/engine/spaced-repetition';
   import { getAccuracyByExercise } from '$lib/db/attempts';
+  import { EXERCISES } from '$lib/data/exercise-meta';
   import { onMount } from 'svelte';
   import { goto } from '$app/navigation';
   import { base } from '$app/paths';
-  import type { Language } from '$lib/types';
+  import type { Language, Category, ExerciseType } from '$lib/types';
 
   let totalSessions = $state(0);
   let todayCompleted = $state(0);
@@ -19,7 +21,7 @@
   let streakLongest = $state(0);
   let dueCount = $state(0);
   let language = $state<Language>('es');
-  let weakCategories: string[] = $state([]);
+  let practiceCategories: Category[] = $state([]);
   let loading = $state(true);
 
   // Daily plan recommendations
@@ -32,17 +34,6 @@
   }
 
   let dailyPlan = $state<PlanItem[]>([]);
-
-  const exerciseTypes: Record<string, { icon: string; color: string; key: string }> = {
-    'picture-naming': { icon: '🖼️', color: '#3b82f6', key: 'picture_naming' },
-    'semantic-features': { icon: '🧠', color: '#8b5cf6', key: 'semantic_features' },
-    'phonological-cueing': { icon: '🔤', color: '#06b6d4', key: 'phonological_cueing' },
-    'category-sorting': { icon: '📂', color: '#f59e0b', key: 'category_sorting' },
-    'generative-naming': { icon: '💡', color: '#10b981', key: 'generative_naming' },
-    'word-matching': { icon: '🔗', color: '#ef4444', key: 'word_matching' },
-    'sentence-completion': { icon: '📝', color: '#6366f1', key: 'sentence_completion' },
-    'opposites-synonyms': { icon: '🔄', color: '#ec4899', key: 'opposites_synonyms' }
-  };
 
   function getGreeting(): string {
     const hour = new Date().getHours();
@@ -63,14 +54,25 @@
       const settings = await getAllSettings();
       language = settings.language;
 
-      // Streak
-      const streakInfo = await getStreakInfo();
+      // The word-bank query below reads the words table, which is seeded by
+      // +layout.svelte on cold starts — wait for it so the category row renders
+      // on the very first load instead of staying empty until a route change.
+      await awaitSeedReady();
+
+      // Streak, sessions, SR stats and drillable categories are independent —
+      // fan them out instead of serializing four round-trips on the landing page.
+      const [streakInfo, sessions, srStats, cats] = await Promise.all([
+        getStreakInfo(),
+        getSessions(language, 100),
+        getSRStats(language),
+        getCategoriesWithEnoughWords(language, DRILLABLE_CATEGORY_MIN, true)
+      ]);
+
       streakCurrent = streakInfo.current;
       streakLongest = streakInfo.longest;
-
-      // Sessions count
-      const sessions = await getSessions(language, 100);
       totalSessions = sessions.length;
+      dueCount = srStats.due;
+      practiceCategories = cats;
 
       // Today's completed sessions (sessions that actually finished)
       const today = new Date().toISOString().split('T')[0];
@@ -87,10 +89,6 @@
         accuracy = Math.round(recent10.reduce((sum, s) => sum + s.accuracy, 0) / recent10.length);
       }
 
-      // SR stats
-      const srStats = await getSRStats(language);
-      dueCount = srStats.due;
-
       // Build daily plan
       await buildDailyPlan();
 
@@ -103,12 +101,12 @@
 
   async function buildDailyPlan() {
     const plan: PlanItem[] = [];
-    const allTypes = Object.keys(exerciseTypes);
+    const allTypes = EXERCISES.map((e) => e.type);
 
     // Get exercise accuracy data from past attempts
     const exerciseAccuracies = await getAccuracyByExercise(language);
 
-    let selectedTypes: string[];
+    let selectedTypes: ExerciseType[];
 
     if (exerciseAccuracies.length === 0) {
       // New user: show first 3 exercises as defaults
@@ -142,8 +140,9 @@
       'opposites-synonyms': $t('dashboard.practice_weak_category')
     };
 
+    const metaByType = new Map(EXERCISES.map((e) => [e.type, e]));
     for (const type of selectedTypes) {
-      const info = exerciseTypes[type];
+      const info = metaByType.get(type);
       if (!info) continue;
       plan.push({
         type,
@@ -259,10 +258,10 @@
   <section class="exercises-section">
     <h2 class="section-title">{$t('exercises.title')}</h2>
     <div class="exercise-chips stagger-children">
-      {#each Object.entries(exerciseTypes) as [type, exercise]}
+      {#each EXERCISES as exercise (exercise.type)}
         <button
           class="exercise-chip"
-          onclick={() => startExercise(type)}
+          onclick={() => startExercise(exercise.type)}
           aria-label={$t(`exercises.${exercise.key}.name`)}
         >
           <span class="chip-icon" style="background: {exercise.color}; color: white">
@@ -273,6 +272,25 @@
       {/each}
     </div>
   </section>
+
+  <!-- Practicar una categoría: drill one semantic field -->
+  {#if !loading && practiceCategories.length > 0}
+    <section class="category-section fade-in">
+      <h2 class="section-title">🗂️ {$t('practice.section_title')}</h2>
+      <div class="category-row">
+        {#each practiceCategories as cat}
+          <button
+            class="category-tile"
+            onclick={() => goto(`${base}/practice/${cat}`)}
+            aria-label={$t('practice.section_title') + ': ' + $t(`categories.${cat}`)}
+          >
+            <CategoryIcon category={cat} size="lg" />
+            <span class="category-tile-label">{$t(`categories.${cat}`)}</span>
+          </button>
+        {/each}
+      </div>
+    </section>
+  {/if}
 </div>
 
 <style>
@@ -505,6 +523,73 @@
   .chip-label {
     line-height: 1.2;
     white-space: nowrap;
+  }
+
+  /* Category tiles ("Practicar una categoría") */
+  .category-section {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .category-row {
+    display: flex;
+    gap: 0.75rem;
+    overflow-x: auto;
+    padding: 0.5rem 0.25rem 0.75rem; /* room for the focus ring + scroll bar */
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .category-tile {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    min-width: 6.5rem;
+    min-height: var(--touch-min);
+    padding: 0.75rem 0.5rem;
+    background: var(--surface-2);
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius-lg);
+    color: var(--text);
+    font-family: var(--font-family);
+    cursor: pointer;
+    touch-action: manipulation;
+    scroll-snap-align: start;
+    transition: transform var(--transition-fast), background var(--transition-fast);
+  }
+
+  .category-tile:active {
+    transform: scale(0.96);
+    background: var(--surface-3);
+  }
+
+  .category-tile-label {
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-align: center;
+    line-height: 1.2;
+    overflow-wrap: break-word;
+    /* Clamp to 2 lines so tall labels stay tidy inside a fixed-width tile. */
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  /* Tablet+: bigger tiles, more visible per row */
+  @media (min-width: 768px) {
+    .category-tile {
+      min-width: 8rem;
+      padding: 1rem 0.75rem;
+    }
+
+    .category-tile-label {
+      font-size: 1rem;
+    }
   }
 
   /* Tablet+: 4 columns */

@@ -1,13 +1,23 @@
 import type { Language, ExerciseType, Category, Word, DifficultyLevel, Attempt } from '$lib/types';
 import { getWordCategories, wordHasImage, IMAGE_DEPENDENT_EXERCISES } from '$lib/types';
 import { getDueWords } from './spaced-repetition';
-import { getRandomWords, getWordsByCategory, getWordById } from '$lib/db/words';
+import { getRandomWords, getWordsByCategory, getWordById, getCategoryWordCounts } from '$lib/db/words';
 import { getAccuracyByCategory, getRecentAttempts } from '$lib/db/attempts';
 import { db } from '$lib/db/database';
 
 export interface SessionPlan {
   exerciseType: ExerciseType;
   words: Word[];
+  category?: Category;
+}
+
+/** Optional constraints for {@link generateSession}. */
+export interface SessionOptions {
+  /**
+   * Restrict every selection pool to one semantic category. When set, due words
+   * come from that category first, then random words within it; the weak-
+   * category step is skipped (it would just re-select the same category).
+   */
   category?: Category;
 }
 
@@ -106,18 +116,27 @@ function pickByDifficulty(words: Word[], cap: DifficultyLevel, n: number): Word[
  * difficulty level (see {@link getUserMaxDifficulty}), relaxing only when a
  * pool can't otherwise fill the session. The final word list is ordered
  * easy-to-hard so sessions ramp up gently.
+ *
+ * When `options.category` is set, every pool is restricted to that one
+ * semantic field — due words from it first, then random words within it, and
+ * the weak-category step is skipped.
  */
 export async function generateSession(
   language: Language,
   exerciseType: ExerciseType,
-  wordCount: number = 10
+  wordCount: number = 10,
+  options: SessionOptions = {}
 ): Promise<SessionPlan> {
+  const { category } = options;
   const selectedIds = new Set<string>();
   const words: Word[] = [];
   const needsImage = IMAGE_DEPENDENT_EXERCISES.includes(exerciseType);
   const maxDifficulty = await getUserMaxDifficulty(language);
+  const inCategory = (w: Word) => !category || getWordCategories(w).includes(category);
 
   // ── Special handling for category-sorting: need >= 2 categories ──
+  // A single forced category can't populate ≥ 2 bins, so this exercise ignores
+  // `options.category` (the practice chooser never offers it with one anyway).
   if (exerciseType === 'category-sorting') {
     const categories = await pickCategories(language, Math.min(4, wordCount), needsImage);
     if (categories.length < 2) {
@@ -142,35 +161,46 @@ export async function generateSession(
     const withOpposite = await db.words
       .where('language')
       .equals(language)
-      .filter((w: Word) => !!(w.opposite && w.opposite !== '') && (!needsImage || wordHasImage(w)))
+      .filter((w: Word) => !!(w.opposite && w.opposite !== '') && (!needsImage || wordHasImage(w)) && inCategory(w))
       .toArray();
 
     // Viability check is on the raw pool: applyDifficultyFloor only ever
     // narrows (or relaxes back to the full set), so a non-empty pool stays
     // non-empty, and >= 3 here implies >= 3 after capping.
     if (withOpposite.length >= 3) {
-      return { exerciseType, words: pickByDifficulty(withOpposite, maxDifficulty, wordCount) };
+      return { exerciseType, words: pickByDifficulty(withOpposite, maxDifficulty, wordCount), category };
     }
 
     // Fallback: use words with synonyms
     const withSynonyms = await db.words
       .where('language')
       .equals(language)
-      .filter((w: Word) => !!(w.synonyms && w.synonyms.length > 0) && (!needsImage || wordHasImage(w)))
+      .filter((w: Word) => !!(w.synonyms && w.synonyms.length > 0) && (!needsImage || wordHasImage(w)) && inCategory(w))
       .toArray();
 
     if (withSynonyms.length === 0) {
-      return { exerciseType, words: [] };
+      return { exerciseType, words: [], category };
     }
 
     return {
       exerciseType,
-      words: pickByDifficulty(withSynonyms, maxDifficulty, wordCount)
+      words: pickByDifficulty(withSynonyms, maxDifficulty, wordCount),
+      category
     };
   }
 
   // ── Special handling for generative-naming: need a category ──
   if (exerciseType === 'generative-naming') {
+    // Honor a forced category; otherwise pick one at random.
+    if (category) {
+      const catWords = (await getWordsByCategory(category, language))
+        .filter(w => !needsImage || wordHasImage(w));
+      return {
+        exerciseType,
+        words: pickByDifficulty(catWords, maxDifficulty, wordCount),
+        category
+      };
+    }
     const allCats = await getAllPopulatedCategories(language, needsImage);
     if (allCats.length === 0) {
       return { exerciseType, words: [] };
@@ -185,21 +215,30 @@ export async function generateSession(
     };
   }
 
+  // When drilling a category, its pool is fetched lazily on first fill (see the
+  // loop below) so returning users whose due words already fill the session
+  // never pay the fetch. The difficulty floor is applied once at the widest band
+  // needed, not per iteration.
+  let flooredCategoryPool: Word[] | null = null;
+
   // ── 1. Priority: due words from spaced repetition (bypass cap) ───────
   // SM-2 already deemed these due — the user has seen them, so difficulty is
-  // secondary to review timing.
+  // secondary to review timing. When drilling a category, only due words from
+  // it qualify.
   const dueIds = await getDueWords(language, wordCount);
   for (const id of dueIds) {
     if (selectedIds.size >= wordCount) break;
     const word = await getWordById(id);
-    if (word && (!needsImage || wordHasImage(word))) {
+    if (word && (!needsImage || wordHasImage(word)) && inCategory(word)) {
       selectedIds.add(id);
       words.push(word);
     }
   }
 
   // ── 2. Fill from weak categories ─────────────────────────────────────
-  if (words.length < wordCount) {
+  // Skipped when drilling a single category — "weak categories" has no meaning
+  // for a user-chosen field, and the random fill below already covers it.
+  if (!category && words.length < wordCount) {
     const weakCategories = await getWeakCategories(language, 3);
     // Gather the full weak pool (deduped — words can span categories) so the
     // floor check sees the real number of usable words. Fetch in parallel.
@@ -226,18 +265,29 @@ export async function generateSession(
   }
 
   // ── 3. Fill remaining with random words ──────────────────────────────
-  // Refetch in a loop so a window that overlaps heavily with already-chosen
-  // due/weak words gets another draw instead of leaving the session short.
-  // Each fetch is floored to the user's level (relaxing only when an easy fetch
-  // can't cover the remaining slots). The guard bounds work when the bank is
-  // genuinely too small to fill — we never loop forever on a stuck window.
+  // When drilling a category, draw from its (lazily-fetched, once-floored)
+  // pool; otherwise refetch in a loop so a window that overlaps heavily with
+  // already-chosen due/weak words gets another draw instead of leaving the
+  // session short. Each random fetch is floored to the user's level (relaxing
+  // only when an easy fetch can't cover the remaining slots). The guard bounds
+  // work when the bank is genuinely too small to fill — we never loop forever.
   let guard = 0;
   while (words.length < wordCount && guard++ < 4) {
     const remaining = wordCount - words.length;
-    let randomWords = await getRandomWords(remaining * 2, language);
-    if (needsImage) randomWords = randomWords.filter(wordHasImage);
-    randomWords = applyDifficultyFloor(randomWords, maxDifficulty, remaining);
-    for (const w of randomWords) {
+    let randomWords: Word[];
+    if (category) {
+      if (flooredCategoryPool === null) {
+        const pool = (await getWordsByCategory(category, language))
+          .filter(w => !needsImage || wordHasImage(w));
+        flooredCategoryPool = applyDifficultyFloor(pool, maxDifficulty, wordCount);
+      }
+      randomWords = flooredCategoryPool;
+    } else {
+      randomWords = await getRandomWords(remaining * 2, language);
+      if (needsImage) randomWords = randomWords.filter(wordHasImage);
+      randomWords = applyDifficultyFloor(randomWords, maxDifficulty, remaining);
+    }
+    for (const w of shuffleArray(randomWords)) {
       if (words.length >= wordCount) break;
       if (!selectedIds.has(w.id)) {
         selectedIds.add(w.id);
@@ -248,7 +298,8 @@ export async function generateSession(
 
   return {
     exerciseType,
-    words: sortByDifficulty(words)
+    words: sortByDifficulty(words),
+    category
   };
 }
 
@@ -282,22 +333,13 @@ export async function getWeakCategories(
 // ─── Internal helpers ────────────────────────────────────────────────────
 
 /**
- * Get all categories that actually have words in the DB for a given language.
- * If needsImage is true, only counts words that have images.
+ * All categories that actually have words in the DB for a given language
+ * (optionally image-bearing). Delegates to the shared tally in the db layer so
+ * the "scan the language, count by category" loop has one home.
  */
 async function getAllPopulatedCategories(language: Language, needsImage: boolean = false): Promise<Category[]> {
-  const words = await db.words
-    .where('language')
-    .equals(language)
-    .toArray();
-  const categorySet = new Set<Category>();
-  for (const w of words) {
-    if (needsImage && !wordHasImage(w)) continue;
-    for (const cat of getWordCategories(w)) {
-      categorySet.add(cat);
-    }
-  }
-  return [...categorySet].sort();
+  const counts = await getCategoryWordCounts(language, needsImage);
+  return [...counts.keys()].sort();
 }
 
 /**

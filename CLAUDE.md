@@ -21,8 +21,8 @@ Free, open-source PWA for anomia (aphasia) rehabilitation.
 - Word bank: `src/lib/data/words-es.ts` (~523 words across 20 categories, multi-category `categories: Category[]`). All words have images.
 - Database: `src/lib/db/` (Dexie v3 schema — multi-category, no `category` index. Tables: words, attempts, sessions, settings, spacedRepetition)
 - Engine: `src/lib/engine/` (session-generator, spaced-repetition, statistics)
-- UI components: `src/lib/components/ui/` (14 components)
-- Speech: `src/lib/speech/` (speech-synthesis.ts for TTS) + `src/lib/components/speech/` (SpeechInput component exists but NOT used in exercises — all exercises are multiple-choice only)
+- UI components: `src/lib/components/ui/` (shared accessibility-first components; see `index.ts` for the full list)
+- Speech: `src/lib/speech/speech-synthesis.ts` (TTS — text-to-speak)
 - Utils: `src/lib/utils/sounds.ts` (Web Audio API sound effects)
 - Keyboard nav: `src/lib/utils/keyboard-nav.ts` (useKeyboardNav Svelte action, all 8 exercises)
 - Exercise helpers: `src/lib/utils/exercise-helpers.ts` (shared restart/completion/feedback logic)
@@ -34,7 +34,7 @@ Free, open-source PWA for anomia (aphasia) rehabilitation.
 - Min 56px touch targets on all interactive elements
 - All user-facing strings via `$t('key')` from i18n (NO hardcoded strings)
 - Language: code/comments in English, UI in Spanish
-- All exercises use multiple choice / tap-to-select (aphasia patients can't type — NO SpeechInput in exercises)
+- All exercises use multiple choice / tap-to-select (aphasia patients can't type — never require typing or speech input)
 - Sound effects for correct/incorrect/completion via Web Audio API
 - Timer component: use `seconds={durationSeconds}` (NOT bare `{seconds}`)
 - Tablet: all 8 exercises have `@media (min-width: 768px)` responsive CSS (side-by-side, multi-column)

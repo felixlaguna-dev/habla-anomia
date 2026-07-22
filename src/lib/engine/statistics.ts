@@ -1,6 +1,7 @@
 import type { Language, ExerciseType, DailyStats } from '$lib/types';
 import { getAccuracyOverTime, getAccuracyByCategory, getAccuracyByExercise } from '$lib/db/attempts';
-import { getDailyStats as getDBDailyStats, getStreak } from '$lib/db/sessions';
+import { getDailyStats as getDBDailyStats } from '$lib/db/sessions';
+import { getStreakInfo } from '$lib/db/streaks';
 
 /**
  * Produce a weekly summary covering the last 7 days.
@@ -14,7 +15,7 @@ export async function getWeeklySummary(language: Language): Promise<{
 }> {
   const DAYS = 7;
   const rawStats = await getDBDailyStats(DAYS, language);
-  const streak = await getStreak(language);
+  const streakInfo = await getStreakInfo();
 
   // Transform raw DB rows into DailyStats objects
   const dailyBreakdown: DailyStats[] = rawStats.map(row => ({
@@ -26,10 +27,10 @@ export async function getWeeklySummary(language: Language): Promise<{
     streak: 0 // filled below
   }));
 
-  // Apply current streak to every day (the caller can derive per-day streaks
-  // from the sessions DB if needed; here we attach the live streak value)
+  // Attach the current streak (from the settings store) to each day.
+  // Per-day streak history isn't tracked; the same live value is used for all.
   for (const day of dailyBreakdown) {
-    day.streak = streak;
+    day.streak = streakInfo.current;
   }
 
   // Aggregate totals

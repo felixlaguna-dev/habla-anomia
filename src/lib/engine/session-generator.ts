@@ -144,67 +144,6 @@ export async function generateSession(
 }
 
 /**
- * Generate a recommended daily plan comprising multiple sessions:
- *
- *   - Picture naming with due SR words (10 words)
- *   - SFA session with weak-category words (5 words)
- *   - Category sorting session (8 words, mixed categories)
- *   - Review session – generative naming or word matching (10 words)
- */
-export async function generateDailyPlan(language: Language): Promise<SessionPlan[]> {
-  const plans: SessionPlan[] = [];
-
-  // 1. Picture naming with due words
-  const pictureNaming = await generateSession(language, 'picture-naming', 10);
-  plans.push(pictureNaming);
-
-  // 2. SFA session – pick one weak category and use its words
-  const weakCategories = await getWeakCategories(language, 1);
-  const sfaCategory = weakCategories[0];
-  if (sfaCategory) {
-    const catWords = await getWordsByCategory(sfaCategory, language);
-    const sfaWords = shuffleArray(catWords).slice(0, 5);
-    plans.push({
-      exerciseType: 'semantic-features',
-      words: sfaWords,
-      category: sfaCategory
-    });
-  } else {
-    // No weak categories yet – use random words
-    const randomWords = await getRandomWords(5, language);
-    plans.push({
-      exerciseType: 'semantic-features',
-      words: randomWords
-    });
-  }
-
-  // 3. Category sorting – mix words from two categories
-  const categories = weakCategories.length >= 2
-    ? weakCategories.slice(0, 2)
-    : await pickCategories(language, 2, true);
-  const sortingWords: Word[] = [];
-  for (const cat of categories) {
-    const catWords = (await getWordsByCategory(cat, language))
-      .filter(w => wordHasImage(w));
-    sortingWords.push(...shuffleArray(catWords).slice(0, 4));
-  }
-  plans.push({
-    exerciseType: 'category-sorting',
-    words: shuffleArray(sortingWords).slice(0, 8),
-    category: categories[0]
-  });
-
-  // 4. Review session – alternate between generative naming and word matching
-  const reviewType: ExerciseType = Math.random() < 0.5
-    ? 'generative-naming'
-    : 'word-matching';
-  const reviewSession = await generateSession(language, reviewType, 10);
-  plans.push(reviewSession);
-
-  return plans;
-}
-
-/**
  * Return the categories with the lowest accuracy for a given language.
  * Falls back to categories with the fewest attempts, then random order.
  */

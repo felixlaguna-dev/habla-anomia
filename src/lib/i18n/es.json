@@ -40,8 +40,6 @@
       "short_name": "Nombra",
       "description": "Mira la imagen y elige la palabra correcta",
       "what_is_this": "¿Qué es esto?",
-      "type_answer": "Escribe tu respuesta",
-      "speak_answer": "Habla tu respuesta",
       "hint": "Pista",
       "hints": {
         "category": "Categoría: {value}",
@@ -60,8 +58,7 @@
       "location_prompt": "¿Dónde se encuentra?",
       "properties_prompt": "¿Cómo es? (color, forma, tamaño)",
       "associations_prompt": "¿Con qué lo asocias?",
-      "now_name_it": "Ahora intenta nombrarlo",
-      "type_answer": "Escribe el nombre"
+      "now_name_it": "Ahora intenta nombrarlo"
     },
     "phonological_cueing": {
       "name": "Pistas fonológicas",
@@ -86,8 +83,7 @@
       "sort_into": "Clasifica en: {category}",
       "correct": "¡Correcto!",
       "wrong": "Intenta con otra categoría",
-      "need_more_categories": "Se necesitan palabras de al menos 2 categorías diferentes para este ejercicio.",
-      "type_answer": "Escribe la categoría"
+      "need_more_categories": "Se necesitan palabras de al menos 2 categorías diferentes para este ejercicio."
     },
     "generative_naming": {
       "name": "Nombrar por categoría",
@@ -101,8 +97,7 @@
       "results_title": "Resultados",
       "you_found": "Has encontrado {count} palabras",
       "well_done": "¡Muy bien!",
-      "already_said": "Esa palabra ya la dijiste",
-      "type_answer": "Escribe una palabra"
+      "already_said": "Esa palabra ya la dijiste"
     },
     "word_matching": {
       "name": "Relacionar palabras",
@@ -110,8 +105,7 @@
       "description": "Conecta cada palabra con su significado",
       "match_definition": "Relaciona la palabra con su definición",
       "match_word": "Relaciona la definición con su palabra",
-      "select_answer": "Selecciona la respuesta correcta",
-      "type_answer": "Escribe la respuesta"
+      "select_answer": "Selecciona la respuesta correcta"
     },
     "sentence_completion": {
       "name": "Completar frases",
@@ -252,23 +246,6 @@
     "sports": "Deportes",
     "music": "Música",
     "toys": "Juguetes"
-  },
-  "speech": {
-    "placeholder": "Toca para hablar o escribe aquí...",
-    "answer": "Respuesta",
-    "stop_listening": "Dejar de escuchar",
-    "speak": "Hablar",
-    "listening": "Escuchando...",
-    "submit": "Enviar",
-    "submit_answer": "Enviar respuesta",
-    "errors": {
-      "no-speech": "No se detectó voz. Intenta de nuevo.",
-      "audio-capture": "No se encontró micrófono. Verifica tu dispositivo.",
-      "not-allowed": "Permiso de micrófono denegado. Actívalo en ajustes.",
-      "network": "Error de red. Verifica tu conexión a internet.",
-      "aborted": "Reconocimiento cancelado.",
-      "unknown": "Error desconocido en el reconocimiento de voz."
-    }
   },
   "install_prompt": {
     "title": "Instalar Habla Anomia",

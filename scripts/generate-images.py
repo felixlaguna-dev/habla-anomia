@@ -12,6 +12,9 @@ Usage:
     python scripts/generate-images.py                # generate all missing
 
 Makefile target: make generate-images
+
+NOTE: generated images ship at full resolution. Run `make optimize-images`
+(`npm run optimize:images`) afterwards to resize/recompress them in place.
 """
 import argparse
 import base64

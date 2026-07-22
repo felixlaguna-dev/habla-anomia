@@ -152,7 +152,7 @@
   },
   "progress": {
     "title": "Progreso",
-    "overall_accuracy": "Precisión general",
+    "overall_accuracy": "Precisión (7 días)",
     "by_category": "Por categoría",
     "by_exercise": "Por ejercicio",
     "words_mastered": "Palabras dominadas",
@@ -168,7 +168,12 @@
     "confirm_clear": "¿Seguro que quieres borrar todos los datos de progreso?",
     "current_streak": "Racha actual",
     "longest_streak": "Mejor racha",
-    "attempts": "Intentos"
+    "attempts": "Intentos",
+    "accuracy_over_time": "Precisión últimos 14 días",
+    "trend_label": "Tendencia",
+    "trend_improving": "Mejorando",
+    "trend_stable": "Estable",
+    "trend_declining": "Bajando"
   },
   "settings": {
     "title": "Ajustes",

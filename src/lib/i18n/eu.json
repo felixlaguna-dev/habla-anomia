@@ -152,7 +152,7 @@
   },
   "progress": {
     "title": "Aurrerapena",
-    "overall_accuracy": "Zehaztasun orokorra",
+    "overall_accuracy": "Zehaztasuna (7 egun)",
     "by_category": "Kategoriaren arabera",
     "by_exercise": "Ariketaren arabera",
     "words_mastered": "Menperatutako hitzak",
@@ -168,7 +168,12 @@
     "confirm_clear": "Ziur aurrerapenaren datu guztiak ezabatu nahi dituzula?",
     "current_streak": "Uneko seriea",
     "longest_streak": "Serie onena",
-    "attempts": "Saiakerak"
+    "attempts": "Saiakerak",
+    "accuracy_over_time": "Azken 14 egunetako zehaztasuna",
+    "trend_label": "Joera",
+    "trend_improving": "Hobetzen",
+    "trend_stable": "Egonkor",
+    "trend_declining": "Gainbehera"
   },
   "settings": {
     "title": "Ezarpenak",

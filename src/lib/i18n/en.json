@@ -152,7 +152,7 @@
   },
   "progress": {
     "title": "Progress",
-    "overall_accuracy": "Overall accuracy",
+    "overall_accuracy": "Accuracy (7 days)",
     "by_category": "By category",
     "by_exercise": "By exercise",
     "words_mastered": "Words mastered",
@@ -168,7 +168,12 @@
     "confirm_clear": "Are you sure you want to clear all progress data?",
     "current_streak": "Current streak",
     "longest_streak": "Longest streak",
-    "attempts": "Attempts"
+    "attempts": "Attempts",
+    "accuracy_over_time": "Accuracy (last 14 days)",
+    "trend_label": "Trend",
+    "trend_improving": "Improving",
+    "trend_stable": "Stable",
+    "trend_declining": "Declining"
   },
   "settings": {
     "title": "Settings",

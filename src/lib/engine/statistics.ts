@@ -107,14 +107,15 @@ export async function getExerciseBreakdown(language: Language): Promise<
 
 /**
  * Determine whether performance is improving, stable, or declining by
- * comparing the average accuracy of the first half of `dailyStats` to the
- * second half.
+ * comparing the average accuracy of the first half of the given daily
+ * accuracy points to the second half. Days with no attempts (`total === 0`)
+ * are ignored, and fewer than two active days reads as "stable".
  */
 export function calculateImprovementTrend(
-  dailyStats: DailyStats[]
+  dailyAccuracy: ReadonlyArray<{ accuracy: number; total: number }>
 ): 'improving' | 'stable' | 'declining' {
-  // Filter out days with no activity
-  const active = dailyStats.filter(d => d.sessions > 0);
+  // Filter out days with no attempts
+  const active = dailyAccuracy.filter(d => d.total > 0);
 
   if (active.length < 2) return 'stable';
 

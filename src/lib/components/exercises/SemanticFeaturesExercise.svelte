@@ -21,11 +21,11 @@
     language: Language;
    speechRate?: number;
    speakButtonsEnabled?: boolean;
-   onComplete?: (results: { score: number; total: number; details: Array<{ word: Word; correct: boolean; featuresCorrect: number }> }) => void;
-    onRestart?: () => void;
+   oncomplete?: (results: { score: number; total: number; details: Array<{ word: Word; correct: boolean; featuresCorrect: number }> }) => void;
+    onrestart?: () => void;
   };
 
-  let { words, allWords = [], language = 'es' as Language, speechRate = 0.8, speakButtonsEnabled = true, onComplete, onRestart }: Props = $props();
+  let { words, allWords = [], language = 'es' as Language, speechRate = 0.8, speakButtonsEnabled = true, oncomplete, onrestart }: Props = $props();
 
   // State
   let currentIndex = $state(0);
@@ -209,7 +209,7 @@
     startTime = Date.now();
     currentIndex++;
     if (currentIndex >= words.length) {
-      onComplete?.({ score, total: words.length, details: results });
+      oncomplete?.({ score, total: words.length, details: results });
     }
   }
 
@@ -233,7 +233,7 @@
 
   function handleRestart() {
     restart();
-    onRestart?.();
+    onrestart?.();
   }
 
   async function speakWord(word?: string) {

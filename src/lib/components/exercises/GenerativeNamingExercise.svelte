@@ -22,8 +22,8 @@
     language?: Language;
     category?: string;
     durationSeconds?: number;
-    onComplete?: (results: { score: number; total: number; wordsFound: string[]; details: Array<{ word: Word; correct: boolean }> }) => void;
-    onRestart?: () => void;
+    oncomplete?: (results: { score: number; total: number; wordsFound: string[]; details: Array<{ word: Word; correct: boolean }> }) => void;
+    onrestart?: () => void;
   };
 
   let {
@@ -32,8 +32,8 @@
     language = 'es' as Language, speechRate = 0.8, speakButtonsEnabled = true, timerEnabled = true,
     category,
     durationSeconds = 60,
-    onComplete,
-    onRestart,
+    oncomplete,
+    onrestart,
   }: Props = $props();
 
   // State
@@ -194,7 +194,7 @@
       correct: validWordsFound.includes(w.word.trim().toLowerCase()),
     }));
 
-    onComplete?.({
+    oncomplete?.({
       score: validWordsFound.length,
       total: words.length,
       wordsFound: validWordsFound,
@@ -212,7 +212,7 @@
 
   function handleRestart() {
     restart();
-    onRestart?.();
+    onrestart?.();
   }
 
   async function speakWord(word?: string) {

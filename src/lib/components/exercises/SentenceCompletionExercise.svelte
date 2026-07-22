@@ -18,8 +18,8 @@
     language?: Language;
    speechRate?: number;
    speakButtonsEnabled?: boolean;
-   onComplete?: (results: { score: number; total: number; details: Array<{ word: Word; correct: boolean; hintsUsed: number }> }) => void;
-    onRestart?: () => void;
+   oncomplete?: (results: { score: number; total: number; details: Array<{ word: Word; correct: boolean; hintsUsed: number }> }) => void;
+    onrestart?: () => void;
   };
 
   let {
@@ -27,8 +27,8 @@
     language = 'es' as Language,
     speechRate = 0.8,
     speakButtonsEnabled = true,
-    onComplete,
-    onRestart,
+    oncomplete,
+    onrestart,
   }: Props = $props();
 
   // State
@@ -228,7 +228,7 @@
     selectedIndex = null;
     currentIndex++;
     if (currentIndex >= words.length) {
-      onComplete?.({ score, total: words.length, details: results });
+      oncomplete?.({ score, total: words.length, details: results });
     }
   }
 
@@ -244,7 +244,7 @@
 
   function handleRestart() {
     restart();
-    onRestart?.();
+    onrestart?.();
   }
 
   // Keyboard navigation params

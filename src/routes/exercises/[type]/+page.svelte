@@ -149,6 +149,10 @@
 
     if (sessionId !== null) {
       await endSession(sessionId, accuracy, total);
+      // Session is finalized — drop the id so a "retry mistakes" run can't
+      // overwrite this row. The retry's per-word attempts are still recorded
+      // independently; broadening retry into its own session is ha-aslk's call.
+      sessionId = null;
     }
 
     // Update streak
@@ -232,17 +236,23 @@
     <Spinner label={$t('common.loading')} />
   {:else if words.length > 0 && ExerciseComponent}
     <div class="exercise-content slide-up">
-      <ExerciseComponent
-        {words}
-        {allWords}
-        language={settings?.language || 'es'}
-        category={planCategory}
-        speechRate={settings?.speech_rate ?? 0.8}
-        timerEnabled={settings?.timer_enabled ?? true}
-        speakButtonsEnabled={settings?.speak_buttons_enabled ?? true}
-        oncomplete={handleComplete}
-        onrestart={handleRestart}
-      />
+      <!-- Keying on `words` forces a fresh component instance on "retry
+           mistakes" (which swaps in a new failed-words array): without it the
+           child keeps its completed-run currentIndex and re-renders the stale
+           internal summary instead of restarting. -->
+      {#key words}
+        <ExerciseComponent
+          {words}
+          {allWords}
+          language={settings?.language || 'es'}
+          category={planCategory}
+          speechRate={settings?.speech_rate ?? 0.8}
+          timerEnabled={settings?.timer_enabled ?? true}
+          speakButtonsEnabled={settings?.speak_buttons_enabled ?? true}
+          oncomplete={handleComplete}
+          onrestart={handleRestart}
+        />
+      {/key}
     </div>
   {:else}
     <div class="error-container">

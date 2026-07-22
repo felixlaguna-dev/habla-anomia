@@ -16,12 +16,12 @@
     language?: Language;
     speechRate?: number;
     speakButtonsEnabled?: boolean;
-    onComplete?: (results: {
+    oncomplete?: (results: {
       score: number;
       total: number;
       details: Array<{ word: Word; correct: boolean; hintsUsed: number }>;
     }) => void;
-    onRestart?: () => void;
+    onrestart?: () => void;
   };
 
   let {
@@ -30,8 +30,8 @@
     language = 'es' as Language,
     speechRate = 0.8,
     speakButtonsEnabled = true,
-    onComplete,
-    onRestart,
+    oncomplete,
+    onrestart,
   }: Props = $props();
 
   const EXERCISE_TYPE = 'picture-naming' as ExerciseType;
@@ -170,7 +170,7 @@
     hintsUsed = 0;
     currentIndex++;
     if (currentIndex >= words.length) {
-      onComplete?.({ score, total: words.length, details: results });
+      oncomplete?.({ score, total: words.length, details: results });
     }
   }
 
@@ -187,7 +187,7 @@
 
   function handleRestart() {
     restart();
-    onRestart?.();
+    onrestart?.();
   }
 
   function handleImageError() {
@@ -310,7 +310,7 @@
     speakEnabled={speakButtonsEnabled}
     isSpeaking={tts.isSpeaking}
     onSpeak={speak}
-    onRestart={handleRestart}
+    onrestart={handleRestart}
   />
 {/if}
 

@@ -32,22 +32,24 @@ export default defineConfig({
       manifestFilename: 'manifest.json',
       includeAssets: [
         'favicon.svg',
-        'icons/*.png',
-        'images/words/*.webp'
+        'icons/*.png'
       ],
       workbox: {
         navigateFallback: '200.html',
-        maximumFileSizeToCacheInBytes: 4 * 1024 * 1024, // 4 MiB (some word images are ~1.7 MB)
+        maximumFileSizeToCacheInBytes: 2 * 1024 * 1024, // 2 MiB — only app-shell assets are precached
         globPatterns: [
-          '**/*.{js,css,html,svg,png,webp,woff2,ico,json}'
+          '**/*.{js,css,html,svg,ico,json,woff2}'
         ],
         runtimeCaching: [
           {
+            // Word images cache lazily as the patient encounters them (they are
+            // NOT precached). Soft LRU cap sized above the word bank, so every
+            // encountered image stays cached without a rotting hard-coded count.
             urlPattern: /\/images\/words\/.*\.webp$/,
             handler: 'CacheFirst',
             options: {
               cacheName: 'word-images',
-              expiration: { maxEntries: 500, maxAgeSeconds: 60 * 60 * 24 * 365 }
+              expiration: { maxEntries: 600, maxAgeSeconds: 60 * 60 * 24 * 365 }
             }
           },
           {

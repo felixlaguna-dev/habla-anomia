@@ -1,6 +1,6 @@
 import { db } from './database';
 import type { Word, Language, Category } from '$lib/types';
-import { getWordCategories } from '$lib/types';
+import { getWordCategories, wordHasImage, CATEGORIES } from '$lib/types';
 import { getSetting, setSetting } from './settings';
 
 /**
@@ -166,22 +166,80 @@ async function syncLanguage(langWords: Word[], existingIds: Set<string>): Promis
 }
 
 /**
- * List all distinct categories that have words for a given language.
+ * Minimum imaged-word count a category needs to be drillable in "Practicar una
+ * categoría". Shared by the home tile row and the practice chooser so the two
+ * can't disagree (a tile surfacing then a "not enough words" drill page).
  */
-export async function getCategories(language: Language): Promise<Category[]> {
+export const DRILLABLE_CATEGORY_MIN = 8;
+
+/**
+ * Tally words per category for a language in a single scan. When `needsImage`,
+ * only image-bearing words count. Shared by the category-listing helpers below
+ * so the "scan the language, count by category" loop lives in one place.
+ */
+export async function getCategoryWordCounts(
+  language: Language,
+  needsImage: boolean = false
+): Promise<Map<Category, number>> {
   const words = await db.words
     .where('language')
     .equals(language)
     .toArray();
 
-  const categorySet = new Set<Category>();
+  const counts = new Map<Category, number>();
   for (const w of words) {
+    if (needsImage && !wordHasImage(w)) continue;
     for (const cat of getWordCategories(w)) {
-      categorySet.add(cat);
+      counts.set(cat, (counts.get(cat) ?? 0) + 1);
     }
   }
+  return counts;
+}
 
-  return [...categorySet].sort();
+/**
+ * List all distinct categories that have words for a given language.
+ */
+export async function getCategories(language: Language): Promise<Category[]> {
+  const counts = await getCategoryWordCounts(language);
+  return [...counts.keys()].sort();
+}
+
+/**
+ * Categories with at least `minCount` words for a language, in canonical
+ * {@link CATEGORIES} order. When `needsImage` (default), only image-bearing
+ * words count — image-dependent drills need a real picture per item. Used to
+ * decide which categories are drillable in "Practicar una categoría": a category
+ * that is too thin never surfaces as a tile.
+ */
+export async function getCategoriesWithEnoughWords(
+  language: Language,
+  minCount: number = DRILLABLE_CATEGORY_MIN,
+  needsImage: boolean = true
+): Promise<Category[]> {
+  const counts = await getCategoryWordCounts(language, needsImage);
+  // Canonical order keeps tile positions stable across sessions (muscle memory).
+  return CATEGORIES.filter((c) => (counts.get(c) ?? 0) >= minCount);
+}
+
+/**
+ * Whether a single category has at least `minCount` imaged words. Stops scanning
+ * as soon as the threshold is met (Dexie short-circuits `.limit()` with
+ * `.filter()`), so validating one category on the practice chooser is cheaper
+ * than rebuilding the full tally that the home tile row already computed.
+ */
+export async function categoryHasEnoughWords(
+  category: Category,
+  language: Language,
+  minCount: number = DRILLABLE_CATEGORY_MIN,
+  needsImage: boolean = true
+): Promise<boolean> {
+  const sample = await db.words
+    .where('language')
+    .equals(language)
+    .filter((w) => getWordCategories(w).includes(category) && (!needsImage || wordHasImage(w)))
+    .limit(minCount)
+    .toArray();
+  return sample.length >= minCount;
 }
 
 /**

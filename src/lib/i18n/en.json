@@ -247,6 +247,15 @@
     "music": "Music",
     "toys": "Toys"
   },
+  "practice": {
+    "section_title": "Practice a category",
+    "choose_exercise": "Choose an exercise",
+    "picture_naming_desc": "Name pictures from this category",
+    "sentence_completion_desc": "Complete sentences with these words",
+    "not_available": "This category doesn't have enough words yet.",
+    "invalid_category": "Category not found.",
+    "back_home": "Back to home"
+  },
   "install_prompt": {
     "title": "Install Habla Anomia",
     "description": "Add this app to your home screen for quick access",

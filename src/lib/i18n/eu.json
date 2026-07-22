@@ -247,6 +247,15 @@
     "music": "Musika",
     "toys": "Jostailuak"
   },
+  "practice": {
+    "section_title": "Kategoria bat praktikatu",
+    "choose_exercise": "Aukeratu ariketa bat",
+    "picture_naming_desc": "Izendatu kategoria honetako irudiak",
+    "sentence_completion_desc": "Osatu esaldiak hitz hauekin",
+    "not_available": "Kategoria honek ez ditu nahiko hitz oraindik.",
+    "invalid_category": "Ez da kategoria aurkitu.",
+    "back_home": "Hasierara itzuli"
+  },
   "install_prompt": {
     "title": "Instalatu Habla Anomia",
     "description": "Gehitu aplikazioa zure hasierako pantailara sarbide azkarretarako",

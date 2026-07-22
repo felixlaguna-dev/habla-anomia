@@ -2,20 +2,10 @@
   import { t } from '$lib/i18n';
   import { browser } from '$app/environment';
   import { Card } from '$lib/components/ui';
+  import { EXERCISES } from '$lib/data/exercise-meta';
 
   const APP_VERSION: string = __APP_VERSION__ ?? '0.0.0';
   const GIT_HASH: string = __APP_GIT_HASH__ ?? 'dev';
-
-  const exerciseDescriptions = [
-    { key: 'picture_naming', icon: '🖼️', color: '#3b82f6' },
-    { key: 'semantic_features', icon: '🧠', color: '#8b5cf6' },
-    { key: 'phonological_cueing', icon: '🔊', color: '#06b6d4' },
-    { key: 'category_sorting', icon: '📂', color: '#f59e0b' },
-    { key: 'generative_naming', icon: '💡', color: '#10b981' },
-    { key: 'word_matching', icon: '🔗', color: '#ef4444' },
-    { key: 'sentence_completion', icon: '✍️', color: '#6366f1' },
-    { key: 'opposites_synonyms', icon: '↔️', color: '#ec4899' }
-  ];
 </script>
 
 <svelte:head>
@@ -40,7 +30,7 @@
     <Card>
       <p class="section-heading section-intro">{$t('about.exercises_help')}</p>
       <div class="exercise-list stagger-children">
-        {#each exerciseDescriptions as exercise}
+        {#each EXERCISES as exercise (exercise.type)}
           <div class="exercise-item">
             <span class="exercise-emoji" style="background: {exercise.color}20; color: {exercise.color}" aria-hidden="true">{exercise.icon}</span>
             <div class="exercise-info">

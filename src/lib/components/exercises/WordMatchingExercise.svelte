@@ -24,12 +24,12 @@
     speechRate?: number;
     speakButtonsEnabled?: boolean;
     mode?: MatchingMode;
-    onComplete?: (results: {
+    oncomplete?: (results: {
       score: number;
       total: number;
       details: Array<{ word: Word; correct: boolean }>;
     }) => void;
-    onRestart?: () => void;
+    onrestart?: () => void;
   };
 
   let {
@@ -39,8 +39,8 @@
     speechRate = 0.8,
     speakButtonsEnabled = true,
     mode = 'word-to-definition',
-    onComplete,
-    onRestart,
+    oncomplete,
+    onrestart,
   }: Props = $props();
 
   const EXERCISE_TYPE = 'word-matching' as ExerciseType;
@@ -152,7 +152,7 @@
     currentIndex++;
     startTime = Date.now();
     if (currentIndex >= words.length) {
-      onComplete?.({ score, total: words.length, details: results });
+      oncomplete?.({ score, total: words.length, details: results });
     }
   }
 
@@ -167,7 +167,7 @@
 
   function handleRestart() {
     restart();
-    onRestart?.();
+    onrestart?.();
   }
 
   let keyboardNavParams = $derived<KeyboardNavParams>({
@@ -283,7 +283,7 @@
     speakEnabled={speakButtonsEnabled}
     isSpeaking={tts.isSpeaking}
     onSpeak={speak}
-    onRestart={handleRestart}
+    onrestart={handleRestart}
   />
 {/if}
 

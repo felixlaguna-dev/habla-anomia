@@ -18,11 +18,11 @@
     language: Language;
    speechRate?: number;
    speakButtonsEnabled?: boolean;
-   onComplete?: (results: { score: number; total: number; details: Array<{ word: Word; correct: boolean; selectedCategory: Category | null }> }) => void;
-    onRestart?: () => void;
+   oncomplete?: (results: { score: number; total: number; details: Array<{ word: Word; correct: boolean; selectedCategory: Category | null }> }) => void;
+    onrestart?: () => void;
   };
 
-  let { words, language = 'es' as Language, speechRate = 0.8, speakButtonsEnabled = true, onComplete, onRestart }: Props = $props();
+  let { words, language = 'es' as Language, speechRate = 0.8, speakButtonsEnabled = true, oncomplete, onrestart }: Props = $props();
 
   // Derive categories from the word list (flatten multi-category)
   let categories = $derived([...new Set(words.flatMap(w => getWordCategories(w)))]);
@@ -153,7 +153,7 @@
     startTime = Date.now();
     currentIndex++;
     if (currentIndex >= shuffledItems.length) {
-      onComplete?.({ score, total: shuffledItems.length, details: results });
+      oncomplete?.({ score, total: shuffledItems.length, details: results });
     }
   }
 
@@ -195,7 +195,7 @@
 
   function handleRestart() {
     restart();
-    onRestart?.();
+    onrestart?.();
   }
 
   async function speakWord(word?: string) {

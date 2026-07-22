@@ -20,7 +20,7 @@
     speakEnabled?: boolean;
     isSpeaking?: boolean;
     onSpeak?: (word: string) => void;
-    onRestart?: () => void;
+    onrestart?: () => void;
   };
 
   let {
@@ -30,7 +30,7 @@
     speakEnabled = false,
     isSpeaking = false,
     onSpeak,
-    onRestart,
+    onrestart,
   }: Props = $props();
 
   let ratio = $derived(total > 0 ? score / total : 0);
@@ -65,7 +65,7 @@
     <Button variant="primary" size="lg" onclick={() => goto(`${base}/exercises`)}>
       ← {$t('common.back_to_exercises')}
     </Button>
-    <Button variant="secondary" size="md" onclick={onRestart}>
+    <Button variant="secondary" size="md" onclick={onrestart}>
       🔄 {$t('common.restart')}
     </Button>
   </div>

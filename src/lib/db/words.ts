@@ -1,6 +1,7 @@
 import { db } from './database';
 import type { Word, Language, Category } from '$lib/types';
 import { getWordCategories } from '$lib/types';
+import { getSetting, setSetting } from './settings';
 
 /**
  * Global promise that resolves once the word bank has been seeded.
@@ -100,35 +101,68 @@ export async function getWordById(id: string): Promise<Word | undefined> {
 }
 
 /**
- * Bulk insert a word bank. Checks if the words are already seeded by
- * verifying the count for the given language matches — if so, skips.
+ * Seed/sync the word bank from a source list, keyed by `seed_version_<lang>`.
+ *
+ * Version-gated upsert semantics so existing installs receive edits and
+ * removals rather than being stuck with the first seed forever:
+ *   - Fast path: when the stored version equals `version` AND the on-disk word
+ *     count matches the source, skip entirely.
+ *   - Sync path: upsert ALL source words (overwrites edited fields), delete DB
+ *     words in the language whose id is absent from the source, prune
+ *     spacedRepetition rows that reference those removed ids, then store the
+ *     new version.
+ *
+ * Attempts (history) and spacedRepetition entries for words that still exist
+ * are never touched — user progress survives.
  */
-export async function seedWords(words: Word[]): Promise<void> {
+export async function seedWords(words: Word[], version: number): Promise<void> {
   if (words.length === 0) return;
 
   const languages = [...new Set(words.map(w => w.language))];
 
-  await db.transaction('rw', db.words, async () => {
+  await db.transaction('rw', db.words, db.spacedRepetition, db.settings, async () => {
     for (const lang of languages) {
       const langWords = words.filter(w => w.language === lang);
-      const existingCount = await db.words.where('language').equals(lang).count();
+      const versionKey = `seed_version_${lang}`;
+      const storedVersion = await getSetting<number>(versionKey);
+      // One index-only read: the id list feeds both the fast-path count check
+      // and the removed-id diff in syncLanguage().
+      const existingIds = await db.words.where('language').equals(lang).primaryKeys();
 
-      if (existingCount >= langWords.length) {
-        // Already seeded for this language
+      // Fast path: same version and count → nothing to sync. The count clause
+      // also catches add/remove changes if WORDS_ES_VERSION wasn't bumped.
+      if (storedVersion === version && existingIds.length === langWords.length) {
         continue;
       }
 
-      // Only insert words that don't already exist
-      const existingIds = new Set(
-        (await db.words.where('language').equals(lang).toArray()).map(w => w.id)
-      );
-      const newWords = langWords.filter(w => !existingIds.has(w.id));
-
-      if (newWords.length > 0) {
-        await db.words.bulkAdd(newWords);
-      }
+      await syncLanguage(langWords, new Set(existingIds));
+      await setSetting(versionKey, version);
     }
   });
+}
+
+/**
+ * Upsert all source words and drop DB words/SR entries that no longer exist in
+ * the source. `existingIds` is the pre-sync id set (captured by the caller), so
+ * removed ids = existing − source. Runs inside the caller's transaction.
+ */
+async function syncLanguage(langWords: Word[], existingIds: Set<string>): Promise<void> {
+  // Upsert: overwrites edited words, adds new ones.
+  await db.words.bulkPut(langWords);
+
+  const sourceIds = new Set(langWords.map(w => w.id));
+  const removedIds = [...existingIds].filter(id => !sourceIds.has(id));
+
+  if (removedIds.length > 0) {
+    await db.words.bulkDelete(removedIds);
+    // Prune spaced-repetition progress for removed words. Attempts are kept as
+    // historical record (getAccuracyByCategory skips attempts whose word is
+    // gone — see src/lib/db/attempts.ts).
+    await db.spacedRepetition
+      .where('word_id')
+      .anyOf(removedIds)
+      .delete();
+  }
 }
 
 /**

@@ -6,7 +6,7 @@
   import { onMount } from 'svelte';
   import { getAllSettings, initDefaults } from '$lib/db/settings';
   import { seedWords, resolveSeedReady } from '$lib/db/words';
-  import { WORDS_ES } from '$lib/data/words-es';
+  import { WORDS_ES, WORDS_ES_VERSION } from '$lib/data/words-es';
   import { manifestUrl } from '$lib/utils/paths';
   import { applyAppearance } from '$lib/utils/appearance';
   import BottomNav from '$lib/components/ui/BottomNav.svelte';
@@ -24,8 +24,13 @@
     applyAppearance(settings);
 
     locale.set(settings.language);
-    await seedWords(WORDS_ES);
-    resolveSeedReady();
+    try {
+      await seedWords(WORDS_ES, WORDS_ES_VERSION);
+    } catch (err) {
+      console.error('Word bank seed failed; exercises will use whatever is in the DB.', err);
+    } finally {
+      resolveSeedReady();
+    }
   });
 
   let hideNav = $derived.by(() => {

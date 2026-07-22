@@ -100,6 +100,9 @@ export async function getAccuracyByCategory(
 
   for (const attempt of attempts) {
     const cats = wordCategories.get(attempt.word_id);
+    // Skip orphaned attempts whose word was removed from the seed. seedWords()
+    // keeps attempts as history but drops the word row, so these have no
+    // categories to credit. Verified: the join tolerates missing words.
     if (!cats) continue;
     for (const cat of cats) {
       const entry = grouped.get(cat) ?? { correct: 0, total: 0 };

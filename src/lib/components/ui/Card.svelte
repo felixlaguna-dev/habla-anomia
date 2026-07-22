@@ -18,9 +18,9 @@
   }: Props = $props();
 
   let padMap = {
-    sm: 'padding:var(--space-sm);',
-    md: 'padding:var(--space-lg);',
-    lg: 'padding:var(--space-xl);',
+    sm: 'padding:var(--card-pad, var(--space-sm));',
+    md: 'padding:var(--card-pad, var(--space-lg));',
+    lg: 'padding:var(--card-pad, var(--space-xl));',
   };
 
   let rootStyles = $derived(`

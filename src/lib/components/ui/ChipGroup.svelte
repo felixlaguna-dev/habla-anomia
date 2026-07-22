@@ -13,9 +13,9 @@
 </script>
 
 <div
+  class="chip-group"
   role="listbox"
   aria-label="Selection options"
-  style="display:flex;gap:var(--space-sm);overflow-x:auto;padding:var(--space-sm) 0;-webkit-overflow-scrolling:touch;scrollbar-width:thin;"
 >
   {#each options as opt (opt.value)}
     <Chip
@@ -25,3 +25,12 @@
     />
   {/each}
 </div>
+
+<style>
+  .chip-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-sm);
+    padding: var(--space-sm) 0;
+  }
+</style>

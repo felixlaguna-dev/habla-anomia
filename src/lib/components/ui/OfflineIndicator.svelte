@@ -50,7 +50,7 @@
 <style>
   .offline-banner {
     position: fixed;
-    bottom: 5rem;
+    bottom: var(--above-bottom-nav);
     left: 50%;
     transform: translateX(-50%);
     background: #dc2626;
@@ -69,7 +69,7 @@
 
   .online-banner {
     position: fixed;
-    bottom: 5rem;
+    bottom: var(--above-bottom-nav);
     left: 50%;
     transform: translateX(-50%);
     background: #16a34a;

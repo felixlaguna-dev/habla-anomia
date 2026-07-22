@@ -65,6 +65,12 @@
   /* Safe areas */
   --safe-bottom: env(safe-area-inset-bottom, 0px);
 
+  /* Fixed bottom nav height — shared by layout, BottomNav, Toast, OfflineIndicator */
+  --bottom-nav-height: 64px;
+
+  /* Clearance for fixed overlays anchored just above the bottom nav */
+  --above-bottom-nav: calc(var(--bottom-nav-height) + var(--safe-bottom) + var(--space-sm));
+
   /* Responsive breakpoints (informational — used in media queries below) */
   --breakpoint-tablet: 768px;
 }
@@ -449,10 +455,11 @@
   :root {
     --space-md: 1.25rem;
     --space-lg: 1.75rem;
+    --bottom-nav-height: 72px;
   }
 }
 
-/* Small mobile (narrow phones) */
+/* Small mobile (narrow phones) — drives root font-size via app.css, keep narrow */
 @media (max-width: 374px) {
   :root {
     --font-size-base: 16px;

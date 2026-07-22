@@ -84,7 +84,7 @@
     margin: 0 auto;
     padding: 0;
     list-style: none;
-    height: 64px;
+    height: var(--bottom-nav-height);
   }
 
   .nav-item {
@@ -183,12 +183,8 @@
     }
   }
 
-  /* Tablet: taller nav, bigger icons, full-width */
+  /* Tablet: bigger icons, full-width (nav height comes from --bottom-nav-height) */
   @media (min-width: 768px) {
-    .nav-list {
-      height: 72px;
-    }
-
     .icon-wrapper {
       width: 40px;
       height: 40px;

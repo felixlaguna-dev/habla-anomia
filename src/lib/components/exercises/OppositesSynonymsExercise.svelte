@@ -173,7 +173,8 @@
     if (feedbackState !== 'none') return;
     selectedIndex = index;
 
-    const isCorrect = options[index]?.toLowerCase() === correctAnswer.toLowerCase();
+    // Any valid synonym/opposite scores correct, not just the primary.
+    const isCorrect = validAnswers.includes(options[index]?.toLowerCase() ?? '');
 
     if (isCorrect) {
       feedbackState = 'correct';

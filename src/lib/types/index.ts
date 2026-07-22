@@ -37,6 +37,34 @@ export type Category =
   | 'toys';
 
 /**
+ * Every category value, in canonical order. Single source of truth — import
+ * this instead of hardcoding category lists so they can never drift from the
+ * union above (which is how missing categories snuck into distractor pools).
+ */
+export const CATEGORIES: Category[] = [
+  'animals',
+  'food',
+  'household',
+  'body-parts',
+  'clothing',
+  'vehicles',
+  'tools',
+  'professions',
+  'colors',
+  'actions',
+  'places',
+  'emotions',
+  'nature',
+  'family',
+  'weather',
+  'school',
+  'technology',
+  'sports',
+  'music',
+  'toys',
+];
+
+/**
  * Safely get a word's categories array.
  * Handles legacy words that still have `category` (string) instead of `categories` (array).
  */

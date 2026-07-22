@@ -1,7 +1,7 @@
 // URL helpers have moved to paths.ts — re-export for backwards compat
 export { resolveImageUrl, resolveUrl } from './paths';
 
-import { getWordCategories, type Word } from '$lib/types';
+import { getWordCategories, type Word, type SemanticFeatures } from '$lib/types';
 
 /**
  * Fisher-Yates shuffle — returns a new shuffled array without mutating the input.
@@ -109,4 +109,37 @@ export function buildDistractors(
   }
 
   return shuffleArray([correct, ...picked]);
+}
+
+/**
+ * Build up to `count` distractor values for a single semantic feature
+ * (function/location/properties). Prefers `sessionWords` for closer,
+ * same-typicality values, then pads from `allWords` so shared feature values
+ * never collapse a question below a full option set. The correct answer and any
+ * value already chosen are skipped; returns raw feature strings.
+ */
+export function buildFeatureDistractors(
+  key: keyof SemanticFeatures,
+  correctAnswer: string,
+  excludeId: string | undefined,
+  sessionWords: Word[],
+  allWords: Word[],
+  count = 3,
+): string[] {
+  const correctLower = correctAnswer.trim().toLowerCase();
+  const seen = new Set<string>([correctLower]);
+  const out: string[] = [];
+  for (const pool of [sessionWords, allWords]) {
+    for (const w of shuffleArray(pool)) {
+      if (out.length >= count) return out;
+      if (w.id === excludeId) continue;
+      const val = w.features?.[key];
+      const text = typeof val === 'string' ? val.trim() : '';
+      const lower = text.toLowerCase();
+      if (!text || seen.has(lower)) continue;
+      seen.add(lower);
+      out.push(text);
+    }
+  }
+  return out;
 }

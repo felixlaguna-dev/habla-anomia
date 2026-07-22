@@ -38,7 +38,7 @@
     flex-shrink: 0;
     font-family: var(--font-family);
     /* Subtle depth so the tile reads as a tappable element, not flat text. */
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+    box-shadow: var(--shadow-sm);
   }
 
   .cat-sm {

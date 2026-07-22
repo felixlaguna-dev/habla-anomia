@@ -75,13 +75,13 @@
 
 <style>
   .install-banner {
-    background: linear-gradient(135deg, #4f46e5, #6366f1);
+    background: var(--install-gradient);
     color: white;
     padding: 0.75rem 1rem;
     position: sticky;
     top: 0;
     z-index: 100;
-    box-shadow: 0 2px 8px rgba(79, 70, 229, 0.3);
+    box-shadow: var(--shadow-md);
     overflow: hidden;
     width: 100%;
     max-width: 100vw;
@@ -129,7 +129,7 @@
 
   .btn-install {
     background: white;
-    color: #4f46e5;
+    color: var(--install-accent);
     border: none;
     border-radius: 6px;
     padding: 0.5rem 0.75rem;
@@ -143,7 +143,7 @@
   }
 
   .btn-install:hover {
-    background: #f0f0ff;
+    filter: brightness(0.95);
   }
 
   .btn-dismiss {

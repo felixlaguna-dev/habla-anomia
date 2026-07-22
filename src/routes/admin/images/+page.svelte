@@ -90,9 +90,9 @@
   }
 
   function statusColor(status: string): string {
-    if (status === 'ok') return '#10b981';
-    if (status === 'missing') return '#ef4444';
-    return '#f59e0b';
+    if (status === 'ok') return 'var(--success)';
+    if (status === 'missing') return 'var(--error)';
+    return 'var(--warning)';
   }
 
   async function copySelected() {
@@ -130,9 +130,9 @@
   <!-- Stats bar -->
   <div class="stats-bar">
     <div class="stat"><span class="stat-num">{stats.total}</span> total</div>
-    <div class="stat" style="color: #10b981"><span class="stat-num">{stats.ok}</span> images OK</div>
-    <div class="stat" style="color: #ef4444"><span class="stat-num">{stats.missing}</span> missing</div>
-    <div class="stat" style="color: #f59e0b"><span class="stat-num">{stats.loading}</span> loading</div>
+    <div class="stat" style="color: var(--success)"><span class="stat-num">{stats.ok}</span> images OK</div>
+    <div class="stat" style="color: var(--error)"><span class="stat-num">{stats.missing}</span> missing</div>
+    <div class="stat" style="color: var(--warning)"><span class="stat-num">{stats.loading}</span> loading</div>
     <div class="stat"><span class="stat-num">{stats.filtered}</span> shown</div>
   </div>
 
@@ -388,13 +388,13 @@
   }
 
   .sel-btn-primary {
-    background: #3b82f6;
+    background: var(--primary);
     color: white;
-    border-color: #3b82f6;
+    border-color: var(--primary);
   }
 
   .sel-btn-primary:hover:not(:disabled) {
-    background: #2563eb;
+    background: var(--primary-hover);
   }
 
   /* Word grid */
@@ -420,12 +420,12 @@
   }
 
   .word-card:hover {
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    box-shadow: var(--shadow-sm);
   }
 
   .word-card.selected {
-    border-color: #3b82f6;
-    box-shadow: 0 0 0 2px rgba(59,130,246,0.3);
+    border-color: var(--primary);
+    box-shadow: 0 0 0 2px color-mix(in srgb, var(--primary) 30%, transparent);
   }
 
   .word-card.expanded {
@@ -470,8 +470,8 @@
   }
 
   .select-check[aria-checked="true"] .checkmark {
-    background: #3b82f6;
-    border-color: #3b82f6;
+    background: var(--primary);
+    border-color: var(--primary);
     color: white;
   }
 
@@ -479,7 +479,7 @@
     position: relative;
     width: 100%;
     aspect-ratio: 1;
-    background: #f0f0f0;
+    background: var(--surface-2);
     overflow: hidden;
     cursor: pointer;
   }

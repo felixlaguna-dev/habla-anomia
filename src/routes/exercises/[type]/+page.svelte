@@ -209,9 +209,9 @@
   }
 
   function getAccuracyColor(accuracy: number): string {
-    if (accuracy >= 80) return 'var(--success, #10b981)';
-    if (accuracy >= 50) return 'var(--warning, #f59e0b)';
-    return 'var(--error, #ef4444)';
+    if (accuracy >= 80) return 'var(--success)';
+    if (accuracy >= 50) return 'var(--warning)';
+    return 'var(--error)';
   }
 </script>
 
@@ -553,11 +553,11 @@
   }
 
   .correct-title {
-    color: var(--success, #10b981);
+    color: var(--success);
   }
 
   .incorrect-title {
-    color: var(--error, #ef4444);
+    color: var(--error);
   }
 
   .word-chips {
@@ -590,12 +590,12 @@
 
   .correct-chip {
     background: rgba(16, 185, 129, 0.15);
-    color: var(--success, #10b981);
+    color: var(--success);
   }
 
   .incorrect-chip {
     background: rgba(239, 68, 68, 0.15);
-    color: var(--error, #ef4444);
+    color: var(--error);
   }
 
   /* Actions */
@@ -612,7 +612,7 @@
     justify-content: center;
     min-height: var(--touch-min);
     padding: var(--space-sm) var(--space-xl);
-    background: var(--warning, #f59e0b);
+    background: var(--warning);
     color: white;
     border: none;
     border-radius: var(--radius-full);

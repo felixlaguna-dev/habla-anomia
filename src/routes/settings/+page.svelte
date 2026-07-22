@@ -569,10 +569,10 @@
     justify-content: center;
     min-height: var(--touch-min);
     padding: var(--space-sm) var(--space-xl);
-    background: var(--error, #ef4444);
+    background: var(--error);
     color: white;
     border: none;
-    border-radius: var(--radius-full, 999px);
+    border-radius: var(--radius-full);
     font-size: var(--font-size-lg);
     font-weight: 600;
     font-family: var(--font-family);
@@ -588,13 +588,14 @@
 
   .delete-data-btn.confirming {
     animation: flashRed 0.5s ease-in-out infinite alternate;
-    background: #b91c1c;
+    /* Holds the dimmed end-state when prefers-reduced-motion stops the animation. */
+    filter: brightness(0.82);
     font-weight: 800;
   }
 
   @keyframes flashRed {
-    0% { background: #b91c1c; }
-    100% { background: #ef4444; transform: scale(1.02); }
+    0% { filter: brightness(1); }
+    100% { filter: brightness(0.82); transform: scale(1.02); }
   }
 
   /* Tablet: bigger targets, wider toggles */

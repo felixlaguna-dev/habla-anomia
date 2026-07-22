@@ -315,13 +315,13 @@
   .app-title {
     font-size: 2rem;
     font-weight: 800;
-    color: var(--accent, #3b82f6);
+    color: var(--accent);
     margin: 0;
   }
 
   .app-subtitle {
     font-size: 1rem;
-    color: var(--text-secondary, #94a3b8);
+    color: var(--text-dim);
     margin: 0.25rem 0 0;
   }
 
@@ -329,7 +329,7 @@
     display: inline-block;
     margin-top: 0.5rem;
     padding: 0.25rem 0.75rem;
-    background: linear-gradient(135deg, #ff6b35, #f59e0b);
+    background: var(--streak-gradient);
     color: white;
     border-radius: 2rem;
     font-weight: 700;
@@ -356,7 +356,7 @@
 
   .stat-label {
     font-size: 0.75rem;
-    color: var(--text-secondary, #94a3b8);
+    color: var(--text-dim);
     text-align: center;
     overflow-wrap: break-word;
   }
@@ -427,7 +427,7 @@
 
   .plan-reason {
     font-size: 0.75rem;
-    color: var(--text-secondary, #94a3b8);
+    color: var(--text-dim);
     overflow-wrap: break-word;
   }
 
@@ -438,7 +438,7 @@
     min-height: 48px;
     min-width: 56px;
     padding: 0.25rem 0.75rem;
-    background: var(--accent, #3b82f6);
+    background: var(--primary);
     color: white;
     border: none;
     border-radius: 2rem;
@@ -455,7 +455,7 @@
   }
 
   .plan-item.completed .plan-start-btn {
-    background: var(--success, #10b981);
+    background: var(--success);
   }
 
   .plan-complete {
@@ -463,7 +463,7 @@
     padding: 1rem;
     font-size: 1.1rem;
     font-weight: 600;
-    color: var(--success, #10b981);
+    color: var(--success);
   }
 
   /* Exercise chips */
@@ -516,7 +516,7 @@
     height: 1.6rem;
     border-radius: 50%;
     font-size: 0.7rem;
-    box-shadow: 0 1px 4px rgba(0,0,0,0.3);
+    box-shadow: var(--shadow-sm);
     z-index: 1;
   }
 

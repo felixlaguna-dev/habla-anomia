@@ -109,14 +109,6 @@
   --font-scale: 1.4;
 }
 
-/* Backward-compatible text size classes */
-.text-size-large {
-  --font-scale: 1.2;
-}
-.text-size-xlarge {
-  --font-scale: 1.4;
-}
-
 /* High contrast mode overrides */
 .high-contrast {
   --border: #ffffff;

@@ -1,8 +1,8 @@
-import type { Language, ExerciseType, Category, Word } from '$lib/types';
+import type { Language, ExerciseType, Category, Word, DifficultyLevel, Attempt } from '$lib/types';
 import { getWordCategories, wordHasImage, IMAGE_DEPENDENT_EXERCISES } from '$lib/types';
 import { getDueWords } from './spaced-repetition';
 import { getRandomWords, getWordsByCategory, getWordById } from '$lib/db/words';
-import { getAccuracyByCategory } from '$lib/db/attempts';
+import { getAccuracyByCategory, getRecentAttempts } from '$lib/db/attempts';
 import { db } from '$lib/db/database';
 
 export interface SessionPlan {
@@ -11,15 +11,101 @@ export interface SessionPlan {
   category?: Category;
 }
 
+/** Number of past attempts used to gauge the user's current level. */
+const LEVEL_ATTEMPT_WINDOW = 50;
+
+/**
+ * Map a rolling accuracy (0-100) to the highest word difficulty (1-5) the user
+ * is ready for. Pure: no DB access, safe to unit-test directly.
+ *
+ *   < 60   → 2 (early recovery)
+ *   60-75  → 3
+ *   75-85  → 4
+ *   >= 85  → 5
+ *
+ * The no-history default (max 2) lives in {@link getUserMaxDifficulty}; here a
+ * caller passing accuracy 0 already gets 2.
+ */
+export function maxDifficultyFromAccuracy(accuracy: number): DifficultyLevel {
+  if (accuracy < 60) return 2;
+  if (accuracy < 75) return 3;
+  if (accuracy < 85) return 4;
+  return 5;
+}
+
+/**
+ * Highest word difficulty (1-5) the user should see in new sessions, derived
+ * from rolling accuracy over their last {@link LEVEL_ATTEMPT_WINDOW} attempts
+ * for `language`.
+ *
+ * Pass `attempts` explicitly to keep the call pure for tests; when omitted the
+ * recent attempts are read from the DB. Exported so the UI can surface the
+ * user's current level later.
+ */
+export async function getUserMaxDifficulty(
+  language: Language,
+  attempts?: Attempt[]
+): Promise<DifficultyLevel> {
+  const recent = attempts ?? await getRecentAttempts(LEVEL_ATTEMPT_WINDOW, language);
+  if (recent.length === 0) return 2;
+  const correct = recent.filter(a => a.correct).length;
+  const accuracy = (correct / recent.length) * 100;
+  return maxDifficultyFromAccuracy(accuracy);
+}
+
+/**
+ * Keep only words at or below `cap`. If that leaves fewer than `needed`, relax
+ * the cap one level at a time (up to 5) so an early-stage user still gets a
+ * full session rather than a short one — the floor never shrinks a session.
+ * Pure and deterministic; the caller shuffles/sorts the result.
+ */
+export function applyDifficultyFloor(
+  words: Word[],
+  cap: DifficultyLevel,
+  needed: number
+): Word[] {
+  if (words.length <= needed) return words;
+  let current = cap;
+  while (current < 5) {
+    const filtered = words.filter(w => w.difficulty <= current);
+    if (filtered.length >= needed) return filtered;
+    current = (current + 1) as DifficultyLevel;
+  }
+  return words;
+}
+
+/**
+ * Order words easy-to-hard. Shuffle first so the subsequent stable sort keeps a
+ * random order within each difficulty bucket — variety session-to-session, but
+ * always progressing from easy to hard within a session.
+ */
+export function sortByDifficulty(words: Word[]): Word[] {
+  return shuffleArray(words).sort((a, b) => a.difficulty - b.difficulty);
+}
+
+/**
+ * Pick the `n` easiest words from a pool: filter to the cap (relaxing via the
+ * floor if the pool can't otherwise supply `n`), order easy-to-hard, and take
+ * the first `n`. Convenience over {@link applyDifficultyFloor} +
+ * {@link sortByDifficulty}.
+ */
+function pickByDifficulty(words: Word[], cap: DifficultyLevel, n: number): Word[] {
+  return sortByDifficulty(applyDifficultyFloor(words, cap, n)).slice(0, n);
+}
+
 /**
  * Generate a single exercise session.
  *
  * Priority order:
- *   1. Due words from the spaced repetition queue
+ *   1. Due words from the spaced repetition queue (these BYPASS the difficulty
+ *      cap — if SM-2 says a hard word is due, the user has seen it before)
  *   2. Words from the user's weakest categories
  *   3. Random words to fill the remaining slots
  *
- * The final word list is shuffled.
+ * Candidate pools (except due words) are filtered to the user's current
+ * difficulty level (see {@link getUserMaxDifficulty}), relaxing only when a
+ * pool can't otherwise fill the session. The final word list is ordered
+ * easy-to-hard so sessions ramp up gently.
  */
 export async function generateSession(
   language: Language,
@@ -29,8 +115,9 @@ export async function generateSession(
   const selectedIds = new Set<string>();
   const words: Word[] = [];
   const needsImage = IMAGE_DEPENDENT_EXERCISES.includes(exerciseType);
+  const maxDifficulty = await getUserMaxDifficulty(language);
 
-  // ── Special handling for category-sorting: need ≥2 categories ──
+  // ── Special handling for category-sorting: need >= 2 categories ──
   if (exerciseType === 'category-sorting') {
     const categories = await pickCategories(language, Math.min(4, wordCount), needsImage);
     if (categories.length < 2) {
@@ -39,10 +126,12 @@ export async function generateSession(
     const perCat = Math.max(2, Math.ceil(wordCount / categories.length));
     const sortingWords: Word[] = [];
     for (const cat of categories) {
-      const catWords = shuffleArray(await getWordsByCategory(cat, language))
-        .filter(w => !needsImage || wordHasImage(w))
-        .slice(0, perCat);
-      sortingWords.push(...catWords);
+      const catWords = (await getWordsByCategory(cat, language))
+        .filter(w => !needsImage || wordHasImage(w));
+      // The component re-shuffles presentation, so keep a shuffle here to avoid
+      // biasing which category gets trimmed when slicing to wordCount.
+      const capped = applyDifficultyFloor(catWords, maxDifficulty, perCat);
+      sortingWords.push(...shuffleArray(capped).slice(0, perCat));
     }
     return { exerciseType, words: shuffleArray(sortingWords).slice(0, wordCount) };
   }
@@ -56,8 +145,11 @@ export async function generateSession(
       .filter((w: Word) => !!(w.opposite && w.opposite !== '') && (!needsImage || wordHasImage(w)))
       .toArray();
 
+    // Viability check is on the raw pool: applyDifficultyFloor only ever
+    // narrows (or relaxes back to the full set), so a non-empty pool stays
+    // non-empty, and >= 3 here implies >= 3 after capping.
     if (withOpposite.length >= 3) {
-      return { exerciseType, words: shuffleArray(withOpposite).slice(0, wordCount) };
+      return { exerciseType, words: pickByDifficulty(withOpposite, maxDifficulty, wordCount) };
     }
 
     // Fallback: use words with synonyms
@@ -73,7 +165,7 @@ export async function generateSession(
 
     return {
       exerciseType,
-      words: shuffleArray(withSynonyms).slice(0, wordCount)
+      words: pickByDifficulty(withSynonyms, maxDifficulty, wordCount)
     };
   }
 
@@ -88,12 +180,14 @@ export async function generateSession(
       .filter(w => !needsImage || wordHasImage(w));
     return {
       exerciseType,
-      words: shuffleArray(catWords).slice(0, wordCount),
+      words: pickByDifficulty(catWords, maxDifficulty, wordCount),
       category: cat
     };
   }
 
-  // ── 1. Priority: due words from spaced repetition ────────────────────
+  // ── 1. Priority: due words from spaced repetition (bypass cap) ───────
+  // SM-2 already deemed these due — the user has seen them, so difficulty is
+  // secondary to review timing.
   const dueIds = await getDueWords(language, wordCount);
   for (const id of dueIds) {
     if (selectedIds.size >= wordCount) break;
@@ -107,27 +201,42 @@ export async function generateSession(
   // ── 2. Fill from weak categories ─────────────────────────────────────
   if (words.length < wordCount) {
     const weakCategories = await getWeakCategories(language, 3);
-    for (const cat of weakCategories) {
-      if (words.length >= wordCount) break;
-      const catWords = (await getWordsByCategory(cat, language))
-        .filter(w => !needsImage || wordHasImage(w));
-      const shuffled = shuffleArray(catWords);
-      for (const w of shuffled) {
-        if (words.length >= wordCount) break;
-        if (!selectedIds.has(w.id)) {
-          selectedIds.add(w.id);
-          words.push(w);
+    // Gather the full weak pool (deduped — words can span categories) so the
+    // floor check sees the real number of usable words. Fetch in parallel.
+    const catWordLists = await Promise.all(
+      weakCategories.map(cat => getWordsByCategory(cat, language))
+    );
+    const weakPoolMap = new Map<string, Word>();
+    for (const catWords of catWordLists) {
+      for (const w of catWords) {
+        if ((!needsImage || wordHasImage(w)) && !weakPoolMap.has(w.id)) {
+          weakPoolMap.set(w.id, w);
         }
+      }
+    }
+    const remaining = wordCount - words.length;
+    const capped = applyDifficultyFloor([...weakPoolMap.values()], maxDifficulty, remaining);
+    for (const w of shuffleArray(capped)) {
+      if (words.length >= wordCount) break;
+      if (!selectedIds.has(w.id)) {
+        selectedIds.add(w.id);
+        words.push(w);
       }
     }
   }
 
   // ── 3. Fill remaining with random words ──────────────────────────────
-  if (words.length < wordCount) {
+  // Refetch in a loop so a window that overlaps heavily with already-chosen
+  // due/weak words gets another draw instead of leaving the session short.
+  // Each fetch is floored to the user's level (relaxing only when an easy fetch
+  // can't cover the remaining slots). The guard bounds work when the bank is
+  // genuinely too small to fill — we never loop forever on a stuck window.
+  let guard = 0;
+  while (words.length < wordCount && guard++ < 4) {
     const remaining = wordCount - words.length;
-    // Fetch more than needed to allow for overlap filtering
     let randomWords = await getRandomWords(remaining * 2, language);
     if (needsImage) randomWords = randomWords.filter(wordHasImage);
+    randomWords = applyDifficultyFloor(randomWords, maxDifficulty, remaining);
     for (const w of randomWords) {
       if (words.length >= wordCount) break;
       if (!selectedIds.has(w.id)) {
@@ -139,7 +248,7 @@ export async function generateSession(
 
   return {
     exerciseType,
-    words: shuffleArray(words)
+    words: sortByDifficulty(words)
   };
 }
 

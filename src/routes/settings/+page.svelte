@@ -3,6 +3,7 @@
   import { onMount } from 'svelte';
   import { getAllSettings, setSetting } from '$lib/db';
   import { Card, Button, ChipGroup } from '$lib/components/ui';
+  import { applyAppearance } from '$lib/utils/appearance';
   import { goto } from '$app/navigation';
   import { base } from '$app/paths';
   import { browser } from '$app/environment';
@@ -33,40 +34,16 @@
 
   onMount(loadSettings);
 
-  function getFontScaleClass(textSize: string): string {
-    switch (textSize) {
-      case 'small': return 'text-small';
-      case 'normal': return 'text-medium';
-      case 'large': return 'text-large';
-      case 'xlarge': return 'text-extra-large';
-      default: return 'text-medium';
-    }
-  }
-
   async function updateSetting<K extends keyof AppSettings>(key: K, value: AppSettings[K]) {
     if (!settings) return;
     await setSetting(key, value);
 
-    // Update local state
-    settings = { ...settings!, [key]: value };
+    const updated = { ...settings, [key]: value };
+    settings = updated;
 
-    const root = document.querySelector('.app-shell');
-    if (!root) return;
-
-    // Apply theme changes immediately
-    if (key === 'theme') {
-      root.classList.toggle('light-theme', value === 'light');
-    }
-
-    // Apply text size changes immediately
-    if (key === 'text_size') {
-      root.classList.remove('text-small', 'text-medium', 'text-large', 'text-extra-large', 'text-size-large', 'text-size-xlarge');
-      root.classList.add(getFontScaleClass(value as string));
-    }
-
-    // Apply high contrast changes immediately
-    if (key === 'high_contrast') {
-      root.classList.toggle('high-contrast', value as boolean);
+    // Apply appearance changes live (theme / text size / high contrast).
+    if (key === 'theme' || key === 'text_size' || key === 'high_contrast') {
+      applyAppearance(updated);
     }
 
     // Apply language changes immediately

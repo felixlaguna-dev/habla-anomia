@@ -53,7 +53,6 @@
 <svelte:head>
   <title>Habla Anomia — {$t('app.tagline')}</title>
   <link rel="manifest" href={manifestUrl()} />
-  <meta name="theme-color" content="#4f46e5" />
 </svelte:head>
 
 <a href="#main-content" class="skip-to-content">{$t('a11y.skip_to_content')}</a>

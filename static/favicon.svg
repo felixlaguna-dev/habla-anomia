@@ -1,5 +1,12 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
-  <rect width="100" height="100" rx="20" fill="#1e40af"/>
-  <text x="50" y="62" font-family="sans-serif" font-size="42" font-weight="bold" fill="white" text-anchor="middle">H</text>
-  <circle cx="75" cy="25" r="10" fill="#22c55e"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="Habla Anomia">
+  <!-- Full-bleed brand background (primary blue) -->
+  <rect width="512" height="512" fill="#3b82f6"/>
+  <!-- Speech bubble (white) with a tail pointing to the bottom-left -->
+  <path d="M100 88 H412 A44 44 0 0 1 456 132 V304 A44 44 0 0 1 412 348 H260 L210 412 L160 348 H100 A44 44 0 0 1 56 304 V132 A44 44 0 0 1 100 88 Z" fill="#ffffff"/>
+  <!-- Letter H drawn as bars so rendering never depends on a font -->
+  <g fill="#3b82f6">
+    <rect x="150" y="120" width="52" height="200" rx="12"/>
+    <rect x="310" y="120" width="52" height="200" rx="12"/>
+    <rect x="194" y="194" width="124" height="52" rx="12"/>
+  </g>
 </svg>

@@ -75,10 +75,12 @@
 
   let exerciseMeta = $derived(getExerciseMeta(exerciseType));
 
-  // Title i18n key comes from the registry (single source of truth) — empty for
-  // an unrecognised URL slug so the heading stays blank rather than echoing a
-  // raw key.
-  let titleKey = $derived(exerciseMeta ? `exercises.${exerciseMeta.i18nKey}.name` : '');
+  // Title i18n key comes from the registry (single source of truth). Fall back
+  // to `common.no_words` for an unrecognised URL slug so the auto-focused
+  // heading is never empty (a11y) — the page shows the error state anyway.
+  let titleKey = $derived(
+    exerciseMeta ? `exercises.${exerciseMeta.i18nKey}.name` : 'common.no_words'
+  );
 
   async function initExercise() {
     if (!browser) return;
@@ -417,6 +419,9 @@
     font-size: var(--font-size-xl);
     font-weight: 600;
     color: var(--text);
+    /* Flex item in .header-text: allow shrinking so long localized names wrap
+       rather than overflowing on narrow screens. */
+    min-width: 0;
     /* Allow the title to wrap to 2 lines on narrow screens instead of truncating */
     overflow-wrap: break-word;
     display: -webkit-box;

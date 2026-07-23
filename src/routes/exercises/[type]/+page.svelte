@@ -11,9 +11,10 @@
   import { browser } from '$app/environment';
   import { playCompleteSound } from '$lib/utils/sounds';
   import { SpeechSynthesisService } from '$lib/speech/speech-synthesis';
-  import { ExerciseIcon } from '$lib/components/ui';
+  import { ExerciseIcon, Spinner } from '$lib/components/ui';
   import { getExerciseMeta } from '$lib/exercises/registry';
-  import type { ExerciseType, Language, Word, AppSettings } from '$lib/types';
+  import type { ExerciseType, Language, Word, AppSettings, Category } from '$lib/types';
+  import { CATEGORIES } from '$lib/types';
 
   import {
     PictureNamingExercise,
@@ -27,6 +28,12 @@
   } from '$lib/components/exercises';
 
   let exerciseType = $derived($page.params.type as ExerciseType);
+  // Optional "?category=" restricts the session to one semantic field
+  // (entry point: "Practicar una categoría" chooser). Invalid values are ignored.
+  let routeCategory = $derived.by(() => {
+    const raw = $page.url.searchParams.get('category');
+    return raw && CATEGORIES.includes(raw as Category) ? (raw as Category) : undefined;
+  });
   let settings = $state<AppSettings | null>(null);
   let words = $state<Word[]>([]);
   let loading = $state(true);
@@ -79,7 +86,12 @@
     const s = await getAllSettings();
     settings = s;
 
-    const plan = await generateSession(s.language, exerciseType, 10);
+    const plan = await generateSession(
+      s.language,
+      exerciseType,
+      10,
+      routeCategory ? { category: routeCategory } : {}
+    );
     words = plan.words;
     planCategory = plan.category;
 
@@ -140,6 +152,10 @@
 
     if (sessionId !== null) {
       await endSession(sessionId, accuracy, total);
+      // Session is finalized — drop the id so a "retry mistakes" run can't
+      // overwrite this row. The retry's per-word attempts are still recorded
+      // independently; broadening retry into its own session is ha-aslk's call.
+      sessionId = null;
     }
 
     // Update streak
@@ -155,6 +171,13 @@
     // Re-initialize with a fresh session and new words
     loading = true;
     await initExercise();
+  }
+
+  function goBack() {
+    // From "Practicar una categoría": return to that category's chooser rather
+    // than bouncing through /exercises → home.
+    if (routeCategory) goto(`${base}/practice/${routeCategory}`);
+    else goto(`${base}/exercises`);
   }
 
   function handleCloseResults() {
@@ -189,9 +212,9 @@
   }
 
   function getAccuracyColor(accuracy: number): string {
-    if (accuracy >= 80) return 'var(--success, #10b981)';
-    if (accuracy >= 50) return 'var(--warning, #f59e0b)';
-    return 'var(--error, #ef4444)';
+    if (accuracy >= 80) return 'var(--success)';
+    if (accuracy >= 50) return 'var(--warning)';
+    return 'var(--error)';
   }
 </script>
 
@@ -201,7 +224,7 @@
 
 <section class="exercise-page">
   <header class="exercise-header">
-    <button class="back-btn" onclick={() => goto(`${base}/exercises`)} aria-label={$t('common.back')}>
+    <button class="back-btn" onclick={goBack} aria-label={$t('common.back')}>
       <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
         <polyline points="15 18 9 12 15 6"/>
       </svg>
@@ -218,25 +241,26 @@
   </header>
 
   {#if loading}
-    <div class="loading-container">
-      <div class="loading-content">
-        <div class="loading-spinner" aria-hidden="true"></div>
-        <p class="loading-text">{$t('common.loading')}</p>
-      </div>
-    </div>
+    <Spinner label={$t('common.loading')} />
   {:else if words.length > 0 && ExerciseComponent}
     <div class="exercise-content slide-up">
-      <ExerciseComponent
-        {words}
-        {allWords}
-        language={settings?.language || 'es'}
-        category={planCategory}
-        speechRate={settings?.speech_rate ?? 0.8}
-        timerEnabled={settings?.timer_enabled ?? true}
-        speakButtonsEnabled={settings?.speak_buttons_enabled ?? true}
-        oncomplete={handleComplete}
-        onrestart={handleRestart}
-      />
+      <!-- Keying on `words` forces a fresh component instance on "retry
+           mistakes" (which swaps in a new failed-words array): without it the
+           child keeps its completed-run currentIndex and re-renders the stale
+           internal summary instead of restarting. -->
+      {#key words}
+        <ExerciseComponent
+          {words}
+          {allWords}
+          language={settings?.language || 'es'}
+          category={planCategory}
+          speechRate={settings?.speech_rate ?? 0.8}
+          timerEnabled={settings?.timer_enabled ?? true}
+          speakButtonsEnabled={settings?.speak_buttons_enabled ?? true}
+          oncomplete={handleComplete}
+          onrestart={handleRestart}
+        />
+      {/key}
     </div>
   {:else}
     <div class="error-container">
@@ -397,46 +421,18 @@
     font-size: var(--font-size-xl);
     font-weight: 600;
     color: var(--text);
-    white-space: nowrap;
+    /* Allow the title to wrap to 2 lines on narrow screens instead of truncating */
+    overflow-wrap: break-word;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
     overflow: hidden;
-    text-overflow: ellipsis;
   }
 
   .header-spacer {
     width: var(--touch-min);
     flex-shrink: 0;
-  }
-
-  .loading-container {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    min-height: 40vh;
-  }
-
-  .loading-content {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: var(--space-md);
-  }
-
-  .loading-spinner {
-    width: 40px;
-    height: 40px;
-    border: 3px solid var(--surface-2);
-    border-top-color: var(--primary);
-    border-radius: 50%;
-    animation: spin 0.8s linear infinite;
-  }
-
-  @keyframes spin {
-    to { transform: rotate(360deg); }
-  }
-
-  .loading-text {
-    color: var(--text-dim);
-    font-size: var(--font-size-lg);
   }
 
   .error-container {
@@ -580,11 +576,11 @@
   }
 
   .correct-title {
-    color: var(--success, #10b981);
+    color: var(--success);
   }
 
   .incorrect-title {
-    color: var(--error, #ef4444);
+    color: var(--error);
   }
 
   .word-chips {
@@ -617,12 +613,12 @@
 
   .correct-chip {
     background: rgba(16, 185, 129, 0.15);
-    color: var(--success, #10b981);
+    color: var(--success);
   }
 
   .incorrect-chip {
     background: rgba(239, 68, 68, 0.15);
-    color: var(--error, #ef4444);
+    color: var(--error);
   }
 
   /* Actions */
@@ -639,7 +635,7 @@
     justify-content: center;
     min-height: var(--touch-min);
     padding: var(--space-sm) var(--space-xl);
-    background: var(--warning, #f59e0b);
+    background: var(--warning);
     color: white;
     border: none;
     border-radius: var(--radius-full);

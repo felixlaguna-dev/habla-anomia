@@ -11,6 +11,9 @@ const path = require('path');
 const https = require('https');
 const { execSync } = require('child_process');
 
+// NOTE: generated images ship at full resolution. Run `make optimize-images`
+// (`npm run optimize:images`) afterwards to resize/recompress them in place.
+
 // ---- Config ----
 const OUTPUT_DIR = path.join(__dirname, '..', 'static', 'images', 'words');
 const WORDS_JSON = '/tmp/habla_words_all.json';

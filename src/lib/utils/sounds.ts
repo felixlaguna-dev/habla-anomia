@@ -7,6 +7,10 @@ import { getAllSettings } from '$lib/db';
 
 let audioCtx: AudioContext | null = null;
 
+// Cached so we don't hit IndexedDB on every answer tap. Refreshed at exercise
+// start (see refreshSoundSetting) — null means "not loaded yet".
+let cachedSoundEnabled: boolean | null = null;
+
 function getContext(): AudioContext | null {
   try {
     if (!audioCtx) {
@@ -22,13 +26,24 @@ function getContext(): AudioContext | null {
   }
 }
 
-async function isSoundEnabled(): Promise<boolean> {
+/**
+ * Re-read `sound_enabled` from the DB and cache it. Call once when an exercise
+ * mounts so the setting is current for the whole session without per-tap reads.
+ */
+export async function refreshSoundSetting(): Promise<void> {
   try {
     const settings = await getAllSettings();
-    return settings?.sound_enabled ?? true;
+    cachedSoundEnabled = settings?.sound_enabled ?? true;
   } catch {
-    return true;
+    cachedSoundEnabled = true;
   }
+}
+
+async function isSoundEnabled(): Promise<boolean> {
+  if (cachedSoundEnabled === null) {
+    await refreshSoundSetting();
+  }
+  return cachedSoundEnabled ?? true;
 }
 
 /**

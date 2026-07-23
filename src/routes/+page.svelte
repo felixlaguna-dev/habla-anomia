@@ -1,17 +1,17 @@
 <script lang="ts">
   import { t } from '$lib/i18n';
   import Card from '$lib/components/ui/Card.svelte';
-  import { ExerciseIcon } from '$lib/components/ui';
+  import { ExerciseIcon, CategoryIcon } from '$lib/components/ui';
   import { getSessions } from '$lib/db/sessions';
   import { getAllSettings, getStreakInfo } from '$lib/db';
-  import { getSRStats, getDueWords } from '$lib/engine/spaced-repetition';
-  import { getWeakCategories } from '$lib/engine/session-generator';
+  import { getCategoriesWithEnoughWords, awaitSeedReady, DRILLABLE_CATEGORY_MIN } from '$lib/db/words';
+  import { getSRStats } from '$lib/engine/spaced-repetition';
   import { getAccuracyByExercise } from '$lib/db/attempts';
   import { EXERCISE_REGISTRY, getExerciseMeta } from '$lib/exercises/registry';
   import { onMount } from 'svelte';
   import { goto } from '$app/navigation';
   import { base } from '$app/paths';
-  import type { Language, ExerciseType } from '$lib/types';
+  import type { Language, Category, ExerciseType } from '$lib/types';
 
   let totalSessions = $state(0);
   let todayCompleted = $state(0);
@@ -21,7 +21,7 @@
   let streakLongest = $state(0);
   let dueCount = $state(0);
   let language = $state<Language>('es');
-  let weakCategories: string[] = $state([]);
+  let practiceCategories: Category[] = $state([]);
   let loading = $state(true);
 
   // Daily plan recommendations
@@ -52,14 +52,25 @@
       const settings = await getAllSettings();
       language = settings.language;
 
-      // Streak
-      const streakInfo = await getStreakInfo();
+      // The word-bank query below reads the words table, which is seeded by
+      // +layout.svelte on cold starts — wait for it so the category row renders
+      // on the very first load instead of staying empty until a route change.
+      await awaitSeedReady();
+
+      // Streak, sessions, SR stats and drillable categories are independent —
+      // fan them out instead of serializing four round-trips on the landing page.
+      const [streakInfo, sessions, srStats, cats] = await Promise.all([
+        getStreakInfo(),
+        getSessions(language, 100),
+        getSRStats(language),
+        getCategoriesWithEnoughWords(language, DRILLABLE_CATEGORY_MIN, true)
+      ]);
+
       streakCurrent = streakInfo.current;
       streakLongest = streakInfo.longest;
-
-      // Sessions count
-      const sessions = await getSessions(language, 100);
       totalSessions = sessions.length;
+      dueCount = srStats.due;
+      practiceCategories = cats;
 
       // Today's completed sessions (sessions that actually finished)
       const today = new Date().toISOString().split('T')[0];
@@ -75,10 +86,6 @@
         const recent10 = completed.slice(0, 10);
         accuracy = Math.round(recent10.reduce((sum, s) => sum + s.accuracy, 0) / recent10.length);
       }
-
-      // SR stats
-      const srStats = await getSRStats(language);
-      dueCount = srStats.due;
 
       // Build daily plan
       await buildDailyPlan();
@@ -261,6 +268,25 @@
       {/each}
     </div>
   </section>
+
+  <!-- Practicar una categoría: drill one semantic field -->
+  {#if !loading && practiceCategories.length > 0}
+    <section class="category-section fade-in">
+      <h2 class="section-title">🗂️ {$t('practice.section_title')}</h2>
+      <div class="category-row">
+        {#each practiceCategories as cat}
+          <button
+            class="category-tile"
+            onclick={() => goto(`${base}/practice/${cat}`)}
+            aria-label={$t('practice.section_title') + ': ' + $t(`categories.${cat}`)}
+          >
+            <CategoryIcon category={cat} size="lg" />
+            <span class="category-tile-label">{$t(`categories.${cat}`)}</span>
+          </button>
+        {/each}
+      </div>
+    </section>
+  {/if}
 </div>
 
 <style>
@@ -285,13 +311,13 @@
   .app-title {
     font-size: 2rem;
     font-weight: 800;
-    color: var(--accent, #3b82f6);
+    color: var(--accent);
     margin: 0;
   }
 
   .app-subtitle {
     font-size: 1rem;
-    color: var(--text-secondary, #94a3b8);
+    color: var(--text-dim);
     margin: 0.25rem 0 0;
   }
 
@@ -299,7 +325,7 @@
     display: inline-block;
     margin-top: 0.5rem;
     padding: 0.25rem 0.75rem;
-    background: linear-gradient(135deg, #ff6b35, #f59e0b);
+    background: var(--streak-gradient);
     color: white;
     border-radius: 2rem;
     font-weight: 700;
@@ -308,9 +334,8 @@
 
   .stats-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 0.75rem;
-    overflow: hidden;
   }
 
   .stat {
@@ -327,11 +352,9 @@
 
   .stat-label {
     font-size: 0.75rem;
-    color: var(--text-secondary, #94a3b8);
+    color: var(--text-dim);
     text-align: center;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+    overflow-wrap: break-word;
   }
 
   .section-title {
@@ -356,7 +379,7 @@
   .plan-item {
     display: flex;
     justify-content: space-between;
-    align-items: center;
+    align-items: flex-start;
     gap: 0.75rem;
     padding: 0.5rem 0;
   }
@@ -396,17 +419,13 @@
     font-weight: 600;
     font-size: 0.95rem;
     color: var(--text);
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+    overflow-wrap: break-word;
   }
 
   .plan-reason {
     font-size: 0.75rem;
-    color: var(--text-secondary, #94a3b8);
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+    color: var(--text-dim);
+    overflow-wrap: break-word;
   }
 
   .plan-start-btn {
@@ -416,7 +435,7 @@
     min-height: 48px;
     min-width: 56px;
     padding: 0.25rem 0.75rem;
-    background: var(--accent, #3b82f6);
+    background: var(--primary);
     color: white;
     border: none;
     border-radius: 2rem;
@@ -433,7 +452,7 @@
   }
 
   .plan-item.completed .plan-start-btn {
-    background: var(--success, #10b981);
+    background: var(--success);
   }
 
   .plan-complete {
@@ -441,7 +460,7 @@
     padding: 1rem;
     font-size: 1.1rem;
     font-weight: 600;
-    color: var(--success, #10b981);
+    color: var(--success);
   }
 
   /* Exercise chips */
@@ -495,13 +514,80 @@
     border-radius: 50%;
     background: var(--ex-color, var(--primary));
     color: white;
-    box-shadow: 0 1px 4px rgba(0,0,0,0.3);
+    box-shadow: var(--shadow-sm);
     z-index: 1;
   }
 
   .chip-label {
     line-height: 1.2;
     white-space: nowrap;
+  }
+
+  /* Category tiles ("Practicar una categoría") */
+  .category-section {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .category-row {
+    display: flex;
+    gap: 0.75rem;
+    overflow-x: auto;
+    padding: 0.5rem 0.25rem 0.75rem; /* room for the focus ring + scroll bar */
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .category-tile {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    min-width: 6.5rem;
+    min-height: var(--touch-min);
+    padding: 0.75rem 0.5rem;
+    background: var(--surface-2);
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius-lg);
+    color: var(--text);
+    font-family: var(--font-family);
+    cursor: pointer;
+    touch-action: manipulation;
+    scroll-snap-align: start;
+    transition: transform var(--transition-fast), background var(--transition-fast);
+  }
+
+  .category-tile:active {
+    transform: scale(0.96);
+    background: var(--surface-3);
+  }
+
+  .category-tile-label {
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-align: center;
+    line-height: 1.2;
+    overflow-wrap: break-word;
+    /* Clamp to 2 lines so tall labels stay tidy inside a fixed-width tile. */
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  /* Tablet+: bigger tiles, more visible per row */
+  @media (min-width: 768px) {
+    .category-tile {
+      min-width: 8rem;
+      padding: 1rem 0.75rem;
+    }
+
+    .category-tile-label {
+      font-size: 1rem;
+    }
   }
 
   /* Tablet+: 4 columns */
@@ -570,7 +656,7 @@
   @media (min-width: 768px) and (orientation: landscape) {
     .plan-list {
       display: grid;
-      grid-template-columns: repeat(2, 1fr);
+      grid-template-columns: repeat(2, minmax(0, 1fr));
       gap: 1rem;
     }
 
@@ -590,16 +676,15 @@
   }
 
   /* Small mobile */
-  @media (max-width: 374px) {
+  @media (max-width: 399px) {
     .stats-grid {
       gap: 0.5rem;
-      grid-template-columns: repeat(3, 1fr);
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      /* Tighten Card padding so stat labels have room to wrap readably */
+      --card-pad: var(--space-sm) var(--space-xs);
     }
     .stat-number {
       font-size: 1.25rem;
-    }
-    .stat-label {
-      font-size: 0.65rem;
     }
     .exercise-chips {
       gap: 0.6rem;

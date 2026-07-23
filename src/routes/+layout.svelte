@@ -6,40 +6,32 @@
   import { onMount } from 'svelte';
   import { getAllSettings, initDefaults } from '$lib/db/settings';
   import { seedWords, resolveSeedReady } from '$lib/db/words';
-  import { WORDS_ES } from '$lib/data/words-es';
+  import { WORDS_ES, WORDS_ES_VERSION } from '$lib/data/words-es';
   import { manifestUrl } from '$lib/utils/paths';
+  import { applyAppearance } from '$lib/utils/appearance';
   import BottomNav from '$lib/components/ui/BottomNav.svelte';
   import InstallPrompt from '$lib/components/ui/InstallPrompt.svelte';
   import OfflineIndicator from '$lib/components/ui/OfflineIndicator.svelte';
 
   let { children } = $props();
 
-  let themeClass = $state('');
-  let textSizeClass = $state('');
-  let highContrastClass = $state('');
-
   onMount(async () => {
     await initDefaults();
     const settings = await getAllSettings();
 
-    themeClass = settings.theme === 'light' ? 'light-theme' : '';
-    textSizeClass = getFontScaleClass(settings.text_size);
-    highContrastClass = settings.high_contrast ? 'high-contrast' : '';
+    // Appearance classes live on <html> (see applyAppearance) so the
+    // text-size setting actually scales the rem-based UI.
+    applyAppearance(settings);
 
     locale.set(settings.language);
-    await seedWords(WORDS_ES);
-    resolveSeedReady();
-  });
-
-  function getFontScaleClass(textSize: string): string {
-    switch (textSize) {
-      case 'small': return 'text-small';
-      case 'normal': return 'text-medium';
-      case 'large': return 'text-large';
-      case 'xlarge': return 'text-extra-large';
-      default: return 'text-medium';
+    try {
+      await seedWords(WORDS_ES, WORDS_ES_VERSION);
+    } catch (err) {
+      console.error('Word bank seed failed; exercises will use whatever is in the DB.', err);
+    } finally {
+      resolveSeedReady();
     }
-  }
+  });
 
   let hideNav = $derived.by(() => {
     const p = $page.url.pathname;
@@ -61,7 +53,6 @@
 <svelte:head>
   <title>Habla Anomia — {$t('app.tagline')}</title>
   <link rel="manifest" href={manifestUrl()} />
-  <meta name="theme-color" content="#4f46e5" />
 </svelte:head>
 
 <a href="#main-content" class="skip-to-content">{$t('a11y.skip_to_content')}</a>
@@ -69,7 +60,7 @@
 <InstallPrompt />
 <OfflineIndicator />
 
-<div class="app-shell {themeClass} {textSizeClass} {highContrastClass}">
+<div class="app-shell">
   <main id="main-content" class="main-content">
     {@render children()}
   </main>
@@ -84,22 +75,18 @@
     min-height: 100dvh;
     display: flex;
     flex-direction: column;
-    background: var(--bg-primary, #0f172a);
-    color: var(--text-primary, #f1f5f9);
+    /* Follow the theme tokens set on <html> by applyAppearance(). */
+    background: var(--bg);
+    color: var(--text);
     overflow-x: hidden;
     width: 100%;
-  }
-
-  .light-theme {
-    background: var(--bg-primary-light, #f8fafc);
-    color: var(--text-primary-light, #1e293b);
   }
 
   /* Phone: comfortable padding + clearance for fixed bottom nav */
   .main-content {
     flex: 1;
     padding: 1rem;
-    padding-bottom: calc(64px + var(--safe-bottom, 0px) + 1rem);
+    padding-bottom: calc(var(--bottom-nav-height) + var(--safe-bottom, 0px) + 1rem);
     width: 100%;
     margin: 0 auto;
     overflow-x: hidden;
@@ -111,7 +98,7 @@
   @media (min-width: 768px) {
     .main-content {
       padding: 1.25rem 1.5rem;
-      padding-bottom: calc(72px + var(--safe-bottom, 0px) + 1.5rem);
+      padding-bottom: calc(var(--bottom-nav-height) + var(--safe-bottom, 0px) + 1.5rem);
     }
   }
 
@@ -119,7 +106,7 @@
   @media (min-width: 768px) and (orientation: landscape) {
     .main-content {
       padding: 1.25rem 2rem;
-      padding-bottom: calc(72px + var(--safe-bottom, 0px) + 1.5rem);
+      padding-bottom: calc(var(--bottom-nav-height) + var(--safe-bottom, 0px) + 1.5rem);
     }
   }
 </style>

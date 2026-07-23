@@ -4,8 +4,8 @@
   import { Card, ExerciseIcon } from '$lib/components/ui';
   import { EXERCISE_REGISTRY } from '$lib/exercises/registry';
 
-  const APP_VERSION = '1.1.0';
-  const GIT_HASH: string = typeof __APP_VERSION__ !== 'undefined' ? __APP_VERSION__ : 'dev';
+  const APP_VERSION: string = __APP_VERSION__ ?? '0.0.0';
+  const GIT_HASH: string = __APP_GIT_HASH__ ?? 'dev';
 </script>
 
 <svelte:head>

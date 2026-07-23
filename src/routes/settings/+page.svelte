@@ -3,6 +3,7 @@
   import { onMount } from 'svelte';
   import { getAllSettings, setSetting } from '$lib/db';
   import { Card, Button, ChipGroup } from '$lib/components/ui';
+  import { applyAppearance } from '$lib/utils/appearance';
   import { goto } from '$app/navigation';
   import { base } from '$app/paths';
   import { browser } from '$app/environment';
@@ -33,40 +34,16 @@
 
   onMount(loadSettings);
 
-  function getFontScaleClass(textSize: string): string {
-    switch (textSize) {
-      case 'small': return 'text-small';
-      case 'normal': return 'text-medium';
-      case 'large': return 'text-large';
-      case 'xlarge': return 'text-extra-large';
-      default: return 'text-medium';
-    }
-  }
-
   async function updateSetting<K extends keyof AppSettings>(key: K, value: AppSettings[K]) {
     if (!settings) return;
     await setSetting(key, value);
 
-    // Update local state
-    settings = { ...settings!, [key]: value };
+    const updated = { ...settings, [key]: value };
+    settings = updated;
 
-    const root = document.querySelector('.app-shell');
-    if (!root) return;
-
-    // Apply theme changes immediately
-    if (key === 'theme') {
-      root.classList.toggle('light-theme', value === 'light');
-    }
-
-    // Apply text size changes immediately
-    if (key === 'text_size') {
-      root.classList.remove('text-small', 'text-medium', 'text-large', 'text-extra-large', 'text-size-large', 'text-size-xlarge');
-      root.classList.add(getFontScaleClass(value as string));
-    }
-
-    // Apply high contrast changes immediately
-    if (key === 'high_contrast') {
-      root.classList.toggle('high-contrast', value as boolean);
+    // Apply appearance changes live (theme / text size / high contrast).
+    if (key === 'theme' || key === 'text_size' || key === 'high_contrast') {
+      applyAppearance(updated);
     }
 
     // Apply language changes immediately
@@ -592,10 +569,10 @@
     justify-content: center;
     min-height: var(--touch-min);
     padding: var(--space-sm) var(--space-xl);
-    background: var(--error, #ef4444);
+    background: var(--error);
     color: white;
     border: none;
-    border-radius: var(--radius-full, 999px);
+    border-radius: var(--radius-full);
     font-size: var(--font-size-lg);
     font-weight: 600;
     font-family: var(--font-family);
@@ -611,13 +588,14 @@
 
   .delete-data-btn.confirming {
     animation: flashRed 0.5s ease-in-out infinite alternate;
-    background: #b91c1c;
+    /* Holds the dimmed end-state when prefers-reduced-motion stops the animation. */
+    filter: brightness(0.82);
     font-weight: 800;
   }
 
   @keyframes flashRed {
-    0% { background: #b91c1c; }
-    100% { background: #ef4444; transform: scale(1.02); }
+    0% { filter: brightness(1); }
+    100% { filter: brightness(0.82); transform: scale(1.02); }
   }
 
   /* Tablet: bigger targets, wider toggles */

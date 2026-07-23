@@ -10,7 +10,7 @@
   import { keyboardNav } from '$lib/utils/keyboard-nav';
   import type { KeyboardNavParams } from '$lib/utils/keyboard-nav';
   import { playCorrectSound, playIncorrectSound } from '$lib/utils/sounds';
-  import type { Word, Language, ExerciseType } from '$lib/types';
+  import type { Word, Language, ExerciseType, Category } from '$lib/types';
   import { getWordCategories } from '$lib/types';
 
   type Props = {
@@ -18,11 +18,11 @@
     language: Language;
    speechRate?: number;
    speakButtonsEnabled?: boolean;
-   onComplete?: (results: { score: number; total: number; details: Array<{ word: Word; correct: boolean; selectedCategory: string }> }) => void;
-    onRestart?: () => void;
+   oncomplete?: (results: { score: number; total: number; details: Array<{ word: Word; correct: boolean; selectedCategory: Category | null }> }) => void;
+    onrestart?: () => void;
   };
 
-  let { words, language = 'es' as Language, speechRate = 0.8, speakButtonsEnabled = true, onComplete, onRestart }: Props = $props();
+  let { words, language = 'es' as Language, speechRate = 0.8, speakButtonsEnabled = true, oncomplete, onrestart }: Props = $props();
 
   // Derive categories from the word list (flatten multi-category)
   let categories = $derived([...new Set(words.flatMap(w => getWordCategories(w)))]);
@@ -36,9 +36,9 @@
   let feedbackState = $state<'none' | 'correct' | 'incorrect'>('none');
   let incorrectAttempt = $state(false);
   let score = $state(0);
-  let results = $state<Array<{ word: Word; correct: boolean; selectedCategory: string }>>([]);
+  let results = $state<Array<{ word: Word; correct: boolean; selectedCategory: Category | null }>>([]);
   let startTime = $state(Date.now());
-  let selectedCategory = $state<string | null>(null);
+  let selectedCategory = $state<Category | null>(null);
 
   // Track items sorted into each category bin (for visual feedback)
   let binItems = $state<Record<string, Word[]>>({});
@@ -74,7 +74,7 @@
   let progress = $derived(Math.round(((currentIndex + 1) / shuffledItems.length) * 100));
   let isFinished = $derived(currentIndex >= shuffledItems.length);
 
-  function selectCategory(category: string) {
+  function selectCategory(category: Category) {
     if (!currentItem || feedbackState === 'correct') return;
 
     selectedCategory = category;
@@ -87,7 +87,7 @@
     }
   }
 
-  async function handleCorrect(category: string) {
+  async function handleCorrect(category: Category) {
     feedbackState = 'correct';
     playCorrectSound();
     incorrectAttempt = false;
@@ -130,7 +130,7 @@
   function skipItem() {
     if (!currentItem) return;
 
-    results.push({ word: currentItem, correct: false, selectedCategory: selectedCategory || '' });
+    results.push({ word: currentItem, correct: false, selectedCategory });
 
     recordAttempt({
       word_id: currentItem.id,
@@ -153,7 +153,7 @@
     startTime = Date.now();
     currentIndex++;
     if (currentIndex >= shuffledItems.length) {
-      onComplete?.({ score, total: shuffledItems.length, details: results });
+      oncomplete?.({ score, total: shuffledItems.length, details: results });
     }
   }
 
@@ -186,7 +186,7 @@
     return `background:${c.bg};border-color:${c.border};color:${c.text};`;
   }
 
-  function translateCategory(category: string): string {
+  function translateCategory(category: Category): string {
    const key = `categories.${category}`;
    const translated = $t(key);
    // If no translation found, return the original category name
@@ -195,7 +195,7 @@
 
   function handleRestart() {
     restart();
-    onRestart?.();
+    onrestart?.();
   }
 
   async function speakWord(word?: string) {
@@ -528,9 +528,10 @@
 
   .category-btn {
     flex: 1;
-    min-width: 70px;
+    min-width: 8rem;
     min-height: 56px;
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
     justify-content: center;
     padding: var(--space-sm, 8px) var(--space-xs, 4px);
@@ -540,11 +541,8 @@
     font-family: var(--font-family, sans-serif);
     font-size: var(--font-size-base, 16px);
     font-weight: 700;
-    text-transform: capitalize;
     touch-action: manipulation;
     user-select: none;
-    word-break: break-word;
-    hyphens: auto;
     line-height: 1.2;
     text-align: center;
     transition: transform var(--transition-fast, 0.15s), box-shadow var(--transition-fast, 0.15s),
@@ -686,7 +684,6 @@
 
   .summary-bin-label {
     font-weight: 700;
-    text-transform: capitalize;
   }
 
   .summary-bin-items {

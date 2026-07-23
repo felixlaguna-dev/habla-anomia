@@ -1,13 +1,14 @@
 <script lang="ts">
-  import { t } from '$lib/i18n';
+  import { t, locale } from '$lib/i18n';
   import { onMount } from 'svelte';
-  import { Card, Button, Modal, ProgressBar } from '$lib/components/ui';
+  import { Card, Button } from '$lib/components/ui';
   import { goto } from '$app/navigation';
   import { base } from '$app/paths';
   import {
     getAllSettings,
     getSessions,
-    getStreakInfo
+    getStreakInfo,
+    getAccuracyOverTime
   } from '$lib/db';
   import {
     getWeeklySummary,
@@ -23,11 +24,10 @@
   let settings = $state<AppSettings | null>(null);
   let overallAccuracy = $state(0);
   let totalSessions = $state(0);
-  let totalWords = $state(0);
   let categoryBreakdown = $state<{ category: string; accuracy: number; attempts: number }[]>([]);
   let exerciseBreakdown = $state<{ exercise: string; accuracy: number; attempts: number }[]>([]);
   let recentSessions = $state<Session[]>([]);
-  let showClearModal = $state(false);
+  let accuracyOverTime = $state<Array<{ date: string; accuracy: number; correct: number; total: number }>>([]);
 
   // Word mastery from SR
   let wordsMastered = $state(0);
@@ -38,16 +38,27 @@
   let streakCurrent = $state(0);
   let streakLongest = $state(0);
 
+  // Daily accuracy trend over the 14-day chart
+  let trend = $derived(calculateImprovementTrend(accuracyOverTime));
+  let activeDays = $derived(accuracyOverTime.filter(d => d.total > 0).length);
+  const TREND_ARROWS: Record<'improving' | 'stable' | 'declining', string> = {
+    improving: '↗',
+    stable: '→',
+    declining: '↘'
+  };
+
   async function loadData() {
     if (!browser) return;
     const s = await getAllSettings();
     settings = s;
 
-    // Weekly summary
+    // Weekly summary (last 7 days)
     const weekly = await getWeeklySummary(s.language);
     overallAccuracy = weekly.overallAccuracy;
     totalSessions = weekly.totalSessions;
-    totalWords = weekly.wordsPracticed;
+
+    // Daily accuracy for the 14-day chart
+    accuracyOverTime = await getAccuracyOverTime(14, s.language);
 
     // Category breakdown
     categoryBreakdown = await getCategoryBreakdown(s.language);
@@ -78,9 +89,22 @@
     return `${Math.round(acc)}%`;
   }
 
-  function formatDate(date: Date): string {
+  function formatDate(date: Date, lang: Language): string {
     const d = date instanceof Date ? date : new Date(date);
-    return d.toLocaleDateString(undefined, { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' });
+    return d.toLocaleDateString(lang, { day: 'numeric', month: 'short' });
+  }
+
+  // One narrow-weekday formatter per locale (construction is costlier than format)
+  const weekdayFmt = new Map<Language, Intl.DateTimeFormat>();
+  function weekdayInitial(dateStr: string, lang: Language): string {
+    // dateStr is YYYY-MM-DD; parse as local date to avoid UTC day-shift
+    let fmt = weekdayFmt.get(lang);
+    if (!fmt) {
+      fmt = new Intl.DateTimeFormat(lang, { weekday: 'narrow' });
+      weekdayFmt.set(lang, fmt);
+    }
+    const [y, m, d] = dateStr.split('-').map(Number);
+    return fmt.format(new Date(y, m - 1, d));
   }
 
   function accuracyColor(acc: number): string {
@@ -91,63 +115,6 @@
 
   function getExerciseName(type: string): string {
     return `exercises.${type.replace(/-/g, '_')}.name`;
-  }
-
-  async function handleClearData() {
-    if (!browser) return;
-    const { db } = await import('$lib/db/database');
-    await db.attempts.clear();
-    await db.sessions.clear();
-    await db.spacedRepetition.clear();
-    showClearModal = false;
-    await loadData();
-  }
-
-  async function handleExport() {
-    if (!browser) return;
-    const { db } = await import('$lib/db/database');
-    const data = {
-      attempts: await db.attempts.toArray(),
-      sessions: await db.sessions.toArray(),
-      spacedRepetition: await db.spacedRepetition.toArray(),
-      settings: await db.settings.toArray(),
-      exportedAt: new Date().toISOString()
-    };
-    const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = `habla-anomia-export-${new Date().toISOString().split('T')[0]}.json`;
-    a.click();
-    URL.revokeObjectURL(url);
-  }
-
-  async function handleImport() {
-    if (!browser) return;
-    const input = document.createElement('input');
-    input.type = 'file';
-    input.accept = '.json';
-    input.onchange = async () => {
-      const file = input.files?.[0];
-      if (!file) return;
-      try {
-        const text = await file.text();
-        const data = JSON.parse(text);
-        const { db } = await import('$lib/db/database');
-        if (data.attempts) await db.attempts.bulkAdd(data.attempts);
-        if (data.sessions) await db.sessions.bulkAdd(data.sessions);
-        if (data.spacedRepetition) await db.spacedRepetition.bulkAdd(data.spacedRepetition);
-        if (data.settings) {
-          for (const s of data.settings) {
-            await db.settings.put(s);
-          }
-        }
-        await loadData();
-      } catch (e) {
-        console.error('Import failed:', e);
-      }
-    };
-    input.click();
   }
 </script>
 
@@ -258,6 +225,41 @@
         </div>
       </section>
 
+      <!-- Accuracy over the last 14 days -->
+      <section class="chart-section">
+        <div class="chart-header">
+          <h2 class="section-title">{$t('progress.accuracy_over_time')}</h2>
+          {#if activeDays >= 2}
+            <span class="trend trend-{trend}">
+              <span class="trend-arrow" aria-hidden="true">{TREND_ARROWS[trend]}</span>
+              {$t('progress.trend_label')}: {$t(`progress.trend_${trend}`)}
+            </span>
+          {/if}
+        </div>
+        <Card>
+          <div
+            class="chart-bars"
+            role="img"
+            aria-label={$t('progress.accuracy_over_time')}
+          >
+            {#each accuracyOverTime as day}
+              <div class="chart-col">
+                <div class="chart-bar-track">
+                  {#if day.total > 0}
+                    <div
+                      class="chart-bar"
+                      style="height: {day.accuracy}%; background: {accuracyColor(day.accuracy)}"
+                      title={`${day.date} · ${formatAccuracy(day.accuracy)} · ${day.total}`}
+                    ></div>
+                  {/if}
+                </div>
+                <span class="chart-day-label">{weekdayInitial(day.date, $locale)}</span>
+              </div>
+            {/each}
+          </div>
+        </Card>
+      </section>
+
       <!-- Breakdowns: side-by-side on landscape tablet -->
       <div class="breakdowns-row">
         <!-- Accuracy by category -->
@@ -327,7 +329,7 @@
                 <div class="history-item">
                   <div class="history-info">
                     <span class="history-date">
-                      {session.started_at ? formatDate(session.started_at) : ''}
+                      {session.started_at ? formatDate(session.started_at, $locale) : ''}
                     </span>
                     <span class="history-exercises">
                       {#if session.exercise_types && session.exercise_types.length > 0}
@@ -352,22 +354,6 @@
 
     {/if}
   </section>
-{/if}
-
-{#if showClearModal}
-  <Modal onclose={() => (showClearModal = false)}>
-    <div class="modal-content">
-      <p class="modal-text">{$t('progress.confirm_clear')}</p>
-      <div class="modal-actions">
-        <Button variant="secondary" onclick={() => (showClearModal = false)}>
-          {$t('common.cancel')}
-        </Button>
-        <Button variant="danger" onclick={handleClearData}>
-          {$t('progress.clear_data')}
-        </Button>
-      </div>
-    </div>
-  </Modal>
 {/if}
 
 <style>
@@ -575,24 +561,77 @@
     margin-left: var(--space-sm);
   }
 
-  /* Data section */
-  /* Modal */
-  .modal-content {
-    text-align: center;
-    padding: var(--space-lg);
-  }
-
-  .modal-text {
-    font-size: var(--font-size-lg);
-    color: var(--text);
-    margin-bottom: var(--space-lg);
-    line-height: 1.5;
-  }
-
-  .modal-actions {
+  /* Accuracy-over-time chart */
+  .chart-header {
     display: flex;
-    gap: var(--space-md);
-    justify-content: center;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: var(--space-sm);
+    margin-bottom: var(--space-sm);
+    flex-wrap: wrap;
+  }
+
+  .chart-bars {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: var(--space-xs);
+  }
+
+  .chart-col {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-xs);
+    min-width: 0;
+  }
+
+  .chart-bar-track {
+    width: 100%;
+    height: 140px;
+    display: flex;
+    align-items: flex-end;
+    background: var(--surface-3);
+    border-radius: 4px 4px 0 0;
+  }
+
+  .chart-bar {
+    width: 100%;
+    min-height: 4px;
+    border-radius: 4px 4px 0 0;
+    transition: height var(--transition-slow);
+  }
+
+  .chart-day-label {
+    font-size: var(--font-size-sm);
+    color: var(--text-dim);
+    text-align: center;
+  }
+
+  .trend {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-xs);
+    font-size: var(--font-size-base);
+    font-weight: 600;
+  }
+
+  .trend-arrow {
+    font-size: 1.2em;
+    line-height: 1;
+  }
+
+  .trend-improving {
+    color: var(--success);
+  }
+
+  .trend-stable {
+    color: var(--text-dim);
+  }
+
+  .trend-declining {
+    color: var(--error);
   }
 
   /* Responsive: on small phones make counters 2+1 */
@@ -634,6 +673,10 @@
 
     .breakdown-bar-bg {
       height: 10px;
+    }
+
+    .chart-bar-track {
+      height: 180px;
     }
 
     .breakdown-name {

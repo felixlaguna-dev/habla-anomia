@@ -1,5 +1,14 @@
 import type { Word } from '$lib/types';
 
+/**
+ * Word bank seed version. Bump by 1 whenever any word is added, edited, or
+ * removed. On load, seedWords() compares this against the stored seed_version_es
+ * setting and re-syncs the DB (upserts edits, drops removed words) when it
+ * changes, so existing installs pick up changes to this file. See
+ * src/lib/db/words.ts seedWords().
+ */
+export const WORDS_ES_VERSION = 1;
+
 export const WORDS_ES: Word[] = [
   // ==========================================
   // ANIMALS (29 words)
@@ -9027,7 +9036,7 @@ export const WORDS_ES: Word[] = [
 {
     id: 'es-clothing-034',
     word: 'gafas de sol',
-    categories: ["clothing", "accessories"],
+    categories: ["clothing"],
     language: 'es',
     image_url: '/images/words/gafas-de-sol.webp',
     has_image: true,

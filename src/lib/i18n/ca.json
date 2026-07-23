@@ -152,7 +152,7 @@
   },
   "progress": {
     "title": "Progrés",
-    "overall_accuracy": "Precisió general",
+    "overall_accuracy": "Precisió (7 dies)",
     "by_category": "Per categoria",
     "by_exercise": "Per exercici",
     "words_mastered": "Paraules dominades",
@@ -168,7 +168,12 @@
     "confirm_clear": "Segur que vols esborrar totes les dades de progrés?",
     "current_streak": "Ratxa actual",
     "longest_streak": "Millor ratxa",
-    "attempts": "Intents"
+    "attempts": "Intents",
+    "accuracy_over_time": "Precisió últims 14 dies",
+    "trend_label": "Tendència",
+    "trend_improving": "Millorant",
+    "trend_stable": "Estable",
+    "trend_declining": "Baixant"
   },
   "settings": {
     "title": "Ajustos",
@@ -246,6 +251,15 @@
     "sports": "Esports",
     "music": "Música",
     "toys": "Joguines"
+  },
+  "practice": {
+    "section_title": "Practicar una categoria",
+    "choose_exercise": "Tria un exercici",
+    "picture_naming_desc": "Anomena imatges d'aquesta categoria",
+    "sentence_completion_desc": "Completa frases amb aquestes paraules",
+    "not_available": "Aquesta categoria no té prou paraules encara.",
+    "invalid_category": "Categoria no trobada.",
+    "back_home": "Tornar a l'inici"
   },
   "install_prompt": {
     "title": "Instal·lar Habla Anomia",

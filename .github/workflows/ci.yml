@@ -28,6 +28,9 @@ jobs:
           max_attempts: 3
           command: docker build -t habla-anomia-ci -f Dockerfile.dev .
 
+      - name: Type check (svelte-check)
+        run: docker run --rm habla-anomia-ci npm run check
+
       - name: Build application
         run: |
           SHORT_SHA=$(git rev-parse --short HEAD)

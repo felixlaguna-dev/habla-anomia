@@ -7,6 +7,11 @@
  *   Space     Toggle hint (where applicable)
  *   Escape    Skip the current question
  *
+ * The listener is attached to `document` (gated by `isActive`) so shortcuts
+ * work the moment an exercise mounts — without needing to Tab into the region
+ * first, and without racing against page-level focus management. `isActive`
+ * keeps a mounted-but-finished exercise from swallowing keys.
+ *
  * Usage in a Svelte 5 component:
  *   ```svelte
  *   <div use:keyboardNav={keyboardNavParams}>…</div>
@@ -51,8 +56,17 @@ function keyboardNav(node: HTMLElement, params: KeyboardNavParams) {
     if (!isActive) return;
 
     // Don't capture keys when focus is inside an input / textarea
-    const tag = (e.target as HTMLElement).tagName;
-    if (tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT' || (e.target as HTMLElement).isContentEditable) {
+    const target = e.target as HTMLElement;
+    const tag = target.tagName;
+    if (tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT' || target.isContentEditable) {
+      return;
+    }
+
+    // Defer to interactive controls that live OUTSIDE the exercise region (e.g.
+    // the page's back button): let them handle Enter/Space natively instead of
+    // hijacking activation. Controls INSIDE the region still bubble through, and
+    // focus on body / headings still drives the shortcuts (no Tab needed).
+    if ((tag === 'BUTTON' || tag === 'A') && !node.contains(target)) {
       return;
     }
 
@@ -89,7 +103,9 @@ function keyboardNav(node: HTMLElement, params: KeyboardNavParams) {
     }
   }
 
-  node.addEventListener('keydown', handleKey);
+  // document-level so shortcuts are active on mount without focusing the region.
+  document.addEventListener('keydown', handleKey);
+  // Keep the region Tab-reachable for keyboard / AT users.
   node.setAttribute('tabindex', '0');
 
   return {
@@ -98,7 +114,7 @@ function keyboardNav(node: HTMLElement, params: KeyboardNavParams) {
       params = newParams;
     },
     destroy() {
-      node.removeEventListener('keydown', handleKey);
+      document.removeEventListener('keydown', handleKey);
     },
   };
 }

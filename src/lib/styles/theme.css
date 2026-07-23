@@ -1,3 +1,16 @@
+/* ============================================================
+   COLOR TOKEN RULE
+   - Interactive primary actions use --primary (buttons, CTAs,
+     selected toggles, links that act as actions).
+   - --accent / --accent-light are DECORATIVE only: the app title,
+     promotional gradients, and non-interactive highlights. Never
+     use --accent for something the user taps to commit an action.
+   - Status colours: --success / --warning / --error (+ their -bg
+     surface tints). Emphasise a coloured element with
+     `filter: brightness()`, the house pattern — don't mint a new hue.
+   All hex lives here. Components consume tokens, never literals.
+   ============================================================ */
+
 :root {
   /* Dark theme (default) */
   --bg: #0f172a;
@@ -32,6 +45,22 @@
   --exercise-word-matching: #ef4444;
   --exercise-sentence-completion: #6366f1;
   --exercise-opposites-synonyms: #ec4899;
+
+  /* Decorative gradient for the streak (🔥) badge — identity colour, theme-invariant */
+  --streak-gradient: linear-gradient(135deg, #ff6b35, #f59e0b);
+
+  /* Install-prompt brand surface. Kept theme-invariant (NOT overridden by
+     .light-theme / .high-contrast) so white text stays legible in every theme:
+     --accent / --primary are foreground-tuned and go too light in high-contrast
+     to sit under white text, so a promotional banner must not track them. */
+  --install-gradient: linear-gradient(135deg, #4f46e5, #6366f1);
+  --install-accent: #4f46e5;
+
+  /* Status-banner surfaces (offline/online). Same reasoning as --install-*:
+     fixed saturated colours so white banner text passes WCAG AA in every theme.
+     --error/--success are foreground-tuned and go too light in high-contrast. */
+  --offline-banner: #dc2626;
+  --online-banner: #16a34a;
 
   /* Typography */
   --font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
@@ -75,6 +104,12 @@
 
   /* Safe areas */
   --safe-bottom: env(safe-area-inset-bottom, 0px);
+
+  /* Fixed bottom nav height — shared by layout, BottomNav, Toast, OfflineIndicator */
+  --bottom-nav-height: 64px;
+
+  /* Clearance for fixed overlays anchored just above the bottom nav */
+  --above-bottom-nav: calc(var(--bottom-nav-height) + var(--safe-bottom) + var(--space-sm));
 
   /* Responsive breakpoints (informational — used in media queries below) */
   --breakpoint-tablet: 768px;
@@ -120,14 +155,6 @@
   --font-scale: 1.4;
 }
 
-/* Backward-compatible text size classes */
-.text-size-large {
-  --font-scale: 1.2;
-}
-.text-size-xlarge {
-  --font-scale: 1.4;
-}
-
 /* High contrast mode overrides */
 .high-contrast {
   --border: #ffffff;
@@ -165,23 +192,6 @@
   --surface-3: #e2e8f0;
 }
 
-/* data-theme attribute support */
-[data-theme="high-contrast"] {
-  --border: #ffffff;
-  --border-light: #ffffff;
-  --text: #ffffff;
-  --text-dim: #e2e8f0;
-  --text-muted: #cbd5e1;
-  --primary: #60a5fa;
-  --primary-hover: #93c5fd;
-  --primary-light: #93c5fd;
-  --success: #4ade80;
-  --error: #f87171;
-  --surface: #0f172a;
-  --surface-2: #1e293b;
-  --surface-3: #334155;
-}
-
 /* Focus-visible outlines for all interactive elements */
 :focus-visible {
   outline: 3px solid var(--primary-light);
@@ -190,8 +200,7 @@
 }
 
 /* High contrast buttons are extra visible */
-.high-contrast button:not(:disabled),
-[data-theme="high-contrast"] button:not(:disabled) {
+.high-contrast button:not(:disabled) {
   border-width: 3px;
   border-color: var(--text);
 }
@@ -468,10 +477,11 @@
   :root {
     --space-md: 1.25rem;
     --space-lg: 1.75rem;
+    --bottom-nav-height: 72px;
   }
 }
 
-/* Small mobile (narrow phones) */
+/* Small mobile (narrow phones) — drives root font-size via app.css, keep narrow */
 @media (max-width: 374px) {
   :root {
     --font-size-base: 16px;

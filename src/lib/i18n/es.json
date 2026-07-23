@@ -152,7 +152,7 @@
   },
   "progress": {
     "title": "Progreso",
-    "overall_accuracy": "Precisión general",
+    "overall_accuracy": "Precisión (7 días)",
     "by_category": "Por categoría",
     "by_exercise": "Por ejercicio",
     "words_mastered": "Palabras dominadas",
@@ -168,7 +168,12 @@
     "confirm_clear": "¿Seguro que quieres borrar todos los datos de progreso?",
     "current_streak": "Racha actual",
     "longest_streak": "Mejor racha",
-    "attempts": "Intentos"
+    "attempts": "Intentos",
+    "accuracy_over_time": "Precisión últimos 14 días",
+    "trend_label": "Tendencia",
+    "trend_improving": "Mejorando",
+    "trend_stable": "Estable",
+    "trend_declining": "Bajando"
   },
   "settings": {
     "title": "Ajustes",
@@ -246,6 +251,15 @@
     "sports": "Deportes",
     "music": "Música",
     "toys": "Juguetes"
+  },
+  "practice": {
+    "section_title": "Practicar una categoría",
+    "choose_exercise": "Elige un ejercicio",
+    "picture_naming_desc": "Nombra imágenes de esta categoría",
+    "sentence_completion_desc": "Completa frases con estas palabras",
+    "not_available": "Esta categoría no tiene suficientes palabras todavía.",
+    "invalid_category": "Categoría no encontrada.",
+    "back_home": "Volver al inicio"
   },
   "install_prompt": {
     "title": "Instalar Habla Anomia",

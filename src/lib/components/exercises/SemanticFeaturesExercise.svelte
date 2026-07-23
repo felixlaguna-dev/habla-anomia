@@ -6,22 +6,26 @@
   import { recordAttempt } from '$lib/db/attempts';
   import { updateAfterAttempt } from '$lib/engine/spaced-repetition';
   import { SpeechSynthesisService } from '$lib/speech/speech-synthesis';
-  import { resolveImageUrl } from '$lib/utils/exercise-helpers';
+  import { resolveImageUrl, shuffleArray, buildFeatureDistractors } from '$lib/utils/exercise-helpers';
   import { keyboardNav } from '$lib/utils/keyboard-nav';
   import type { KeyboardNavParams } from '$lib/utils/keyboard-nav';
   import { playCorrectSound, playIncorrectSound } from '$lib/utils/sounds';
-  import type { Word, Language, ExerciseType } from '$lib/types';
+  import { CATEGORIES } from '$lib/types';
+  import type { Word, Language, ExerciseType, SemanticFeatures } from '$lib/types';
 
   type Props = {
     words: Word[];
+    /** Full word bank for the active language — used to pad distractors when
+     *  session words share feature values (otherwise options can collapse). */
+    allWords?: Word[];
     language: Language;
    speechRate?: number;
    speakButtonsEnabled?: boolean;
-   onComplete?: (results: { score: number; total: number; details: Array<{ word: Word; correct: boolean; featuresCorrect: number }> }) => void;
-    onRestart?: () => void;
+   oncomplete?: (results: { score: number; total: number; details: Array<{ word: Word; correct: boolean; featuresCorrect: number }> }) => void;
+    onrestart?: () => void;
   };
 
-  let { words, language = 'es' as Language, speechRate = 0.8, speakButtonsEnabled = true, onComplete, onRestart }: Props = $props();
+  let { words, allWords = [], language = 'es' as Language, speechRate = 0.8, speakButtonsEnabled = true, oncomplete, onrestart }: Props = $props();
 
   // State
   let currentIndex = $state(0);
@@ -77,9 +81,6 @@
   let currentPrompt = $derived(featurePrompts[currentFeatureIndex]);
   let featuresCorrectCount = $derived(Object.values(answeredFeatures).filter(Boolean).length);
 
-  // All valid category keys for distractor generation
-  const ALL_CATEGORIES = ['animals', 'food', 'body-parts', 'clothing', 'colors', 'emotions', 'family', 'household', 'nature', 'places', 'professions', 'tools', 'vehicles', 'weather', 'actions'];
-
   // Generate multiple choice options from other words' features
   $effect(() => {
     if (!currentPrompt || !words.length) {
@@ -93,29 +94,23 @@
     let wrongOptions: string[];
 
     if (key === 'category') {
-      // For category questions, use all 15 categories as distractor pool
-      // since session words are all from the same category
-      wrongOptions = ALL_CATEGORIES
-        .filter(c => c !== correctAnswer)
-        .sort(() => Math.random() - 0.5)
-        .slice(0, 3);
+      // Category questions: draw distractors from every category (CATEGORIES
+      // is the single source of truth, so none are ever missing).
+      wrongOptions = shuffleArray(CATEGORIES.filter(c => c !== correctAnswer)).slice(0, 3);
     } else {
-      // Collect all possible answers from other words
-      const allAnswers = words
-        .filter(w => w.id !== currentWord?.id)
-        .map(w => {
-          const val = w.features?.[key as keyof typeof w.features];
-          return typeof val === 'string' ? val : '';
-        })
-        .filter(v => v && v !== correctAnswer);
-
-      // Pick 3 unique wrong answers
-      const shuffled = [...new Set(allAnswers)].sort(() => Math.random() - 0.5);
-      wrongOptions = shuffled.slice(0, 3);
+      // Feature questions: prefer session words, then pad from the full bank
+      // so shared feature values never collapse the choice below 4 options.
+      wrongOptions = buildFeatureDistractors(
+        key as keyof SemanticFeatures,
+        correctAnswer,
+        currentWord?.id,
+        words,
+        allWords,
+      );
     }
 
     // Combine correct + wrong, shuffle
-    const options = [correctAnswer, ...wrongOptions].sort(() => Math.random() - 0.5);
+    const options = shuffleArray([correctAnswer, ...wrongOptions]);
     currentOptions = options;
     selectedOption = null;
   });
@@ -214,7 +209,7 @@
     startTime = Date.now();
     currentIndex++;
     if (currentIndex >= words.length) {
-      onComplete?.({ score, total: words.length, details: results });
+      oncomplete?.({ score, total: words.length, details: results });
     }
   }
 
@@ -238,7 +233,7 @@
 
   function handleRestart() {
     restart();
-    onRestart?.();
+    onrestart?.();
   }
 
   async function speakWord(word?: string) {

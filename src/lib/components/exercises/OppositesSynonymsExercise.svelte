@@ -21,8 +21,8 @@
     mode?: ExerciseMode;
    speechRate?: number;
    speakButtonsEnabled?: boolean;
-   onComplete?: (results: { score: number; total: number; details: Array<{ word: Word; correct: boolean }> }) => void;
-    onRestart?: () => void;
+   oncomplete?: (results: { score: number; total: number; details: Array<{ word: Word; correct: boolean }> }) => void;
+    onrestart?: () => void;
   };
 
   let {
@@ -31,8 +31,8 @@
     mode: modeProp = 'opposites' as ExerciseMode,
     speechRate = 0.8,
     speakButtonsEnabled = true,
-    onComplete,
-    onRestart,
+    oncomplete,
+    onrestart,
   }: Props = $props();
 
   // Auto-detect mode based on available word data
@@ -173,7 +173,8 @@
     if (feedbackState !== 'none') return;
     selectedIndex = index;
 
-    const isCorrect = options[index]?.toLowerCase() === correctAnswer.toLowerCase();
+    // Any valid synonym/opposite scores correct, not just the primary.
+    const isCorrect = validAnswers.includes(options[index]?.toLowerCase() ?? '');
 
     if (isCorrect) {
       feedbackState = 'correct';
@@ -234,7 +235,7 @@
     startTime = Date.now();
     currentIndex++;
     if (currentIndex >= words.length) {
-      onComplete?.({ score, total: words.length, details: results });
+      oncomplete?.({ score, total: words.length, details: results });
     }
   }
 
@@ -249,7 +250,7 @@
 
   function handleRestart() {
     restart();
-    onRestart?.();
+    onrestart?.();
   }
 
   async function speakWord(word?: string) {

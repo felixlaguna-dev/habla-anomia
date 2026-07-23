@@ -1,15 +1,17 @@
 <script lang="ts">
   import { t } from '$lib/i18n';
   import Card from '$lib/components/ui/Card.svelte';
+  import { ExerciseIcon } from '$lib/components/ui';
   import { getSessions } from '$lib/db/sessions';
   import { getAllSettings, getStreakInfo } from '$lib/db';
   import { getSRStats, getDueWords } from '$lib/engine/spaced-repetition';
   import { getWeakCategories } from '$lib/engine/session-generator';
   import { getAccuracyByExercise } from '$lib/db/attempts';
+  import { EXERCISE_REGISTRY, getExerciseMeta } from '$lib/exercises/registry';
   import { onMount } from 'svelte';
   import { goto } from '$app/navigation';
   import { base } from '$app/paths';
-  import type { Language } from '$lib/types';
+  import type { Language, ExerciseType } from '$lib/types';
 
   let totalSessions = $state(0);
   let todayCompleted = $state(0);
@@ -24,25 +26,12 @@
 
   // Daily plan recommendations
   interface PlanItem {
-    type: string;
-    icon: string;
-    color: string;
+    type: ExerciseType;
     label: string;
     reason: string;
   }
 
   let dailyPlan = $state<PlanItem[]>([]);
-
-  const exerciseTypes: Record<string, { icon: string; color: string; key: string }> = {
-    'picture-naming': { icon: '🖼️', color: '#3b82f6', key: 'picture_naming' },
-    'semantic-features': { icon: '🧠', color: '#8b5cf6', key: 'semantic_features' },
-    'phonological-cueing': { icon: '🔤', color: '#06b6d4', key: 'phonological_cueing' },
-    'category-sorting': { icon: '📂', color: '#f59e0b', key: 'category_sorting' },
-    'generative-naming': { icon: '💡', color: '#10b981', key: 'generative_naming' },
-    'word-matching': { icon: '🔗', color: '#ef4444', key: 'word_matching' },
-    'sentence-completion': { icon: '📝', color: '#6366f1', key: 'sentence_completion' },
-    'opposites-synonyms': { icon: '🔄', color: '#ec4899', key: 'opposites_synonyms' }
-  };
 
   function getGreeting(): string {
     const hour = new Date().getHours();
@@ -103,12 +92,12 @@
 
   async function buildDailyPlan() {
     const plan: PlanItem[] = [];
-    const allTypes = Object.keys(exerciseTypes);
+    const allTypes = EXERCISE_REGISTRY.map((e) => e.type);
 
     // Get exercise accuracy data from past attempts
     const exerciseAccuracies = await getAccuracyByExercise(language);
 
-    let selectedTypes: string[];
+    let selectedTypes: ExerciseType[];
 
     if (exerciseAccuracies.length === 0) {
       // New user: show first 3 exercises as defaults
@@ -129,7 +118,7 @@
     }
 
     // Build reason strings for each selected type
-    const reasonMap: Record<string, string> = {
+    const reasonMap: Record<ExerciseType, string> = {
       'picture-naming': dueCount > 0
         ? $t('dashboard.review_due_words', { count: String(dueCount) })
         : $t('dashboard.phonological_practice'),
@@ -143,13 +132,11 @@
     };
 
     for (const type of selectedTypes) {
-      const info = exerciseTypes[type];
-      if (!info) continue;
+      const meta = getExerciseMeta(type);
+      if (!meta) continue;
       plan.push({
         type,
-        icon: info.icon,
-        color: info.color,
-        label: $t(`exercises.${info.key}.name`),
+        label: $t(`exercises.${meta.i18nKey}.name`),
         reason: reasonMap[type] || $t('dashboard.phonological_practice')
       });
     }
@@ -224,12 +211,13 @@
       </div>
     {:else}
       <div class="plan-list stagger-children">
-        {#each dailyPlan as item, i}
+        {#each dailyPlan as item, i (item.type)}
+          {@const meta = getExerciseMeta(item.type)}
           <Card>
             <div class="plan-item" class:completed={i < todayCompleted}>
               <div class="plan-info">
-                <span class="plan-icon" style="background: {item.color}20; color: {item.color}">
-                  {item.icon}
+                <span class="plan-icon" style="--ex-color: {meta?.color}">
+                  {#if meta}<ExerciseIcon {meta} size={28} />{/if}
                 </span>
                 <div class="plan-text">
                   <span class="plan-label">{item.label}</span>
@@ -259,16 +247,16 @@
   <section class="exercises-section">
     <h2 class="section-title">{$t('exercises.title')}</h2>
     <div class="exercise-chips stagger-children">
-      {#each Object.entries(exerciseTypes) as [type, exercise]}
+      {#each EXERCISE_REGISTRY as exercise (exercise.type)}
         <button
           class="exercise-chip"
-          onclick={() => startExercise(type)}
-          aria-label={$t(`exercises.${exercise.key}.name`)}
+          onclick={() => startExercise(exercise.type)}
+          aria-label={$t(`exercises.${exercise.i18nKey}.name`)}
         >
-          <span class="chip-icon" style="background: {exercise.color}; color: white">
-            {exercise.icon}
+          <span class="chip-icon" style="--ex-color: {exercise.color}">
+            <ExerciseIcon meta={exercise} size={15} />
           </span>
-          <span class="chip-label">{$t(`exercises.${exercise.key}.short_name`)}</span>
+          <span class="chip-label">{$t(`exercises.${exercise.i18nKey}.short_name`)}</span>
         </button>
       {/each}
     </div>
@@ -392,7 +380,8 @@
     width: 2.5rem;
     height: 2.5rem;
     border-radius: 0.75rem;
-    font-size: 1.25rem;
+    background: color-mix(in srgb, var(--ex-color, var(--primary)) 14%, transparent);
+    color: var(--ex-color, var(--primary));
     flex-shrink: 0;
   }
 
@@ -504,7 +493,8 @@
     width: 1.6rem;
     height: 1.6rem;
     border-radius: 50%;
-    font-size: 0.7rem;
+    background: var(--ex-color, var(--primary));
+    color: white;
     box-shadow: 0 1px 4px rgba(0,0,0,0.3);
     z-index: 1;
   }
@@ -546,7 +536,6 @@
     .plan-icon {
       width: 3rem;
       height: 3rem;
-      font-size: 1.5rem;
     }
 
     .plan-label {
@@ -568,7 +557,6 @@
     .chip-icon {
       width: 1.8rem;
       height: 1.8rem;
-      font-size: 0.75rem;
       top: -9px;
       left: -9px;
     }
@@ -623,7 +611,6 @@
     .chip-icon {
       width: 1.4rem;
       height: 1.4rem;
-      font-size: 0.6rem;
       top: -7px;
       left: -7px;
     }

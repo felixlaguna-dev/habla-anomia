@@ -11,6 +11,8 @@
   import { browser } from '$app/environment';
   import { playCompleteSound } from '$lib/utils/sounds';
   import { SpeechSynthesisService } from '$lib/speech/speech-synthesis';
+  import { ExerciseIcon } from '$lib/components/ui';
+  import { getExerciseMeta } from '$lib/exercises/registry';
   import type { ExerciseType, Language, Word, AppSettings } from '$lib/types';
 
   import {
@@ -67,6 +69,8 @@
   let titleKey = $derived(
     `exercises.${exerciseType.replace(/-/g, '_')}.name`
   );
+
+  let exerciseMeta = $derived(getExerciseMeta(exerciseType));
 
   async function initExercise() {
     if (!browser) return;
@@ -203,6 +207,11 @@
       </svg>
     </button>
     <div class="header-text">
+      {#if exerciseMeta}
+        <span class="title-icon" style="--ex-color: {exerciseMeta.color}" aria-hidden="true">
+          <ExerciseIcon meta={exerciseMeta} size={22} />
+        </span>
+      {/if}
       <h1 class="exercise-title" tabindex="-1">{$t(titleKey)}</h1>
     </div>
     <div class="header-spacer"></div>
@@ -367,6 +376,21 @@
   .header-text {
     flex: 1;
     min-width: 0;
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+  }
+
+  .title-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border-radius: var(--radius-md);
+    background: color-mix(in srgb, var(--ex-color, var(--primary)) 16%, transparent);
+    color: var(--ex-color, var(--primary));
+    flex-shrink: 0;
   }
 
   .exercise-title {

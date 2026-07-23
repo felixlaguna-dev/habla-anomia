@@ -1,21 +1,11 @@
 <script lang="ts">
   import { t } from '$lib/i18n';
   import { browser } from '$app/environment';
-  import { Card } from '$lib/components/ui';
+  import { Card, ExerciseIcon } from '$lib/components/ui';
+  import { EXERCISE_REGISTRY } from '$lib/exercises/registry';
 
   const APP_VERSION = '1.1.0';
   const GIT_HASH: string = typeof __APP_VERSION__ !== 'undefined' ? __APP_VERSION__ : 'dev';
-
-  const exerciseDescriptions = [
-    { key: 'picture_naming', icon: '🖼️', color: '#3b82f6' },
-    { key: 'semantic_features', icon: '🧠', color: '#8b5cf6' },
-    { key: 'phonological_cueing', icon: '🔊', color: '#06b6d4' },
-    { key: 'category_sorting', icon: '📂', color: '#f59e0b' },
-    { key: 'generative_naming', icon: '💡', color: '#10b981' },
-    { key: 'word_matching', icon: '🔗', color: '#ef4444' },
-    { key: 'sentence_completion', icon: '✍️', color: '#6366f1' },
-    { key: 'opposites_synonyms', icon: '↔️', color: '#ec4899' }
-  ];
 </script>
 
 <svelte:head>
@@ -40,12 +30,14 @@
     <Card>
       <p class="section-heading section-intro">{$t('about.exercises_help')}</p>
       <div class="exercise-list stagger-children">
-        {#each exerciseDescriptions as exercise}
+        {#each EXERCISE_REGISTRY as exercise (exercise.type)}
           <div class="exercise-item">
-            <span class="exercise-emoji" style="background: {exercise.color}20; color: {exercise.color}" aria-hidden="true">{exercise.icon}</span>
+            <span class="exercise-icon-box" style="--ex-color: {exercise.color}" aria-hidden="true">
+              <ExerciseIcon meta={exercise} size={28} />
+            </span>
             <div class="exercise-info">
-              <h3 class="exercise-title">{$t(`exercises.${exercise.key}.name`)}</h3>
-              <p class="exercise-desc">{$t(`exercises.${exercise.key}.description`)}</p>
+              <h3 class="exercise-title">{$t(`exercises.${exercise.i18nKey}.name`)}</h3>
+              <p class="exercise-desc">{$t(`exercises.${exercise.i18nKey}.description`)}</p>
             </div>
           </div>
         {/each}
@@ -133,8 +125,7 @@
     align-items: flex-start;
   }
 
-  .exercise-emoji {
-    font-size: 1.75rem;
+  .exercise-icon-box {
     line-height: 1;
     flex-shrink: 0;
     width: 48px;
@@ -143,6 +134,8 @@
     align-items: center;
     justify-content: center;
     border-radius: var(--radius-md);
+    background: color-mix(in srgb, var(--ex-color, var(--primary)) 14%, transparent);
+    color: var(--ex-color, var(--primary));
     text-align: center;
   }
 

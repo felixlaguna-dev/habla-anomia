@@ -3,6 +3,7 @@
 
 export { default as Button } from './Button.svelte';
 export { default as Card } from './Card.svelte';
+export { default as ExerciseIcon } from './ExerciseIcon.svelte';
 export { default as Chip } from './Chip.svelte';
 export { default as ChipGroup } from './ChipGroup.svelte';
 export { default as ProgressBar } from './ProgressBar.svelte';

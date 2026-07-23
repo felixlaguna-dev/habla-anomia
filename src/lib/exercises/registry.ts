@@ -85,16 +85,25 @@ export const EXERCISE_REGISTRY: ExerciseMeta[] = [
   }
 ];
 
-const REGISTRY_BY_TYPE = new Map<ExerciseType, ExerciseMeta>(
-  EXERCISE_REGISTRY.map((meta) => [meta.type, meta])
-);
-
-/** Look up metadata for an exercise type. Returns undefined for unknown types. */
-export function getExerciseMeta(type: ExerciseType): ExerciseMeta | undefined {
-  return REGISTRY_BY_TYPE.get(type);
-}
+/** All exercise types in canonical order — derive from the registry, never hand-list. */
+export const EXERCISE_TYPES: ExerciseType[] = EXERCISE_REGISTRY.map((meta) => meta.type);
 
 /** Exercises that require words with images — derived from the registry so it cannot drift. */
 export const IMAGE_DEPENDENT_EXERCISES: ExerciseType[] = EXERCISE_REGISTRY.filter(
   (meta) => meta.imageDependent
 ).map((meta) => meta.type);
+
+const REGISTRY_BY_TYPE = new Map<ExerciseType, ExerciseMeta>(
+  EXERCISE_REGISTRY.map((meta) => [meta.type, meta])
+);
+
+/**
+ * Look up metadata for an exercise type. Returns `undefined` only when `type`
+ * is not a real `ExerciseType` at runtime (e.g. an unvalidated URL param) — the
+ * registry is exhaustive over the closed `ExerciseType` union, so trusted
+ * callers that already hold a registered type should select from
+ * `EXERCISE_REGISTRY` / `EXERCISE_TYPES` instead of re-looking-up.
+ */
+export function getExerciseMeta(type: ExerciseType): ExerciseMeta | undefined {
+  return REGISTRY_BY_TYPE.get(type);
+}

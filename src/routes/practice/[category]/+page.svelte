@@ -8,7 +8,7 @@
   import { getAllSettings } from '$lib/db';
   import { categoryHasEnoughWords, awaitSeedReady } from '$lib/db/words';
   import { CategoryIcon, Spinner, ExerciseIcon } from '$lib/components/ui';
-  import { getExerciseMeta, type ExerciseMeta } from '$lib/exercises/registry';
+  import { EXERCISE_REGISTRY } from '$lib/exercises/registry';
 
   let category = $derived($page.params.category as Category);
   let isValid = $derived(CATEGORIES.includes(category));
@@ -21,10 +21,10 @@
 
   // Exercises that work well per-category. "Escucha y elige" (listen-and-choose)
   // is intentionally absent — its exercise type does not exist yet; add it here
-  // (and to the registry) when it lands.
-  const choices = (['picture-naming', 'sentence-completion'] as const)
-    .map((type) => getExerciseMeta(type))
-    .filter((m): m is ExerciseMeta => m !== undefined);
+  // (and to the registry) when it lands. Select from the registry so the metas
+  // are guaranteed present (no undefined to filter out).
+  const PRACTICE_TYPES = new Set(['picture-naming', 'sentence-completion']);
+  const choices = EXERCISE_REGISTRY.filter((m) => PRACTICE_TYPES.has(m.type));
 
   onMount(async () => {
     if (!isValid) {
@@ -95,7 +95,7 @@
           onclick={() => startChosen(choice.type)}
           aria-label={$t(`exercises.${choice.i18nKey}.name`)}
         >
-          <span class="choice-icon" style="--ex-color: {choice.color}" aria-hidden="true">
+          <span class="choice-icon" aria-hidden="true">
             <ExerciseIcon meta={choice} size={28} />
           </span>
           <span class="choice-text">
@@ -229,14 +229,9 @@
   }
 
   .choice-icon {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
     width: 3rem;
     height: 3rem;
     border-radius: var(--radius-md);
-    background: color-mix(in srgb, var(--ex-color, var(--primary)) 14%, transparent);
-    color: var(--ex-color, var(--primary));
     flex-shrink: 0;
   }
 

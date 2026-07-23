@@ -32,7 +32,7 @@
       <div class="exercise-list stagger-children">
         {#each EXERCISE_REGISTRY as exercise (exercise.type)}
           <div class="exercise-item">
-            <span class="exercise-icon-box" style="--ex-color: {exercise.color}" aria-hidden="true">
+            <span class="exercise-icon-box" aria-hidden="true">
               <ExerciseIcon meta={exercise} size={28} />
             </span>
             <div class="exercise-info">
@@ -126,17 +126,10 @@
   }
 
   .exercise-icon-box {
-    line-height: 1;
     flex-shrink: 0;
     width: 48px;
     height: 48px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
     border-radius: var(--radius-md);
-    background: color-mix(in srgb, var(--ex-color, var(--primary)) 14%, transparent);
-    color: var(--ex-color, var(--primary));
-    text-align: center;
   }
 
   .exercise-info {

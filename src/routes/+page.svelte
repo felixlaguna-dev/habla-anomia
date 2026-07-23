@@ -7,7 +7,7 @@
   import { getCategoriesWithEnoughWords, awaitSeedReady, DRILLABLE_CATEGORY_MIN } from '$lib/db/words';
   import { getSRStats } from '$lib/engine/spaced-repetition';
   import { getAccuracyByExercise } from '$lib/db/attempts';
-  import { EXERCISE_REGISTRY, getExerciseMeta } from '$lib/exercises/registry';
+  import { EXERCISE_REGISTRY, EXERCISE_TYPES, getExerciseMeta, type ExerciseMeta } from '$lib/exercises/registry';
   import { onMount } from 'svelte';
   import { goto } from '$app/navigation';
   import { base } from '$app/paths';
@@ -27,7 +27,7 @@
   // Daily plan recommendations
   interface PlanItem {
     type: ExerciseType;
-    label: string;
+    meta: ExerciseMeta;
     reason: string;
   }
 
@@ -99,7 +99,6 @@
 
   async function buildDailyPlan() {
     const plan: PlanItem[] = [];
-    const allTypes = EXERCISE_REGISTRY.map((e) => e.type);
 
     // Get exercise accuracy data from past attempts
     const exerciseAccuracies = await getAccuracyByExercise(language);
@@ -108,7 +107,7 @@
 
     if (exerciseAccuracies.length === 0) {
       // New user: show first 3 exercises as defaults
-      selectedTypes = allTypes.slice(0, 3);
+      selectedTypes = EXERCISE_TYPES.slice(0, 3);
     } else {
       // Pick the 3 exercise types with lowest accuracy
       // Build a map of exercise_type -> accuracy
@@ -117,7 +116,7 @@
         accMap.set(ea.exercise_type, ea.accuracy);
       }
       // Sort all types by accuracy (ascending), unpractised types get 0
-      selectedTypes = [...allTypes].sort((a, b) => {
+      selectedTypes = [...EXERCISE_TYPES].sort((a, b) => {
         const accA = accMap.get(a) ?? 0;
         const accB = accMap.get(b) ?? 0;
         return accA - accB;
@@ -143,7 +142,7 @@
       if (!meta) continue;
       plan.push({
         type,
-        label: $t(`exercises.${meta.i18nKey}.name`),
+        meta,
         reason: reasonMap[type] || $t('dashboard.phonological_practice')
       });
     }
@@ -219,15 +218,14 @@
     {:else}
       <div class="plan-list stagger-children">
         {#each dailyPlan as item, i (item.type)}
-          {@const meta = getExerciseMeta(item.type)}
           <Card>
             <div class="plan-item" class:completed={i < todayCompleted}>
               <div class="plan-info">
-                <span class="plan-icon" style="--ex-color: {meta?.color}">
-                  {#if meta}<ExerciseIcon {meta} size={28} />{/if}
+                <span class="plan-icon">
+                  <ExerciseIcon meta={item.meta} size={28} />
                 </span>
                 <div class="plan-text">
-                  <span class="plan-label">{item.label}</span>
+                  <span class="plan-label">{$t(`exercises.${item.meta.i18nKey}.name`)}</span>
                   <span class="plan-reason">{item.reason}</span>
                 </div>
               </div>
@@ -260,8 +258,8 @@
           onclick={() => startExercise(exercise.type)}
           aria-label={$t(`exercises.${exercise.i18nKey}.name`)}
         >
-          <span class="chip-icon" style="--ex-color: {exercise.color}">
-            <ExerciseIcon meta={exercise} size={15} />
+          <span class="chip-icon">
+            <ExerciseIcon meta={exercise} size={15} variant="solid" />
           </span>
           <span class="chip-label">{$t(`exercises.${exercise.i18nKey}.short_name`)}</span>
         </button>
@@ -397,14 +395,9 @@
   }
 
   .plan-icon {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
     width: 2.5rem;
     height: 2.5rem;
     border-radius: 0.75rem;
-    background: color-mix(in srgb, var(--ex-color, var(--primary)) 14%, transparent);
-    color: var(--ex-color, var(--primary));
     flex-shrink: 0;
   }
 
@@ -506,14 +499,9 @@
     position: absolute;
     top: -8px;
     left: -8px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
     width: 1.6rem;
     height: 1.6rem;
     border-radius: 50%;
-    background: var(--ex-color, var(--primary));
-    color: white;
     box-shadow: var(--shadow-sm);
     z-index: 1;
   }

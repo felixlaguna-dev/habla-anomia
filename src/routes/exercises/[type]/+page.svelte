@@ -73,11 +73,12 @@
     return map[exerciseType] || null;
   });
 
-  let titleKey = $derived(
-    `exercises.${exerciseType.replace(/-/g, '_')}.name`
-  );
-
   let exerciseMeta = $derived(getExerciseMeta(exerciseType));
+
+  // Title i18n key comes from the registry (single source of truth) — empty for
+  // an unrecognised URL slug so the heading stays blank rather than echoing a
+  // raw key.
+  let titleKey = $derived(exerciseMeta ? `exercises.${exerciseMeta.i18nKey}.name` : '');
 
   async function initExercise() {
     if (!browser) return;
@@ -231,7 +232,7 @@
     </button>
     <div class="header-text">
       {#if exerciseMeta}
-        <span class="title-icon" style="--ex-color: {exerciseMeta.color}" aria-hidden="true">
+        <span class="title-icon" aria-hidden="true">
           <ExerciseIcon meta={exerciseMeta} size={22} />
         </span>
       {/if}
@@ -406,14 +407,9 @@
   }
 
   .title-icon {
-    display: flex;
-    align-items: center;
-    justify-content: center;
     width: 36px;
     height: 36px;
     border-radius: var(--radius-md);
-    background: color-mix(in srgb, var(--ex-color, var(--primary)) 16%, transparent);
-    color: var(--ex-color, var(--primary));
     flex-shrink: 0;
   }
 

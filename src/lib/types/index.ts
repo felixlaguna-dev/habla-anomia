@@ -97,7 +97,7 @@ export interface Word {
   category?: Category;
   language: Language;
   image_url: string;
-  /** Whether a real image file exists. Defaults to true. Words without images are excluded from image-dependent exercises (PictureNaming, SemanticFeatures, PhonologicalCueing, CategorySorting). */
+  /** Whether a real image file exists. Defaults to true. Words without images are excluded from image-dependent exercises — see IMAGE_DEPENDENT_EXERCISES in src/lib/exercises/registry.ts. */
   has_image?: boolean;
   definition: string;
   features: SemanticFeatures;
@@ -108,14 +108,6 @@ export interface Word {
   opposite?: string;
   synonyms?: string[];
 }
-
-/** Exercises that require an image (words without images are excluded). */
-export const IMAGE_DEPENDENT_EXERCISES: ExerciseType[] = [
-  'picture-naming',
-  'semantic-features',
-  'phonological-cueing',
-  'category-sorting',
-];
 
 /** Check if a word has a usable image. */
 export function wordHasImage(word: Word): boolean {

@@ -1,8 +1,8 @@
 <script lang="ts">
   import { t } from '$lib/i18n';
   import { browser } from '$app/environment';
-  import { Card } from '$lib/components/ui';
-  import { EXERCISES } from '$lib/data/exercise-meta';
+  import { Card, ExerciseIcon } from '$lib/components/ui';
+  import { EXERCISE_REGISTRY } from '$lib/exercises/registry';
 
   const APP_VERSION: string = __APP_VERSION__ ?? '0.0.0';
   const GIT_HASH: string = __APP_GIT_HASH__ ?? 'dev';
@@ -30,12 +30,14 @@
     <Card>
       <p class="section-heading section-intro">{$t('about.exercises_help')}</p>
       <div class="exercise-list stagger-children">
-        {#each EXERCISES as exercise (exercise.type)}
+        {#each EXERCISE_REGISTRY as exercise (exercise.type)}
           <div class="exercise-item">
-            <span class="exercise-emoji" style="background: {exercise.color}20; color: {exercise.color}" aria-hidden="true">{exercise.icon}</span>
+            <span class="exercise-icon-box" aria-hidden="true">
+              <ExerciseIcon meta={exercise} size={28} />
+            </span>
             <div class="exercise-info">
-              <h3 class="exercise-title">{$t(`exercises.${exercise.key}.name`)}</h3>
-              <p class="exercise-desc">{$t(`exercises.${exercise.key}.description`)}</p>
+              <h3 class="exercise-title">{$t(`exercises.${exercise.i18nKey}.name`)}</h3>
+              <p class="exercise-desc">{$t(`exercises.${exercise.i18nKey}.description`)}</p>
             </div>
           </div>
         {/each}
@@ -123,17 +125,11 @@
     align-items: flex-start;
   }
 
-  .exercise-emoji {
-    font-size: 1.75rem;
-    line-height: 1;
+  .exercise-icon-box {
     flex-shrink: 0;
     width: 48px;
     height: 48px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
     border-radius: var(--radius-md);
-    text-align: center;
   }
 
   .exercise-info {

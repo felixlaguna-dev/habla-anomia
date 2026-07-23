@@ -1,13 +1,13 @@
 <script lang="ts">
   import { t } from '$lib/i18n';
   import Card from '$lib/components/ui/Card.svelte';
-  import { CategoryIcon } from '$lib/components/ui';
+  import { ExerciseIcon, CategoryIcon } from '$lib/components/ui';
   import { getSessions } from '$lib/db/sessions';
   import { getAllSettings, getStreakInfo } from '$lib/db';
   import { getCategoriesWithEnoughWords, awaitSeedReady, DRILLABLE_CATEGORY_MIN } from '$lib/db/words';
   import { getSRStats } from '$lib/engine/spaced-repetition';
   import { getAccuracyByExercise } from '$lib/db/attempts';
-  import { EXERCISES } from '$lib/data/exercise-meta';
+  import { EXERCISE_REGISTRY, EXERCISE_TYPES, getExerciseMeta, type ExerciseMeta } from '$lib/exercises/registry';
   import { onMount } from 'svelte';
   import { goto } from '$app/navigation';
   import { base } from '$app/paths';
@@ -26,10 +26,8 @@
 
   // Daily plan recommendations
   interface PlanItem {
-    type: string;
-    icon: string;
-    color: string;
-    label: string;
+    type: ExerciseType;
+    meta: ExerciseMeta;
     reason: string;
   }
 
@@ -101,7 +99,6 @@
 
   async function buildDailyPlan() {
     const plan: PlanItem[] = [];
-    const allTypes = EXERCISES.map((e) => e.type);
 
     // Get exercise accuracy data from past attempts
     const exerciseAccuracies = await getAccuracyByExercise(language);
@@ -110,7 +107,7 @@
 
     if (exerciseAccuracies.length === 0) {
       // New user: show first 3 exercises as defaults
-      selectedTypes = allTypes.slice(0, 3);
+      selectedTypes = EXERCISE_TYPES.slice(0, 3);
     } else {
       // Pick the 3 exercise types with lowest accuracy
       // Build a map of exercise_type -> accuracy
@@ -119,7 +116,7 @@
         accMap.set(ea.exercise_type, ea.accuracy);
       }
       // Sort all types by accuracy (ascending), unpractised types get 0
-      selectedTypes = [...allTypes].sort((a, b) => {
+      selectedTypes = [...EXERCISE_TYPES].sort((a, b) => {
         const accA = accMap.get(a) ?? 0;
         const accB = accMap.get(b) ?? 0;
         return accA - accB;
@@ -127,7 +124,7 @@
     }
 
     // Build reason strings for each selected type
-    const reasonMap: Record<string, string> = {
+    const reasonMap: Record<ExerciseType, string> = {
       'picture-naming': dueCount > 0
         ? $t('dashboard.review_due_words', { count: String(dueCount) })
         : $t('dashboard.phonological_practice'),
@@ -140,15 +137,12 @@
       'opposites-synonyms': $t('dashboard.practice_weak_category')
     };
 
-    const metaByType = new Map(EXERCISES.map((e) => [e.type, e]));
     for (const type of selectedTypes) {
-      const info = metaByType.get(type);
-      if (!info) continue;
+      const meta = getExerciseMeta(type);
+      if (!meta) continue;
       plan.push({
         type,
-        icon: info.icon,
-        color: info.color,
-        label: $t(`exercises.${info.key}.name`),
+        meta,
         reason: reasonMap[type] || $t('dashboard.phonological_practice')
       });
     }
@@ -223,15 +217,15 @@
       </div>
     {:else}
       <div class="plan-list stagger-children">
-        {#each dailyPlan as item, i}
+        {#each dailyPlan as item, i (item.type)}
           <Card>
             <div class="plan-item" class:completed={i < todayCompleted}>
               <div class="plan-info">
-                <span class="plan-icon" style="background: {item.color}20; color: {item.color}">
-                  {item.icon}
+                <span class="plan-icon">
+                  <ExerciseIcon meta={item.meta} size={28} />
                 </span>
                 <div class="plan-text">
-                  <span class="plan-label">{item.label}</span>
+                  <span class="plan-label">{$t(`exercises.${item.meta.i18nKey}.name`)}</span>
                   <span class="plan-reason">{item.reason}</span>
                 </div>
               </div>
@@ -258,16 +252,16 @@
   <section class="exercises-section">
     <h2 class="section-title">{$t('exercises.title')}</h2>
     <div class="exercise-chips stagger-children">
-      {#each EXERCISES as exercise (exercise.type)}
+      {#each EXERCISE_REGISTRY as exercise (exercise.type)}
         <button
           class="exercise-chip"
           onclick={() => startExercise(exercise.type)}
-          aria-label={$t(`exercises.${exercise.key}.name`)}
+          aria-label={$t(`exercises.${exercise.i18nKey}.name`)}
         >
-          <span class="chip-icon" style="background: {exercise.color}; color: white">
-            {exercise.icon}
+          <span class="chip-icon">
+            <ExerciseIcon meta={exercise} size={15} variant="solid" />
           </span>
-          <span class="chip-label">{$t(`exercises.${exercise.key}.short_name`)}</span>
+          <span class="chip-label">{$t(`exercises.${exercise.i18nKey}.short_name`)}</span>
         </button>
       {/each}
     </div>
@@ -401,13 +395,9 @@
   }
 
   .plan-icon {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
     width: 2.5rem;
     height: 2.5rem;
     border-radius: 0.75rem;
-    font-size: 1.25rem;
     flex-shrink: 0;
   }
 
@@ -509,13 +499,9 @@
     position: absolute;
     top: -8px;
     left: -8px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
     width: 1.6rem;
     height: 1.6rem;
     border-radius: 50%;
-    font-size: 0.7rem;
     box-shadow: var(--shadow-sm);
     z-index: 1;
   }
@@ -624,7 +610,6 @@
     .plan-icon {
       width: 3rem;
       height: 3rem;
-      font-size: 1.5rem;
     }
 
     .plan-label {
@@ -646,7 +631,6 @@
     .chip-icon {
       width: 1.8rem;
       height: 1.8rem;
-      font-size: 0.75rem;
       top: -9px;
       left: -9px;
     }
@@ -700,7 +684,6 @@
     .chip-icon {
       width: 1.4rem;
       height: 1.4rem;
-      font-size: 0.6rem;
       top: -7px;
       left: -7px;
     }

@@ -18,6 +18,7 @@ Free, open-source PWA for anomia (aphasia) rehabilitation.
 
 ## Key Paths
 - Exercises: `src/lib/components/exercises/` (8 types, all multiple-choice / tap-to-select)
+- Exercise registry: `src/lib/exercises/registry.ts` (single source of truth for exercise identity — icon, color, i18n key, image-dependency; rendered via `ExerciseIcon` from `src/lib/components/ui/`)
 - Word bank: `src/lib/data/words-es.ts` (~523 words across 20 categories, multi-category `categories: Category[]`). All words have images.
 - Database: `src/lib/db/` (Dexie v3 schema — multi-category, no `category` index. Tables: words, attempts, sessions, settings, spacedRepetition)
 - Engine: `src/lib/engine/` (session-generator, spaced-repetition, statistics)
@@ -47,9 +48,9 @@ Free, open-source PWA for anomia (aphasia) rehabilitation.
 ## Adding exercises
 1. Create component in `src/lib/components/exercises/`
 2. Add to barrel export `index.ts`
-3. Add route mapping in `src/routes/exercises/[type]/+page.svelte`
-4. Add translations to all locale files (`src/lib/i18n/*.json`)
-5. Add exercise card to `src/routes/exercises/+page.svelte`
+3. Add to `EXERCISE_REGISTRY` in `src/lib/exercises/registry.ts` (type, i18nKey, icon SVG path, color token, imageDependent) and add the matching `--exercise-<type>` token to `src/lib/styles/theme.css`
+4. Add route mapping in `src/routes/exercises/[type]/+page.svelte`
+5. Add translations to all locale files (`src/lib/i18n/*.json`)
 6. Use multiple choice / tap-to-select (never require typing)
 
 ## Adding words

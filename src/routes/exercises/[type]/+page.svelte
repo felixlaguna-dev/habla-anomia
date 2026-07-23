@@ -11,7 +11,8 @@
   import { browser } from '$app/environment';
   import { playCompleteSound } from '$lib/utils/sounds';
   import { SpeechSynthesisService } from '$lib/speech/speech-synthesis';
-  import { Spinner } from '$lib/components/ui';
+  import { ExerciseIcon, Spinner } from '$lib/components/ui';
+  import { getExerciseMeta } from '$lib/exercises/registry';
   import type { ExerciseType, Language, Word, AppSettings, Category } from '$lib/types';
   import { CATEGORIES } from '$lib/types';
 
@@ -72,8 +73,13 @@
     return map[exerciseType] || null;
   });
 
+  let exerciseMeta = $derived(getExerciseMeta(exerciseType));
+
+  // Title i18n key comes from the registry (single source of truth). Fall back
+  // to `common.no_words` for an unrecognised URL slug so the auto-focused
+  // heading is never empty (a11y) — the page shows the error state anyway.
   let titleKey = $derived(
-    `exercises.${exerciseType.replace(/-/g, '_')}.name`
+    exerciseMeta ? `exercises.${exerciseMeta.i18nKey}.name` : 'common.no_words'
   );
 
   async function initExercise() {
@@ -227,6 +233,11 @@
       </svg>
     </button>
     <div class="header-text">
+      {#if exerciseMeta}
+        <span class="title-icon" aria-hidden="true">
+          <ExerciseIcon meta={exerciseMeta} size={22} />
+        </span>
+      {/if}
       <h1 class="exercise-title" tabindex="-1">{$t(titleKey)}</h1>
     </div>
     <div class="header-spacer"></div>
@@ -392,12 +403,25 @@
   .header-text {
     flex: 1;
     min-width: 0;
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+  }
+
+  .title-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: var(--radius-md);
+    flex-shrink: 0;
   }
 
   .exercise-title {
     font-size: var(--font-size-xl);
     font-weight: 600;
     color: var(--text);
+    /* Flex item in .header-text: allow shrinking so long localized names wrap
+       rather than overflowing on narrow screens. */
+    min-width: 0;
     /* Allow the title to wrap to 2 lines on narrow screens instead of truncating */
     overflow-wrap: break-word;
     display: -webkit-box;

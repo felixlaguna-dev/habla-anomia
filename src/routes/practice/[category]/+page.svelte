@@ -7,8 +7,8 @@
   import { CATEGORIES, type Category } from '$lib/types';
   import { getAllSettings } from '$lib/db';
   import { categoryHasEnoughWords, awaitSeedReady } from '$lib/db/words';
-  import { CategoryIcon, Spinner } from '$lib/components/ui';
-  import { exerciseMeta } from '$lib/data/exercise-meta';
+  import { CategoryIcon, Spinner, ExerciseIcon } from '$lib/components/ui';
+  import { EXERCISE_REGISTRY } from '$lib/exercises/registry';
 
   let category = $derived($page.params.category as Category);
   let isValid = $derived(CATEGORIES.includes(category));
@@ -21,8 +21,10 @@
 
   // Exercises that work well per-category. "Escucha y elige" (listen-and-choose)
   // is intentionally absent — its exercise type does not exist yet; add it here
-  // (and to exercise-meta) when it lands.
-  const choices = (['picture-naming', 'sentence-completion'] as const).map(exerciseMeta);
+  // (and to the registry) when it lands. Select from the registry so the metas
+  // are guaranteed present (no undefined to filter out).
+  const PRACTICE_TYPES = new Set(['picture-naming', 'sentence-completion']);
+  const choices = EXERCISE_REGISTRY.filter((m) => PRACTICE_TYPES.has(m.type));
 
   onMount(async () => {
     if (!isValid) {
@@ -91,14 +93,14 @@
         <button
           class="choice-card"
           onclick={() => startChosen(choice.type)}
-          aria-label={$t(`exercises.${choice.key}.name`)}
+          aria-label={$t(`exercises.${choice.i18nKey}.name`)}
         >
-          <span class="choice-icon" style="background: {choice.color}20; color: {choice.color}">
-            {choice.icon}
+          <span class="choice-icon" aria-hidden="true">
+            <ExerciseIcon meta={choice} size={28} />
           </span>
           <span class="choice-text">
-            <span class="choice-label">{$t(`exercises.${choice.key}.name`)}</span>
-            <span class="choice-desc">{$t(`practice.${choice.key}_desc`)}</span>
+            <span class="choice-label">{$t(`exercises.${choice.i18nKey}.name`)}</span>
+            <span class="choice-desc">{$t(`practice.${choice.i18nKey}_desc`)}</span>
           </span>
           <span class="choice-arrow" aria-hidden="true">›</span>
         </button>
@@ -227,13 +229,9 @@
   }
 
   .choice-icon {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
     width: 3rem;
     height: 3rem;
     border-radius: var(--radius-md);
-    font-size: 1.75rem;
     flex-shrink: 0;
   }
 
@@ -310,7 +308,6 @@
     .choice-icon {
       width: 4rem;
       height: 4rem;
-      font-size: 2.5rem;
     }
 
     .choice-label {

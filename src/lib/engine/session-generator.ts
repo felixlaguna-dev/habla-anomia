@@ -1,5 +1,6 @@
 import type { Language, ExerciseType, Category, Word, DifficultyLevel, Attempt } from '$lib/types';
-import { getWordCategories, wordHasImage, IMAGE_DEPENDENT_EXERCISES } from '$lib/types';
+import { getWordCategories, wordHasImage } from '$lib/types';
+import { IMAGE_DEPENDENT_EXERCISES } from '$lib/exercises/registry';
 import { getDueWords } from './spaced-repetition';
 import { getRandomWords, getWordsByCategory, getWordById, getCategoryWordCounts } from '$lib/db/words';
 import { getAccuracyByCategory, getRecentAttempts } from '$lib/db/attempts';

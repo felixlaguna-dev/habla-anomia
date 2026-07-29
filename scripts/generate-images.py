@@ -143,45 +143,23 @@ def build_prompt(entry):
     cat = entry["category"]
     definition = entry["definition"]
 
-    if cat == "actions":
-        return (
-            f"A realistic, well-lit photograph depicting the action '{word}' "
-            f"({definition}). One person mid-action, centered composition, "
-            f"minimal props only what the action requires, plain light-colored "
-            f"background, no text anywhere in the image, "
-            f"clear and unambiguous for elderly viewers"
-        )
-    elif cat == "emotions":
-        return (
-            f"A realistic, well-lit photograph depicting the emotion '{word}' "
-            f"({definition}), shown through an expressive human face, "
-            f"centered composition, white neutral background, "
-            f"professional portrait photography style, no text"
-        )
-    elif cat == "weather":
-        return (
-            f"A realistic, well-lit photograph of '{word}' ({definition}), "
-            f"centered composition, clear visible weather phenomenon, "
-            f"professional nature photography style, high detail, no text"
-        )
-    elif cat in ("body_parts",):
-        return (
-            f"A clear, well-lit photograph of a human '{word}' ({definition}), "
-            f"centered composition, plain neutral background, "
-            f"anatomically correct, no text or labels, no medical diagrams"
-        )
-    elif cat in ("family",):
-        return (
-            f"A clear, well-lit photograph depicting '{word}' ({definition}), "
-            f"one person centered, plain neutral background, "
-            f"warm natural portrait style, no text"
-        )
-    else:
-        return (
-            f"A clear, well-lit photograph of '{word}' ({definition}), "
-            f"ONE subject centered, plain white or light neutral background, "
-            f"no text anywhere in the image, product photography style, high detail"
-        )
+    # Category-specific subject clause and descriptor.
+    # Shared quality constraints (centered, plain background, no text) are
+    # applied once in the template below — add categories here, not branches.
+    CATEGORY_CLAUSES = {
+        "actions":    ("depicting the action",  "one person mid-action, minimal props"),
+        "emotions":   ("depicting the emotion", "expressive human face, portrait photography style"),
+        "weather":    ("of",                    "clear visible weather phenomenon, nature photography style"),
+        "body-parts": ("of a human",            "anatomically correct, no medical diagrams"),
+        "family":     ("depicting",             "one person, warm natural portrait style"),
+    }
+
+    subj, descriptor = CATEGORY_CLAUSES.get(cat, ("of", "product photography style, high detail"))
+    return (
+        f"A clear, well-lit photograph {subj} '{word}' ({definition}), "
+        f"centered composition, {descriptor}, "
+        f"plain neutral background, no text anywhere in the image"
+    )
 
 
 def generate_image(access_token: str, account_id: str, prompt: str) -> tuple[bytes | None, str]:
@@ -298,19 +276,12 @@ def main():
     entries, _ = parse_words()
     print(f"Total words in data file: {len(entries)}")
 
-    # Build work list
-    if args.words:
-        word_list = [w.strip() for w in args.words.split(",")]
-        work = [e for e in entries if e["word"] in word_list]
-        if not args.regenerate:
-            # Filter to only missing ones unless --regenerate
-            work = [e for e in work if not (IMAGE_DIR / f"{normalize_filename(e['word'])}.webp").exists()]
-        missing = work
-    elif args.word:
-        work = [e for e in entries if e["word"] == args.word]
-        if not args.regenerate:
-            work = [e for e in work if not (IMAGE_DIR / f"{normalize_filename(e['word'])}.webp").exists()]
-        missing = work
+    # Build work list — --word is just --words with a single value
+    word_filter = set(w.strip() for w in args.words.split(",")) if args.words \
+        else ({args.word} if args.word else None)
+    if word_filter:
+        work = [e for e in entries if e["word"] in word_filter]
+        missing = work if args.regenerate else find_missing_images(work)
     else:
         missing = find_missing_images(entries)
 

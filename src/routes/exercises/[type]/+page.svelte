@@ -4,7 +4,7 @@
   import { onMount } from 'svelte';
   import { goto } from '$app/navigation';
   import { base } from '$app/paths';
-  import { getAllSettings, startSession, endSession, updateStreak } from '$lib/db';
+  import { getAllSettings, startSession, endSession, deleteSession, updateStreak } from '$lib/db';
   import { awaitSeedReady } from '$lib/db/words';
   import { db } from '$lib/db/database';
   import { generateSession } from '$lib/engine/session-generator';
@@ -101,13 +101,24 @@
     // Load all words for cross-category distractors
     allWords = await db.words.where('language').equals(s.language).toArray();
 
-    const id = await startSession(s.language);
+    const id = await startSession(s.language, exerciseType);
     sessionId = id;
 
     loading = false;
   }
 
   onMount(initExercise);
+
+  // Clean up abandoned sessions: if the user navigates away (back button,
+  // tab close, etc.) before completing the exercise, delete the open session
+  // so it doesn't linger in IndexedDB forever.
+  onMount(() => {
+    return () => {
+      if (sessionId !== null) {
+        deleteSession(sessionId).catch(() => {});
+      }
+    };
+  });
 
   onMount(() => {
     if (SpeechSynthesisService.isSupported()) {
@@ -154,23 +165,28 @@
     }
 
     if (sessionId !== null) {
-      await endSession(sessionId, accuracy, total);
-      // Session is finalized — drop the id so a "retry mistakes" run can't
-      // overwrite this row. The retry's per-word attempts are still recorded
-      // independently; broadening retry into its own session is ha-aslk's call.
+      // Capture the id and null the state immediately so the destroy callback
+      // can't fire between the await and the nulling and delete the row that
+      // endSession is about to finalise.
+      const id = sessionId;
       sessionId = null;
+      await endSession(id, accuracy, total);
     }
 
     // Update streak
     await updateStreak();
   }
 
-  async function handleRestart() {
-    // End current session if one is open
+  /** Delete the current open session (if any) and clear the id. */
+  async function abandonCurrentSession() {
     if (sessionId !== null) {
-      await endSession(sessionId, 0, 0);
+      await deleteSession(sessionId);
       sessionId = null;
     }
+  }
+
+  async function handleRestart() {
+    await abandonCurrentSession();
     // Re-initialize with a fresh session and new words
     loading = true;
     await initExercise();
@@ -189,15 +205,22 @@
     goto(`${base}/`);
   }
 
-  function handleRetryMistakes() {
-    showResults = false;
-    showConfetti = false;
+  async function handleRetryMistakes() {
     if (incorrectWords.length > 0) {
+      // Start the new session before swapping words so sessionId is set
+      // before the remounted ExerciseComponent can fire oncomplete.
+      // settings is guaranteed non-null — handleRetryMistakes is only
+      // reachable from the results overlay, which requires initExercise.
+      sessionId = await startSession(settings!.language, exerciseType);
       words = [...incorrectWords];
       incorrectWords = [];
       correctWords = [];
       results = { correct: 0, total: 0, accuracy: 0 };
     }
+    // Close the overlay only after the new words are ready — avoids a flash
+    // where the old completed component briefly shows before the swap.
+    showResults = false;
+    showConfetti = false;
   }
 
   function getEncouragement(accuracy: number): string {

@@ -34,3 +34,7 @@ CONVENTIONS (apply to all work): Svelte 5 runes only (state/props/derived/effect
 **2026-07-22T10:17:17Z**
 
 BLOCKED BY ha-1wg2 (T5). Do not start until it is closed.
+
+**2026-07-29T22:56:11Z**
+
+Completed: 73 vitest unit tests across 6 files. Extracted pure SM-2 functions, consolidated triplicate shuffleArray into shared utils. Fixed word data bug (es-food-032 missing blank marker). CI: unit test step + e2e job with artifact handoff. Fixed 3 stale e2e selectors (exercise tiles use short_name + aria-label). All 67 e2e + 73 unit tests green in CI.

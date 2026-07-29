@@ -56,4 +56,6 @@ Free, open-source PWA for anomia (aphasia) rehabilitation.
 ## Adding words
 Edit `src/lib/data/words-es.ts`. Each word needs: id, word, **categories** (array of Category enum), language, image_url, definition, features, phonetic, difficulty, tags, sentence, opposite, synonyms. Words can belong to multiple categories (e.g., `categories: ['food', 'nature']`).
 
+**Image quality standard** — stimulus images for picture-naming must be: ONE clear subject centered, plain/neutral background, NO text anywhere in the image, photo-realistic (not illustrations/diagrams/abstract art), unambiguous for elderly viewers. For verbs: one person mid-action with minimal props. For objects: single item, product-photography style. Run `npm run optimize:images` after adding new images; use `scripts/validate-images.py` to batch-check quality via vision API.
+
 **Adding, editing, or removing any word requires bumping `WORDS_ES_VERSION`** at the top of the file (increment by 1). `seedWords()` syncs the DB to the source on load when the version changes — existing installs won't pick up edits/removals otherwise. Removing words also prunes their `spacedRepetition` entries; `attempts` are kept as history.

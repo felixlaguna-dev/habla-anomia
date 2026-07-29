@@ -7,7 +7,7 @@ import type { Word } from '$lib/types';
  * changes, so existing installs pick up changes to this file. See
  * src/lib/db/words.ts seedWords().
  */
-export const WORDS_ES_VERSION = 2;
+export const WORDS_ES_VERSION = 3;
 
 export const WORDS_ES: Word[] = [
   // ==========================================
@@ -5679,7 +5679,7 @@ export const WORDS_ES: Word[] = [
     word: 'rosa',
     categories: ['colors'],
     language: 'es',
-    image_url: '/images/words/rosa_color.webp',
+    image_url: '/images/words/rosa.webp',
     definition: 'Color suave mezcla de rojo y blanco.',
     features: {
       category: 'colors',
@@ -8648,7 +8648,6 @@ export const WORDS_ES: Word[] = [
     categories: ["places"],
     language: 'es',
     image_url: '/images/words/estacion.webp',
-    has_image: false,
     definition: 'Lugar donde paran los trenes o autobuses para recoger pasajeros',
     features: {
       category: 'places',
@@ -8671,7 +8670,6 @@ export const WORDS_ES: Word[] = [
     categories: ["places"],
     language: 'es',
     image_url: '/images/words/comisaria.webp',
-    has_image: false,
     definition: 'Oficina de la policía donde se gestionan asuntos de seguridad',
     features: {
       category: 'places',
@@ -8694,7 +8692,6 @@ export const WORDS_ES: Word[] = [
     categories: ["places"],
     language: 'es',
     image_url: '/images/words/hotel.webp',
-    has_image: false,
     definition: 'Establecimiento que ofrece alojamiento temporal a los viajeros',
     features: {
       category: 'places',
@@ -9499,7 +9496,6 @@ export const WORDS_ES: Word[] = [
     categories: ['places'],
     language: 'es',
     image_url: '/images/words/zoologico.webp',
-    has_image: false,
     definition: 'Lugar donde se exhiben animales al público.',
     features: {
       category: 'places',
@@ -9815,7 +9811,6 @@ export const WORDS_ES: Word[] = [
     categories: ['sports'],
     language: 'es',
     image_url: '/images/words/voleibol.webp',
-    has_image: false,
     definition: 'Deporte en el que dos equipos golpean un balón por encima de una red alta',
     features: { category: 'sports', function: 'se juega golpeando el balón con las manos sobre una red', location: 'en un polideportivo o en la playa', properties: 'deporte de equipo con seis jugadores y una red central', associations: 'red, equipo, balón, pista, saque' },
     phonetic: { first_sound: '/b/', syllables: 3, rhyming_word: 'español', first_phonemes: '/b/' },
@@ -9866,7 +9861,6 @@ export const WORDS_ES: Word[] = [
     categories: ['sports'],
     language: 'es',
     image_url: '/images/words/surf.webp',
-    has_image: false,
     definition: 'Deporte acuático que consiste en deslizarse sobre las olas con una tabla',
     features: { category: 'sports', function: 'se practica deslizándose sobre las olas del mar con una tabla', location: 'en el mar o en el océano', properties: 'deporte acuático que requiere una tabla especial y equilibrio', associations: 'tabla, ola, mar, traje de neopreno, playa' },
     phonetic: { first_sound: '/s/', syllables: 1, rhyming_word: 'surco', first_phonemes: '/s/' },
@@ -10257,7 +10251,6 @@ export const WORDS_ES: Word[] = [
     categories: ['toys'],
     language: 'es',
     image_url: '/images/words/mecano.webp',
-    has_image: false,
     definition: 'Juego de construcción con piezas metálicas que se unen con tornillos y tuercas',
     features: { category: 'toys', function: 'se usa para construir estructuras uniendo piezas con tornillos', location: 'en la caja de juguetes o sobre una mesa', properties: 'caja con tiras de metal, tornillos, tuercas y ruedas pequeñas', associations: 'tornillos, piezas, construcción, metal, ruedas' },
     phonetic: { first_sound: '/m/', syllables: 3, rhyming_word: 'plano', first_phonemes: '/m/' },
@@ -10750,7 +10743,6 @@ export const WORDS_ES: Word[] = [
     categories: ['school'],
     language: 'es',
     image_url: '/images/words/rotulador.webp',
-    has_image: false,
     definition: 'Marcador de punta gruesa para escribir o colorear.',
     features: { category: 'school', function: 'Escribir o colorear con colores vivos.', location: 'En el estuche del alumno.', properties: 'Tubo de plástico con punta de fieltro.', associations: 'marcador, color, pintar, escribir, punta' },
     phonetic: { first_sound: '/r/', syllables: 4, rhyming_word: 'ador', first_phonemes: '/ro/' },
@@ -10784,7 +10776,6 @@ export const WORDS_ES: Word[] = [
     categories: ['school'],
     language: 'es',
     image_url: '/images/words/colores.webp',
-    has_image: false,
     definition: 'Lápices de diferentes colores para pintar.',
     features: { category: 'school', function: 'Pintar dibujos con colores.', location: 'En el estuche del alumno.', properties: 'Caja con muchos lápices de colores.', associations: 'lápiz, pintar, dibujar, rojo, azul' },
     phonetic: { first_sound: '/k/', syllables: 3, rhyming_word: 'valores', first_phonemes: '/ko/' },
@@ -10801,7 +10792,6 @@ export const WORDS_ES: Word[] = [
     categories: ['school'],
     language: 'es',
     image_url: '/images/words/plastilina.webp',
-    has_image: false,
     definition: 'Masa moldeable de colores para modelar figuras.',
     features: { category: 'school', function: 'Modelar figuras con las manos.', location: 'En el aula de arte.', properties: 'Masa suave, flexible, de colores vivos.', associations: 'modelar, figura, mano, suave, color' },
     phonetic: { first_sound: '/p/', syllables: 4, rhyming_word: 'icina', first_phonemes: '/plas/' },
@@ -10920,7 +10910,6 @@ export const WORDS_ES: Word[] = [
     categories: ['school'],
     language: 'es',
     image_url: '/images/words/atlas.webp',
-    has_image: false,
     definition: 'Libro de mapas e información geográfica.',
     features: { category: 'school', function: 'Consultar mapas y datos de países.', location: 'En la biblioteca del colegio.', properties: 'Libro grande con mapas a color.', associations: 'mapa, geografía, país, mundo, continente' },
     phonetic: { first_sound: '/a/', syllables: 2, rhyming_word: 'rás', first_phonemes: '/a/' },

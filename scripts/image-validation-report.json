@@ -1,9 +1,9 @@
 {
-  "timestamp": "2026-05-18 08:44:54",
-  "total_words": 386,
-  "checked": 386,
-  "good": 362,
-  "bad": 24,
+  "timestamp": "2026-07-29 23:39:57",
+  "total_words": 521,
+  "checked": 521,
+  "good": 519,
+  "bad": 2,
   "errors": 0,
   "results": [
     {
@@ -683,10 +683,10 @@
       "category": "food",
       "filename": "esparrago",
       "status": "ok",
-      "match": false,
-      "description": "The image shows a wooden box filled with fresh red apples.",
-      "issue": "wrong_subject",
-      "confidence": 0.95
+      "match": true,
+      "description": "A close-up photograph of a bundle of fresh green asparagus.",
+      "issue": null,
+      "confidence": 0.98
     },
     {
       "id": "es-food-034",
@@ -738,10 +738,10 @@
       "category": "food",
       "filename": "pera",
       "status": "ok",
-      "match": false,
-      "description": "The image shows a golden retriever dog wearing glasses, holding a pipe, and sitting at a desk with books and writing materials.",
-      "issue": "wrong_subject",
-      "confidence": 0.95
+      "match": true,
+      "description": "The image shows a single whole pear (pera) isolated on a plain background.",
+      "issue": null,
+      "confidence": 1.0
     },
     {
       "id": "es-food-039",
@@ -989,10 +989,10 @@
       "id": "es-food-061",
       "word": "pan tostado",
       "category": "food",
-      "filename": "pan_tostado",
+      "filename": "pan-tostado",
       "status": "ok",
       "match": true,
-      "description": "A clear close-up photo of two slices of toasted bread on a white surface.",
+      "description": "A close-up of golden brown toasted bread on a plate.",
       "issue": null,
       "confidence": 0.95
     },
@@ -1004,17 +1004,6 @@
       "status": "ok",
       "match": true,
       "description": "A glass jar filled with red fruit jam or marmalade.",
-      "issue": null,
-      "confidence": 0.95
-    },
-    {
-      "id": "es-food-063",
-      "word": "mostaza",
-      "category": "food",
-      "filename": "mostaza",
-      "status": "ok",
-      "match": true,
-      "description": "A glass jar of yellow mustard with a label and a silver lid.",
       "issue": null,
       "confidence": 0.95
     },
@@ -1035,10 +1024,10 @@
       "category": "food",
       "filename": "harina",
       "status": "ok",
-      "match": false,
-      "description": "The image shows a neatly wrapped package or bag of flour with a rustic label.",
-      "issue": "text_only",
-      "confidence": 0.85
+      "match": true,
+      "description": "A close-up of a pile of white flour.",
+      "issue": null,
+      "confidence": 0.95
     },
     {
       "id": "es-food-066",
@@ -1046,10 +1035,10 @@
       "category": "food",
       "filename": "cereales",
       "status": "ok",
-      "match": false,
-      "description": "The image shows a bare tree with a few brown leaves standing alone in an open, foggy or overcast landscape.",
-      "issue": "wrong_subject",
-      "confidence": 1.0
+      "match": true,
+      "description": "A bowl of breakfast cereal with milk.",
+      "issue": null,
+      "confidence": 0.9
     },
     {
       "id": "es-food-067",
@@ -1119,14 +1108,14 @@
     },
     {
       "id": "es-food-073",
-      "word": "empanada",
+      "word": "empanadilla",
       "category": "food",
-      "filename": "empanada",
+      "filename": "empanadilla",
       "status": "ok",
       "match": true,
-      "description": "A close-up photo of two golden-baked empanadas on a dark surface.",
+      "description": "A close-up photo of three golden-brown fried empanadillas on a plate.",
       "issue": null,
-      "confidence": 1.0
+      "confidence": 0.95
     },
     {
       "id": "es-food-074",
@@ -1200,10 +1189,10 @@
       "category": "household",
       "filename": "silla",
       "status": "ok",
-      "match": false,
-      "description": "The image shows a drawing or sketch of a musical instrument resembling a horn or trumpet with notes.",
-      "issue": "wrong_subject",
-      "confidence": 0.95
+      "match": true,
+      "description": "The image shows a simple, brown wooden chair.",
+      "issue": null,
+      "confidence": 0.98
     },
     {
       "id": "es-household-003",
@@ -1504,14 +1493,14 @@
     },
     {
       "id": "es-household-030",
-      "word": "papelera",
+      "word": "contenedor",
       "category": "household",
-      "filename": "papelera",
+      "filename": "contenedor",
       "status": "ok",
       "match": true,
-      "description": "A woven waste basket with a lid, placed on the floor near a wooden piece of furniture.",
+      "description": "A blue and gray household waste container or trash bin.",
       "issue": null,
-      "confidence": 0.95
+      "confidence": 0.9
     },
     {
       "id": "es-household-031",
@@ -1682,10 +1671,10 @@
       "id": "es-household-046",
       "word": "llaves",
       "category": "household",
-      "filename": "llaves_casa",
+      "filename": "llaves",
       "status": "ok",
       "match": true,
-      "description": "The image shows a set of metallic keys bound together by a ring.",
+      "description": "A close-up view of a set of metal keys held in a hand.",
       "issue": null,
       "confidence": 0.95
     },
@@ -1728,10 +1717,10 @@
       "category": "household",
       "filename": "bombilla",
       "status": "ok",
-      "match": false,
-      "description": "The image shows a traditional metal bombilla straw with an ornate handle and decorative shaft, commonly used for drinking yerba mate.",
-      "issue": "wrong_subject",
-      "confidence": 0.7
+      "match": true,
+      "description": "A close-up of a classic incandescent light bulb against a plain background.",
+      "issue": null,
+      "confidence": 0.95
     },
     {
       "id": "es-household-051",
@@ -1767,17 +1756,6 @@
       "confidence": 0.92
     },
     {
-      "id": "es-household-054",
-      "word": "azulejo",
-      "category": "household",
-      "filename": "azulejo",
-      "status": "ok",
-      "match": true,
-      "description": "A close-up of a decorative blue and white ceramic tile wall featuring traditional Portuguese or Spanish azulejo patterns.",
-      "issue": null,
-      "confidence": 0.95
-    },
-    {
       "id": "es-household-055",
       "word": "persiana",
       "category": "household",
@@ -1806,9 +1784,9 @@
       "filename": "cabeza",
       "status": "ok",
       "match": true,
-      "description": "The image shows a clear illustration of a human head and neck, highlighting the brain inside.",
-      "issue": "diagram",
-      "confidence": 0.8
+      "description": "A clear, bright image of a man's head and face.",
+      "issue": null,
+      "confidence": 0.95
     },
     {
       "id": "es-body-002",
@@ -1827,10 +1805,10 @@
       "category": "body-parts",
       "filename": "pie",
       "status": "ok",
-      "match": false,
-      "description": "The image shows a person's hand wearing a ring on their ring finger.",
-      "issue": "wrong_subject",
-      "confidence": 0.95
+      "match": true,
+      "description": "A close-up photograph of a human bare foot resting on the ground.",
+      "issue": null,
+      "confidence": 1.0
     },
     {
       "id": "es-body-004",
@@ -1893,9 +1871,9 @@
       "category": "body-parts",
       "filename": "brazo",
       "status": "ok",
-      "match": false,
-      "description": "The image shows a stylized illustration of a brain with glowing regions and lines, resembling a neural network or medical scan.",
-      "issue": "medical",
+      "match": true,
+      "description": "A close-up of a person's extended arm.",
+      "issue": null,
       "confidence": 0.95
     },
     {
@@ -1948,10 +1926,10 @@
       "category": "body-parts",
       "filename": "espalda",
       "status": "ok",
-      "match": false,
-      "description": "The image shows a person's face in a green shirt, viewed from the side.",
-      "issue": "wrong_subject",
-      "confidence": 0.95
+      "match": true,
+      "description": "The image shows the bare back of a person, clearly displaying the human back.",
+      "issue": null,
+      "confidence": 1.0
     },
     {
       "id": "es-body-015",
@@ -2069,9 +2047,9 @@
       "category": "body-parts",
       "filename": "cabello",
       "status": "ok",
-      "match": false,
-      "description": "The image shows a colorful abstract or stylized pattern that does not clearly depict hair or any recognizable body part.",
-      "issue": "abstract",
+      "match": true,
+      "description": "A close-up photo of a person's scalp showing healthy brown hair.",
+      "issue": null,
       "confidence": 0.95
     },
     {
@@ -2276,10 +2254,10 @@
       "id": "es-clothing-019",
       "word": "reloj de pulsera",
       "category": "clothing",
-      "filename": "reloj_pulsera",
+      "filename": "reloj-de-pulsera",
       "status": "ok",
       "match": true,
-      "description": "The image shows a close-up of a person's wrist wearing a silver wristwatch with a metal band.",
+      "description": "A close-up photograph of a person's wrist wearing a classic wristwatch with a metal band.",
       "issue": null,
       "confidence": 0.95
     },
@@ -2454,9 +2432,9 @@
       "category": "vehicles",
       "filename": "globo",
       "status": "ok",
-      "match": false,
-      "description": "A man in a suit wearing a red cape and a globe helmet, with the word 'GLOBO' displayed as a title.",
-      "issue": "text_only",
+      "match": true,
+      "description": "A hot air balloon flying in the sky.",
+      "issue": null,
       "confidence": 0.95
     },
     {
@@ -2549,14 +2527,14 @@
     },
     {
       "id": "es-tool-004",
-      "word": "llave",
+      "word": "llave inglesa",
       "category": "tools",
-      "filename": "llave",
+      "filename": "llave-inglesa",
       "status": "ok",
       "match": true,
-      "description": "The image shows two metallic keys, one silver and one gold-colored, placed side by side on a white background.",
+      "description": "The image shows a single adjustable wrench, which is the exact tool referred to as 'llave inglesa'.",
       "issue": null,
-      "confidence": 0.95
+      "confidence": 1.0
     },
     {
       "id": "es-tool-005",
@@ -2938,10 +2916,10 @@
       "category": "colors",
       "filename": "blanco",
       "status": "ok",
-      "match": false,
-      "description": "The image shows a bathroom or kitchen scene with a white sink, mirror, and wooden counter.",
-      "issue": "ambiguous",
-      "confidence": 0.85
+      "match": true,
+      "description": "A clear photo of a white swan swimming in blue water.",
+      "issue": null,
+      "confidence": 0.9
     },
     {
       "id": "es-color-007",
@@ -2969,12 +2947,12 @@
       "id": "es-color-009",
       "word": "rosa",
       "category": "colors",
-      "filename": "rosa_color",
+      "filename": "rosa",
       "status": "ok",
-      "match": false,
-      "description": "The image shows a pink rose flower with green leaves.",
-      "issue": "ambiguous",
-      "confidence": 0.8
+      "match": true,
+      "description": "A close-up photograph of a pink rose flower.",
+      "issue": null,
+      "confidence": 0.9
     },
     {
       "id": "es-color-010",
@@ -2983,9 +2961,9 @@
       "filename": "marron",
       "status": "ok",
       "match": true,
-      "description": "A wooden sign or board with the word 'Café' written on it in brown tones, representing the color brown.",
+      "description": "A solid brown color swatch.",
       "issue": null,
-      "confidence": 0.75
+      "confidence": 0.85
     },
     {
       "id": "es-color-011",
@@ -3059,10 +3037,10 @@
       "category": "actions",
       "filename": "hablar",
       "status": "ok",
-      "match": false,
-      "description": "The image shows a cartoon illustration of a man in a suit speaking at a podium with microphones in front of a colorful abstract background.",
-      "issue": "abstract",
-      "confidence": 0.85
+      "match": true,
+      "description": "Two people facing each other with open mouths, actively engaged in conversation.",
+      "issue": null,
+      "confidence": 0.95
     },
     {
       "id": "es-action-007",
@@ -3180,10 +3158,10 @@
       "category": "actions",
       "filename": "tocar",
       "status": "ok",
-      "match": false,
-      "description": "The image shows a hand pressing a key on a computer keyboard or piano keyboard.",
-      "issue": "ambiguous",
-      "confidence": 0.75
+      "match": true,
+      "description": "A person's hand playing a musical keyboard or piano.",
+      "issue": null,
+      "confidence": 0.9
     },
     {
       "id": "es-action-018",
@@ -3246,9 +3224,9 @@
       "category": "actions",
       "filename": "pensar",
       "status": "ok",
-      "match": false,
-      "description": "The image shows the word 'PENSAR' written in colorful letters with small decorative illustrations around it.",
-      "issue": "text_only",
+      "match": true,
+      "description": "A man wearing glasses and a yellow sweater points his index finger to his head while looking up in a thinking pose.",
+      "issue": null,
       "confidence": 0.95
     },
     {
@@ -3263,25 +3241,14 @@
       "confidence": 0.92
     },
     {
-      "id": "es-action-025",
-      "word": "olvidar",
-      "category": "actions",
-      "filename": "olvidar",
-      "status": "ok",
-      "match": false,
-      "description": "The image shows a person pointing to their head with a questioning expression, which is a conceptual illustration of forgetting.",
-      "issue": "abstract",
-      "confidence": 0.85
-    },
-    {
       "id": "es-action-026",
       "word": "aprender",
       "category": "actions",
       "filename": "aprender",
       "status": "ok",
-      "match": false,
-      "description": "A person wearing a black t-shirt looking at the camera against a white background.",
-      "issue": "ambiguous",
+      "match": true,
+      "description": "A person is studying or reading a book and writing notes on paper at a desk, representing the act of learning.",
+      "issue": null,
       "confidence": 0.85
     },
     {
@@ -3303,28 +3270,6 @@
       "status": "ok",
       "match": true,
       "description": "A person pushing a shopping cart full of groceries in a store aisle.",
-      "issue": null,
-      "confidence": 0.95
-    },
-    {
-      "id": "es-action-029",
-      "word": "vender",
-      "category": "actions",
-      "filename": "vender",
-      "status": "ok",
-      "match": true,
-      "description": "A person selling fruits and vegetables at an outdoor market stall.",
-      "issue": null,
-      "confidence": 0.95
-    },
-    {
-      "id": "es-action-030",
-      "word": "abrir",
-      "category": "actions",
-      "filename": "abrir",
-      "status": "ok",
-      "match": true,
-      "description": "Una persona abriendo una puerta de armario o estante de madera con ambas manos.",
       "issue": null,
       "confidence": 0.95
     },
@@ -3351,17 +3296,6 @@
       "confidence": 0.95
     },
     {
-      "id": "es-action-033",
-      "word": "apagar",
-      "category": "actions",
-      "filename": "apagar",
-      "status": "ok",
-      "match": true,
-      "description": "Una mano apagando una vela pequeña.",
-      "issue": null,
-      "confidence": 0.95
-    },
-    {
       "id": "es-place-001",
       "word": "casa",
       "category": "places",
@@ -3369,17 +3303,6 @@
       "status": "ok",
       "match": true,
       "description": "A large white house with a gray roof, a prominent garage door, windows, and a front yard with a tree.",
-      "issue": null,
-      "confidence": 0.95
-    },
-    {
-      "id": "es-place-002",
-      "word": "escuela",
-      "category": "places",
-      "filename": "escuela",
-      "status": "ok",
-      "match": true,
-      "description": "A two-story brick school building with a row of school buses parked in front.",
       "issue": null,
       "confidence": 0.95
     },
@@ -3549,17 +3472,6 @@
       "confidence": 0.95
     },
     {
-      "id": "es-place-018",
-      "word": "estación",
-      "category": "places",
-      "filename": "estacion",
-      "status": "ok",
-      "match": true,
-      "description": "The image shows a train stopped at a modern train station platform with a glass canopy, tracks, and passengers.",
-      "issue": null,
-      "confidence": 0.95
-    },
-    {
       "id": "es-place-019",
       "word": "cine",
       "category": "places",
@@ -3703,28 +3615,6 @@
       "confidence": 0.85
     },
     {
-      "id": "es-emotion-009",
-      "word": "orgulloso",
-      "category": "emotions",
-      "filename": "orgulloso",
-      "status": "ok",
-      "match": false,
-      "description": "The image shows a woman sitting on a couch holding a tablet or book, looking pleased.",
-      "issue": "ambiguous",
-      "confidence": 0.85
-    },
-    {
-      "id": "es-emotion-010",
-      "word": "avergonzado",
-      "category": "emotions",
-      "filename": "avergonzado",
-      "status": "ok",
-      "match": true,
-      "description": "A cartoon illustration of a person with a shy, embarrassed expression showing rosy cheeks and a nervous smile.",
-      "issue": null,
-      "confidence": 0.85
-    },
-    {
       "id": "es-nature-001",
       "word": "árbol",
       "category": "nature",
@@ -3804,13 +3694,13 @@
     {
       "id": "es-nature-008",
       "word": "viento",
-      "category": "nature",
+      "category": "weather",
       "filename": "viento",
       "status": "ok",
       "match": true,
-      "description": "A landscape scene showing a grassy field with trees, a cloudy sky, and strong wind indicated by the visible force and movement of the wind blowing across the scenery.",
+      "description": "A clear photograph of green grass and plants being blown and bent by the wind.",
       "issue": null,
-      "confidence": 0.7
+      "confidence": 0.85
     },
     {
       "id": "es-nature-009",
@@ -4038,9 +3928,9 @@
       "category": "family",
       "filename": "hermano",
       "status": "ok",
-      "match": false,
-      "description": "The image shows two children dressed as superheroes hugging in front of a wall.",
-      "issue": "multiple_subjects",
+      "match": true,
+      "description": "The image shows two men standing together, representing brothers.",
+      "issue": null,
       "confidence": 0.85
     },
     {
@@ -4075,39 +3965,6 @@
       "description": "The image shows an elderly woman sitting at a table with a cup of coffee, looking to the side with a blurred background.",
       "issue": null,
       "confidence": 0.95
-    },
-    {
-      "id": "es-family-009",
-      "word": "tío",
-      "category": "family",
-      "filename": "tio",
-      "status": "ok",
-      "match": true,
-      "description": "A middle-aged man wearing a blue shirt and glasses, looking directly at the camera against a plain background.",
-      "issue": null,
-      "confidence": 0.95
-    },
-    {
-      "id": "es-family-010",
-      "word": "tía",
-      "category": "family",
-      "filename": "tia",
-      "status": "ok",
-      "match": false,
-      "description": "A woman wearing glasses and a warm smile, looking directly at the camera.",
-      "issue": "wrong_subject",
-      "confidence": 0.4
-    },
-    {
-      "id": "es-family-011",
-      "word": "primo",
-      "category": "family",
-      "filename": "primo",
-      "status": "ok",
-      "match": false,
-      "description": "A young boy wearing a white shirt with a blue scarf, smiling at the camera in a neutral setting.",
-      "issue": "wrong_subject",
-      "confidence": 0.9
     },
     {
       "id": "es-family-012",
@@ -4192,10 +4049,10 @@
       "category": "weather",
       "filename": "frio",
       "status": "ok",
-      "match": false,
-      "description": "The image shows a stylized letter 'f' with wind or swirl effects around it, resembling a logo or typographic design.",
-      "issue": "abstract",
-      "confidence": 0.95
+      "match": true,
+      "description": "The image shows a snowy winter landscape with frost and snow on trees and the ground.",
+      "issue": null,
+      "confidence": 0.9
     },
     {
       "id": "es-weather-006",
@@ -4237,9 +4094,9 @@
       "filename": "brisa",
       "status": "ok",
       "match": true,
-      "description": "A delicate tree with light green leaves bathed in bright sunlight against a clear blue sky.",
+      "description": "A landscape showing wind moving through grass and leaves, evoking the feeling of a gentle breeze.",
       "issue": null,
-      "confidence": 0.65
+      "confidence": 0.85
     },
     {
       "id": "es-weather-010",
@@ -4251,6 +4108,1634 @@
       "description": "A building or structure wall with visible moisture stains and water damage on its surface.",
       "issue": null,
       "confidence": 0.9
+    },
+    {
+      "id": "es-emotions-018",
+      "word": "aburrido",
+      "category": "emotions",
+      "filename": "aburrido",
+      "status": "ok",
+      "match": true,
+      "description": "A man resting his head on his hand with a facial expression clearly conveying boredom.",
+      "issue": null,
+      "confidence": 0.95
+    },
+    {
+      "id": "es-emotions-027",
+      "word": "sereno",
+      "category": "emotions",
+      "filename": "sereno",
+      "status": "ok",
+      "match": false,
+      "description": "A man meditating in a cross-legged pose on a wooden walkway near water at sunset.",
+      "issue": "ambiguous",
+      "confidence": 0.6
+    },
+    {
+      "id": "es-emotions-034",
+      "word": "temeroso",
+      "category": "emotions",
+      "filename": "temeroso",
+      "status": "ok",
+      "match": true,
+      "description": "A close-up illustration of an elderly man's face expressing fear and anxiety.",
+      "issue": null,
+      "confidence": 0.9
+    },
+    {
+      "id": "es-family-034",
+      "word": "gemelo",
+      "category": "family",
+      "filename": "gemelo",
+      "status": "ok",
+      "match": true,
+      "description": "The image shows twin babies sitting together.",
+      "issue": null,
+      "confidence": 0.9
+    },
+    {
+      "id": "es-tools-013",
+      "word": "taladro",
+      "category": "tools",
+      "filename": "taladro",
+      "status": "ok",
+      "match": true,
+      "description": "A close-up photograph of a yellow and black power drill.",
+      "issue": null,
+      "confidence": 0.98
+    },
+    {
+      "id": "es-tools-015",
+      "word": "lima",
+      "category": "tools",
+      "filename": "lima",
+      "status": "ok",
+      "match": true,
+      "description": "A close-up view of a metal file (lima) tool with a wooden handle, isolated against a white background.",
+      "issue": null,
+      "confidence": 0.95
+    },
+    {
+      "id": "es-tools-016",
+      "word": "escuadra",
+      "category": "tools",
+      "filename": "escuadra",
+      "status": "ok",
+      "match": true,
+      "description": "The image shows a metallic L-shaped square tool (escuadra) resting on a wooden surface.",
+      "issue": null,
+      "confidence": 0.95
+    },
+    {
+      "id": "es-tools-017",
+      "word": "nivel",
+      "category": "tools",
+      "filename": "nivel",
+      "status": "ok",
+      "match": true,
+      "description": "A close-up of a yellow and black spirit level tool resting on a wooden surface.",
+      "issue": null,
+      "confidence": 0.98
+    },
+    {
+      "id": "es-tools-018",
+      "word": "alicate",
+      "category": "tools",
+      "filename": "alicate",
+      "status": "ok",
+      "match": true,
+      "description": "A close-up photograph of a pair of pliers.",
+      "issue": null,
+      "confidence": 0.98
+    },
+    {
+      "id": "es-tools-019",
+      "word": "engranaje",
+      "category": "tools",
+      "filename": "engranaje",
+      "status": "ok",
+      "match": true,
+      "description": "A close-up of a large metallic gear or cogwheel.",
+      "issue": null,
+      "confidence": 0.98
+    },
+    {
+      "id": "es-tools-020",
+      "word": "polea",
+      "category": "tools",
+      "filename": "polea",
+      "status": "ok",
+      "match": true,
+      "description": "A close-up photo of a metal pulley mechanism with a rope threaded through it.",
+      "issue": null,
+      "confidence": 0.95
+    },
+    {
+      "id": "es-tools-021",
+      "word": "cadena",
+      "category": "tools",
+      "filename": "cadena",
+      "status": "ok",
+      "match": true,
+      "description": "A close-up of a metal chain links, possibly a bicycle lock or similar tool chain.",
+      "issue": null,
+      "confidence": 0.95
+    },
+    {
+      "id": "es-tools-022",
+      "word": "bisagra",
+      "category": "tools",
+      "filename": "bisagra",
+      "status": "ok",
+      "match": true,
+      "description": "A close-up of two metal door hinges screwed into a white wooden door and frame.",
+      "issue": null,
+      "confidence": 0.95
+    },
+    {
+      "id": "es-tools-023",
+      "word": "candado",
+      "category": "tools",
+      "filename": "candado",
+      "status": "ok",
+      "match": true,
+      "description": "The image shows a black combination padlock with a metal shackle, representing a lock or 'candado'.",
+      "issue": null,
+      "confidence": 0.95
+    },
+    {
+      "id": "es-tools-026",
+      "word": "cinta métrica",
+      "category": "tools",
+      "filename": "cinta-metrica",
+      "status": "ok",
+      "match": true,
+      "description": "A yellow and black tape measure with the extended fabric tape clearly visible.",
+      "issue": null,
+      "confidence": 0.98
+    },
+    {
+      "id": "es-tools-027",
+      "word": "carretilla",
+      "category": "tools",
+      "filename": "carretilla",
+      "status": "ok",
+      "match": true,
+      "description": "The image shows a red wheelbarrow filled with gardening tools, resting on a patio.",
+      "issue": null,
+      "confidence": 0.95
+    },
+    {
+      "id": "es-tools-028",
+      "word": "carrete",
+      "category": "tools",
+      "filename": "carrete",
+      "status": "ok",
+      "match": true,
+      "description": "A close-up of a black cylindrical 35mm film reel containing some photographic film.",
+      "issue": null,
+      "confidence": 0.95
+    },
+    {
+      "id": "es-tools-029",
+      "word": "guillotina",
+      "category": "tools",
+      "filename": "guillotina",
+      "status": "ok",
+      "match": true,
+      "description": "The image shows a vintage illustration of a guillotine.",
+      "issue": null,
+      "confidence": 1.0
+    },
+    {
+      "id": "es-tools-030",
+      "word": "soldador",
+      "category": "tools",
+      "filename": "soldador",
+      "status": "ok",
+      "match": true,
+      "description": "A person wearing a welding helmet and protective gear using a welding torch.",
+      "issue": null,
+      "confidence": 0.9
+    },
+    {
+      "id": "es-weather-016",
+      "word": "rocío",
+      "category": "weather",
+      "filename": "rocio",
+      "status": "ok",
+      "match": true,
+      "description": "A close-up of green plant leaves covered in morning dew drops.",
+      "issue": null,
+      "confidence": 0.9
+    },
+    {
+      "id": "es-weather-017",
+      "word": "escarcha",
+      "category": "weather",
+      "filename": "escarcha",
+      "status": "ok",
+      "match": true,
+      "description": "A close-up photograph of frost crystals on a surface.",
+      "issue": null,
+      "confidence": 0.95
+    },
+    {
+      "id": "es-weather-018",
+      "word": "ventisca",
+      "category": "weather",
+      "filename": "ventisca",
+      "status": "ok",
+      "match": true,
+      "description": "A snowy winter scene showing a landscape or trees covered in heavy snow during a blizzard.",
+      "issue": null,
+      "confidence": 0.85
+    },
+    {
+      "id": "es-weather-019",
+      "word": "alud",
+      "category": "weather",
+      "filename": "alud",
+      "status": "ok",
+      "match": true,
+      "description": "A large mass of snow and rocks cascading down a mountain slope, depicting an avalanche.",
+      "issue": null,
+      "confidence": 0.95
+    },
+    {
+      "id": "es-weather-021",
+      "word": "crepúsculo",
+      "category": "weather",
+      "filename": "crepusculo",
+      "status": "ok",
+      "match": true,
+      "description": "A scenic view of a twilight sky with pink and purple clouds during the crepuscular hours over a silhouette of trees.",
+      "issue": null,
+      "confidence": 0.85
+    },
+    {
+      "id": "es-weather-023",
+      "word": "sequía",
+      "category": "weather",
+      "filename": "sequia",
+      "status": "ok",
+      "match": true,
+      "description": "A dry, cracked earth surface under a blazing sun, clearly representing a drought.",
+      "issue": null,
+      "confidence": 0.95
+    },
+    {
+      "id": "es-weather-024",
+      "word": "chubasco",
+      "category": "weather",
+      "filename": "chubasco",
+      "status": "ok",
+      "match": true,
+      "description": "A heavy rain shower falling against a dark background.",
+      "issue": null,
+      "confidence": 0.9
+    },
+    {
+      "id": "es-weather-025",
+      "word": "calima",
+      "category": "weather",
+      "filename": "calima",
+      "status": "ok",
+      "match": true,
+      "description": "A landscape showing a hazy, dusty sky typical of the calima weather phenomenon over a city or landscape.",
+      "issue": null,
+      "confidence": 0.85
+    },
+    {
+      "id": "es-weather-026",
+      "word": "llovizna",
+      "category": "weather",
+      "filename": "llovizna",
+      "status": "ok",
+      "match": true,
+      "description": "A view of wet city streets with light rain or drizzle falling.",
+      "issue": null,
+      "confidence": 0.85
+    },
+    {
+      "id": "es-weather-030",
+      "word": "termómetro",
+      "category": "weather",
+      "filename": "termometro",
+      "status": "ok",
+      "match": true,
+      "description": "A close-up of a digital thermometer displaying the temperature in degrees Celsius.",
+      "issue": null,
+      "confidence": 0.95
+    },
+    {
+      "id": "es-place-018",
+      "word": "estación",
+      "category": "places",
+      "filename": "estacion",
+      "status": "ok",
+      "match": true,
+      "description": "The image shows a train stopped at a modern train station platform with a glass canopy, tracks, and passengers.",
+      "issue": null,
+      "confidence": 0.95
+    },
+    {
+      "id": "es-places-023",
+      "word": "comisaría",
+      "category": "places",
+      "filename": "comisaria",
+      "status": "ok",
+      "match": true,
+      "description": "The exterior view of a modern police station building with a prominent blue police sign.",
+      "issue": null,
+      "confidence": 0.95
+    },
+    {
+      "id": "es-places-028",
+      "word": "hotel",
+      "category": "places",
+      "filename": "hotel",
+      "status": "ok",
+      "match": true,
+      "description": "A clear daytime photo of a multi-story hotel building exterior with multiple floors of windows and balconies.",
+      "issue": null,
+      "confidence": 0.95
+    },
+    {
+      "id": "es-places-034",
+      "word": "glorieta",
+      "category": "places",
+      "filename": "glorieta",
+      "status": "ok",
+      "match": true,
+      "description": "An aerial view of a street roundabout with a central garden and monument.",
+      "issue": null,
+      "confidence": 0.9
+    },
+    {
+      "id": "es-places-035",
+      "word": "aparcamiento",
+      "category": "places",
+      "filename": "aparcamiento",
+      "status": "ok",
+      "match": true,
+      "description": "An aerial view of a parking lot with cars parked in the spaces.",
+      "issue": null,
+      "confidence": 0.95
+    },
+    {
+      "id": "es-clothing-021",
+      "word": "bata",
+      "category": "clothing",
+      "filename": "bata",
+      "status": "ok",
+      "match": true,
+      "description": "A person wearing a white laboratory coat.",
+      "issue": null,
+      "confidence": 0.85
+    },
+    {
+      "id": "es-clothing-022",
+      "word": "blusa",
+      "category": "clothing",
+      "filename": "blusa",
+      "status": "ok",
+      "match": true,
+      "description": "A woman wearing a white blouse.",
+      "issue": null,
+      "confidence": 0.9
+    },
+    {
+      "id": "es-clothing-023",
+      "word": "chaleco",
+      "category": "clothing",
+      "filename": "chaleco",
+      "status": "ok",
+      "match": true,
+      "description": "A clear photo of a puffy black vest (chaleco) displayed on a mannequin against a white background.",
+      "issue": null,
+      "confidence": 0.95
+    },
+    {
+      "id": "es-clothing-024",
+      "word": "gorra",
+      "category": "clothing",
+      "filename": "gorra",
+      "status": "ok",
+      "match": true,
+      "description": "The image shows a single blue baseball cap with a red section and an orange button on top.",
+      "issue": null,
+      "confidence": 0.95
+    },
+    {
+      "id": "es-clothing-025",
+      "word": "leotardos",
+      "category": "clothing",
+      "filename": "leotardos",
+      "status": "ok",
+      "match": true,
+      "description": "The image shows a pair of leotards displayed as a single clothing item.",
+      "issue": null,
+      "confidence": 0.95
+    },
+    {
+      "id": "es-clothing-026",
+      "word": "pashmina",
+      "category": "clothing",
+      "filename": "pashmina",
+      "status": "ok",
+      "match": true,
+      "description": "A folded pashmina shawl with a decorative pattern, displayed as a clothing accessory.",
+      "issue": null,
+      "confidence": 0.95
+    },
+    {
+      "id": "es-clothing-027",
+      "word": "babero",
+      "category": "clothing",
+      "filename": "babero",
+      "status": "ok",
+      "match": true,
+      "description": "A close-up photo of a baby wearing a white bib with colorful printed designs.",
+      "issue": null,
+      "confidence": 0.95
+    },
+    {
+      "id": "es-clothing-028",
+      "word": "delantal",
+      "category": "clothing",
+      "filename": "delantal",
+      "status": "ok",
+      "match": true,
+      "description": "The image shows a person wearing a kitchen apron over their clothes.",
+      "issue": null,
+      "confidence": 0.95
+    },
+    {
+      "id": "es-clothing-029",
+      "word": "pañuelo",
+      "category": "clothing",
+      "filename": "panuelo",
+      "status": "ok",
+      "match": true,
+      "description": "The image shows a folded cloth handkerchief with a decorative blue and white border.",
+      "issue": null,
+      "confidence": 0.95
+    },
+    {
+      "id": "es-clothing-030",
+      "word": "chubasquero",
+      "category": "clothing",
+      "filename": "chubasquero",
+      "status": "ok",
+      "match": true,
+      "description": "The image shows a yellow raincoat hanging on a wooden door.",
+      "issue": null,
+      "confidence": 0.95
+    },
+    {
+      "id": "es-clothing-031",
+      "word": "alpargatas",
+      "category": "clothing",
+      "filename": "alpargatas",
+      "status": "ok",
+      "match": true,
+      "description": "A pair of traditional alpargatas (espadrilles) clearly displayed against a plain background.",
+      "issue": null,
+      "confidence": 0.98
+    },
+    {
+      "id": "es-clothing-033",
+      "word": "zapatillas",
+      "category": "clothing",
+      "filename": "zapatillas",
+      "status": "ok",
+      "match": true,
+      "description": "A pair of white athletic sneakers.",
+      "issue": null,
+      "confidence": 0.95
+    },
+    {
+      "id": "es-clothing-034",
+      "word": "gafas de sol",
+      "category": "clothing",
+      "filename": "gafas-de-sol",
+      "status": "ok",
+      "match": true,
+      "description": "A close-up image of a pair of dark sunglasses.",
+      "issue": null,
+      "confidence": 1.0
+    },
+    {
+      "id": "es-vehicles-021",
+      "word": "monopatín",
+      "category": "vehicles",
+      "filename": "monopatin",
+      "status": "ok",
+      "match": true,
+      "description": "The image shows a skateboard, which is the direct English translation of the Spanish word 'monopatín'.",
+      "issue": null,
+      "confidence": 1.0
+    },
+    {
+      "id": "es-vehicles-022",
+      "word": "quad",
+      "category": "vehicles",
+      "filename": "quad",
+      "status": "ok",
+      "match": true,
+      "description": "A red all-terrain vehicle (ATV), commonly known as a quad, parked on a dirt surface.",
+      "issue": null,
+      "confidence": 0.95
+    },
+    {
+      "id": "es-vehicles-023",
+      "word": "moto de agua",
+      "category": "vehicles",
+      "filename": "moto-de-agua",
+      "status": "ok",
+      "match": true,
+      "description": "A person riding a yellow personal watercraft (jetski) on the water.",
+      "issue": null,
+      "confidence": 0.95
+    },
+    {
+      "id": "es-vehicles-024",
+      "word": "catamarán",
+      "category": "vehicles",
+      "filename": "catamaran",
+      "status": "ok",
+      "match": true,
+      "description": "A photo of a white catamaran boat with two hulls sailing on the water.",
+      "issue": null,
+      "confidence": 0.95
+    },
+    {
+      "id": "es-vehicles-027",
+      "word": "remolque",
+      "category": "vehicles",
+      "filename": "remolque",
+      "status": "ok",
+      "match": true,
+      "description": "A small utility trailer being towed by a vehicle on a residential street.",
+      "issue": null,
+      "confidence": 0.95
+    },
+    {
+      "id": "es-vehicles-028",
+      "word": "carretilla elevadora",
+      "category": "vehicles",
+      "filename": "carretilla-elevadora",
+      "status": "ok",
+      "match": true,
+      "description": "A yellow forklift (carretilla elevadora) parked on a paved surface near stacked pallets and shelves.",
+      "issue": null,
+      "confidence": 0.98
+    },
+    {
+      "id": "es-vehicles-029",
+      "word": "grúa",
+      "category": "vehicles",
+      "filename": "grua",
+      "status": "ok",
+      "match": true,
+      "description": "The image shows a tall yellow construction crane vehicle.",
+      "issue": null,
+      "confidence": 0.95
+    },
+    {
+      "id": "es-vehicles-030",
+      "word": "autobús escolar",
+      "category": "vehicles",
+      "filename": "autobus-escolar",
+      "status": "ok",
+      "match": true,
+      "description": "A yellow school bus driving on a road.",
+      "issue": null,
+      "confidence": 0.98
+    },
+    {
+      "id": "es-vehicles-031",
+      "word": "tranvía",
+      "category": "vehicles",
+      "filename": "tranvia",
+      "status": "ok",
+      "match": true,
+      "description": "A modern yellow and gray tram (streetcar) traveling down a city street.",
+      "issue": null,
+      "confidence": 0.95
+    },
+    {
+      "id": "es-vehicles-032",
+      "word": "funicular",
+      "category": "vehicles",
+      "filename": "funicular",
+      "status": "ok",
+      "match": true,
+      "description": "A red funicular railway vehicle traveling up a steep mountain track on rails.",
+      "issue": null,
+      "confidence": 0.95
+    },
+    {
+      "id": "es-vehicles-034",
+      "word": "triciclo",
+      "category": "vehicles",
+      "filename": "triciclo",
+      "status": "ok",
+      "match": true,
+      "description": "A red and yellow child's tricycle parked on the ground.",
+      "issue": null,
+      "confidence": 0.95
+    },
+    {
+      "id": "es-vehicles-035",
+      "word": "kayak",
+      "category": "vehicles",
+      "filename": "kayak",
+      "status": "ok",
+      "match": true,
+      "description": "The image shows a yellow kayak floating on calm water near a green shoreline.",
+      "issue": null,
+      "confidence": 0.98
+    },
+    {
+      "id": "es-music-026",
+      "word": "diapasón",
+      "category": "music",
+      "filename": "diapason",
+      "status": "ok",
+      "match": true,
+      "description": "A close-up photograph of a metallic tuning fork resting on a pink surface.",
+      "issue": null,
+      "confidence": 0.95
+    },
+    {
+      "id": "es-music-027",
+      "word": "arco",
+      "category": "music",
+      "filename": "arco",
+      "status": "ok",
+      "match": false,
+      "description": "The image shows a bow, which is correct for the English meaning of 'bow' but does not match the requested category of music (musical arc/bow).",
+      "issue": "ambiguous",
+      "confidence": 0.6
+    },
+    {
+      "id": "es-music-028",
+      "word": "metrónomo",
+      "category": "music",
+      "filename": "metronomo",
+      "status": "ok",
+      "match": true,
+      "description": "The image shows a classic wooden pyramid-shaped mechanical metronome with a swinging pendulum.",
+      "issue": null,
+      "confidence": 1.0
+    },
+    {
+      "id": "es-music-029",
+      "word": "platillos",
+      "category": "music",
+      "filename": "platillos",
+      "status": "ok",
+      "match": true,
+      "description": "A pair of brass finger cymbals, commonly known as zills or platillos.",
+      "issue": null,
+      "confidence": 0.85
+    },
+    {
+      "id": "es-music-030",
+      "word": "tuba",
+      "category": "music",
+      "filename": "tuba",
+      "status": "ok",
+      "match": true,
+      "description": "A close-up photo of a brass tuba instrument.",
+      "issue": null,
+      "confidence": 0.95
+    },
+    {
+      "id": "es-music-031",
+      "word": "órgano",
+      "category": "music",
+      "filename": "organo",
+      "status": "ok",
+      "match": true,
+      "description": "A close-up view of the keys and wooden pipes of a musical organ.",
+      "issue": null,
+      "confidence": 0.95
+    },
+    {
+      "id": "es-music-033",
+      "word": "arpa",
+      "category": "music",
+      "filename": "arpa",
+      "status": "ok",
+      "match": true,
+      "description": "The image shows a golden harp resting against a wall.",
+      "issue": null,
+      "confidence": 0.95
+    },
+    {
+      "id": "es-places-044",
+      "word": "zoológico",
+      "category": "places",
+      "filename": "zoologico",
+      "status": "ok",
+      "match": true,
+      "description": "An outdoor walkway in a zoo featuring a large metal fence or enclosure with a giraffe visible in the background.",
+      "issue": null,
+      "confidence": 0.85
+    },
+    {
+      "id": "es-school-031",
+      "word": "escritorio",
+      "category": "school",
+      "filename": "escritorio",
+      "status": "ok",
+      "match": true,
+      "description": "A wooden desk with drawers, accompanied by a matching office chair.",
+      "issue": null,
+      "confidence": 0.95
+    },
+    {
+      "id": "es-school-032",
+      "word": "calendario",
+      "category": "school",
+      "filename": "calendario",
+      "status": "ok",
+      "match": true,
+      "description": "A wall calendar showing the month with images of hot air balloons.",
+      "issue": null,
+      "confidence": 0.98
+    },
+    {
+      "id": "es-school-033",
+      "word": "bolígrafo",
+      "category": "school",
+      "filename": "boligrafo",
+      "status": "ok",
+      "match": true,
+      "description": "A close-up of a blue ballpoint pen lying diagonally.",
+      "issue": null,
+      "confidence": 1.0
+    },
+    {
+      "id": "es-school-034",
+      "word": "sacapuntas",
+      "category": "school",
+      "filename": "sacapuntas",
+      "status": "ok",
+      "match": true,
+      "description": "A close-up photo of a single pink pencil sharpener.",
+      "issue": null,
+      "confidence": 1.0
+    },
+    {
+      "id": "es-school-035",
+      "word": "carpeta",
+      "category": "school",
+      "filename": "carpeta",
+      "status": "ok",
+      "match": true,
+      "description": "The image shows a blue folder, which is a clear representation of a carpeta.",
+      "issue": null,
+      "confidence": 1.0
+    },
+    {
+      "id": "es-school-036",
+      "word": "calculadora",
+      "category": "school",
+      "filename": "calculadora",
+      "status": "ok",
+      "match": true,
+      "description": "The image shows a clear close-up of a modern digital calculator with gray buttons and a green display.",
+      "issue": null,
+      "confidence": 1.0
+    },
+    {
+      "id": "es-sports-026",
+      "word": "cronómetro",
+      "category": "sports",
+      "filename": "cronometro",
+      "status": "ok",
+      "match": true,
+      "description": "The image shows a digital sports chronometer displaying the time 15:00.",
+      "issue": null,
+      "confidence": 0.95
+    },
+    {
+      "id": "es-sports-027",
+      "word": "pesas",
+      "category": "sports",
+      "filename": "pesas",
+      "status": "ok",
+      "match": true,
+      "description": "The image shows a close-up of a person's hands lifting a black barbell with weight plates.",
+      "issue": null,
+      "confidence": 0.95
+    },
+    {
+      "id": "es-sports-028",
+      "word": "cuerda",
+      "category": "sports",
+      "filename": "cuerda",
+      "status": "ok",
+      "match": true,
+      "description": "The image shows a coiled climbing rope.",
+      "issue": null,
+      "confidence": 0.95
+    },
+    {
+      "id": "es-technology-031",
+      "word": "satélite",
+      "category": "technology",
+      "filename": "satelite",
+      "status": "ok",
+      "match": true,
+      "description": "A satellite in orbit with solar panels extended, floating in front of the Earth.",
+      "issue": null,
+      "confidence": 0.95
+    },
+    {
+      "id": "es-toys-021",
+      "word": "burbuja",
+      "category": "toys",
+      "filename": "burbuja",
+      "status": "ok",
+      "match": true,
+      "description": "A close-up of a child blowing colorful soap bubbles.",
+      "issue": null,
+      "confidence": 0.85
+    },
+    {
+      "id": "es-toys-022",
+      "word": "tiovivo",
+      "category": "toys",
+      "filename": "tiovivo",
+      "status": "ok",
+      "match": true,
+      "description": "A colorful carousel with horses on a merry-go-round.",
+      "issue": null,
+      "confidence": 0.95
+    },
+    {
+      "id": "es-sports-029",
+      "word": "balonmano",
+      "category": "sports",
+      "filename": "balonmano",
+      "status": "ok",
+      "match": true,
+      "description": "A handball player leaping into the air while attempting to throw a handball towards the goal.",
+      "issue": null,
+      "confidence": 0.95
+    },
+    {
+      "id": "es-sports-030",
+      "word": "voleibol",
+      "category": "sports",
+      "filename": "voleibol",
+      "status": "ok",
+      "match": true,
+      "description": "A volleyball resting on a sandy surface, likely a beach volleyball court.",
+      "issue": null,
+      "confidence": 0.95
+    },
+    {
+      "id": "es-sports-031",
+      "word": "rugby",
+      "category": "sports",
+      "filename": "rugby",
+      "status": "ok",
+      "match": true,
+      "description": "A rugby ball rests on a grassy field near a kicking tee.",
+      "issue": null,
+      "confidence": 0.95
+    },
+    {
+      "id": "es-sports-033",
+      "word": "karate",
+      "category": "sports",
+      "filename": "karate",
+      "status": "ok",
+      "match": true,
+      "description": "A person wearing a white karate gi performing a high kick.",
+      "issue": null,
+      "confidence": 0.95
+    },
+    {
+      "id": "es-sports-034",
+      "word": "surf",
+      "category": "sports",
+      "filename": "surf",
+      "status": "ok",
+      "match": true,
+      "description": "A person surfing on an ocean wave.",
+      "issue": null,
+      "confidence": 0.98
+    },
+    {
+      "id": "es-sports-036",
+      "word": "golf",
+      "category": "sports",
+      "filename": "golf",
+      "status": "ok",
+      "match": true,
+      "description": "A golf ball rests on a short tee placed on a neatly trimmed golf course green.",
+      "issue": null,
+      "confidence": 0.95
+    },
+    {
+      "id": "es-sports-037",
+      "word": "hockey",
+      "category": "sports",
+      "filename": "hockey",
+      "status": "ok",
+      "match": true,
+      "description": "A hockey player skates on the ice while handling a puck with a hockey stick.",
+      "issue": null,
+      "confidence": 1.0
+    },
+    {
+      "id": "es-sports-038",
+      "word": "esgrima",
+      "category": "sports",
+      "filename": "esgrima",
+      "status": "ok",
+      "match": true,
+      "description": "A fencer in white protective gear engaging in a fencing match with an opponent.",
+      "issue": null,
+      "confidence": 0.95
+    },
+    {
+      "id": "es-sports-039",
+      "word": "remo",
+      "category": "sports",
+      "filename": "remo",
+      "status": "ok",
+      "match": true,
+      "description": "A wooden paddle floating on calm water.",
+      "issue": null,
+      "confidence": 0.95
+    },
+    {
+      "id": "es-sports-040",
+      "word": "vela",
+      "category": "sports",
+      "filename": "vela",
+      "status": "ok",
+      "match": true,
+      "description": "A close-up view of a modern sailboat with large white sails on the water.",
+      "issue": null,
+      "confidence": 0.85
+    },
+    {
+      "id": "es-sports-042",
+      "word": "colchoneta",
+      "category": "sports",
+      "filename": "colchoneta",
+      "status": "ok",
+      "match": true,
+      "description": "A blue folded exercise mat, commonly known as a colchoneta, resting against a wall on a hardwood floor.",
+      "issue": null,
+      "confidence": 0.95
+    },
+    {
+      "id": "es-sports-050",
+      "word": "silbato",
+      "category": "sports",
+      "filename": "silbato",
+      "status": "ok",
+      "match": true,
+      "description": "A close-up of a metallic whistle with a red cord or lanyard.",
+      "issue": null,
+      "confidence": 0.95
+    },
+    {
+      "id": "es-technology-044",
+      "word": "proyector",
+      "category": "technology",
+      "filename": "proyector",
+      "status": "ok",
+      "match": true,
+      "description": "A close-up photo of a modern digital multimedia projector.",
+      "issue": null,
+      "confidence": 0.95
+    },
+    {
+      "id": "es-technology-045",
+      "word": "escáner",
+      "category": "technology",
+      "filename": "escaner",
+      "status": "ok",
+      "match": true,
+      "description": "A modern white scanner machine sitting on a desk next to a laptop.",
+      "issue": null,
+      "confidence": 0.9
+    },
+    {
+      "id": "es-technology-046",
+      "word": "mando",
+      "category": "technology",
+      "filename": "mando",
+      "status": "ok",
+      "match": true,
+      "description": "A close-up photo of a black video game controller.",
+      "issue": null,
+      "confidence": 0.95
+    },
+    {
+      "id": "es-technology-048",
+      "word": "alarma",
+      "category": "technology",
+      "filename": "alarma",
+      "status": "ok",
+      "match": true,
+      "description": "A red digital alarm clock sitting on a nightstand next to a bed.",
+      "issue": null,
+      "confidence": 0.95
+    },
+    {
+      "id": "es-technology-051",
+      "word": "pila",
+      "category": "technology",
+      "filename": "pila",
+      "status": "ok",
+      "match": true,
+      "description": "A close-up photo of a single AA battery.",
+      "issue": null,
+      "confidence": 0.95
+    },
+    {
+      "id": "es-technology-052",
+      "word": "altavoz",
+      "category": "technology",
+      "filename": "altavoz",
+      "status": "ok",
+      "match": true,
+      "description": "The image shows a portable wireless speaker.",
+      "issue": null,
+      "confidence": 0.95
+    },
+    {
+      "id": "es-technology-053",
+      "word": "smartwatch",
+      "category": "technology",
+      "filename": "smartwatch",
+      "status": "ok",
+      "match": true,
+      "description": "A close-up photo of a person's wrist wearing a modern smartwatch.",
+      "issue": null,
+      "confidence": 0.98
+    },
+    {
+      "id": "es-technology-055",
+      "word": "antena",
+      "category": "technology",
+      "filename": "antena",
+      "status": "ok",
+      "match": true,
+      "description": "The image shows a large metal broadcast or telecommunications antenna tower against a blue sky.",
+      "issue": null,
+      "confidence": 0.95
+    },
+    {
+      "id": "es-technology-056",
+      "word": "micrófono",
+      "category": "technology",
+      "filename": "microfono",
+      "status": "ok",
+      "match": true,
+      "description": "A close-up of a silver and black vocal microphone with a spherical grille.",
+      "issue": null,
+      "confidence": 0.98
+    },
+    {
+      "id": "es-technology-057",
+      "word": "webcam",
+      "category": "technology",
+      "filename": "webcam",
+      "status": "ok",
+      "match": true,
+      "description": "A close-up photo of a webcam attached to the top of a computer monitor.",
+      "issue": null,
+      "confidence": 0.95
+    },
+    {
+      "id": "es-technology-058",
+      "word": "GPS",
+      "category": "technology",
+      "filename": "GPS",
+      "status": "ok",
+      "match": true,
+      "description": "A car's built-in infotainment screen prominently displaying a GPS navigation map.",
+      "issue": null,
+      "confidence": 0.85
+    },
+    {
+      "id": "es-technology-060",
+      "word": "consola",
+      "category": "technology",
+      "filename": "consola",
+      "status": "ok",
+      "match": true,
+      "description": "A white handheld game console with buttons and a screen.",
+      "issue": null,
+      "confidence": 0.95
+    },
+    {
+      "id": "es-technology-061",
+      "word": "linterna",
+      "category": "technology",
+      "filename": "linterna",
+      "status": "ok",
+      "match": true,
+      "description": "A close-up photo of a yellow handheld flashlight resting on a wooden surface.",
+      "issue": null,
+      "confidence": 1.0
+    },
+    {
+      "id": "es-toys-024",
+      "word": "balancín",
+      "category": "toys",
+      "filename": "balancin",
+      "status": "ok",
+      "match": true,
+      "description": "A wooden rocking horse seat (spring rider) on a playground.",
+      "issue": null,
+      "confidence": 0.85
+    },
+    {
+      "id": "es-toys-025",
+      "word": "castillo de arena",
+      "category": "toys",
+      "filename": "castillo-de-arena",
+      "status": "ok",
+      "match": true,
+      "description": "The image shows a sandcastle on a beach next to the ocean.",
+      "issue": null,
+      "confidence": 0.95
+    },
+    {
+      "id": "es-toys-026",
+      "word": "mecano",
+      "category": "toys",
+      "filename": "mecano",
+      "status": "ok",
+      "match": true,
+      "description": "A close-up of a child or person playing with a classic metal Meccano construction toy.",
+      "issue": null,
+      "confidence": 0.9
+    },
+    {
+      "id": "es-toys-027",
+      "word": "sonajero",
+      "category": "toys",
+      "filename": "sonajero",
+      "status": "ok",
+      "match": true,
+      "description": "The image shows a colorful baby's rattle with a smiling animal face and a handle.",
+      "issue": null,
+      "confidence": 1.0
+    },
+    {
+      "id": "es-toys-028",
+      "word": "diábolo",
+      "category": "toys",
+      "filename": "diabolo",
+      "status": "ok",
+      "match": true,
+      "description": "A person holding and performing a trick with a red and yellow plastic diabolo using hand sticks.",
+      "issue": null,
+      "confidence": 0.9
+    },
+    {
+      "id": "es-toys-029",
+      "word": "hula-hula",
+      "category": "toys",
+      "filename": "hula-hula",
+      "status": "ok",
+      "match": true,
+      "description": "A colorful plastic hula hoop resting on a green surface.",
+      "issue": null,
+      "confidence": 0.95
+    },
+    {
+      "id": "es-toys-031",
+      "word": "peonza",
+      "category": "toys",
+      "filename": "peonza",
+      "status": "ok",
+      "match": true,
+      "description": "A colorful wooden spinning top (peonza) with a pull string.",
+      "issue": null,
+      "confidence": 0.95
+    },
+    {
+      "id": "es-toys-032",
+      "word": "tirachinas",
+      "category": "toys",
+      "filename": "tirachinas",
+      "status": "ok",
+      "match": true,
+      "description": "A close-up photo of a wooden Y-shaped slingshot resting on a surface.",
+      "issue": null,
+      "confidence": 0.95
+    },
+    {
+      "id": "es-toys-033",
+      "word": "disfraz",
+      "category": "toys",
+      "filename": "disfraz",
+      "status": "ok",
+      "match": true,
+      "description": "A person wearing a colorful clown costume and wig.",
+      "issue": null,
+      "confidence": 0.9
+    },
+    {
+      "id": "es-toys-035",
+      "word": "careta",
+      "category": "toys",
+      "filename": "careta",
+      "status": "ok",
+      "match": true,
+      "description": "The image shows a colorful jester mask or costume face representing the word \"careta.\"",
+      "issue": null,
+      "confidence": 0.9
+    },
+    {
+      "id": "es-toys-037",
+      "word": "marioneta",
+      "category": "toys",
+      "filename": "marioneta",
+      "status": "ok",
+      "match": true,
+      "description": "A close-up of a wooden marionette puppet shaped like a person.",
+      "issue": null,
+      "confidence": 0.95
+    },
+    {
+      "id": "es-toys-038",
+      "word": "palo de lluvia",
+      "category": "toys",
+      "filename": "palo-de-lluvia",
+      "status": "ok",
+      "match": true,
+      "description": "The image shows a colorful wooden rain stick toy resting against a white background.",
+      "issue": null,
+      "confidence": 0.95
+    },
+    {
+      "id": "es-toys-039",
+      "word": "xilófono",
+      "category": "toys",
+      "filename": "xilofono",
+      "status": "ok",
+      "match": true,
+      "description": "A close-up photograph of a colorful wooden toy xylophone with a wooden mallet resting on top.",
+      "issue": null,
+      "confidence": 0.98
+    },
+    {
+      "id": "es-toys-040",
+      "word": "tambor",
+      "category": "toys",
+      "filename": "tambor",
+      "status": "ok",
+      "match": true,
+      "description": "A colorful illustration of a drum with drumsticks.",
+      "issue": null,
+      "confidence": 0.95
+    },
+    {
+      "id": "es-toys-041",
+      "word": "columpio",
+      "category": "toys",
+      "filename": "columpio",
+      "status": "ok",
+      "match": true,
+      "description": "The image shows a playground swing set outdoors.",
+      "issue": null,
+      "confidence": 1.0
+    },
+    {
+      "id": "es-music-034",
+      "word": "castañuelas",
+      "category": "music",
+      "filename": "castanuelas",
+      "status": "ok",
+      "match": true,
+      "description": "A close-up of a pair of traditional Spanish castanets being played.",
+      "issue": null,
+      "confidence": 0.95
+    },
+    {
+      "id": "es-music-035",
+      "word": "clarinete",
+      "category": "music",
+      "filename": "clarinete",
+      "status": "ok",
+      "match": true,
+      "description": "A close-up photo of a black clarinet resting on a wooden surface.",
+      "issue": null,
+      "confidence": 0.98
+    },
+    {
+      "id": "es-music-037",
+      "word": "ukelele",
+      "category": "music",
+      "filename": "ukelele",
+      "status": "ok",
+      "match": true,
+      "description": "A close-up photo of a wooden ukulele resting on a woven surface.",
+      "issue": null,
+      "confidence": 0.95
+    },
+    {
+      "id": "es-music-038",
+      "word": "campana",
+      "category": "music",
+      "filename": "campana",
+      "status": "ok",
+      "match": true,
+      "description": "A close-up of a metallic bell with visible wear.",
+      "issue": null,
+      "confidence": 0.95
+    },
+    {
+      "id": "es-music-040",
+      "word": "armónica",
+      "category": "music",
+      "filename": "armonica",
+      "status": "ok",
+      "match": true,
+      "description": "The image shows a silver harmonica resting on a wooden surface.",
+      "issue": null,
+      "confidence": 0.98
+    },
+    {
+      "id": "es-music-044",
+      "word": "banjo",
+      "category": "music",
+      "filename": "banjo",
+      "status": "ok",
+      "match": true,
+      "description": "The image shows a close-up of a wooden and metal five-string banjo against a plain background.",
+      "issue": null,
+      "confidence": 0.95
+    },
+    {
+      "id": "es-music-046",
+      "word": "bongó",
+      "category": "music",
+      "filename": "bongo",
+      "status": "ok",
+      "match": true,
+      "description": "A close-up photo of a pair of bongo drums resting on a stand.",
+      "issue": null,
+      "confidence": 0.98
+    },
+    {
+      "id": "es-music-047",
+      "word": "clave",
+      "category": "music",
+      "filename": "clave",
+      "status": "ok",
+      "match": true,
+      "description": "Two wooden clave sticks resting on a surface, which are traditional percussion instruments.",
+      "issue": null,
+      "confidence": 0.95
+    },
+    {
+      "id": "es-music-048",
+      "word": "lira",
+      "category": "music",
+      "filename": "lira",
+      "status": "ok",
+      "match": true,
+      "description": "A close-up of a stringed musical instrument resembling a lira (lyre) with a wooden soundboard and strings.",
+      "issue": null,
+      "confidence": 0.85
+    },
+    {
+      "id": "es-music-049",
+      "word": "mandolina",
+      "category": "music",
+      "filename": "mandolina",
+      "status": "ok",
+      "match": true,
+      "description": "A close-up photograph of a musical mandolin resting on a woven surface.",
+      "issue": null,
+      "confidence": 0.95
+    },
+    {
+      "id": "es-places-046",
+      "word": "faro",
+      "category": "places",
+      "filename": "faro",
+      "status": "ok",
+      "match": true,
+      "description": "A tall white lighthouse standing on a rocky island in the middle of the ocean.",
+      "issue": null,
+      "confidence": 0.98
+    },
+    {
+      "id": "es-places-049",
+      "word": "cementerio",
+      "category": "places",
+      "filename": "cementerio",
+      "status": "ok",
+      "match": true,
+      "description": "A clear view of a cemetery with rows of tombstones and headstones.",
+      "issue": null,
+      "confidence": 0.95
+    },
+    {
+      "id": "es-places-050",
+      "word": "castillo",
+      "category": "places",
+      "filename": "castillo",
+      "status": "ok",
+      "match": true,
+      "description": "The image shows a large stone castle with towers on a green hillside under a blue sky.",
+      "issue": null,
+      "confidence": 1.0
+    },
+    {
+      "id": "es-places-051",
+      "word": "monumento",
+      "category": "places",
+      "filename": "monumento",
+      "status": "ok",
+      "match": true,
+      "description": "The image shows a tall stone obelisk monument in a park setting.",
+      "issue": null,
+      "confidence": 0.95
+    },
+    {
+      "id": "es-school-037",
+      "word": "diccionario",
+      "category": "school",
+      "filename": "diccionario",
+      "status": "ok",
+      "match": true,
+      "description": "An open dictionary showing pages of words and definitions.",
+      "issue": null,
+      "confidence": 1.0
+    },
+    {
+      "id": "es-school-038",
+      "word": "tiza",
+      "category": "school",
+      "filename": "tiza",
+      "status": "ok",
+      "match": true,
+      "description": "A close-up of a piece of white chalk, clearly isolated against a white background.",
+      "issue": null,
+      "confidence": 0.95
+    },
+    {
+      "id": "es-school-039",
+      "word": "rotulador",
+      "category": "school",
+      "filename": "rotulador",
+      "status": "ok",
+      "match": true,
+      "description": "A close-up of a black marker pen, commonly known as a rotulador.",
+      "issue": null,
+      "confidence": 0.95
+    },
+    {
+      "id": "es-school-040",
+      "word": "pegamento",
+      "category": "school",
+      "filename": "pegamento",
+      "status": "ok",
+      "match": true,
+      "description": "The image shows a clear close-up of a stick of glue and its cap, resting on a surface.",
+      "issue": null,
+      "confidence": 0.95
+    },
+    {
+      "id": "es-school-042",
+      "word": "colores",
+      "category": "school",
+      "filename": "colores",
+      "status": "ok",
+      "match": true,
+      "description": "An assortment of colorful crayons or colored pencils arranged together.",
+      "issue": null,
+      "confidence": 0.95
+    },
+    {
+      "id": "es-school-043",
+      "word": "plastilina",
+      "category": "school",
+      "filename": "plastilina",
+      "status": "ok",
+      "match": true,
+      "description": "The image shows brightly colored rolls of playdough or modeling clay.",
+      "issue": null,
+      "confidence": 0.95
+    },
+    {
+      "id": "es-school-044",
+      "word": "papel",
+      "category": "school",
+      "filename": "papel",
+      "status": "ok",
+      "match": true,
+      "description": "A close-up of a person's hands holding a blank white sheet of paper.",
+      "issue": null,
+      "confidence": 0.95
+    },
+    {
+      "id": "es-school-045",
+      "word": "ábaco",
+      "category": "school",
+      "filename": "abaco",
+      "status": "ok",
+      "match": true,
+      "description": "The image shows a traditional wooden abacus with colorful beads.",
+      "issue": null,
+      "confidence": 0.98
+    },
+    {
+      "id": "es-school-046",
+      "word": "microscopio",
+      "category": "school",
+      "filename": "microscopio",
+      "status": "ok",
+      "match": true,
+      "description": "A close-up photo of a standard laboratory microscope.",
+      "issue": null,
+      "confidence": 0.95
+    },
+    {
+      "id": "es-school-047",
+      "word": "telescopio",
+      "category": "school",
+      "filename": "telescopio",
+      "status": "ok",
+      "match": true,
+      "description": "A vintage brass telescope mounted on a tripod, pointing upward.",
+      "issue": null,
+      "confidence": 1.0
+    },
+    {
+      "id": "es-school-048",
+      "word": "bandera",
+      "category": "school",
+      "filename": "bandera",
+      "status": "ok",
+      "match": true,
+      "description": "A white flag fluttering on a flagpole against a blue sky.",
+      "issue": null,
+      "confidence": 0.95
+    },
+    {
+      "id": "es-school-055",
+      "word": "aula",
+      "category": "school",
+      "filename": "aula",
+      "status": "ok",
+      "match": true,
+      "description": "A bright, spacious classroom with rows of desks, chairs, and large windows.",
+      "issue": null,
+      "confidence": 0.95
+    },
+    {
+      "id": "es-school-058",
+      "word": "atlas",
+      "category": "school",
+      "filename": "atlas",
+      "status": "ok",
+      "match": true,
+      "description": "The image shows an open book or atlas displaying a colorful map of the world.",
+      "issue": null,
+      "confidence": 0.9
+    },
+    {
+      "id": "es-school-059",
+      "word": "mochila",
+      "category": "school",
+      "filename": "mochila",
+      "status": "ok",
+      "match": true,
+      "description": "The image shows a red backpack resting on a surface.",
+      "issue": null,
+      "confidence": 0.95
+    },
+    {
+      "id": "es-school-060",
+      "word": "pizarra",
+      "category": "school",
+      "filename": "pizarra",
+      "status": "ok",
+      "match": true,
+      "description": "A green chalkboard with a wooden frame.",
+      "issue": null,
+      "confidence": 0.95
     }
   ]
 }

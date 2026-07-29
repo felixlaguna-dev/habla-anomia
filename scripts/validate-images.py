@@ -54,10 +54,12 @@ def load_api_key():
 
 def parse_words():
     content = WORDS_TS.read_text()
-    pattern = r"id: '([^']+)',\s*\n\s*word: '([^']+)',\s*\n\s*category: '([^']+)',\s*\n.*?image_url: '([^']*)'"
+    pattern = r"id:\s*'([^']+)',\s*\n\s*word:\s*'([^']+)',\s*\n\s*categories:\s*\[([^\]]*)\].*?\n\s*image_url:\s*'([^']*)'"
     matches = re.findall(pattern, content, re.DOTALL)
     words, seen = [], set()
-    for wid, word, cat, img in matches:
+    for wid, word, cats_str, img in matches:
+        # Take first category for validation context
+        cat = cats_str.split(",")[0].strip().strip("'\"")
         fn = img.replace("/images/words/", "").replace(".webp", "") if img else word.lower().replace(" ", "_")
         if fn not in seen:
             seen.add(fn)

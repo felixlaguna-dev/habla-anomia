@@ -1,11 +1,16 @@
 <script lang="ts">
   import { t } from '$lib/i18n';
-  import { browser } from '$app/environment';
   import { Card, ExerciseIcon } from '$lib/components/ui';
   import { EXERCISE_REGISTRY } from '$lib/exercises/registry';
 
   const APP_VERSION: string = __APP_VERSION__ ?? '0.0.0';
   const GIT_HASH: string = __APP_GIT_HASH__ ?? 'dev';
+
+  const devDetails = $derived([
+    { id: 'technology', label: $t('about.technology'), value: $t('about.technology_value') },
+    { id: 'data', label: $t('about.data'), value: $t('about.data_value') },
+    { id: 'license', label: $t('about.license'), value: $t('about.license_value') },
+  ]);
 </script>
 
 <svelte:head>
@@ -49,27 +54,19 @@
   <section class="about-section">
     <Card>
       <div class="version-info">
-        <span class="version-label">{$t('settings.version')}</span>
+        <span class="version-label">{$t('about.version')}</span>
         <span class="version-value">v{APP_VERSION} ({GIT_HASH})</span>
       </div>
       <div class="developer-info">
-        <div class="dev-detail">
-          <span class="dev-label">Tecnología</span>
-          <span class="dev-value">SvelteKit + PWA</span>
-        </div>
-        <div class="dev-detail">
-          <span class="dev-label">Datos</span>
-          <span class="dev-value">IndexedDB (local)</span>
-        </div>
-        <div class="dev-detail">
-          <span class="dev-label">Licencia</span>
-          <span class="dev-value">Código abierto</span>
-        </div>
+        {#each devDetails as detail (detail.id)}
+          <div class="dev-detail">
+            <span class="dev-label">{detail.label}</span>
+            <span class="dev-value">{detail.value}</span>
+          </div>
+        {/each}
       </div>
-      <p class="credits-text">
-        Hecho con ❤️ para personas con afasia y anomia.
-        Desarrollado con SvelteKit y tecnologías web abiertas.
-      </p>
+      <p class="credits-text">{$t('about.credits')}</p>
+      <p class="credits-text privacy-text">{$t('about.privacy_note')}</p>
     </Card>
   </section>
 </section>
@@ -206,5 +203,13 @@
     color: var(--text-muted);
     line-height: 1.6;
     text-align: center;
+  }
+
+  .privacy-text {
+    color: var(--text-dim);
+    margin-top: var(--space-sm);
+    padding: var(--space-sm) var(--space-md);
+    background: var(--surface-2);
+    border-radius: var(--radius-md);
   }
 </style>

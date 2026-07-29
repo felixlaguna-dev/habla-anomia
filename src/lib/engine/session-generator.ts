@@ -6,6 +6,7 @@ import { getRandomWords, getWordsByCategory, getWordById, getCategoryWordCounts 
 import { getAccuracyByCategory } from '$lib/db/attempts';
 import { db } from '$lib/db/database';
 import { getDifficultyLevel, weightedSampleByDifficulty } from './adaptive-difficulty';
+import { shuffleArray } from '$lib/utils/shuffle';
 
 export interface SessionPlan {
   exerciseType: ExerciseType;
@@ -301,12 +302,3 @@ async function pickCategories(
   return shuffleArray(all).slice(0, count);
 }
 
-/** Fisher-Yates shuffle */
-function shuffleArray<T>(array: T[]): T[] {
-  const shuffled = [...array];
-  for (let i = shuffled.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
-  }
-  return shuffled;
-}

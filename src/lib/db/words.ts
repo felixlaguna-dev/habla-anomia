@@ -2,6 +2,7 @@ import { db } from './database';
 import type { Word, Language, Category } from '$lib/types';
 import { getWordCategories, wordHasImage, CATEGORIES } from '$lib/types';
 import { getSetting, setSetting } from './settings';
+import { shuffleArray } from '$lib/utils/shuffle';
 
 /**
  * Global promise that resolves once the word bank has been seeded.
@@ -257,12 +258,3 @@ export async function searchWords(
     .toArray();
 }
 
-/** Fisher-Yates shuffle */
-function shuffleArray<T>(array: T[]): T[] {
-  const shuffled = [...array];
-  for (let i = shuffled.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
-  }
-  return shuffled;
-}

@@ -7,7 +7,7 @@ import type { Word } from '$lib/types';
  * changes, so existing installs pick up changes to this file. See
  * src/lib/db/words.ts seedWords().
  */
-export const WORDS_ES_VERSION = 1;
+export const WORDS_ES_VERSION = 2;
 
 export const WORDS_ES: Word[] = [
   // ==========================================
@@ -1294,7 +1294,7 @@ export const WORDS_ES: Word[] = [
     phonetic: { first_sound: '/tʃ/', syllables: 3, rhyming_word: 'camión', first_phonemes: '/tʃa/' },
     difficulty: 2,
     tags: ['verdura', 'seta'],
-    sentence: 'Los champiñones salteados con ajo son un acompañamiento perfecto.',
+    sentence: 'Los _____ salteados con ajo son un acompañamiento perfecto.',
     opposite: '',
     synonyms: ['seta', 'hongo']
   },

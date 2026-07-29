@@ -1,3 +1,4 @@
+/// <reference types="vitest" />
 import { sveltekit } from '@sveltejs/kit/vite';
 import { defineConfig } from 'vite';
 import { VitePWA } from 'vite-plugin-pwa';
@@ -71,5 +72,9 @@ export default defineConfig({
         ]
       }
     })
-  ]
+  ],
+  test: {
+    include: ['src/**/*.test.ts'],
+    environment: 'node',
+  }
 });

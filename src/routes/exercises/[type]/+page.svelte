@@ -8,6 +8,7 @@
   import { awaitSeedReady } from '$lib/db/words';
   import { db } from '$lib/db/database';
   import { generateSession } from '$lib/engine/session-generator';
+  import { DifficultyTracker, updateDifficultyAfterSession, getDifficultyLevel } from '$lib/engine/adaptive-difficulty';
   import { browser } from '$app/environment';
   import { playCompleteSound } from '$lib/utils/sounds';
   import { SpeechSynthesisService } from '$lib/speech/speech-synthesis';
@@ -45,6 +46,7 @@
   let showConfetti = $state(false);
   let planCategory: string | undefined = $state();
   let allWords = $state<Word[]>([]);
+  let difficultyTracker: DifficultyTracker | null = null;
 
   // TTS for results overlay
   let resultSynthesis: SpeechSynthesisService | null = $state(null);
@@ -97,6 +99,13 @@
     );
     words = plan.words;
     planCategory = plan.category;
+
+    // Initialise the streak tracker from the plan's difficulty level.
+    // The tracker computes within-session streak adjustments (+0.5 on 3-correct,
+    // -0.5 on 2-wrong) as a forward-looking signal for real-time difficulty
+    // adaptation — not yet wired to live word selection (sessions are
+    // pre-generated), but ready for it.
+    difficultyTracker = new DifficultyTracker(plan.difficultyLevel);
 
     // Load all words for cross-category distractors
     allWords = await db.words.where('language').equals(s.language).toArray();
@@ -171,6 +180,15 @@
       const id = sessionId;
       sessionId = null;
       await endSession(id, accuracy, total);
+
+      // Update the adaptive difficulty level via EMA. The tracker replays the
+      // attempt sequence to compute the effective level (with streak nudging).
+      // The EMA uses the stored level — streaks don't bleed into persistence,
+      // keeping the ramp gradual for the rehab audience.
+      if (difficultyTracker && e.details) {
+        difficultyTracker.processResults(e.details.map(d => d.correct));
+      }
+      await updateDifficultyAfterSession(exerciseType, accuracy);
     }
 
     // Update streak
@@ -212,6 +230,11 @@
       // settings is guaranteed non-null — handleRetryMistakes is only
       // reachable from the results overlay, which requires initExercise.
       sessionId = await startSession(settings!.language, exerciseType);
+      // Fresh tracker for the retry — the previous session's streaks must not
+      // bleed into the retry's EMA update. Seed from the stored level (the
+      // words are already-selected mistakes, so no plan.difficultyLevel).
+      const level = await getDifficultyLevel(exerciseType, settings!.language);
+      difficultyTracker = new DifficultyTracker(level);
       words = [...incorrectWords];
       incorrectWords = [];
       correctWords = [];

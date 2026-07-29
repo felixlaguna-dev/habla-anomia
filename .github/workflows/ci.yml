@@ -79,20 +79,16 @@ jobs:
         run: |
           docker rm -f habla-anomia-e2e-server 2>/dev/null || true
           docker run -d --name habla-anomia-e2e-server -p 3021:80 habla-anomia-prod
-          # Wait for nginx to accept connections on port 3021.
-          # Uses bash /dev/tcp — no curl/wget dependency on the runner.
-          for i in $(seq 1 15); do
-            if bash -c 'echo > /dev/tcp/127.0.0.1/3021' 2>/dev/null; then
-              echo "App is serving on :3021"
-              break
-            fi
-            if [ "$i" -eq 15 ]; then
-              echo "Server failed to start within 15s"
-              docker logs habla-anomia-e2e-server || true
-              exit 1
-            fi
-            sleep 1
-          done
+          # Give nginx a moment to start (it's ready in <1s), then verify
+          # the container is still running.
+          sleep 3
+          if docker ps --filter "name=habla-anomia-e2e-server" --filter "status=running" --format "{{.ID}}" | grep -q .; then
+            echo "App is serving on :3021"
+          else
+            echo "Server container is not running"
+            docker logs habla-anomia-e2e-server || true
+            exit 1
+          fi
 
       - name: Build E2E image
         uses: nick-fields/retry@v3

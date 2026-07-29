@@ -1,16 +1,19 @@
 import { db } from './database';
-import type { Session, Language } from '$lib/types';
+import type { Session, Language, ExerciseType } from '$lib/types';
 
 /**
  * Create a new session and return its auto-generated id.
  */
-export async function startSession(language: Language): Promise<number> {
+export async function startSession(
+  language: Language,
+  exerciseType: ExerciseType
+): Promise<number> {
   return db.sessions.add({
     started_at: new Date(),
     exercises_completed: 0,
     accuracy: 0,
     language,
-    exercise_types: []
+    exercise_types: [exerciseType]
   });
 }
 
@@ -27,6 +30,30 @@ export async function endSession(
     accuracy,
     exercises_completed: exercisesCompleted
   });
+}
+
+/**
+ * Delete a session that was abandoned before completion.
+ *
+ * Invariant: a session row with no `ended_at` is transient — it is deleted on
+ * abandon (restart, back-button navigation, component destroy). Only sessions
+ * finalised via `endSession` should persist. The destroy callback cannot fire
+ * on tab-close, so `cleanupAbandonedSessions` runs at startup to sweep any
+ * stragglers and enforce the invariant.
+ */
+export async function deleteSession(id: number): Promise<void> {
+  await db.sessions.delete(id);
+}
+
+/**
+ * Delete all sessions that were never finalised (no `ended_at`).
+ * Called once at startup to clean up orphans left by tab-close or crash.
+ */
+export async function cleanupAbandonedSessions(): Promise<void> {
+  const orphaned = await db.sessions.filter(s => !s.ended_at).primaryKeys();
+  if (orphaned.length > 0) {
+    await db.sessions.bulkDelete(orphaned);
+  }
 }
 
 /**

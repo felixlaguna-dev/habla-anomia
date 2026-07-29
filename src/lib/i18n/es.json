@@ -196,8 +196,7 @@
     "large": "Grande",
     "extra_large": "Muy grande",
     "high_contrast": "Alto contraste",
-    "about": "Acerca de",
-    "version": "Versión"
+    "about": "Acerca de"
   },
   "a11y": {
     "skip_to_content": "Saltar al contenido"
@@ -214,7 +213,16 @@
     "title": "Acerca de Habla Anomia",
     "what_is_anomia": "¿Qué es la anomia?",
     "anomia_description": "La anomia es una dificultad para encontrar las palabras adecuadas al hablar. Es común después de un accidente cerebrovascular o una lesión cerebral. Con práctica y ejercicios, se puede mejorar mucho.",
-    "exercises_help": "Los ejercicios de esta aplicación están diseñados para ayudarte a practicar el lenguaje de forma divertida, a tu ritmo y sin presión."
+    "exercises_help": "Los ejercicios de esta aplicación están diseñados para ayudarte a practicar el lenguaje de forma divertida, a tu ritmo y sin presión.",
+    "technology": "Tecnología",
+    "technology_value": "SvelteKit + PWA",
+    "data": "Datos",
+    "data_value": "IndexedDB (local)",
+    "license": "Licencia",
+    "license_value": "Código abierto",
+    "credits": "Hecho con ❤️ para personas con afasia y anomia. Desarrollado con SvelteKit y tecnologías web abiertas.",
+    "privacy_note": "Todos tus datos se guardan solo en tu dispositivo. Nada se envía a internet.",
+    "version": "Versión"
   },
   "common": {
     "start": "Empezar",

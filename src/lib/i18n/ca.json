@@ -196,8 +196,7 @@
     "large": "Gran",
     "extra_large": "Molt gran",
     "high_contrast": "Alt contrast",
-    "about": "Quant a",
-    "version": "Versió"
+    "about": "Quant a"
   },
   "a11y": {
     "skip_to_content": "Saltar al contingut"
@@ -214,7 +213,16 @@
     "title": "Quant a Habla Anomia",
     "what_is_anomia": "Què és l'anomia?",
     "anomia_description": "L'anomia és una dificultat per trobar les paraules adequades en parlar. És freqüent després d'un accident cerebrovascular o una lesió cerebral. Amb pràctica i exercicis, es pot millorar molt.",
-    "exercises_help": "Els exercicis d'aquesta aplicació estan dissenyats per ajudar-te a practicar el llenguatge de forma divertida, al teu ritme i sense pressió."
+    "exercises_help": "Els exercicis d'aquesta aplicació estan dissenyats per ajudar-te a practicar el llenguatge de forma divertida, al teu ritme i sense pressió.",
+    "technology": "Tecnologia",
+    "technology_value": "SvelteKit + PWA",
+    "data": "Dades",
+    "data_value": "IndexedDB (local)",
+    "license": "Llicència",
+    "license_value": "Codi obert",
+    "credits": "Fet amb ❤️ per a persones amb afàsia i anomia. Desenvolupat amb SvelteKit i tecnologies web obertes.",
+    "privacy_note": "Totes les teves dades es guarden només al teu dispositiu. No s'envia res a internet.",
+    "version": "Versió"
   },
   "common": {
     "start": "Començar",

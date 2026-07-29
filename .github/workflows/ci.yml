@@ -79,10 +79,10 @@ jobs:
         run: |
           docker rm -f habla-anomia-e2e-server 2>/dev/null || true
           docker run -d --name habla-anomia-e2e-server -p 3021:80 habla-anomia-prod
-          # Wait for nginx to be ready (check from inside the container with wget,
-          # which ships with nginx:alpine — avoids curl dependency on the runner)
+          # Wait for nginx to accept connections on port 3021.
+          # Uses bash /dev/tcp — no curl/wget dependency on the runner.
           for i in $(seq 1 15); do
-            if docker exec habla-anomia-e2e-server wget -qO /dev/null http://localhost:80 2>/dev/null; then
+            if bash -c 'echo > /dev/tcp/127.0.0.1/3021' 2>/dev/null; then
               echo "App is serving on :3021"
               break
             fi

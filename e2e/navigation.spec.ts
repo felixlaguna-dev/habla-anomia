@@ -21,8 +21,8 @@ test.describe('Dashboard', () => {
   });
 
   test('exercise button navigates', async ({ page }) => {
-    const btn = page.locator('button:has-text("Nombrar imágenes")').first();
-    await expect(btn).toBeVisible();
+    const btn = page.locator('button[aria-label="Nombrar imágenes"]').first();
+    await expect(btn).toBeVisible({ timeout: 10000 });
     await btn.click();
     await page.waitForURL(/\/exercises\//, { timeout: 10000 });
   });
@@ -48,8 +48,8 @@ test.describe('Dashboard', () => {
 test.describe('Navigation', () => {
   test('bottom nav to exercises page', async ({ page }) => {
     await gotoWithHydration(page, './');
-    // Click exercises nav item
-    await page.locator('text=Nombrar').first().click();
+    // Click the first exercise chip (uses aria-label for full exercise name)
+    await page.locator('button[aria-label="Nombrar imágenes"]').first().click();
     await page.waitForTimeout(1000);
     const url = page.url();
     expect(url).toContain('exercises');

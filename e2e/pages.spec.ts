@@ -7,6 +7,8 @@ test.describe('Exercises List Page', () => {
   });
 
   test('lists all 8 exercises', async ({ page }) => {
+    // The /exercises route redirects to home, where exercise chips show
+    // short_name text. Assert via aria-label which uses the full name.
     const names = [
       'Nombrar imágenes',
       'Características semánticas',
@@ -18,7 +20,7 @@ test.describe('Exercises List Page', () => {
       'Opuestos y sinónimos',
     ];
     for (const name of names) {
-      await expect(page.locator(`text=${name}`).first()).toBeVisible({ timeout: 5000 });
+      await expect(page.locator(`button[aria-label="${name}"]`).first()).toBeVisible({ timeout: 5000 });
     }
   });
 

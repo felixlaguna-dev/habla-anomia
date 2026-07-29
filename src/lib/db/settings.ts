@@ -4,7 +4,7 @@ import type { AppSettings, Language } from '$lib/types';
 const DEFAULTS: AppSettings = {
   language: 'es' as Language,
   text_size: 'normal',
-  theme: 'dark',
+  theme: 'light',
   high_contrast: false,
   speech_rate: 0.8,
   sound_enabled: true,
@@ -53,13 +53,24 @@ export async function getAllSettings(): Promise<AppSettings> {
 /**
  * Initialize default settings if they don't already exist.
  * Only writes keys that are not already present in the database.
+ *
+ * Theme is special-cased: the app defaults to light (better for the target
+ * audience — elderly users in daylight clinics/living rooms), but on first
+ * run we defer to the OS — if the device explicitly prefers dark mode we
+ * store "dark" so the user isn't blinded by a light splash after a dark
+ * system UI. After that the stored value rules.
  */
 export async function initDefaults(): Promise<void> {
+  const prefersDark =
+    typeof window !== 'undefined' &&
+    window.matchMedia?.('(prefers-color-scheme: dark)').matches;
+
   await db.transaction('rw', db.settings, async () => {
     for (const [key, value] of Object.entries(DEFAULTS)) {
       const existing = await db.settings.get(key);
       if (!existing) {
-        await db.settings.put({ key, value });
+        const resolved = key === 'theme' && prefersDark ? 'dark' : value;
+        await db.settings.put({ key, value: resolved });
       }
     }
   });

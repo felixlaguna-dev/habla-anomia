@@ -61,6 +61,10 @@ export function applyAppearance(
 
   el.classList.toggle('light-theme', settings.theme === 'light');
 
+  // Cache for the inline pre-paint script in app.html so returning users
+  // get the correct theme class before the first paint (no FOUC).
+  try { localStorage.setItem('habla-anomia:theme', settings.theme); } catch { /* private mode */ }
+
   el.classList.remove(...TEXT_SIZE_CLASSES);
   el.classList.add(getFontScaleClass(settings.text_size));
 

@@ -179,16 +179,13 @@
       await endSession(id, accuracy, total);
 
       // Update the adaptive difficulty level via EMA. The tracker replays the
-      // attempt sequence to compute the effective level (with streak nudging),
-      // which feeds the EMA so recent momentum amplifies the accuracy signal.
+      // attempt sequence to compute the effective level (with streak nudging).
+      // The EMA uses the stored level — streaks don't bleed into persistence,
+      // keeping the ramp gradual for the rehab audience.
       if (difficultyTracker && e.details) {
         difficultyTracker.processResults(e.details.map(d => d.correct));
       }
-      await updateDifficultyAfterSession(
-        exerciseType,
-        accuracy,
-        difficultyTracker?.effectiveLevel
-      );
+      await updateDifficultyAfterSession(exerciseType, accuracy);
     }
 
     // Update streak

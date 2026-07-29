@@ -10,8 +10,7 @@
  *   over difficulty 1–5, so harder words become progressively more likely as the
  *   level rises rather than being gated by a hard cap.
  * - During a session, consecutive-correct/wrong streaks nudge an effective level
- *   up/down; the final effective level feeds the EMA so recent momentum amplifies
- *   or dampens the accuracy signal.
+ *   up/down (within-session adaptation signal that does not persist).
  */
 
 import type { ExerciseType, Language } from '$lib/types';
@@ -124,7 +123,7 @@ export function weightedSampleByDifficulty<T extends { difficulty: number }>(
   for (let i = 0; i < n && remaining.length > 0; i++) {
     const totalWeight = remaining.reduce((sum, w) => sum + w.weight, 0);
     let r = Math.random() * totalWeight;
-    let pickedIdx = 0;
+    let pickedIdx = remaining.length - 1;
     for (let j = 0; j < remaining.length; j++) {
       r -= remaining[j].weight;
       if (r <= 0) {
@@ -202,19 +201,19 @@ export async function setDifficultyLevels(
 /**
  * Update a single exercise type's level via EMA after a session ends.
  *
- * Uses the `DifficultyTracker`'s final effective level as the old level
- * (so streak momentum amplifies/dampens the update), maps session accuracy
- * to a target, and applies the EMA blend.
+ * Reads the stored level, maps session accuracy to a target, and applies
+ * the EMA blend: `newLevel = α * target + (1−α) * oldLevel`. Streak nudging
+ * stays within-session only — the EMA uses the stored level so the ramp
+ * stays gradual.
  *
  * Returns the new stored level.
  */
 export async function updateDifficultyAfterSession(
   exerciseType: ExerciseType,
-  sessionAccuracy: number,
-  effectiveLevel?: number
+  sessionAccuracy: number
 ): Promise<number> {
   const levels = await getDifficultyLevels();
-  const oldLevel = effectiveLevel ?? levels[exerciseType] ?? MIN_LEVEL;
+  const oldLevel = levels[exerciseType] ?? MIN_LEVEL;
   const target = targetDifficultyFromAccuracy(sessionAccuracy);
   const newLevel = computeEMAUpdate(oldLevel, target);
   await setDifficultyLevels({ ...levels, [exerciseType]: newLevel });
@@ -231,9 +230,9 @@ export async function updateDifficultyAfterSession(
  * - 3 correct in a row → +0.5
  * - 2 wrong in a row   → −0.5
  *
- * Both clamp to [1.0, 5.0]. The final effective level feeds the EMA update
- * so recent momentum (a hot streak raising the bar, or a cold streak
- * lowering it) influences how aggressively the stored level moves.
+ * Both clamp to [1.0, 5.0]. The effective level is a within-session signal
+ * for real-time difficulty adaptation — it does not feed the EMA update,
+ * which uses the stored level so the difficulty ramp stays gradual.
  *
  * The tracker processes the ordered sequence of attempt results after the
  * session completes — see `processResults` for batch replay.

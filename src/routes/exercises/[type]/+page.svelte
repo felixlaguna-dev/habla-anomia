@@ -100,8 +100,11 @@
     words = plan.words;
     planCategory = plan.category;
 
-    // Initialise the streak tracker from the plan's difficulty level
-    // (the level the session was generated with).
+    // Initialise the streak tracker from the plan's difficulty level.
+    // The tracker computes within-session streak adjustments (+0.5 on 3-correct,
+    // -0.5 on 2-wrong) as a forward-looking signal for real-time difficulty
+    // adaptation — not yet wired to live word selection (sessions are
+    // pre-generated), but ready for it.
     difficultyTracker = new DifficultyTracker(plan.difficultyLevel);
 
     // Load all words for cross-category distractors

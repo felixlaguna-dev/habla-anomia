@@ -176,16 +176,6 @@
     }
   }
 
-  function restart() {
-    wordTimer.clear();
-    currentIndex = 0;
-    results = [];
-    feedbackState = 'none';
-    hintsUsed = 0;
-    selectedIndex = null;
-    startTime = Date.now();
-  }
-
   let keyboardNavParams = $derived<KeyboardNavParams>({
     getFeedbackState: () => feedbackState,
     optionCount: Math.min(options.length, 4),

@@ -198,15 +198,6 @@
     }
   }
 
-  function restart() {
-    advanceTimer.clear();
-    currentIndex = 0;
-    selectedIndex = null;
-    feedbackState = 'none';
-    results = [];
-    startTime = Date.now();
-  }
-
   let keyboardNavParams = $derived<KeyboardNavParams>({
     getFeedbackState: () => feedbackState,
     optionCount: Math.min(options.length, 4),

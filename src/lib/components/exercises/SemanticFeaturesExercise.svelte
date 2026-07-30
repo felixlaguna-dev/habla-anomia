@@ -242,19 +242,6 @@
     }
   }
 
-  function restart() {
-    stepTimer.clear();
-    currentIndex = 0;
-    results = [];
-    feedbackState = 'none';
-    imageError = false;
-    currentFeatureIndex = 0;
-    answeredFeatures = {};
-    showNamingPrompt = false;
-    namingCorrect = null;
-    startTime = Date.now();
-  }
-
   function handleImageError() {
     imageError = true;
   }

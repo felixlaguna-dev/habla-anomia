@@ -183,17 +183,6 @@
     }
   }
 
-  function restart() {
-    wordTimer.clear();
-    currentIndex = 0;
-    results = [];
-    feedbackState = 'none';
-    cuesRevealed = 0;
-    imageError = false;
-    selectedIndex = null;
-    startTime = Date.now();
-  }
-
   function handleImageError() {
     imageError = true;
   }

@@ -155,18 +155,6 @@
     });
   }
 
-  function restart() {
-    running = false;
-    started = false;
-    finished = false;
-    selectedWords = new Set();
-  }
-
-  function handleRestart() {
-    restart();
-    onrestart?.();
-  }
-
   let keyboardNavParams = $derived<KeyboardNavParams>({
     getFeedbackState: () => 'none',
     optionCount: Math.min(wordPool.length, 4),

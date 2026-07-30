@@ -70,9 +70,9 @@
   }
 
   // Initialize shuffled items once
-  let initKey = $derived.by(() => {
-    // Re-run when words change (restart/retry)
-    void words;
+  // Re-initialise when words change (restart/retry swaps the array).
+  $effect(() => {
+    wordTimer.clear();
     shuffledItems = shuffleArray([...words]);
     const bins: Record<string, Word[]> = {};
     for (const cat of categories) bins[cat] = [];
@@ -87,16 +87,6 @@
 
   let currentItem = $derived(shuffledItems[currentIndex]);
   let isFinished = $derived(currentIndex >= shuffledItems.length);
-
-  // Reset per-word state when the current item changes.
-  $effect(() => {
-    if (!currentItem) return;
-    wordTimer.clear();
-    selectedCategory = null;
-    feedbackState = 'none';
-    trialRecorded = false;
-    startTime = Date.now();
-  });
 
   // Pending per-word timer.
   const wordTimer = createCancellableTimer();
@@ -151,20 +141,6 @@
     if (currentIndex >= shuffledItems.length) {
       oncomplete?.({ score, total: shuffledItems.length, details: results });
     }
-  }
-
-  function restart() {
-    wordTimer.clear();
-    shuffledItems = shuffleArray([...words]);
-    const bins: Record<string, Word[]> = {};
-    for (const cat of categories) bins[cat] = [];
-    binItems = bins;
-    currentIndex = 0;
-    results = [];
-    selectedCategory = null;
-    feedbackState = 'none';
-    trialRecorded = false;
-    startTime = Date.now();
   }
 
   // Category colors for visual distinction

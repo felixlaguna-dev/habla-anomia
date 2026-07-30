@@ -2,6 +2,25 @@ import { db } from './database';
 import type { Session, Language, ExerciseType } from '$lib/types';
 
 /**
+ * Build a Set of exercise types completed today from pre-fetched sessions.
+ * Pure function — no extra IDB round-trip. Uses local date components to stay
+ * consistent with `formatDate` and streak logic (not UTC `toISOString`).
+ */
+export function completedTypesToday(sessions: Session[]): Set<ExerciseType> {
+  const now = new Date();
+  const todayKey = formatDate(now);
+  const types = new Set<ExerciseType>();
+  for (const s of sessions) {
+    if (!s.ended_at) continue;
+    const d = s.ended_at instanceof Date ? s.ended_at : new Date(s.ended_at);
+    if (formatDate(d) === todayKey) {
+      for (const t of s.exercise_types ?? []) types.add(t);
+    }
+  }
+  return types;
+}
+
+/**
  * Create a new session and return its auto-generated id.
  */
 export async function startSession(

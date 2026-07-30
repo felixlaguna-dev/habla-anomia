@@ -32,7 +32,8 @@
     "category_practice": "Clasifica palabras por categoría",
     "all_done_today": "¡Todo completado por hoy! Gran trabajo.",
     "review_failures_title": "Tienes {count} fallos hoy",
-    "review_failures_button": "Repasar fallos"
+    "review_failures_button": "Repasar fallos",
+    "done_today": "Completado hoy"
   },
   "exercises": {
     "title": "Ejercicios",

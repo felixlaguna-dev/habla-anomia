@@ -9,6 +9,7 @@ import WordMatchingExercise from './WordMatchingExercise.svelte';
 import SentenceCompletionExercise from './SentenceCompletionExercise.svelte';
 import OppositesSynonymsExercise from './OppositesSynonymsExercise.svelte';
 import OddOneOutExercise from './OddOneOutExercise.svelte';
+import ListenChooseExercise from './ListenChooseExercise.svelte';
 
 export {
   PictureNamingExercise,
@@ -19,7 +20,8 @@ export {
   WordMatchingExercise,
   SentenceCompletionExercise,
   OppositesSynonymsExercise,
-  OddOneOutExercise
+  OddOneOutExercise,
+  ListenChooseExercise
 };
 
 /**
@@ -36,5 +38,6 @@ export const EXERCISE_COMPONENTS: Record<ExerciseType, any> = {
   'word-matching': WordMatchingExercise,
   'sentence-completion': SentenceCompletionExercise,
   'opposites-synonyms': OppositesSynonymsExercise,
-  'odd-one-out': OddOneOutExercise
+  'odd-one-out': OddOneOutExercise,
+  'listen-choose': ListenChooseExercise
 };

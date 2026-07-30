@@ -141,6 +141,15 @@
       "correct": "Correct! {word} is the odd one",
       "incorrect_reveal": "The odd one was {word}",
       "need_more_words": "Need words from at least 2 different categories for this exercise."
+    },
+    "listen_choose": {
+      "name": "Listen and choose",
+      "short_name": "Listen",
+      "description": "Listen to the word and choose the correct image",
+      "listen_again": "Listen again",
+      "correct_word_was": "It was: {word}",
+      "needs_tts": "Requires device voice",
+      "option_label": "Option {n}"
     }
   },
   "feedback": {

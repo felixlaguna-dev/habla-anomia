@@ -1,78 +1,110 @@
 <script lang="ts">
   import { onMount } from 'svelte';
   import { t } from '$lib/i18n';
-  import { goto } from '$app/navigation';
-  import { base } from '$app/paths';
-  import { recordAttempt } from '$lib/db/attempts';
-  import { updateAfterAttempt } from '$lib/engine/spaced-repetition';
-  import { SpeechSynthesisService } from '$lib/speech/speech-synthesis';
-  import { resolveImageUrl } from '$lib/utils/exercise-helpers';
-  import { keyboardNav } from '$lib/utils/keyboard-nav';
-  import type { KeyboardNavParams } from '$lib/utils/keyboard-nav';
-  import { playCorrectSound, playIncorrectSound } from '$lib/utils/sounds';
   import type { Word, Language, ExerciseType, Category } from '$lib/types';
   import { getWordCategories } from '$lib/types';
+  import { resolveImageUrl, shuffleArray } from '$lib/utils/exercise-helpers';
+  import { useTts, speechLangFor } from '$lib/utils/tts.svelte';
+  import { recordTrial } from '$lib/utils/record-trial';
+  import { createCancellableTimer } from '$lib/utils/timer';
+  import { playCorrectSound, playIncorrectSound } from '$lib/utils/sounds';
+  import { ExerciseShell, FeedbackBanner, SpeakButton, FEEDBACK_TIMINGS } from './shared';
+  import './shared/exercise-common.css';
+  import type { KeyboardNavParams } from '$lib/utils/keyboard-nav';
 
   type Props = {
     words: Word[];
-    language: Language;
-   speechRate?: number;
-   speakButtonsEnabled?: boolean;
-   oncomplete?: (results: { score: number; total: number; details: Array<{ word: Word; correct: boolean; selectedCategory: Category | null }> }) => void;
+    allWords?: Word[];
+    language?: Language;
+    speechRate?: number;
+    speakButtonsEnabled?: boolean;
+    oncomplete?: (results: {
+      score: number;
+      total: number;
+      details: Array<{ word: Word; correct: boolean; selectedCategory: Category | null }>;
+    }) => void;
     onrestart?: () => void;
   };
 
-  let { words, language = 'es' as Language, speechRate = 0.8, speakButtonsEnabled = true, oncomplete, onrestart }: Props = $props();
+  let {
+    words,
+    allWords = [],
+    language = 'es' as Language,
+    speechRate = 0.8,
+    speakButtonsEnabled = true,
+    oncomplete,
+    onrestart,
+  }: Props = $props();
+
+  const EXERCISE_TYPE = 'category-sorting' as ExerciseType;
 
   // Derive categories from the word list (flatten multi-category)
-  let categories = $derived([...new Set(words.flatMap(w => getWordCategories(w)))]);
-
-  // Validate that words span at least 2 categories
+  let categories = $derived([...new Set(words.flatMap((w) => getWordCategories(w)))]);
   let hasEnoughCategories = $derived(categories.length >= 2);
 
-  // Shuffle items on init
+  // --- State ---
   let shuffledItems = $state<Word[]>([]);
   let currentIndex = $state(0);
   let feedbackState = $state<'none' | 'correct' | 'incorrect'>('none');
-  let incorrectAttempt = $state(false);
-  let score = $state(0);
   let results = $state<Array<{ word: Word; correct: boolean; selectedCategory: Category | null }>>([]);
+  let score = $derived(results.filter((r) => r.correct).length);
   let startTime = $state(Date.now());
   let selectedCategory = $state<Category | null>(null);
-
-  // Track items sorted into each category bin (for visual feedback)
+  let trialRecorded = $state(false);
   let binItems = $state<Record<string, Word[]>>({});
 
-  // TTS synthesis
-  let isSpeaking = $state(false);
-  let synthesis: SpeechSynthesisService | null = $state(null);
-  
+  // --- TTS ---
+  const tts = useTts();
+  let speechLang = $derived(speechLangFor(language));
   onMount(() => {
-    if (SpeechSynthesisService.isSupported()) {
-      synthesis = new SpeechSynthesisService();
-      synthesis.setRate(speechRate);
-    }
-    return () => synthesis?.destroy();
+    tts.init();
+    return () => {
+      tts.destroy();
+      wordTimer.clear();
+    };
   });
-  
-  $effect(() => synthesis?.setRate(speechRate));
+  $effect(() => tts.setRate(speechRate));
 
-  let speechLang = $derived(language === 'es' ? 'es-ES' : language === 'ca' ? 'ca-ES' : language === 'eu' ? 'eu-ES' : 'en-US');
+  function speak(text?: string) {
+    tts.speak(text ?? currentItem?.word, speechLang);
+  }
 
-  // Initialize
+  // Initialize shuffled items once
+  // Re-initialise when words change (restart/retry swaps the array).
   $effect(() => {
-    shuffledItems = [...words].sort(() => Math.random() - 0.5);
+    wordTimer.clear();
+    shuffledItems = shuffleArray([...words]);
     const bins: Record<string, Word[]> = {};
-    for (const cat of categories) {
-      bins[cat] = [];
-    }
+    for (const cat of categories) bins[cat] = [];
     binItems = bins;
+    currentIndex = 0;
+    results = [];
+    selectedCategory = null;
+    feedbackState = 'none';
+    trialRecorded = false;
+    startTime = Date.now();
   });
 
-  // Derived
   let currentItem = $derived(shuffledItems[currentIndex]);
-  let progress = $derived(Math.round(((currentIndex + 1) / shuffledItems.length) * 100));
   let isFinished = $derived(currentIndex >= shuffledItems.length);
+
+  // Pending per-word timer.
+  const wordTimer = createCancellableTimer();
+
+  function recordCurrentTrial(correct: boolean, response: string) {
+    if (!currentItem || trialRecorded) return;
+    trialRecorded = true;
+    const item = currentItem;
+    results.push({ word: item, correct, selectedCategory: selectedCategory });
+    recordTrial({
+      wordId: item.id,
+      exerciseType: EXERCISE_TYPE,
+      language,
+      correct,
+      response,
+      responseTimeMs: Date.now() - startTime,
+    });
+  }
 
   function selectCategory(category: Category) {
     if (!currentItem || feedbackState === 'correct') return;
@@ -80,97 +112,35 @@
     selectedCategory = category;
     const correct = getWordCategories(currentItem).includes(category);
 
+    feedbackState = correct ? 'correct' : 'incorrect';
+    if (correct) playCorrectSound();
+    else playIncorrectSound();
+
+    recordCurrentTrial(correct, category);
+
     if (correct) {
-      handleCorrect(category);
+      binItems[category] = [...(binItems[category] || []), currentItem];
+      wordTimer.schedule(nextItem, FEEDBACK_TIMINGS.correctAdvance);
     } else {
-      handleIncorrect();
+      wordTimer.schedule(() => {
+        feedbackState = 'none';
+        selectedCategory = null;
+      }, FEEDBACK_TIMINGS.incorrectRetryReset);
     }
-  }
-
-  async function handleCorrect(category: Category) {
-    feedbackState = 'correct';
-    playCorrectSound();
-    incorrectAttempt = false;
-    score++;
-    results.push({ word: currentItem, correct: true, selectedCategory: category });
-
-    // Add item to bin
-    binItems[category] = [...(binItems[category] || []), currentItem];
-
-    const responseTime = Date.now() - startTime;
-
-    await recordAttempt({
-      word_id: currentItem.id,
-      exercise_type: 'category-sorting' as ExerciseType,
-      correct: true,
-      response: category,
-      response_time_ms: responseTime,
-      timestamp: new Date(),
-      language,
-    });
-
-    await updateAfterAttempt(currentItem.id, language, 5);
-
-    setTimeout(() => {
-      nextItem();
-    }, 1000);
-  }
-
-  function handleIncorrect() {
-    feedbackState = 'incorrect';
-    playIncorrectSound();
-    incorrectAttempt = true;
-
-    // Shake briefly, then reset so they can try again
-    setTimeout(() => {
-      feedbackState = 'none';
-    }, 800);
   }
 
   function skipItem() {
     if (!currentItem) return;
-
-    results.push({ word: currentItem, correct: false, selectedCategory });
-
-    recordAttempt({
-      word_id: currentItem.id,
-      exercise_type: 'category-sorting' as ExerciseType,
-      correct: false,
-      response: selectedCategory || '',
-      response_time_ms: Date.now() - startTime,
-      timestamp: new Date(),
-      language,
-    });
-
-    updateAfterAttempt(currentItem.id, language, 0);
+    recordCurrentTrial(false, '');
     nextItem();
   }
 
   function nextItem() {
-    feedbackState = 'none';
-    incorrectAttempt = false;
-    selectedCategory = null;
-    startTime = Date.now();
+    wordTimer.clear();
     currentIndex++;
     if (currentIndex >= shuffledItems.length) {
       oncomplete?.({ score, total: shuffledItems.length, details: results });
     }
-  }
-
-  function restart() {
-    currentIndex = 0;
-    feedbackState = 'none';
-    incorrectAttempt = false;
-    score = 0;
-    results = [];
-    startTime = Date.now();
-    selectedCategory = null;
-    const bins: Record<string, Word[]> = {};
-    for (const cat of categories) {
-      bins[cat] = [];
-    }
-    binItems = bins;
-    shuffledItems = [...words].sort(() => Math.random() - 0.5);
   }
 
   // Category colors for visual distinction
@@ -181,34 +151,17 @@
     { bg: '#fce7f3', border: '#ec4899', text: '#9d174d' },
   ];
 
-  function getCategoryStyle(index: number) {
+  function getCategoryStyle(index: number): string {
     const c = categoryColors[index % categoryColors.length];
     return `background:${c.bg};border-color:${c.border};color:${c.text};`;
   }
 
   function translateCategory(category: Category): string {
-   const key = `categories.${category}`;
-   const translated = $t(key);
-   // If no translation found, return the original category name
-   return translated === key ? category : translated;
- }
-
-  function handleRestart() {
-    restart();
-    onrestart?.();
+    const key = `categories.${category}`;
+    const translated = $t(key);
+    return translated === key ? category : translated;
   }
 
-  async function speakWord(word?: string) {
-    const text = word ?? currentItem?.word;
-    if (synthesis && !isSpeaking && text) {
-      isSpeaking = true;
-      await synthesis.speak(text, speechLang);
-      isSpeaking = false;
-    }
-  }
-
-  // Keyboard navigation params
-  // Number keys 1-N map to category indices
   let keyboardNavParams = $derived<KeyboardNavParams>({
     getFeedbackState: () => feedbackState,
     optionCount: Math.min(categories.length, 4),
@@ -216,7 +169,7 @@
       if (categories[index]) selectCategory(categories[index]);
     },
     onConfirm: () => {
-      // No-op: auto-advances on correct
+      if (feedbackState === 'incorrect') nextItem();
     },
     onSkip: skipItem,
     isActive: !isFinished && !!currentItem,
@@ -224,27 +177,28 @@
 </script>
 
 {#if words.length === 0}
-  <div class="exercise-container">
+  <div class="exercise-error">
     <p class="error-text">{$t('common.no_words')}</p>
   </div>
 {:else if !hasEnoughCategories}
-  <div class="exercise-container">
+  <div class="exercise-error">
     <p class="error-text">{$t('exercises.category_sorting.need_more_categories')}</p>
   </div>
 {:else if !isFinished && currentItem}
-  <div class="exercise-container" role="region" aria-label={$t('exercises.category_sorting.name') + ': ' + (currentItem ? currentItem.word : '')} use:keyboardNav={keyboardNavParams}>
-    <!-- Progress bar -->
-    <div class="progress-bar-container">
-      <div class="progress-bar" style="width: {progress}%"></div>
-      <span class="progress-text">{currentIndex + 1} {$t('common.of')} {shuffledItems.length}</span>
-    </div>
-
+  <ExerciseShell
+    current={currentIndex}
+    total={shuffledItems.length}
+    ariaLabel={$t('exercises.category_sorting.name') + ': ' + currentItem.word}
+    {keyboardNavParams}
+    tabletColumns="260px 1fr"
+    active={!isFinished}
+  >
     <!-- Current item card -->
     <div class="item-card" class:shake={feedbackState === 'incorrect'} class:correct-flash={feedbackState === 'correct'}>
-     <div class="item-image-wrapper">
-       <img
+      <div class="item-image-wrapper">
+        <img
           src={resolveImageUrl(currentItem.image_url)}
-         alt="Imagen del ejercicio"
+          alt={$t('a11y.exercise_image')}
           class="item-image"
           onerror={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
         />
@@ -255,196 +209,62 @@
     </div>
 
     <!-- Feedback -->
-    {#if feedbackState === 'correct'}
-      <div class="feedback correct" role="status" aria-live="polite">
-       ✅ {$t('exercises.category_sorting.correct')}
-       {#if speakButtonsEnabled}
-       <button class="speak-btn" onclick={() => speakWord()} disabled={isSpeaking} aria-label="Listen">
-         {isSpeaking ? '🔊…' : '🔊'}
-       </button>
-       {/if}
-      </div>
-    {:else if feedbackState === 'incorrect'}
-      <div class="feedback incorrect" role="status" aria-live="polite">
-        🔄 {$t('exercises.category_sorting.wrong')}
-      </div>
-    {/if}
+    <div class="feedback-slot">
+      {#if feedbackState === 'correct'}
+        <FeedbackBanner
+          state="correct"
+          text={$t('exercises.category_sorting.correct')}
+          speakEnabled={speakButtonsEnabled}
+          isSpeaking={tts.isSpeaking}
+          onSpeak={() => speak()}
+        />
+      {:else if feedbackState === 'incorrect'}
+        <FeedbackBanner state="incorrect" icon="🔄" text={$t('exercises.category_sorting.wrong')} />
+      {/if}
+    </div>
 
-    <!-- Category tap buttons -->
+    <!-- Category buttons (speak button is a sibling, not nested) -->
     <div class="category-buttons">
       {#each categories as category, i}
-        <button
-          class="category-btn"
+        <div
+          class="category-card"
           style={getCategoryStyle(i)}
-          onclick={() => selectCategory(category)}
-          disabled={feedbackState === 'correct'}
           class:selected={selectedCategory === category && feedbackState === 'none'}
           class:correct-btn={feedbackState === 'correct' && getWordCategories(currentItem).includes(category)}
           class:incorrect-btn={feedbackState === 'incorrect' && selectedCategory === category}
-          aria-label={translateCategory(category)}
         >
-          <span class="btn-text">{translateCategory(category)}</span>
+          <button
+            type="button"
+            class="category-btn"
+            style={getCategoryStyle(i)}
+            onclick={() => selectCategory(category)}
+            disabled={feedbackState === 'correct'}
+            aria-label={translateCategory(category)}
+          >
+            <span class="btn-text">{translateCategory(category)}</span>
+          </button>
           {#if speakButtonsEnabled}
-            <button class="speak-btn-inline" onclick={(e) => { e.stopPropagation(); speakWord(translateCategory(category)); }} disabled={isSpeaking} aria-label={$t('common.listen')}>
-              🔊
-            </button>
+            <SpeakButton
+              size="inline"
+              disabled={tts.isSpeaking}
+              isSpeaking={tts.isSpeaking}
+              onclick={() => speak(translateCategory(category))}
+            />
           {/if}
-        </button>
+        </div>
       {/each}
     </div>
 
-    <!-- Skip button -->
+    <!-- Skip -->
     {#if feedbackState !== 'correct'}
-      <button class="skip-button" onclick={skipItem}>
+      <button type="button" class="skip-button" onclick={skipItem} aria-label={$t('common.skip')}>
         ⏭️ {$t('common.skip')}
       </button>
     {/if}
-  </div>
-{/if}
-
-{#if isFinished}
-  <div class="exercise-container summary">
-    <div class="summary-icon">🎉</div>
-    <h2 class="summary-title">{$t('feedback.exercise_complete')}</h2>
-    <!-- Star rating -->
-    <div class="star-rating">
-      {#if shuffledItems.length > 0 && (score / shuffledItems.length) >= 0.9}
-        ⭐⭐⭐ {$t('feedback.excellent')}
-      {:else if shuffledItems.length > 0 && (score / shuffledItems.length) >= 0.7}
-        ⭐⭐ {$t('feedback.very_good')}
-      {:else if shuffledItems.length > 0 && (score / shuffledItems.length) >= 0.5}
-        ⭐ {$t('feedback.good_job')}
-      {:else}
-        {$t('feedback.keep_practicing')}
-      {/if}
-    </div>
-    <p class="summary-score">
-      {$t('feedback.score')}: {score} / {shuffledItems.length}
-    </p>
-
-    <!-- Results by category -->
-    <div class="summary-bins">
-      {#each categories as category, i}
-        <div class="summary-bin" style={getCategoryStyle(i)}>
-          <span class="summary-bin-label">{translateCategory(category)}</span>
-          <span class="summary-bin-items">
-            {#if binItems[category] && binItems[category].length > 0}
-              {binItems[category].map(w => w.word).join(', ')}
-            {:else}
-              —
-            {/if}
-          </span>
-        </div>
-      {/each}
-    </div>
-
-    <!-- Detailed results -->
-    <div class="summary-details">
-      {#each results as result, i}
-        <div class="result-row" class:pass={result.correct} class:fail={!result.correct}>
-         <span class="result-word">{result.word.word}</span>
-         {#if speakButtonsEnabled}
-         <button class="speak-btn" onclick={() => speakWord(result.word.word)} disabled={isSpeaking} aria-label={$t('common.listen')}>
-           {isSpeaking ? '🔊…' : '🔊'}
-         </button>
-         {/if}
-          <span class="result-icon">{result.correct ? '✅' : '❌'}</span>
-          <span class="result-category">📁 {translateCategory(getWordCategories(result.word)[0])}</span>
-        </div>
-      {/each}
-    </div>
-    <button class="back-to-exercises-btn" onclick={() => goto(`${base}/exercises`)}>
-      ← {$t('common.back_to_exercises')}
-    </button>
-    <button class="restart-btn" onclick={handleRestart}>
-      🔄 {$t('common.restart')}
-    </button>
-  </div>
+  </ExerciseShell>
 {/if}
 
 <style>
-  .speak-btn {
-    background: none;
-    border: none;
-    font-size: 1.4rem;
-    cursor: pointer;
-    padding: 4px 8px;
-    border-radius: var(--radius-md, 8px);
-    transition: background var(--transition-fast, 0.15s);
-    line-height: 1;
-  }
-  .speak-btn:hover {
-    background: var(--surface-2, rgba(255,255,255,0.1));
-  }
-  .speak-btn:disabled {
-    opacity: 0.5;
-    cursor: default;
-  }
-  .speak-btn-inline {
-    background: none;
-    border: none;
-    font-size: 1rem;
-    cursor: pointer;
-    padding: 2px 4px;
-    margin-left: 0.3rem;
-    border-radius: var(--radius-sm, 4px);
-    line-height: 1;
-    opacity: 0.7;
-    transition: opacity var(--transition-fast, 0.15s);
-  }
-  .speak-btn-inline:hover {
-    opacity: 1;
-  }
-  .speak-btn-inline:disabled {
-    opacity: 0.4;
-    cursor: default;
-  }
-  .error-text {
-    font-size: var(--font-size-lg, 20px);
-    color: var(--error, #ef4444);
-    text-align: center;
-    margin: 0;
-  }
-
-  .exercise-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: var(--space-md, 16px);
-    padding: var(--space-md, 16px);
-    max-width: 700px;
-    margin: 0 auto;
-    width: 100%;
-    box-sizing: border-box;
-    overflow-x: hidden;
-  }
-
-  /* Progress bar */
-  .progress-bar-container {
-    width: 100%;
-    position: relative;
-    height: 32px;
-    background: var(--surface-2, #e5e7eb);
-    border-radius: var(--radius-lg, 16px);
-    overflow: hidden;
-  }
-
-  .progress-bar {
-    height: 100%;
-    background: var(--primary, #3b82f6);
-    transition: width 0.4s ease;
-  }
-
-  .progress-text {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    font-size: var(--font-size-sm, 14px);
-    font-weight: 600;
-    color: var(--text, #1f2937);
-  }
-
   /* Item card */
   .item-card {
     width: 100%;
@@ -452,7 +272,7 @@
     aspect-ratio: 1;
     border-radius: var(--radius-lg, 16px);
     background: var(--surface, #f9fafb);
-    box-shadow: var(--shadow-md, 0 4px 6px -1px rgba(0,0,0,0.1));
+    box-shadow: var(--shadow-md, 0 4px 6px -1px rgba(0, 0, 0, 0.1));
     overflow: hidden;
     display: flex;
     align-items: center;
@@ -495,28 +315,6 @@
     color: #fff;
   }
 
-  /* Feedback */
-  .feedback {
-    display: flex;
-    align-items: center;
-    gap: var(--space-sm, 8px);
-    padding: var(--space-sm, 8px) var(--space-md, 16px);
-    border-radius: var(--radius-md, 12px);
-    font-size: var(--font-size-lg, 20px);
-    font-weight: 700;
-    animation: fadeIn 0.3s ease;
-  }
-
-  .feedback.correct {
-    background: var(--success, #22c55e);
-    color: #fff;
-  }
-
-  .feedback.incorrect {
-    background: var(--surface-2, #fee2e2);
-    color: var(--error, #ef4444);
-  }
-
   /* Category buttons */
   .category-buttons {
     display: flex;
@@ -526,64 +324,77 @@
     justify-content: center;
   }
 
-  .category-btn {
+  .category-card {
     flex: 1;
     min-width: 8rem;
-    min-height: 56px;
     display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: center;
-    padding: var(--space-sm, 8px) var(--space-xs, 4px);
+    align-items: stretch;
+    gap: var(--space-xs, 4px);
+    padding: var(--space-xs, 4px);
     border: 3px solid;
     border-radius: var(--radius-lg, 16px);
+    transition:
+      filter var(--transition-fast, 0.15s),
+      box-shadow var(--transition-fast, 0.15s),
+      transform var(--transition-fast, 0.15s);
+  }
+
+  .category-btn {
+    flex: 1;
+    min-height: 56px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--space-sm, 8px);
+    border: none;
+    border-radius: var(--radius-md, 12px);
     cursor: pointer;
     font-family: var(--font-family, sans-serif);
-    font-size: var(--font-size-base, 16px);
+    font-size: var(--font-size-lg, 20px);
     font-weight: 700;
     touch-action: manipulation;
     user-select: none;
     line-height: 1.2;
     text-align: center;
-    transition: transform var(--transition-fast, 0.15s), box-shadow var(--transition-fast, 0.15s),
-      filter var(--transition-fast, 0.15s);
   }
 
-  .category-btn:hover:not(:disabled) {
+  .category-card:hover:not(:has(.category-btn:disabled)) {
     filter: brightness(1.05);
-    box-shadow: var(--shadow-md, 0 4px 6px -1px rgba(0,0,0,0.1));
+    box-shadow: var(--shadow-md, 0 4px 6px -1px rgba(0, 0, 0, 0.1));
   }
 
-  .category-btn:active:not(:disabled) {
+  .category-card:has(.category-btn:active:not(:disabled)) {
     transform: scale(0.97);
   }
 
-  .category-btn:disabled {
+  .category-card:has(.category-btn:disabled) {
     opacity: 0.5;
-    cursor: not-allowed;
   }
 
-  .category-btn.selected {
+  .category-card.selected {
     border-color: var(--primary, #3b82f6);
-    background: var(--primary-light, #eff6ff);
+    filter: brightness(0.95);
   }
 
-  .category-btn.correct-btn {
-    border-color: var(--success, #22c55e);
-    background: var(--success, #22c55e);
-    color: #fff;
+  .category-card.correct-btn {
+    border-color: var(--success, #22c55e) !important;
+    background: var(--success, #22c55e) !important;
     animation: correctPulse 0.6s ease;
   }
 
-  .category-btn.incorrect-btn {
-    border-color: var(--error, #ef4444);
-    background: rgba(239, 68, 68, 0.15);
-    color: var(--error, #ef4444);
+  .category-card.correct-btn .category-btn {
+    color: #fff !important;
+  }
+
+  .category-card.incorrect-btn {
+    border-color: var(--error, #ef4444) !important;
+    background: rgba(239, 68, 68, 0.15) !important;
     animation: shake 0.5s ease-in-out;
   }
 
-  .btn-text {
-    font-size: var(--font-size-lg, 20px);
+  .category-btn:focus-visible {
+    outline: 3px solid var(--primary-light, #93c5fd);
+    outline-offset: 2px;
   }
 
   /* Skip button */
@@ -607,180 +418,62 @@
     background: var(--surface-2, #f3f4f6);
   }
 
+  .skip-button:focus-visible {
+    outline: 3px solid var(--primary-light, #93c5fd);
+    outline-offset: 2px;
+  }
+
   /* Animations */
   .correct-flash {
-    box-shadow: 0 0 0 4px var(--success, #22c55e), 0 0 24px rgba(34, 197, 94, 0.3) !important;
+    box-shadow:
+      0 0 0 4px var(--success, #22c55e),
+      0 0 24px rgba(34, 197, 94, 0.3) !important;
   }
 
   .shake {
     animation: shake 0.5s ease-in-out;
   }
 
-  @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(-8px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-
   @keyframes shake {
-    0%, 100% { transform: translateX(0); }
-    20% { transform: translateX(-8px); }
-    40% { transform: translateX(8px); }
-    60% { transform: translateX(-4px); }
-    80% { transform: translateX(4px); }
+    0%,
+    100% {
+      transform: translateX(0);
+    }
+    20% {
+      transform: translateX(-8px);
+    }
+    40% {
+      transform: translateX(8px);
+    }
+    60% {
+      transform: translateX(-4px);
+    }
+    80% {
+      transform: translateX(4px);
+    }
   }
 
   @keyframes correctPulse {
-    0% { transform: scale(1); }
-    50% { transform: scale(1.05); }
-    100% { transform: scale(1); }
+    0% {
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(1.05);
+    }
+    100% {
+      transform: scale(1);
+    }
   }
 
-  /* Summary */
-  .summary {
-    text-align: center;
-  }
-
-  .summary-icon {
-    font-size: 64px;
-  }
-
-  .summary-title {
-    font-size: var(--font-size-xl, 24px);
-    font-weight: 800;
-    color: var(--text, #1f2937);
-    margin: 0;
-  }
-
-  .star-rating {
-    font-size: var(--font-size-xl, 24px);
-    font-weight: 700;
-    text-align: center;
-    margin: var(--space-sm, 8px) 0;
-  }
-
-  .summary-score {
-    font-size: var(--font-size-lg, 20px);
-    color: var(--primary, #3b82f6);
-    font-weight: 700;
-    margin: 0;
-  }
-
-  .summary-bins {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-xs, 4px);
-    width: 100%;
-    max-width: 500px;
-  }
-
-  .summary-bin {
-    padding: var(--space-sm, 8px) var(--space-md, 16px);
-    border: 2px solid;
-    border-radius: var(--radius-md, 12px);
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
-  }
-
-  .summary-bin-label {
-    font-weight: 700;
-  }
-
-  .summary-bin-items {
-    font-size: var(--font-size-sm, 14px);
-    opacity: 0.8;
-  }
-
-  .summary-details {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-xs, 4px);
-    width: 100%;
-    max-width: 400px;
-    margin-top: var(--space-md, 16px);
-  }
-
-  .result-row {
-    display: flex;
-    align-items: center;
-    gap: var(--space-sm, 8px);
-    padding: var(--space-sm, 8px) var(--space-md, 16px);
-    border-radius: var(--radius-md, 12px);
-    font-size: var(--font-size-base, 16px);
-  }
-
-  .result-row.pass {
-    background: rgba(34, 197, 94, 0.1);
-  }
-
-  .result-row.fail {
-    background: rgba(239, 68, 68, 0.1);
-  }
-
-  .result-word {
-    flex: 1;
-    text-align: left;
-    font-weight: 600;
-    text-transform: capitalize;
-  }
-
-  .result-category {
-    font-size: var(--font-size-sm, 14px);
-    color: var(--text-muted, #6b7280);
-  }
-
-  .back-to-exercises-btn {
-    margin-top: var(--space-lg, 24px);
-    padding: var(--space-md, 16px) var(--space-xl, 32px);
-    font-size: var(--font-size-lg, 20px);
-    font-weight: 700;
-    background: var(--primary, #3b82f6);
-    color: #fff;
-    border: none;
-    border-radius: var(--radius-lg, 16px);
-    cursor: pointer;
-    min-height: 56px;
-    touch-action: manipulation;
-  }
-
-  .restart-btn {
-    margin-top: var(--space-sm, 8px);
-    padding: var(--space-sm, 8px) var(--space-md, 16px);
-    font-size: var(--font-size-md, 16px);
-    font-weight: 600;
-    background: var(--surface-2, #e5e7eb);
-    color: var(--text, #1f2937);
-    border: none;
-    border-radius: var(--radius-md, 12px);
-    cursor: pointer;
-    min-height: 48px;
-    touch-action: manipulation;
-  }
-
-  /* Tablet layout: image left, category buttons right */
+  /* Tablet: image left, category buttons right (grid provided by ExerciseShell) */
   @media (min-width: 768px) {
-    .exercise-container:not(.summary) {
-      max-width: none;
-      display: grid;
-      grid-template-columns: 260px 1fr;
-      align-items: start;
-    }
-
-    .progress-bar-container {
-      grid-column: 1 / -1;
-    }
-
     .item-card {
       grid-column: 1;
-      grid-row: 2 / span 20;
+      grid-row: 1 / span 20;
       align-self: start;
     }
 
-    .item-image-wrapper {
-      max-height: 280px;
-    }
-
-    .feedback,
+    .feedback-slot,
     .category-buttons,
     .skip-button {
       grid-column: 2;

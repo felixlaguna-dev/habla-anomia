@@ -7,7 +7,8 @@
   import { recordTrial } from '$lib/utils/record-trial';
   import { createCancellableTimer } from '$lib/utils/timer';
   import { playCorrectSound, playIncorrectSound } from '$lib/utils/sounds';
-  import { ExerciseShell, OptionGrid, FeedbackBanner, ExerciseSummary, FEEDBACK_TIMINGS } from './shared';
+  import { ExerciseShell, OptionGrid, FeedbackBanner, FEEDBACK_TIMINGS } from './shared';
+  import './shared/exercise-common.css';
   import type { KeyboardNavParams } from '$lib/utils/keyboard-nav';
 
   type Props = {
@@ -174,22 +175,6 @@
     }
   }
 
-  function restart() {
-    wordTimer.clear();
-    currentIndex = 0;
-    results = [];
-    feedbackState = 'none';
-    hintsUsed = 0;
-    imageError = false;
-    selectedIndex = null;
-    startTime = Date.now();
-  }
-
-  function handleRestart() {
-    restart();
-    onrestart?.();
-  }
-
   function handleImageError() {
     imageError = true;
   }
@@ -208,7 +193,7 @@
 </script>
 
 {#if words.length === 0}
-  <div class="exercise-container">
+  <div class="exercise-error">
     <p class="error-text">{$t('common.no_words')}</p>
   </div>
 {:else if !isFinished && currentWord}
@@ -221,12 +206,12 @@
     active={!isFinished}
   >
     <!-- Image area -->
-    <div class="image-area" class:correct-flash={feedbackState === 'correct'} class:shake={feedbackState === 'incorrect'}>
+    <div class="exercise-image-area" class:correct-flash={feedbackState === 'correct'} class:shake={feedbackState === 'incorrect'}>
       {#if !imageError}
         <img
           src={resolveImageUrl(currentWord.image_url)}
           alt={$t('exercises.picture_naming.what_is_this')}
-          class="exercise-image"
+          class="stimulus-image"
           onerror={handleImageError}
         />
       {:else}
@@ -257,9 +242,9 @@
 
     <!-- Hints -->
     {#if revealedHints.length > 0}
-      <div class="hints-area">
+      <div class="exercise-hints">
         {#each revealedHints as hint, i}
-          <div class="hint-chip" class:latest={i === revealedHints.length - 1}>
+          <div class="exercise-hint-chip" class:latest={i === revealedHints.length - 1}>
             {hint}
           </div>
         {/each}
@@ -268,7 +253,7 @@
 
     <!-- Answer input -->
     {#if feedbackState !== 'correct'}
-      <div class="answer-area">
+      <div class="exercise-answer-area">
         <OptionGrid
           {options}
           {feedbackState}
@@ -282,10 +267,10 @@
           onspeak={speak}
         />
 
-        <div class="button-row">
+        <div class="exercise-button-row">
           <button
             type="button"
-            class="hint-button"
+            class="exercise-action-button"
             onclick={showHint}
             disabled={!canShowMoreHints}
             aria-label={$t('exercises.picture_naming.hint')}
@@ -293,7 +278,7 @@
             💡 {$t('exercises.picture_naming.hint')} ({5 - hintsUsed} {$t('common.of')} 5)
           </button>
 
-          <button type="button" class="skip-button" onclick={skipWord} aria-label={$t('common.skip')}>
+          <button type="button" class="exercise-skip-button" onclick={skipWord} aria-label={$t('common.skip')}>
             ⏭️ {$t('common.skip')}
           </button>
         </div>
@@ -302,79 +287,10 @@
   </ExerciseShell>
 {/if}
 
-{#if isFinished}
-  <ExerciseSummary
-    {score}
-    total={words.length}
-    {results}
-    speakEnabled={speakButtonsEnabled}
-    isSpeaking={tts.isSpeaking}
-    onSpeak={speak}
-    onrestart={handleRestart}
-  />
-{/if}
-
 <style>
-  .error-text {
-    font-size: var(--font-size-lg, 20px);
-    color: var(--error, #ef4444);
-    text-align: center;
-    margin: 0;
-  }
-
-  .exercise-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: var(--space-md, 16px);
-    padding: var(--space-md, 16px);
-    max-width: 600px;
-    margin: 0 auto;
-    width: 100%;
-    box-sizing: border-box;
-  }
-
-  /* Image area */
-  .image-area {
-    width: 100%;
+  /* Picture naming uses a larger image than the default 300px */
+  .exercise-image-area {
     max-width: 350px;
-    aspect-ratio: 1;
-    border-radius: var(--radius-lg, 16px);
-    overflow: hidden;
-    background: var(--surface, #f9fafb);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: box-shadow 0.3s ease;
-  }
-
-  .exercise-image {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-    padding: var(--space-md, 16px);
-  }
-
-  .image-fallback {
-    width: 100%;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: var(--space-sm, 8px);
-    background: linear-gradient(135deg, var(--primary-light, #93c5fd), var(--primary, #3b82f6));
-  }
-
-  .fallback-letter {
-    font-size: 72px;
-    font-weight: 800;
-    color: #fff;
-    line-height: 1;
-  }
-
-  .fallback-hint {
-    font-size: 32px;
   }
 
   .prompt {
@@ -385,141 +301,12 @@
     margin: 0;
   }
 
-  /* Hints */
-  .hints-area {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-xs, 4px);
-    width: 100%;
-    max-width: 400px;
-  }
-
-  .hint-chip {
-    padding: var(--space-sm, 8px) var(--space-md, 16px);
-    background: var(--surface-2, #f3f4f6);
-    border-radius: var(--radius-md, 12px);
-    font-size: var(--font-size-base, 16px);
-    color: var(--text-muted, #6b7280);
-    animation: slideIn 0.3s ease;
-  }
-
-  .hint-chip.latest {
-    color: var(--primary, #3b82f6);
-    font-weight: 600;
-    background: var(--primary-light, #eff6ff);
-  }
-
-  /* Answer area */
-  .answer-area {
-    width: 100%;
-    max-width: 500px;
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-sm, 8px);
-  }
-
-  .button-row {
-    display: flex;
-    gap: var(--space-sm, 8px);
-    justify-content: center;
-    flex-wrap: wrap;
-  }
-
-  .hint-button,
-  .skip-button {
-    min-height: 56px;
-    min-width: 56px;
-    padding: 12px 24px;
-    font-size: var(--font-size-base, 16px);
-    font-weight: 600;
-    font-family: var(--font-family, sans-serif);
-    border: 2px solid var(--border, #e5e7eb);
-    border-radius: var(--radius-md, 12px);
-    cursor: pointer;
-    transition:
-      background var(--transition-fast, 0.15s),
-      transform var(--transition-fast, 0.15s);
-    touch-action: manipulation;
-    user-select: none;
-  }
-
-  .hint-button {
-    background: var(--surface-2, #f3f4f6);
-    color: var(--text, #1f2937);
-  }
-
-  .hint-button:hover:not(:disabled) {
-    background: var(--primary-light, #eff6ff);
-    border-color: var(--primary, #3b82f6);
-  }
-
-  .skip-button {
-    background: transparent;
-    color: var(--text-muted, #6b7280);
-  }
-
-  .skip-button:hover {
-    background: var(--surface-2, #f3f4f6);
-  }
-
-  .hint-button:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-  }
-
-  .hint-button:focus-visible,
-  .skip-button:focus-visible {
-    outline: 3px solid var(--primary-light, #93c5fd);
-    outline-offset: 2px;
-  }
-
-  .correct-flash {
-    box-shadow:
-      0 0 0 4px var(--success, #22c55e),
-      0 0 24px rgba(34, 197, 94, 0.3);
-  }
-
-  .shake {
-    animation: shake 0.5s ease-in-out;
-  }
-
-  @keyframes slideIn {
-    from {
-      opacity: 0;
-      transform: translateX(-12px);
-    }
-    to {
-      opacity: 1;
-      transform: translateX(0);
-    }
-  }
-
-  @keyframes shake {
-    0%,
-    100% {
-      transform: translateX(0);
-    }
-    20% {
-      transform: translateX(-8px);
-    }
-    40% {
-      transform: translateX(8px);
-    }
-    60% {
-      transform: translateX(-4px);
-    }
-    80% {
-      transform: translateX(4px);
-    }
-  }
-
-  /* Tablet layout: image left, options right (the grid is provided by ExerciseShell) */
+  /* Tablet: image left, options right (grid provided by ExerciseShell) */
   @media (min-width: 768px) {
-    .image-area {
+    .exercise-image-area {
       grid-column: 1;
       grid-row: 1 / span 20;
-      max-width: none;
-      width: 100%;
+      max-width: 350px;
       max-height: 350px;
       aspect-ratio: auto;
       align-self: start;
@@ -527,12 +314,12 @@
 
     .prompt,
     .feedback-slot,
-    .hints-area,
-    .answer-area {
+    .exercise-hints,
+    .exercise-answer-area {
       grid-column: 2;
     }
 
-    .answer-area {
+    .exercise-answer-area {
       max-width: none;
     }
   }

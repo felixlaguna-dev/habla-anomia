@@ -199,7 +199,8 @@
     "about": "About"
   },
   "a11y": {
-    "skip_to_content": "Skip to content"
+    "skip_to_content": "Skip to content",
+    "exercise_image": "Exercise image"
   },
   "onboarding": {
     "welcome": "Welcome to Habla Anomia",
@@ -236,7 +237,8 @@
     "cancel": "Cancel",
     "no_words": "No words available for this exercise.",
     "back_to_exercises": "Back to exercises",
-    "restart": "Restart exercise"
+    "restart": "Restart exercise",
+    "listen": "Listen"
   },
   "categories": {
     "animals": "Animals",

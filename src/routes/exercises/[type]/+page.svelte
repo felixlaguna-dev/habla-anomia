@@ -223,6 +223,12 @@
     goto(`${base}/`);
   }
 
+  async function handleRepeatExercise() {
+    showResults = false;
+    showConfetti = false;
+    await handleRestart();
+  }
+
   async function handleRetryMistakes() {
     if (incorrectWords.length > 0) {
       // Start the new session before swapping words so sessionId is set
@@ -402,9 +408,12 @@
 
       <!-- Actions -->
       <div class="results-actions">
+        <button class="repeat-btn" onclick={handleRepeatExercise}>
+          🔄 {$t('common.restart')}
+        </button>
         {#if incorrectWords.length > 0}
           <button class="retry-btn" onclick={handleRetryMistakes}>
-            🔄 {$t('feedback.retry_mistakes')}
+            🔁 {$t('feedback.retry_mistakes')}
           </button>
         {/if}
         <button class="results-close-btn" onclick={handleCloseResults}>
@@ -674,6 +683,28 @@
     flex-direction: column;
     gap: var(--space-sm);
     margin-top: var(--space-lg);
+  }
+
+  .repeat-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: var(--touch-min);
+    padding: var(--space-sm) var(--space-xl);
+    background: var(--primary);
+    color: white;
+    border: none;
+    border-radius: var(--radius-full);
+    font-size: var(--font-size-lg);
+    font-weight: 600;
+    font-family: var(--font-family);
+    cursor: pointer;
+    transition: background var(--transition-fast);
+    width: 100%;
+  }
+
+  .repeat-btn:active {
+    background: var(--primary-hover);
   }
 
   .retry-btn {

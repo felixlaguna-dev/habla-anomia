@@ -199,7 +199,8 @@
     "about": "Honi buruz"
   },
   "a11y": {
-    "skip_to_content": "Saltatu edukira"
+    "skip_to_content": "Saltatu edukira",
+    "exercise_image": "Ariketako irudia"
   },
   "onboarding": {
     "welcome": "Ongi etorri Habla Anomiara",
@@ -236,7 +237,8 @@
     "cancel": "Utzi",
     "no_words": "Ez dago hitzik erabilgarri ariketa honetarako.",
     "back_to_exercises": "Ariketetara itzuli",
-    "restart": "Errepikatu ariketa"
+    "restart": "Errepikatu ariketa",
+    "listen": "Entzun"
   },
   "categories": {
     "animals": "Animaliak",

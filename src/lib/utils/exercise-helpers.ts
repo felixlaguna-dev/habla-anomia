@@ -1,19 +1,10 @@
 // URL helpers have moved to paths.ts — re-export for backwards compat
 export { resolveImageUrl, resolveUrl } from './paths';
+// shuffleArray has moved to shuffle.ts — import + re-export for backwards compat
+import { shuffleArray } from './shuffle';
+export { shuffleArray };
 
 import { getWordCategories, type Word, type SemanticFeatures } from '$lib/types';
-
-/**
- * Fisher-Yates shuffle — returns a new shuffled array without mutating the input.
- */
-export function shuffleArray<T>(arr: T[]): T[] {
-  const shuffled = [...arr];
-  for (let i = shuffled.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
-  }
-  return shuffled;
-}
 
 /**
  * Generate multiple-choice options for a correct word.

@@ -2,9 +2,57 @@ import { db } from '$lib/db/database';
 import type { Language, SpacedRepetitionEntry } from '$lib/types';
 
 // SM-2 algorithm parameters
-const MIN_EASE = 1.3;
-const INITIAL_INTERVAL = 1; // 1 day
-const DEFAULT_EASE = 2.5;
+export const MIN_EASE = 1.3;
+export const INITIAL_INTERVAL = 1; // 1 day
+export const DEFAULT_EASE = 2.5;
+
+/** SM-2 state passed into / returned from {@link computeSM2Update}. */
+export interface SM2State {
+  interval: number;
+  ease_factor: number;
+  repetitions: number;
+}
+
+/**
+ * Normalise a quality input to the SM-2 0–5 integer scale.
+ * Booleans are accepted for backward compat (true → 5, false → 0).
+ */
+export function normalizeQuality(qualityOrCorrect: number | boolean): number {
+  if (typeof qualityOrCorrect === 'boolean') return qualityOrCorrect ? 5 : 0;
+  return Math.max(0, Math.min(5, qualityOrCorrect));
+}
+
+/**
+ * Pure SM-2 scheduling computation — no DB access.
+ *
+ * Quality ≥ 3 → interval grows (1 → 6 → round(interval × ease)).
+ * Quality < 3 → interval resets to 1, repetitions reset to 0.
+ * Ease factor is always adjusted on success and never drops below {@link MIN_EASE}.
+ */
+export function computeSM2Update(state: SM2State, quality: number): SM2State {
+  let { interval, ease_factor, repetitions } = state;
+
+  if (quality >= 3) {
+    if (repetitions === 0) {
+      interval = 1;
+    } else if (repetitions === 1) {
+      interval = 6;
+    } else {
+      interval = Math.round(interval * ease_factor);
+    }
+    repetitions++;
+
+    ease_factor =
+      ease_factor + 0.1 - (5 - quality) * (0.08 + (5 - quality) * 0.02);
+    if (ease_factor < MIN_EASE) ease_factor = MIN_EASE;
+  } else {
+    repetitions = 0;
+    interval = 1;
+    // Ease factor is intentionally NOT reset so the word isn't punished indefinitely
+  }
+
+  return { interval, ease_factor, repetitions };
+}
 
 /**
  * Get word IDs that are due for review (next_review <= now), up to `count`.
@@ -69,9 +117,7 @@ export async function updateAfterAttempt(
   language: Language,
   qualityOrCorrect: number | boolean
 ): Promise<void> {
-  const quality = typeof qualityOrCorrect === 'boolean'
-    ? (qualityOrCorrect ? 5 : 0)
-    : Math.max(0, Math.min(5, qualityOrCorrect));
+  const quality = normalizeQuality(qualityOrCorrect);
 
   // Try compound index first, fall back to filter
   let entry = await db.spacedRepetition
@@ -93,31 +139,10 @@ export async function updateAfterAttempt(
     return updateAfterAttempt(wordId, language, qualityOrCorrect);
   }
 
-  let { interval, ease_factor, repetitions } = entry;
-
-  if (quality >= 3) {
-    // Successful recall – advance schedule
-    if (repetitions === 0) {
-      interval = 1;
-    } else if (repetitions === 1) {
-      interval = 6;
-    } else {
-      interval = Math.round(interval * ease_factor);
-    }
-    repetitions++;
-
-    // Adjust ease factor per SM-2 formula
-    ease_factor =
-      ease_factor + 0.1 - (5 - quality) * (0.08 + (5 - quality) * 0.02);
-    if (ease_factor < MIN_EASE) {
-      ease_factor = MIN_EASE;
-    }
-  } else {
-    // Failed recall – restart schedule
-    repetitions = 0;
-    interval = 1;
-    // Ease factor is intentionally NOT reset so the word isn't punished indefinitely
-  }
+  const { interval, ease_factor, repetitions } = computeSM2Update(
+    { interval: entry.interval, ease_factor: entry.ease_factor, repetitions: entry.repetitions },
+    quality
+  );
 
   // Compute next review date
   const nextReview = new Date();

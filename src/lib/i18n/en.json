@@ -196,8 +196,7 @@
     "large": "Large",
     "extra_large": "Extra large",
     "high_contrast": "High contrast",
-    "about": "About",
-    "version": "Version"
+    "about": "About"
   },
   "a11y": {
     "skip_to_content": "Skip to content"
@@ -214,7 +213,16 @@
     "title": "About Habla Anomia",
     "what_is_anomia": "What is anomia?",
     "anomia_description": "Anomia is a difficulty finding the right words when speaking. It is common after a stroke or brain injury. With practice and exercises, significant improvement is possible.",
-    "exercises_help": "The exercises in this app are designed to help you practice language in a fun way, at your own pace and without pressure."
+    "exercises_help": "The exercises in this app are designed to help you practice language in a fun way, at your own pace and without pressure.",
+    "technology": "Technology",
+    "technology_value": "SvelteKit + PWA",
+    "data": "Data",
+    "data_value": "IndexedDB (local)",
+    "license": "License",
+    "license_value": "Open source",
+    "credits": "Made with ❤️ for people with aphasia and anomia. Built with SvelteKit and open web technologies.",
+    "privacy_note": "All your data stays on your device. Nothing is sent to the internet.",
+    "version": "Version"
   },
   "common": {
     "start": "Start",
@@ -259,7 +267,8 @@
     "sentence_completion_desc": "Complete sentences with these words",
     "not_available": "This category doesn't have enough words yet.",
     "invalid_category": "Category not found.",
-    "back_home": "Back to home"
+    "back_home": "Back to home",
+    "scroll_right": "See more categories"
   },
   "install_prompt": {
     "title": "Install Habla Anomia",

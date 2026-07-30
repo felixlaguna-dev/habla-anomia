@@ -9,7 +9,7 @@ const exerciseTypes = [
   { slug: 'generative-naming', title: 'Nombrar por categoría' },
   { slug: 'word-matching', title: 'Relacionar' },
   { slug: 'sentence-completion', title: 'Completar' },
-  { slug: 'word-association', title: 'Asociación' },
+  { slug: 'opposites-synonyms', title: 'Opuestos' },
 ];
 
 for (const { slug, title } of exerciseTypes) {
@@ -17,7 +17,7 @@ for (const { slug, title } of exerciseTypes) {
     test(`loads and shows exercise title`, async ({ page }) => {
       await gotoExercise(page, slug);
       const body = await page.locator('body').textContent();
-      const hasContent = body?.length ?? 0 > 50;
+      const hasContent = (body?.length ?? 0) > 50;
       expect(hasContent, `Exercise ${slug} page appears empty`).toBeTruthy();
     });
 

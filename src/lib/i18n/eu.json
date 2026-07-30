@@ -196,8 +196,7 @@
     "large": "Handia",
     "extra_large": "Oso handia",
     "high_contrast": "Kontraste handia",
-    "about": "Honi buruz",
-    "version": "Bertsioa"
+    "about": "Honi buruz"
   },
   "a11y": {
     "skip_to_content": "Saltatu edukira"
@@ -214,7 +213,16 @@
     "title": "Habla Anomiari buruz",
     "what_is_anomia": "Zer da anomia?",
     "anomia_description": "Anomia hitz egitean hitz egokiak aurkitzeko zailtasuna da. Istripu zerebrobaskular baten edo burmuineko lesio baten ondoren ohikoa da. Praktika eta ariketekin, asko hobetu daiteke.",
-    "exercises_help": "Aplikazio honetako ariketak hizkuntza modu dibertigarrian praktikatzen laguntzeko diseinatuta daude, zure erritmoan eta presiorik gabe."
+    "exercises_help": "Aplikazio honetako ariketak hizkuntza modu dibertigarrian praktikatzen laguntzeko diseinatuta daude, zure erritmoan eta presiorik gabe.",
+    "technology": "Teknologia",
+    "technology_value": "SvelteKit + PWA",
+    "data": "Datuak",
+    "data_value": "IndexedDB (lokala)",
+    "license": "Lizentzia",
+    "license_value": "Kode irekia",
+    "credits": "❤️-z egina afasia eta anomia duten pertsonentzat. SvelteKit eta web teknologia irekiekin garatua.",
+    "privacy_note": "Zure datu guztiak zure gailuan gordetzen dira bakarrik. Ezer ez da internetera bidaltzen.",
+    "version": "Bertsioa"
   },
   "common": {
     "start": "Hasi",
@@ -259,7 +267,8 @@
     "sentence_completion_desc": "Osatu esaldiak hitz hauekin",
     "not_available": "Kategoria honek ez ditu nahiko hitz oraindik.",
     "invalid_category": "Ez da kategoria aurkitu.",
-    "back_home": "Hasierara itzuli"
+    "back_home": "Hasierara itzuli",
+    "scroll_right": "Ikusi kategoria gehiago"
   },
   "install_prompt": {
     "title": "Instalatu Habla Anomia",

@@ -31,6 +31,9 @@ jobs:
       - name: Type check (svelte-check)
         run: docker run --rm habla-anomia-ci npm run check
 
+      - name: Unit tests (vitest)
+        run: docker run --rm habla-anomia-ci npm test
+
       - name: Build application
         run: |
           SHORT_SHA=$(git rev-parse --short HEAD)
@@ -41,3 +44,68 @@ jobs:
 
       - name: Verify build output
         run: test -f build/200.html && echo "Build OK" || (echo "Build failed — no 200.html" && exit 1)
+
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-output
+          path: build/
+          retention-days: 1
+
+  e2e:
+    runs-on: self-hosted
+    needs: ci
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Download build artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: build-output
+          path: build/
+
+      - name: Build production nginx image (reuses CI build)
+        run: |
+          docker build -t habla-anomia-prod -f- . <<'EOF'
+          FROM nginx:1.27-alpine
+          RUN rm -f /usr/share/nginx/html/index.html
+          COPY nginx.conf /etc/nginx/conf.d/default.conf
+          COPY build/ /usr/share/nginx/html
+          EOF
+
+      - name: Serve app
+        run: |
+          docker rm -f habla-anomia-e2e-server 2>/dev/null || true
+          docker run -d --name habla-anomia-e2e-server -p 3021:80 habla-anomia-prod
+          # Give nginx a moment to start (it's ready in <1s), then verify
+          # the container is still running.
+          sleep 3
+          if docker ps --filter "name=habla-anomia-e2e-server" --filter "status=running" --format "{{.ID}}" | grep -q .; then
+            echo "App is serving on :3021"
+          else
+            echo "Server container is not running"
+            docker logs habla-anomia-e2e-server || true
+            exit 1
+          fi
+
+      - name: Build E2E image
+        uses: nick-fields/retry@v3
+        with:
+          timeout_minutes: 10
+          max_attempts: 3
+          command: docker build -t habla-anomia-e2e -f Dockerfile.e2e .
+
+      - name: Run E2E tests
+        run: |
+          docker run --rm \
+            --network host \
+            -e BASE_URL="http://localhost:3021" \
+            -v "$(pwd)/test-results:/app/test-results" \
+            habla-anomia-e2e \
+            npx playwright test --reporter=list
+
+      - name: Cleanup
+        if: always()
+        run: docker rm -f habla-anomia-e2e-server || true

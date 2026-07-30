@@ -134,30 +134,32 @@ def find_missing_images(entries):
 # Image generation
 # ---------------------------------------------------------------------------
 def build_prompt(entry):
-    """Build a descriptive prompt for image generation."""
+    """Build a descriptive prompt for image generation.
+
+    All prompts enforce the habla-anomia image quality standard:
+    ONE clear subject, plain background, NO text anywhere, photo-realistic.
+    """
     word = entry["word"]
     cat = entry["category"]
     definition = entry["definition"]
 
-    if cat == "emotions":
-        return (
-            f"A realistic, well-lit photograph depicting the emotion '{word}' "
-            f"({definition}), shown through an expressive human face, "
-            f"centered composition, white neutral background, "
-            f"professional portrait photography style"
-        )
-    elif cat == "weather":
-        return (
-            f"A realistic, well-lit photograph of '{word}' ({definition}), "
-            f"centered composition, clear visible weather phenomenon, "
-            f"professional nature photography style, high detail"
-        )
-    else:
-        return (
-            f"A clear, well-lit photograph of '{word}' ({definition}), "
-            f"centered composition, white neutral background, "
-            f"product photography style, high detail"
-        )
+    # Category-specific subject clause and descriptor.
+    # Shared quality constraints (centered, plain background, no text) are
+    # applied once in the template below — add categories here, not branches.
+    CATEGORY_CLAUSES = {
+        "actions":    ("depicting the action",  "one person mid-action, minimal props"),
+        "emotions":   ("depicting the emotion", "expressive human face, portrait photography style"),
+        "weather":    ("of",                    "clear visible weather phenomenon, nature photography style"),
+        "body-parts": ("of a human",            "anatomically correct, no medical diagrams"),
+        "family":     ("depicting",             "one person, warm natural portrait style"),
+    }
+
+    subj, descriptor = CATEGORY_CLAUSES.get(cat, ("of", "product photography style, high detail"))
+    return (
+        f"A clear, well-lit photograph {subj} '{word}' ({definition}), "
+        f"centered composition, {descriptor}, "
+        f"plain neutral background, no text anywhere in the image"
+    )
 
 
 def generate_image(access_token: str, account_id: str, prompt: str) -> tuple[bytes | None, str]:
@@ -254,6 +256,9 @@ def main():
     parser.add_argument("--dry-run", action="store_true", help="Preview without generating")
     parser.add_argument("--limit", type=int, default=0, help="Max images to generate (0=all)")
     parser.add_argument("--word", type=str, help="Generate for a specific word only")
+    parser.add_argument("--words", type=str, help="Comma-separated list of words to (re)generate")
+    parser.add_argument("--regenerate", action="store_true",
+                        help="Regenerate even if image file exists (use with --words)")
     parser.add_argument("--custom-prompts", type=str, help="JSON file with {word: prompt} overrides")
     args = parser.parse_args()
 
@@ -271,28 +276,26 @@ def main():
     entries, _ = parse_words()
     print(f"Total words in data file: {len(entries)}")
 
-    # Find missing
-    missing = find_missing_images(entries)
-    print(f"Words missing images: {len(missing)}")
+    # Build work list — --word is just --words with a single value
+    word_filter = set(w.strip() for w in args.words.split(",")) if args.words \
+        else ({args.word} if args.word else None)
+    if word_filter:
+        work = [e for e in entries if e["word"] in word_filter]
+        missing = work if args.regenerate else find_missing_images(work)
+    else:
+        missing = find_missing_images(entries)
+
+    print(f"Will generate: {len(missing)} images")
 
     if not missing:
-        print("\nAll words have images! Nothing to do.")
+        print("\nNothing to do.")
         return
-
-    # Filter by --word if specified
-    if args.word:
-        missing = [e for e in missing if e["word"] == args.word]
-        if not missing:
-            print(f"Word '{args.word}' not found or already has an image.")
-            return
 
     # Apply limit
     if args.limit > 0:
         missing = missing[:args.limit]
 
-    print(f"\nWill generate: {len(missing)} images")
     print()
-
     # Load custom prompts if provided
     custom_prompts = {}
     if args.custom_prompts:
@@ -303,7 +306,7 @@ def main():
     if args.dry_run:
         for i, e in enumerate(missing):
             fname = normalize_filename(e["word"])
-            prompt = build_prompt(e)
+            prompt = custom_prompts.get(e["word"]) or build_prompt(e)
             print(f"  [{i+1}/{len(missing)}] {e['word']} ({e['category']})")
             print(f"    file: {fname}.webp")
             print(f"    prompt: {prompt[:100]}...")
@@ -314,9 +317,7 @@ def main():
     ok = fail = 0
     for i, entry in enumerate(missing):
         fname = normalize_filename(entry["word"])
-        prompt = build_prompt(entry)
-        if entry["word"] in custom_prompts:
-            prompt = custom_prompts[entry["word"]]
+        prompt = custom_prompts.get(entry["word"]) or build_prompt(entry)
 
         outpath = IMAGE_DIR / f"{fname}.webp"
         print(f"[{i+1}/{len(missing)}] {entry['word']} ({entry['category']})...", flush=True)

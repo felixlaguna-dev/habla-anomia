@@ -5,6 +5,7 @@
   import { t, locale } from '$lib/i18n';
   import { onMount } from 'svelte';
   import { getAllSettings, initDefaults } from '$lib/db/settings';
+  import { cleanupAbandonedSessions } from '$lib/db/sessions';
   import { seedWords, resolveSeedReady } from '$lib/db/words';
   import { WORDS_ES, WORDS_ES_VERSION } from '$lib/data/words-es';
   import { manifestUrl } from '$lib/utils/paths';
@@ -29,6 +30,9 @@
     } catch (err) {
       console.error('Word bank seed failed; exercises will use whatever is in the DB.', err);
     } finally {
+      // Sweep orphaned sessions before unblocking page init — awaited so it
+      // can't race with a new startSession() call in the exercise page.
+      await cleanupAbandonedSessions().catch(() => {});
       resolveSeedReady();
     }
   });

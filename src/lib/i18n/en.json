@@ -314,7 +314,7 @@
     "dismiss": "Not now"
   },
   "offline": {
-    "offline_mode": "Offline — offline mode",
+    "offline_mode": "No connection — offline mode",
     "online": "Online"
   }
 }

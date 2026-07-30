@@ -1,7 +1,7 @@
 <script lang="ts">
   import { t, locale } from '$lib/i18n';
   import { onMount } from 'svelte';
-  import { getAllSettings, setSetting } from '$lib/db';
+  import { getAllSettings, setSetting, initDefaults } from '$lib/db';
   import { Card, Button, ChipGroup } from '$lib/components/ui';
   import { applyAppearance } from '$lib/utils/appearance';
   import { goto } from '$app/navigation';
@@ -89,6 +89,10 @@
             await db.settings.put(s);
           }
         }
+        // Re-run defaults so any new settings (e.g. ui_language) missing from
+        // the imported file get seeded — the resolver copies content language
+        // as the UI language default for backward compatibility.
+        await initDefaults();
         await loadSettings();
       } catch (e) {
         console.error('Import failed:', e);
@@ -453,8 +457,8 @@
 
   .lang-btn-active {
     border-color: var(--primary);
-    background: var(--primary-light);
-    color: var(--primary);
+    background: var(--primary);
+    color: #ffffff;
   }
 
   .lang-btn:focus-visible {

@@ -8,7 +8,8 @@
   import { onMount } from 'svelte';
   import { t } from '$lib/i18n';
   import type { Word, Language, ExerciseType } from '$lib/types';
-  import { resolveImageUrl, buildDistractors, getCardState } from '$lib/utils/exercise-helpers';
+  import { resolveImageUrl, buildDistractors } from '$lib/utils/exercise-helpers';
+  import type { CardState } from '$lib/utils/exercise-helpers';
   import { useTts, speechLangFor } from '$lib/utils/tts.svelte';
   import { recordTrial } from '$lib/utils/record-trial';
   import { createCancellableTimer } from '$lib/utils/timer';
@@ -48,18 +49,23 @@
   // --- State ---
   let currentIndex = $state(0);
   let feedbackState = $state<'none' | 'correct' | 'incorrect'>('none');
+  // 0 = no attempts, 1 = first wrong tap (retry flash), 2 = second wrong tap (reveal).
   let attemptsUsed = $state(0);
   let results = $state<Array<{ word: Word; correct: boolean }>>([]);
   let score = $derived(results.filter((r) => r.correct).length);
   let startTime = $state(Date.now());
-  // Exactly one attempt is recorded per word (see recordTrial policy).
   let trialRecorded = $state(false);
 
   // --- TTS ---
   const tts = useTts();
   let speechLang = $derived(speechLangFor(language));
+  // Svelte 5 runs $effect before onMount. Guard the auto-speak effect with
+  // ttsReady so the first word isn't silently dropped (synthesis is null
+  // until init() runs in onMount). See ~/wiki/concepts/svelte-5-pitfalls.md.
+  let ttsReady = $state(false);
   onMount(() => {
     tts.init();
+    ttsReady = true;
     return () => {
       tts.destroy();
       wordTimer.clear();
@@ -80,8 +86,8 @@
   // Rebuild options + reset per-word state when the current word changes.
   // Auto-speak the word once TTS is ready — this is the core mechanic.
   $effect(() => {
-    if (!currentWord) return;
     wordTimer.clear();
+    if (!ttsReady || !currentWord) return;
     optionWords = buildDistractors(currentWord, words, allWords, 'word');
     selectedIndex = null;
     feedbackState = 'none';
@@ -112,7 +118,8 @@
   }
 
   // Selection with retry: first wrong tap records + allows one retry after
-  // auto-replay; second wrong tap reveals and advances.
+  // auto-replay (correct answer NOT revealed); second wrong tap reveals and
+  // advances.
   function handleSelectChoice(index: number) {
     if (feedbackState !== 'none' || !currentWord) return;
     selectedIndex = index;
@@ -128,7 +135,7 @@
       wordTimer.schedule(nextWord, FEEDBACK_TIMINGS.correctAdvance);
     } else {
       if (attemptsUsed === 0) {
-        // First wrong tap: record, flash, then auto-replay + allow ONE retry.
+        // First wrong tap: record, flash (no reveal), then auto-replay + retry.
         recordCurrentTrial(false, selectedWord?.word ?? '');
         attemptsUsed = 1;
         wordTimer.schedule(() => {
@@ -139,6 +146,7 @@
         }, FEEDBACK_TIMINGS.incorrectRetryReset);
       } else {
         // Second wrong tap: reveal and advance.
+        attemptsUsed = 2;
         wordTimer.schedule(nextWord, FEEDBACK_TIMINGS.incorrectRevealAdvance);
       }
     }
@@ -152,18 +160,42 @@
 
   function nextWord() {
     wordTimer.clear();
+    tts.cancel();
     currentIndex++;
     if (currentIndex >= words.length) {
       oncomplete?.({ score, total: words.length, details: results });
     }
   }
 
-  // Card visual states derived via the shared getCardState so feedback scoring
-  // stays consistent with all other exercises.
-  let cardStates = $derived(
-    optionWords.map((_, i) =>
-      getCardState(i, feedbackState, selectedIndex, correctOptionIndex),
-    ),
+  // Card visual states computed locally (not via shared getCardState) so the
+  // first-wrong flash hides the correct answer during the retry window.
+  // Only the second-wrong reveal highlights the correct card.
+  let cardStates = $derived<CardState[]>(computeCardStates());
+
+  function computeCardStates(): CardState[] {
+    return optionWords.map((_, i): CardState => {
+      if (feedbackState === 'none') {
+        return selectedIndex === i ? 'selected' : 'default';
+      }
+      if (feedbackState === 'correct') {
+        return i === selectedIndex ? 'correct' : 'default';
+      }
+      // feedbackState === 'incorrect'
+      if (attemptsUsed <= 1) {
+        // First-wrong flash: show selected as wrong, DON'T reveal correct.
+        return i === selectedIndex ? 'incorrect' : 'default';
+      }
+      // Second-wrong reveal: show both selected-wrong and correct.
+      if (i === correctOptionIndex) return 'correct';
+      if (i === selectedIndex) return 'incorrect';
+      return 'default';
+    });
+  }
+
+  // Whether the correct card's word label should be visible.
+  let showCorrectLabel = $derived(
+    feedbackState === 'correct' ||
+    (feedbackState === 'incorrect' && attemptsUsed >= 2),
   );
 
   let keyboardNavParams = $derived<KeyboardNavParams>({
@@ -172,7 +204,7 @@
     onSelectOption: (index) => handleSelectChoice(index),
     onConfirm: () => {
       if (feedbackState === 'correct') nextWord();
-      else if (feedbackState === 'incorrect' && attemptsUsed > 0) nextWord();
+      else if (feedbackState === 'incorrect' && attemptsUsed >= 2) nextWord();
     },
     onSkip: skipWord,
     isActive: !isFinished && !!currentWord,
@@ -219,7 +251,7 @@
           isSpeaking={tts.isSpeaking}
           onSpeak={speak}
         />
-      {:else if feedbackState === 'incorrect' && attemptsUsed > 0}
+      {:else if feedbackState === 'incorrect' && attemptsUsed >= 2}
         <FeedbackBanner
           state="incorrect"
           text={$t('exercises.listen_choose.correct_word_was', { word: currentWord.word })}
@@ -258,8 +290,8 @@
                 <span>?</span>
               </div>
             </div>
-            <!-- Show the word only after the round is resolved (correct card) -->
-            {#if cardStates[i] === 'correct'}
+            <!-- Show the word only after the round is resolved -->
+            {#if showCorrectLabel && cardStates[i] === 'correct'}
               <span class="card-label">{optionWord.word}</span>
             {/if}
           </button>

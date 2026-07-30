@@ -46,6 +46,12 @@ export function useTts() {
     isSpeaking = false;
   }
 
+  /** Cancel any in-progress speech and reset state. */
+  function cancel(): void {
+    synthesis?.stop();
+    isSpeaking = false;
+  }
+
   function setRate(rate: number): void {
     currentRate = rate;
     synthesis?.setRate(rate);
@@ -64,6 +70,7 @@ export function useTts() {
   return {
     init,
     destroy,
+    cancel,
     setRate,
     speak,
     get isSpeaking(): boolean {

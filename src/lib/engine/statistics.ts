@@ -4,16 +4,23 @@ import { getDailyStats as getDBDailyStats } from '$lib/db/sessions';
 import { getStreakInfo } from '$lib/db/streaks';
 
 /**
- * Produce a weekly summary covering the last 7 days.
+ * Produce a summary covering the last `days` days (default 7 = weekly).
+ *
+ * `wordsPracticed` is the sum of per-day unique words — a word practiced on
+ * multiple days is counted each day. For true distinct-word counts across the
+ * range use {@link getDistinctWordsPracticed}.
  */
-export async function getWeeklySummary(language: Language): Promise<{
+export async function getSummary(
+  language: Language,
+  days = 7
+): Promise<{
   totalSessions: number;
   totalExercises: number;
   overallAccuracy: number;
   wordsPracticed: number;
   dailyBreakdown: DailyStats[];
 }> {
-  const DAYS = 7;
+  const DAYS = days;
   const rawStats = await getDBDailyStats(DAYS, language);
   const streakInfo = await getStreakInfo();
 
@@ -39,9 +46,6 @@ export async function getWeeklySummary(language: Language): Promise<{
   let totalAccuracyWeight = 0;
   let accuracyDays = 0;
   let wordsPracticed = 0;
-
-  // Track unique words across all days
-  const allWordIds = new Set<string>();
 
   for (const day of dailyBreakdown) {
     totalSessions += day.sessions;

@@ -283,6 +283,30 @@ export async function getTodaysFailures(
   return result;
 }
 
+/**
+ * Count distinct words practiced (any attempt, correct or incorrect) in the
+ * last `days` days for a language.
+ */
+export async function getDistinctWordsPracticed(
+  days: number,
+  language: Language
+): Promise<number> {
+  const startDate = new Date();
+  startDate.setDate(startDate.getDate() - days + 1);
+  startDate.setHours(0, 0, 0, 0);
+
+  const attempts = await db.attempts
+    .where('language')
+    .equals(language)
+    .filter(a => {
+      const ts = a.timestamp instanceof Date ? a.timestamp : new Date(a.timestamp);
+      return ts >= startDate;
+    })
+    .toArray();
+
+  return new Set(attempts.map(a => a.word_id)).size;
+}
+
 function formatDate(d: Date): string {
   const year = d.getFullYear();
   const month = String(d.getMonth() + 1).padStart(2, '0');

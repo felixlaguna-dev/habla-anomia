@@ -1,7 +1,7 @@
 <script lang="ts">
   import { t, locale } from '$lib/i18n';
   import { onMount } from 'svelte';
-  import { Card, Button } from '$lib/components/ui';
+  import { Card, Button, AccuracyChart } from '$lib/components/ui';
   import { goto } from '$app/navigation';
   import { base } from '$app/paths';
   import {
@@ -11,14 +11,19 @@
     getAccuracyOverTime
   } from '$lib/db';
   import {
-    getWeeklySummary,
+    getSummary,
     getCategoryBreakdown,
-    getExerciseBreakdown,
-    calculateImprovementTrend
+    getExerciseBreakdown
   } from '$lib/engine/statistics';
   import { getSRStats } from '$lib/engine/spaced-repetition';
   import { browser } from '$app/environment';
-  import type { Language, Session, AppSettings } from '$lib/types';
+  import type { Session, AppSettings } from '$lib/types';
+  import {
+    formatAccuracy,
+    accuracyColor,
+    formatDate,
+    getExerciseName
+  } from '$lib/utils/progress-helpers';
 
   let loading = $state(true);
   let settings = $state<AppSettings | null>(null);
@@ -38,22 +43,13 @@
   let streakCurrent = $state(0);
   let streakLongest = $state(0);
 
-  // Daily accuracy trend over the 14-day chart
-  let trend = $derived(calculateImprovementTrend(accuracyOverTime));
-  let activeDays = $derived(accuracyOverTime.filter(d => d.total > 0).length);
-  const TREND_ARROWS: Record<'improving' | 'stable' | 'declining', string> = {
-    improving: '↗',
-    stable: '→',
-    declining: '↘'
-  };
-
   async function loadData() {
     if (!browser) return;
     const s = await getAllSettings();
     settings = s;
 
     // Weekly summary (last 7 days)
-    const weekly = await getWeeklySummary(s.language);
+    const weekly = await getSummary(s.language);
     overallAccuracy = weekly.overallAccuracy;
     totalSessions = weekly.totalSessions;
 
@@ -84,38 +80,6 @@
   }
 
   onMount(loadData);
-
-  function formatAccuracy(acc: number): string {
-    return `${Math.round(acc)}%`;
-  }
-
-  function formatDate(date: Date, lang: Language): string {
-    const d = date instanceof Date ? date : new Date(date);
-    return d.toLocaleDateString(lang, { day: 'numeric', month: 'short' });
-  }
-
-  // One narrow-weekday formatter per locale (construction is costlier than format)
-  const weekdayFmt = new Map<Language, Intl.DateTimeFormat>();
-  function weekdayInitial(dateStr: string, lang: Language): string {
-    // dateStr is YYYY-MM-DD; parse as local date to avoid UTC day-shift
-    let fmt = weekdayFmt.get(lang);
-    if (!fmt) {
-      fmt = new Intl.DateTimeFormat(lang, { weekday: 'narrow' });
-      weekdayFmt.set(lang, fmt);
-    }
-    const [y, m, d] = dateStr.split('-').map(Number);
-    return fmt.format(new Date(y, m - 1, d));
-  }
-
-  function accuracyColor(acc: number): string {
-    if (acc >= 80) return 'var(--success)';
-    if (acc >= 50) return 'var(--warning)';
-    return 'var(--error)';
-  }
-
-  function getExerciseName(type: string): string {
-    return `exercises.${type.replace(/-/g, '_')}.name`;
-  }
 </script>
 
 <svelte:head>
@@ -166,6 +130,12 @@
   <section class="progress-page fade-in">
     <header class="page-header">
       <h1 class="page-title">{$t('progress.title')}</h1>
+      <button
+        class="report-link"
+        onclick={() => goto(`${base}/progress/report`)}
+      >
+        📋 {$t('progress.therapist_report')}
+      </button>
     </header>
 
     {#if totalSessions === 0 && categoryBreakdown.length === 0}
@@ -227,36 +197,8 @@
 
       <!-- Accuracy over the last 14 days -->
       <section class="chart-section">
-        <div class="chart-header">
-          <h2 class="section-title">{$t('progress.accuracy_over_time')}</h2>
-          {#if activeDays >= 2}
-            <span class="trend trend-{trend}">
-              <span class="trend-arrow" aria-hidden="true">{TREND_ARROWS[trend]}</span>
-              {$t('progress.trend_label')}: {$t(`progress.trend_${trend}`)}
-            </span>
-          {/if}
-        </div>
         <Card>
-          <div
-            class="chart-bars"
-            role="img"
-            aria-label={$t('progress.accuracy_over_time')}
-          >
-            {#each accuracyOverTime as day}
-              <div class="chart-col">
-                <div class="chart-bar-track">
-                  {#if day.total > 0}
-                    <div
-                      class="chart-bar"
-                      style="height: {day.accuracy}%; background: {accuracyColor(day.accuracy)}"
-                      title={`${day.date} · ${formatAccuracy(day.accuracy)} · ${day.total}`}
-                    ></div>
-                  {/if}
-                </div>
-                <span class="chart-day-label">{weekdayInitial(day.date, $locale)}</span>
-              </div>
-            {/each}
-          </div>
+          <AccuracyChart data={accuracyOverTime} locale={$locale} headingLevel="h2" />
         </Card>
       </section>
 
@@ -366,12 +308,41 @@
 
   .page-header {
     margin-bottom: var(--space-sm);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-sm);
+    flex-wrap: wrap;
   }
 
   .page-title {
     font-size: var(--font-size-2xl);
     font-weight: 700;
     color: var(--text);
+  }
+
+  /* Report link — looks like a subtle secondary action, not a CTA */
+  .report-link {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-xs);
+    min-height: 56px;
+    padding: var(--space-xs) var(--space-md);
+    background: var(--surface);
+    color: var(--text);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-full);
+    font-size: var(--font-size-sm);
+    font-weight: 500;
+    font-family: var(--font-family);
+    cursor: pointer;
+    transition: background var(--transition-fast), border-color var(--transition-fast);
+    touch-action: manipulation;
+  }
+
+  .report-link:active {
+    background: var(--surface-2);
+    border-color: var(--border-light);
   }
 
   /* Encouraging empty state */
@@ -561,79 +532,6 @@
     margin-left: var(--space-sm);
   }
 
-  /* Accuracy-over-time chart */
-  .chart-header {
-    display: flex;
-    align-items: baseline;
-    justify-content: space-between;
-    gap: var(--space-sm);
-    margin-bottom: var(--space-sm);
-    flex-wrap: wrap;
-  }
-
-  .chart-bars {
-    display: flex;
-    align-items: flex-end;
-    justify-content: space-between;
-    gap: var(--space-xs);
-  }
-
-  .chart-col {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: var(--space-xs);
-    min-width: 0;
-  }
-
-  .chart-bar-track {
-    width: 100%;
-    height: 140px;
-    display: flex;
-    align-items: flex-end;
-    background: var(--surface-3);
-    border-radius: 4px 4px 0 0;
-  }
-
-  .chart-bar {
-    width: 100%;
-    min-height: 4px;
-    border-radius: 4px 4px 0 0;
-    transition: height var(--transition-slow);
-  }
-
-  .chart-day-label {
-    font-size: var(--font-size-sm);
-    color: var(--text-dim);
-    text-align: center;
-  }
-
-  .trend {
-    display: inline-flex;
-    align-items: center;
-    gap: var(--space-xs);
-    font-size: var(--font-size-base);
-    font-weight: 600;
-  }
-
-  .trend-arrow {
-    font-size: 1.2em;
-    line-height: 1;
-  }
-
-  .trend-improving {
-    color: var(--success);
-  }
-
-  .trend-stable {
-    color: var(--text-dim);
-  }
-
-  .trend-declining {
-    color: var(--error);
-  }
-
   /* Responsive: on small phones make counters 2+1 */
   @media (max-width: 374px) {
     .counters-row {
@@ -673,10 +571,6 @@
 
     .breakdown-bar-bg {
       height: 10px;
-    }
-
-    .chart-bar-track {
-      height: 180px;
     }
 
     .breakdown-name {

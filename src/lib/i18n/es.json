@@ -141,6 +141,15 @@
       "correct": "¡Correcto! {word} es el intruso",
       "incorrect_reveal": "El intruso era {word}",
       "need_more_words": "Se necesitan palabras de al menos 2 categorías diferentes para este ejercicio."
+    },
+    "listen_choose": {
+      "name": "Escucha y elige",
+      "short_name": "Escucha",
+      "description": "Escucha la palabra y elige la imagen correcta",
+      "listen_again": "Escuchar otra vez",
+      "correct_word_was": "Era: {word}",
+      "needs_tts": "Necesita voz del dispositivo",
+      "option_label": "Opción {n}"
     }
   },
   "feedback": {

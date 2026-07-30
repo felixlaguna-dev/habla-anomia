@@ -19,6 +19,8 @@ export interface ExerciseMeta {
   color: string;
   /** Whether the exercise requires words with images. */
   imageDependent: boolean;
+  /** Whether the exercise requires text-to-speech (TTS) support. */
+  requiresTts?: boolean;
 }
 
 /**
@@ -89,6 +91,14 @@ export const EXERCISE_REGISTRY: ExerciseMeta[] = [
     icon: 'M3 3h6v6H3z M15 3h6v6h-6z M3 15h6v6H3z M13 17a4 4 0 1 0 8 0a4 4 0 1 0 -8 0',
     color: 'var(--exercise-odd-one-out)',
     imageDependent: true
+  },
+  {
+    type: 'listen-choose',
+    i18nKey: 'listen_choose',
+    icon: 'M11 5 6 9H2v6h4l5 4V5z M15.54 8.46a5 5 0 0 1 0 7.07 M19.07 4.93a10 10 0 0 1 0 14.14',
+    color: 'var(--exercise-listen-choose)',
+    imageDependent: true,
+    requiresTts: true
   }
 ];
 
@@ -98,6 +108,11 @@ export const EXERCISE_TYPES: ExerciseType[] = EXERCISE_REGISTRY.map((meta) => me
 /** Exercises that require words with images — derived from the registry so it cannot drift. */
 export const IMAGE_DEPENDENT_EXERCISES: ExerciseType[] = EXERCISE_REGISTRY.filter(
   (meta) => meta.imageDependent
+).map((meta) => meta.type);
+
+/** Exercises that require TTS support — derived from the registry. */
+export const TTS_REQUIRED_EXERCISES: ExerciseType[] = EXERCISE_REGISTRY.filter(
+  (meta) => meta.requiresTts
 ).map((meta) => meta.type);
 
 const REGISTRY_BY_TYPE = new Map<ExerciseType, ExerciseMeta>(

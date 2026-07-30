@@ -141,6 +141,15 @@
       "correct": "Correcte! {word} és l'intrús",
       "incorrect_reveal": "L'intrús era {word}",
       "need_more_words": "Calen paraules d'almenys 2 categories diferents per a aquest exercici."
+    },
+    "listen_choose": {
+      "name": "Escolta i tria",
+      "short_name": "Escolta",
+      "description": "Escolta la paraula i tria la imatge correcta",
+      "listen_again": "Escoltar una altra vegada",
+      "correct_word_was": "Era: {word}",
+      "needs_tts": "Necessita veu del dispositiu",
+      "option_label": "Opció {n}"
     }
   },
   "feedback": {

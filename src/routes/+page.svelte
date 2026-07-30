@@ -7,7 +7,8 @@
   import { getCategoriesWithEnoughWords, awaitSeedReady, DRILLABLE_CATEGORY_MIN } from '$lib/db/words';
   import { getSRStats } from '$lib/engine/spaced-repetition';
   import { getAccuracyByExercise, getTodaysFailures } from '$lib/db/attempts';
-  import { EXERCISE_REGISTRY, EXERCISE_TYPES, getExerciseMeta, type ExerciseMeta } from '$lib/exercises/registry';
+  import { EXERCISE_REGISTRY, EXERCISE_TYPES, getExerciseMeta, TTS_REQUIRED_EXERCISES, type ExerciseMeta } from '$lib/exercises/registry';
+  import { SpeechSynthesisService } from '$lib/speech/speech-synthesis';
   import { scrollAffordance } from '$lib/utils/scroll-affordance';
   import { onMount } from 'svelte';
   import { goto } from '$app/navigation';
@@ -44,6 +45,7 @@
   }
 
   let dailyPlan = $state<PlanItem[]>([]);
+  const ttsSupported = SpeechSynthesisService.isSupported();
 
   function getGreeting(): string {
     const hour = new Date().getHours();
@@ -117,22 +119,21 @@
 
     let selectedTypes: ExerciseType[];
 
+    // Exclude TTS-required exercises when TTS is unavailable.
+    const availableTypes = ttsSupported
+      ? EXERCISE_TYPES
+      : EXERCISE_TYPES.filter((t) => !TTS_REQUIRED_EXERCISES.includes(t));
+
     if (exerciseAccuracies.length === 0) {
-      // New user: show first 3 exercises as defaults
-      selectedTypes = EXERCISE_TYPES.slice(0, 3);
+      selectedTypes = availableTypes.slice(0, 3);
     } else {
-      // Pick the 3 exercise types with lowest accuracy
-      // Build a map of exercise_type -> accuracy
       const accMap = new Map<string, number>();
       for (const ea of exerciseAccuracies) {
         accMap.set(ea.exercise_type, ea.accuracy);
       }
-      // Sort all types by accuracy (ascending), unpractised types get 0
-      selectedTypes = [...EXERCISE_TYPES].sort((a, b) => {
-        const accA = accMap.get(a) ?? 0;
-        const accB = accMap.get(b) ?? 0;
-        return accA - accB;
-      }).slice(0, 3);
+      selectedTypes = [...availableTypes]
+        .sort((a, b) => (accMap.get(a) ?? 0) - (accMap.get(b) ?? 0))
+        .slice(0, 3);
     }
 
     // Build reason strings for each selected type
@@ -147,7 +148,8 @@
       'word-matching': $t('dashboard.phonological_practice'),
       'sentence-completion': $t('dashboard.phonological_practice'),
       'opposites-synonyms': $t('dashboard.practice_weak_category'),
-      'odd-one-out': $t('dashboard.category_practice')
+      'odd-one-out': $t('dashboard.category_practice'),
+      'listen-choose': $t('dashboard.phonological_practice')
     };
 
     for (const type of selectedTypes) {
@@ -296,15 +298,22 @@
     <h2 class="section-title">{$t('exercises.title')}</h2>
     <div class="exercise-chips stagger-children">
       {#each EXERCISE_REGISTRY as exercise (exercise.type)}
+        {@const ttsRequired = !!exercise.requiresTts && !ttsSupported}
         <button
           class="exercise-chip"
+          class:disabled={ttsRequired}
           onclick={() => startExercise(exercise.type)}
+          disabled={ttsRequired}
           aria-label={$t(`exercises.${exercise.i18nKey}.name`)}
+          aria-disabled={ttsRequired ? 'true' : undefined}
         >
           <span class="chip-icon">
             <ExerciseIcon meta={exercise} size={15} variant="solid" />
           </span>
           <span class="chip-label">{$t(`exercises.${exercise.i18nKey}.short_name`)}</span>
+          {#if ttsRequired}
+            <span class="chip-note">{$t('exercises.listen_choose.needs_tts')}</span>
+          {/if}
         </button>
       {/each}
     </div>
@@ -568,6 +577,26 @@
   .chip-label {
     line-height: 1.2;
     white-space: nowrap;
+  }
+
+  .exercise-chip.disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  .exercise-chip.disabled:active {
+    transform: none;
+  }
+
+  .chip-note {
+    display: block;
+    width: 100%;
+    font-size: 0.7rem;
+    font-weight: 400;
+    color: var(--text-muted, var(--text-dim));
+    line-height: 1.2;
+    margin-top: 2px;
+    text-align: center;
   }
 
   /* Category tiles ("Practicar una categoría") */

@@ -11,7 +11,8 @@ export type ExerciseType =
   | 'word-matching'
   | 'sentence-completion'
   | 'opposites-synonyms'
-  | 'odd-one-out';
+  | 'odd-one-out'
+  | 'listen-choose';
 
 export type DifficultyLevel = 1 | 2 | 3 | 4 | 5;
 

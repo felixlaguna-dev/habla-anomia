@@ -141,6 +141,15 @@
       "correct": "Oso ondo! {word} da sartzalea",
       "incorrect_reveal": "Sartzalea {word} zen",
       "need_more_words": "Gutxienez 2 kategoria desberdinetako hitzak behar dira ariketa honetarako."
+    },
+    "listen_choose": {
+      "name": "Entzun eta aukeratu",
+      "short_name": "Entzun",
+      "description": "Entzun hitza eta aukeratu irudi zuzena",
+      "listen_again": "Berriro entzun",
+      "correct_word_was": "Hau zen: {word}",
+      "needs_tts": "Gailuaren ahotsa behar du",
+      "option_label": "{n}. aukera"
     }
   },
   "feedback": {

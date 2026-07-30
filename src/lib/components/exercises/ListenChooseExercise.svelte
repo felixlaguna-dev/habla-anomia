@@ -5,7 +5,7 @@
   // among 4 image options. TTS is the core mechanic: if unavailable the
   // exercise tile on the home page is disabled, and this component shows a
   // fallback message as a safety net.
-  import { onMount } from 'svelte';
+  import { onMount, untrack } from 'svelte';
   import { t } from '$lib/i18n';
   import type { Word, Language, ExerciseType } from '$lib/types';
   import { resolveImageUrl, buildDistractors } from '$lib/utils/exercise-helpers';
@@ -95,7 +95,10 @@
     attemptsUsed = 0;
     startTime = Date.now();
     // Auto-play the spoken word on round start.
-    speak();
+    // untrack: speak() reads isSpeaking (a reactive $state) for its guard,
+    // which would add it as an effect dependency and re-trigger this effect
+    // every time speech ends — causing an infinite re-speak loop.
+    untrack(() => speak());
   });
 
   function speak() {

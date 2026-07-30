@@ -32,6 +32,9 @@ export function useTts() {
   let isSpeaking = $state(false);
   let synthesis: SpeechSynthesisService | null = null;
   let currentRate = 0.8;
+  // Generation token: incremented on cancel/destroy so a stale speak()'s
+  // finally block can't clobber isSpeaking after a new utterance started.
+  let generation = 0;
 
   function init(): void {
     if (SpeechSynthesisService.isSupported()) {
@@ -41,6 +44,7 @@ export function useTts() {
   }
 
   function destroy(): void {
+    generation++;
     synthesis?.destroy();
     synthesis = null;
     isSpeaking = false;
@@ -48,6 +52,7 @@ export function useTts() {
 
   /** Cancel any in-progress speech and reset state. */
   function cancel(): void {
+    generation++;
     synthesis?.stop();
     isSpeaking = false;
   }
@@ -60,10 +65,13 @@ export function useTts() {
   async function speak(text: string | undefined, lang: string): Promise<void> {
     if (!synthesis || isSpeaking || !text) return;
     isSpeaking = true;
+    const gen = generation;
     try {
       await synthesis.speak(text, lang);
     } finally {
-      isSpeaking = false;
+      // Only clear if this utterance is still the current one — a cancel()
+      // or newer speak() bumps generation and owns the flag.
+      if (gen === generation) isSpeaking = false;
     }
   }
 

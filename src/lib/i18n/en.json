@@ -151,6 +151,20 @@
       "correct_word_was": "It was: {word}",
       "needs_tts": "Requires device voice",
       "option_label": "Option {n}"
+    },
+    "yes_no": {
+      "name": "True or false",
+      "short_name": "Yes or No",
+      "description": "Decide whether the statement about the image is true or false",
+      "prompt": "Is it true or false?",
+      "yes": "Yes",
+      "no": "No",
+      "correct": "Correct!",
+      "statement_category": "It belongs to the category: {value}",
+      "statement_location": "It is found in: {value}",
+      "statement_function": "Its function is: {value}",
+      "correction_true": "Yes — {text}",
+      "correction_false": "No — {text}"
     }
   },
   "feedback": {

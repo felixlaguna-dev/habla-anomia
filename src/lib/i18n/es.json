@@ -151,6 +151,20 @@
       "correct_word_was": "Era: {word}",
       "needs_tts": "Necesita voz del dispositivo",
       "option_label": "Opción {n}"
+    },
+    "yes_no": {
+      "name": "Verdadero o falso",
+      "short_name": "Sí o No",
+      "description": "Decide si la afirmación sobre la imagen es verdadera o falsa",
+      "prompt": "¿Es verdadero o falso?",
+      "yes": "Sí",
+      "no": "No",
+      "correct": "¡Correcto!",
+      "statement_category": "Es de la categoría: {value}",
+      "statement_location": "Se encuentra en: {value}",
+      "statement_function": "Su función es: {value}",
+      "correction_true": "Sí — {text}",
+      "correction_false": "No — {text}"
     }
   },
   "feedback": {

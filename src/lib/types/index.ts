@@ -25,7 +25,8 @@ export type ExerciseType =
   | 'sentence-completion'
   | 'opposites-synonyms'
   | 'odd-one-out'
-  | 'listen-choose';
+  | 'listen-choose'
+  | 'yes-no';
 
 export type DifficultyLevel = 1 | 2 | 3 | 4 | 5;
 

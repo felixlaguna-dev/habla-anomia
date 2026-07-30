@@ -151,6 +151,20 @@
       "correct_word_was": "Era: {word}",
       "needs_tts": "Necessita veu del dispositiu",
       "option_label": "Opció {n}"
+    },
+    "yes_no": {
+      "name": "Vertader o fals",
+      "short_name": "Sí o No",
+      "description": "Decideix si l'afirmació sobre la imatge és vertadera o falsa",
+      "prompt": "És vertader o fals?",
+      "yes": "Sí",
+      "no": "No",
+      "correct": "Correcte!",
+      "statement_category": "És de la categoria: {value}",
+      "statement_location": "Es troba en: {value}",
+      "statement_function": "La seva funció és: {value}",
+      "correction_true": "Sí — {text}",
+      "correction_false": "No — {text}"
     }
   },
   "feedback": {

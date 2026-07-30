@@ -151,6 +151,20 @@
       "correct_word_was": "Hau zen: {word}",
       "needs_tts": "Gailuaren ahotsa behar du",
       "option_label": "{n}. aukera"
+    },
+    "yes_no": {
+      "name": "Egiazkoa edo gezurra",
+      "short_name": "Bai edo Ez",
+      "description": "Erabaki baieztapena egiazkoa edo gezurra den",
+      "prompt": "Egiazkoa edo gezurra da?",
+      "yes": "Bai",
+      "no": "Ez",
+      "correct": "Zuzena!",
+      "statement_category": "Kategoria hau da: {value}",
+      "statement_location": "Hemen aurkitzen da: {value}",
+      "statement_function": "Bere funtzioa da: {value}",
+      "correction_true": "Bai — {text}",
+      "correction_false": "Ez — {text}"
     }
   },
   "feedback": {

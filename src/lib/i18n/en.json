@@ -198,6 +198,11 @@
   "settings": {
     "title": "Settings",
     "language": "Language",
+    "ui_language": "Language",
+    "yes": "Yes",
+    "no": "No",
+    "confirm_delete": "Sure? Tap again",
+    "words_spanish_only": "Word exercises are available in Spanish only for now.",
     "text_size": "Text size",
     "theme": "Theme",
     "dark": "Dark",
@@ -307,5 +312,9 @@
     "description": "Add this app to your home screen for quick access",
     "install": "Install",
     "dismiss": "Not now"
+  },
+  "offline": {
+    "offline_mode": "Offline — offline mode",
+    "online": "Online"
   }
 }

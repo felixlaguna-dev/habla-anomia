@@ -24,7 +24,7 @@
     // text-size setting actually scales the rem-based UI.
     applyAppearance(settings);
 
-    locale.set(settings.language);
+    locale.set(settings.ui_language);
     try {
       await seedWords(WORDS_ES, WORDS_ES_VERSION);
     } catch (err) {

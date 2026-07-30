@@ -198,6 +198,11 @@
   "settings": {
     "title": "Ezarpenak",
     "language": "Hizkuntza",
+    "ui_language": "Hizkuntza",
+    "yes": "Bai",
+    "no": "Ez",
+    "confirm_delete": "Ziur? Sakatu berriro",
+    "words_spanish_only": "Hitz-ariketak soilik daude eskuragarri gaztelaniaz oraingoz.",
     "text_size": "Testuaren tamaina",
     "theme": "Itxura",
     "dark": "Iluna",
@@ -307,5 +312,9 @@
     "description": "Gehitu aplikazioa zure hasierako pantailara sarbide azkarretarako",
     "install": "Instalatu",
     "dismiss": "Orain ez"
+  },
+  "offline": {
+    "offline_mode": "Konexiorik ez — lineaz kanpoko modua",
+    "online": "Konektatuta"
   }
 }

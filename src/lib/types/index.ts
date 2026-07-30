@@ -149,7 +149,10 @@ export interface SpacedRepetitionEntry {
 }
 
 export interface AppSettings {
+  /** Content language for word bank / sessions / attempts (pinned to 'es' — only Spanish words exist). */
   language: Language;
+  /** UI locale for chrome / instructions / navigation. Decoupled from content language. */
+  ui_language: Language;
   text_size: 'small' | 'normal' | 'large' | 'xlarge';
   theme: 'dark' | 'light';
   high_contrast: boolean;

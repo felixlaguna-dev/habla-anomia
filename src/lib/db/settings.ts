@@ -3,6 +3,7 @@ import type { AppSettings, Language } from '$lib/types';
 
 const DEFAULTS: AppSettings = {
   language: 'es' as Language,
+  ui_language: 'es' as Language,
   text_size: 'normal',
   theme: 'light',
   high_contrast: false,
@@ -38,6 +39,7 @@ export async function getAllSettings(): Promise<AppSettings> {
 
   return {
     language: settingsMap.get('language') ?? DEFAULTS.language,
+    ui_language: settingsMap.get('ui_language') ?? DEFAULTS.ui_language,
     text_size: settingsMap.get('text_size') ?? DEFAULTS.text_size,
     theme: settingsMap.get('theme') ?? DEFAULTS.theme,
     high_contrast: settingsMap.get('high_contrast') ?? DEFAULTS.high_contrast,
@@ -71,6 +73,17 @@ export async function initDefaults(): Promise<void> {
       if (!existing) {
         const resolved = key === 'theme' && prefersDark ? 'dark' : value;
         await db.settings.put({ key, value: resolved });
+      }
+    }
+
+    // Migration: existing installs have `language` but not `ui_language`.
+    // Copy the content language as the UI language default so their chrome
+    // stays in the same language they were already using.
+    const hasUiLanguage = await db.settings.get('ui_language');
+    if (!hasUiLanguage) {
+      const contentLang = await db.settings.get('language');
+      if (contentLang) {
+        await db.settings.put({ key: 'ui_language', value: contentLang.value });
       }
     }
   });

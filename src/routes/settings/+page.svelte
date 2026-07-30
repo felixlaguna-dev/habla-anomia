@@ -26,6 +26,14 @@
     { value: 'light', labelKey: 'settings.light' }
   ];
 
+  /** Language options — always labeled in their OWN language so users recognize theirs. */
+  const languageOptions: { value: Language; label: string }[] = [
+    { value: 'es', label: 'Español' },
+    { value: 'ca', label: 'Català' },
+    { value: 'eu', label: 'Euskara' },
+    { value: 'en', label: 'English' }
+  ];
+
   async function loadSettings() {
     if (!browser) return;
     settings = await getAllSettings();
@@ -46,8 +54,8 @@
       applyAppearance(updated);
     }
 
-    // Apply language changes immediately
-    if (key === 'language') {
+    // Apply UI language changes immediately
+    if (key === 'ui_language') {
       locale.set(value as Language);
     }
   }
@@ -140,6 +148,31 @@
     </header>
 
     <div class="settings-cards">
+    <!-- Card 0: UI Language (first — elderly users need it findable) -->
+    <Card>
+      <div class="card-section">
+        <h2 class="card-heading">{$t('settings.ui_language')}</h2>
+
+        <div class="lang-grid" role="listbox" aria-label={$t('settings.ui_language')}>
+          {#each languageOptions as opt (opt.value)}
+            <button
+              class="lang-btn"
+              class:lang-btn-active={settings.ui_language === opt.value}
+              role="option"
+              aria-selected={settings.ui_language === opt.value}
+              onclick={() => updateSetting('ui_language', opt.value)}
+            >
+              {opt.label}
+            </button>
+          {/each}
+        </div>
+
+        {#if settings.ui_language !== 'es'}
+          <p class="content-lang-note">{$t('settings.words_spanish_only')}</p>
+        {/if}
+      </div>
+    </Card>
+
     <!-- Card 1: Appearance -->
     <Card>
       <div class="card-section">
@@ -185,7 +218,7 @@
               <span class="toggle-track">
                 <span class="toggle-thumb"></span>
               </span>
-              <span class="toggle-label-text">{settings.high_contrast ? 'Sí' : 'No'}</span>
+              <span class="toggle-label-text">{settings.high_contrast ? $t('settings.yes') : $t('settings.no')}</span>
             </button>
           </div>
         </div>
@@ -211,7 +244,7 @@
               <span class="toggle-track">
                 <span class="toggle-thumb"></span>
               </span>
-              <span class="toggle-label-text">{settings.sound_enabled ? 'Sí' : 'No'}</span>
+              <span class="toggle-label-text">{settings.sound_enabled ? $t('settings.yes') : $t('settings.no')}</span>
             </button>
           </div>
         </div>
@@ -232,7 +265,7 @@
               <span class="toggle-track">
                 <span class="toggle-thumb"></span>
               </span>
-              <span class="toggle-label-text">{settings.speak_buttons_enabled ? 'Sí' : 'No'}</span>
+              <span class="toggle-label-text">{settings.speak_buttons_enabled ? $t('settings.yes') : $t('settings.no')}</span>
             </button>
           </div>
         </div>
@@ -272,7 +305,7 @@
               <span class="toggle-track">
                 <span class="toggle-thumb"></span>
               </span>
-              <span class="toggle-label-text">{settings.haptic_enabled ? 'Sí' : 'No'}</span>
+              <span class="toggle-label-text">{settings.haptic_enabled ? $t('settings.yes') : $t('settings.no')}</span>
             </button>
           </div>
         </div>
@@ -293,7 +326,7 @@
               <span class="toggle-track">
                 <span class="toggle-thumb"></span>
               </span>
-              <span class="toggle-label-text">{settings.timer_enabled ? 'Sí' : 'No'}</span>
+              <span class="toggle-label-text">{settings.timer_enabled ? $t('settings.yes') : $t('settings.no')}</span>
             </button>
           </div>
         </div>
@@ -316,9 +349,9 @@
             class="delete-data-btn"
             class:confirming={deleteConfirming}
             onclick={handleClearAll}
-            aria-label={deleteConfirming ? '¿Seguro? Toca de nuevo' : $t('progress.clear_data')}
+            aria-label={deleteConfirming ? $t('settings.confirm_delete') : $t('progress.clear_data')}
           >
-            {deleteConfirming ? '⚠️ ¿Seguro? Toca de nuevo' : $t('progress.clear_data')}
+            {deleteConfirming ? '⚠️ ' + $t('settings.confirm_delete') : $t('progress.clear_data')}
           </button>
         </div>
 
@@ -397,6 +430,53 @@
     color: var(--text);
     margin: 0 0 var(--space-md) 0;
     padding: 0 var(--space-xs);
+  }
+
+  /* Language selector */
+  .lang-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-sm);
+    padding: 0 var(--space-xs);
+  }
+
+  .lang-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: var(--touch-min);
+    padding: var(--space-sm) var(--space-md);
+    background: var(--surface-2);
+    border: 2px solid var(--border);
+    border-radius: var(--radius-md);
+    font-size: var(--font-size-lg);
+    font-weight: 600;
+    color: var(--text);
+    cursor: pointer;
+    font-family: var(--font-family);
+    transition: border-color var(--transition-fast), background var(--transition-fast);
+    touch-action: manipulation;
+  }
+
+  .lang-btn-active {
+    border-color: var(--primary);
+    background: var(--primary-light);
+    color: var(--primary);
+  }
+
+  .lang-btn:focus-visible {
+    outline: 3px solid var(--primary-light);
+    outline-offset: 2px;
+  }
+
+  .content-lang-note {
+    margin: var(--space-sm) var(--space-xs) 0;
+    padding: var(--space-sm);
+    background: var(--surface-2);
+    border-radius: var(--radius-sm);
+    font-size: var(--font-size-sm);
+    color: var(--text-dim);
+    line-height: 1.4;
   }
 
   /* Setting rows */
@@ -663,7 +743,8 @@
       align-items: start;
     }
 
-    /* Data section full-width below */
+    /* Language and data sections span full width */
+    .settings-cards > :first-child,
     .settings-cards > :last-child {
       grid-column: 1 / -1;
     }

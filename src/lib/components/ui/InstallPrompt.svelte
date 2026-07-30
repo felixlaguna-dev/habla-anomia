@@ -67,7 +67,7 @@
       </div>
       <div class="install-actions">
         <button class="btn-install" onclick={handleInstall}>{$t('install_prompt.install')}</button>
-        <button class="btn-dismiss" onclick={handleDismiss} aria-label="Cerrar">✕</button>
+        <button class="btn-dismiss" onclick={handleDismiss} aria-label={$t('common.close')}>✕</button>
       </div>
     </div>
   </div>

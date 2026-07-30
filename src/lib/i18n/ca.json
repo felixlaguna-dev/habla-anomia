@@ -198,6 +198,11 @@
   "settings": {
     "title": "Ajustos",
     "language": "Idioma",
+    "ui_language": "Idioma",
+    "yes": "Sí",
+    "no": "No",
+    "confirm_delete": "Segur? Torna a tocar",
+    "words_spanish_only": "Els exercicis de paraules estan disponibles només en espanyol de moment.",
     "text_size": "Mida del text",
     "theme": "Tema visual",
     "dark": "Fosc",
@@ -307,5 +312,9 @@
     "description": "Afegeix l'app a la teva pantalla d'inici per accés ràpid",
     "install": "Instal·lar",
     "dismiss": "Ara no"
+  },
+  "offline": {
+    "offline_mode": "Sense connexió — mode offline",
+    "online": "En línia"
   }
 }

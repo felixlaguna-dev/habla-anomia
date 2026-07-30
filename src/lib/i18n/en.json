@@ -267,7 +267,8 @@
     "sentence_completion_desc": "Complete sentences with these words",
     "not_available": "This category doesn't have enough words yet.",
     "invalid_category": "Category not found.",
-    "back_home": "Back to home"
+    "back_home": "Back to home",
+    "scroll_right": "See more categories"
   },
   "install_prompt": {
     "title": "Install Habla Anomia",

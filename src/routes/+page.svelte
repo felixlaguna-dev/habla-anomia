@@ -8,6 +8,7 @@
   import { getSRStats } from '$lib/engine/spaced-repetition';
   import { getAccuracyByExercise } from '$lib/db/attempts';
   import { EXERCISE_REGISTRY, EXERCISE_TYPES, getExerciseMeta, type ExerciseMeta } from '$lib/exercises/registry';
+  import { scrollAffordance } from '$lib/utils/scroll-affordance';
   import { onMount } from 'svelte';
   import { goto } from '$app/navigation';
   import { base } from '$app/paths';
@@ -23,6 +24,16 @@
   let language = $state<Language>('es');
   let practiceCategories: Category[] = $state([]);
   let loading = $state(true);
+
+  // Category row scroll affordance — fade + arrow
+  let categoryRowEl = $state<HTMLElement | null>(null);
+  let canScrollLeft = $state(false);
+  let canScrollRight = $state(false);
+
+  function handleScrollChange(left: boolean, right: boolean) {
+    canScrollLeft = left;
+    canScrollRight = right;
+  }
 
   // Daily plan recommendations
   interface PlanItem {
@@ -154,6 +165,13 @@
   function startExercise(type: string) {
     goto(`${base}/exercises/${type}`);
   }
+
+  function scrollCategoryRow() {
+    const el = categoryRowEl;
+    if (!el) return;
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    el.scrollBy({ left: el.clientWidth, behavior: reduced ? 'auto' : 'smooth' });
+  }
 </script>
 
 <div class="dashboard">
@@ -271,17 +289,33 @@
   {#if !loading && practiceCategories.length > 0}
     <section class="category-section fade-in">
       <h2 class="section-title">🗂️ {$t('practice.section_title')}</h2>
-      <div class="category-row">
-        {#each practiceCategories as cat}
-          <button
-            class="category-tile"
-            onclick={() => goto(`${base}/practice/${cat}`)}
-            aria-label={$t('practice.section_title') + ': ' + $t(`categories.${cat}`)}
-          >
-            <CategoryIcon category={cat} size="lg" />
-            <span class="category-tile-label">{$t(`categories.${cat}`)}</span>
-          </button>
-        {/each}
+      <div class="category-scroll-wrapper">
+        <div class="category-row" bind:this={categoryRowEl} use:scrollAffordance={{ onScrollChange: handleScrollChange }}>
+          {#each practiceCategories as cat}
+            <button
+              class="category-tile"
+              onclick={() => goto(`${base}/practice/${cat}`)}
+              aria-label={$t('practice.section_title') + ': ' + $t(`categories.${cat}`)}
+            >
+              <CategoryIcon category={cat} size="lg" />
+              <span class="category-tile-label">{$t(`categories.${cat}`)}</span>
+            </button>
+          {/each}
+        </div>
+        <div class="scroll-fade scroll-fade-left" class:visible={canScrollLeft} aria-hidden="true"></div>
+        <div class="scroll-fade scroll-fade-right" class:visible={canScrollRight} aria-hidden="true"></div>
+        <button
+          class="scroll-arrow"
+          class:visible={canScrollRight}
+          onclick={scrollCategoryRow}
+          aria-label={$t('practice.scroll_right')}
+          tabindex={canScrollRight ? 0 : -1}
+          aria-hidden={!canScrollRight}
+        >
+          <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true">
+            <path d="M9 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
       </div>
     </section>
   {/if}
@@ -518,6 +552,10 @@
     gap: 0.75rem;
   }
 
+  .category-scroll-wrapper {
+    position: relative;
+  }
+
   .category-row {
     display: flex;
     gap: 0.75rem;
@@ -525,6 +563,63 @@
     padding: 0.5rem 0.25rem 0.75rem; /* room for the focus ring + scroll bar */
     scroll-snap-type: x mandatory;
     -webkit-overflow-scrolling: touch;
+  }
+
+  /* Scroll affordances: edge fade + arrow button */
+  .scroll-fade {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 1.5rem;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity var(--transition-fast);
+    z-index: 1;
+  }
+
+  .scroll-fade-left {
+    left: 0;
+    background: linear-gradient(to right, var(--bg), transparent);
+  }
+
+  .scroll-fade-right {
+    right: 0;
+    background: linear-gradient(to left, var(--bg), transparent);
+  }
+
+  .scroll-fade.visible {
+    opacity: 1;
+  }
+
+  .scroll-arrow {
+    position: absolute;
+    right: 0;
+    top: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: var(--touch-min);
+    height: var(--touch-min);
+    border: none;
+    border-radius: 50%;
+    background: var(--primary);
+    color: white;
+    cursor: pointer;
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(-50%);
+    transition: opacity var(--transition-fast), transform var(--transition-fast);
+    z-index: 2;
+    box-shadow: var(--shadow-sm);
+  }
+
+  .scroll-arrow.visible {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .scroll-arrow:active {
+    transform: translateY(-50%) scale(0.92);
   }
 
   .category-tile {
@@ -575,6 +670,10 @@
 
     .category-tile-label {
       font-size: 1rem;
+    }
+
+    .scroll-fade {
+      width: 2rem;
     }
   }
 

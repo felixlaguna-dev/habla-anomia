@@ -7,8 +7,7 @@
   import { goto } from '$app/navigation';
   import { base } from '$app/paths';
   import { browser } from '$app/environment';
-  import type { Language, AppSettings } from '$lib/types';
-  import { LANGUAGES } from '$lib/types';
+  import { LANGUAGES, type Language, type AppSettings } from '$lib/types';
 
   let settings = $state<AppSettings | null>(null);
   let loading = $state(true);

@@ -288,6 +288,11 @@
 {/if}
 
 <style>
+  /* Picture naming uses a larger image than the default 300px */
+  .exercise-image-area {
+    max-width: 350px;
+  }
+
   .prompt {
     font-size: var(--font-size-xl, 24px);
     font-weight: 700;

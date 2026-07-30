@@ -12,7 +12,7 @@
   import { recordTrial } from '$lib/utils/record-trial';
   import { createCancellableTimer } from '$lib/utils/timer';
   import { playCorrectSound, playIncorrectSound } from '$lib/utils/sounds';
-  import { ExerciseShell, OptionGrid, FeedbackBanner, SpeakButton, ExerciseSummary, FEEDBACK_TIMINGS } from './shared';
+  import { ExerciseShell, OptionGrid, FeedbackBanner, SpeakButton, FEEDBACK_TIMINGS } from './shared';
   import type { KeyboardNavParams } from '$lib/utils/keyboard-nav';
 
   type MatchingMode = 'word-to-definition' | 'definition-to-word' | 'image-to-word';
@@ -156,20 +156,6 @@
     }
   }
 
-  function restart() {
-    advanceTimer.clear();
-    currentIndex = 0;
-    selectedIndex = null;
-    feedbackState = 'none';
-    results = [];
-    startTime = Date.now();
-  }
-
-  function handleRestart() {
-    restart();
-    onrestart?.();
-  }
-
   let keyboardNavParams = $derived<KeyboardNavParams>({
     getFeedbackState: () => feedbackState,
     optionCount: Math.min(options.length, 4),
@@ -273,18 +259,6 @@
       ⏭️ {$t('common.skip')}
     </button>
   </ExerciseShell>
-{/if}
-
-{#if isFinished}
-  <ExerciseSummary
-    {score}
-    total={words.length}
-    {results}
-    speakEnabled={speakButtonsEnabled}
-    isSpeaking={tts.isSpeaking}
-    onSpeak={speak}
-    onrestart={handleRestart}
-  />
 {/if}
 
 <style>

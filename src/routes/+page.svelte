@@ -2,7 +2,7 @@
   import { t } from '$lib/i18n';
   import Card from '$lib/components/ui/Card.svelte';
   import { ExerciseIcon, CategoryIcon } from '$lib/components/ui';
-  import { getSessions } from '$lib/db/sessions';
+  import { getSessions, completedTypesToday } from '$lib/db/sessions';
   import { getAllSettings, getStreakInfo } from '$lib/db';
   import { getCategoriesWithEnoughWords, awaitSeedReady, DRILLABLE_CATEGORY_MIN } from '$lib/db/words';
   import { getSRStats } from '$lib/engine/spaced-repetition';
@@ -16,7 +16,6 @@
   import type { Language, Category, ExerciseType } from '$lib/types';
 
   let totalSessions = $state(0);
-  let todayCompleted = $state(0);
   let todayGoal = $state(4);
   let accuracy = $state(0);
   let streakCurrent = $state(0);
@@ -26,6 +25,26 @@
   let practiceCategories: Category[] = $state([]);
   let todayFailuresCount = $state(0);
   let loading = $state(true);
+
+  // Daily plan recommendations
+  interface PlanItem {
+    type: ExerciseType;
+    meta: ExerciseMeta;
+    reason: string;
+  }
+
+  let dailyPlan = $state<PlanItem[]>([]);
+
+  // Exercise types completed today (from sessions with ended_at set today).
+  // Drives both the daily-plan checkmark and the chip-grid sticker.
+  let completedTodayTypes = $state<Set<ExerciseType>>(new Set());
+
+  // How many of today's plan items are done — derived from the plan + types,
+  // not a raw session count, so the stat tracks the plan rather than arbitrary
+  // sessions of unrelated types.
+  let todayCompleted = $derived(
+    dailyPlan.filter(item => completedTodayTypes.has(item.type)).length
+  );
 
   // Category row scroll affordance — fade + arrow
   let categoryRowEl = $state<HTMLElement | null>(null);
@@ -37,14 +56,6 @@
     canScrollRight = right;
   }
 
-  // Daily plan recommendations
-  interface PlanItem {
-    type: ExerciseType;
-    meta: ExerciseMeta;
-    reason: string;
-  }
-
-  let dailyPlan = $state<PlanItem[]>([]);
   const ttsSupported = SpeechSynthesisService.isSupported();
 
   function getGreeting(): string {
@@ -89,13 +100,9 @@
       practiceCategories = cats;
       todayFailuresCount = [...failures.values()].reduce((sum, words) => sum + words.length, 0);
 
-      // Today's completed sessions (sessions that actually finished)
-      const today = new Date().toISOString().split('T')[0];
-      const completedSessions = sessions.filter(s => s.ended_at);
-      todayCompleted = completedSessions.filter(s => {
-        const d = s.ended_at instanceof Date ? s.ended_at : new Date(s.ended_at!);
-        return d.toISOString().split('T')[0] === today;
-      }).length;
+      // Today's completed exercise types — pure transform on the sessions we
+      // already fetched, so no extra IDB round-trip.
+      completedTodayTypes = completedTypesToday(sessions);
 
       // Accuracy from recent sessions
       const completed = sessions.filter(s => s.ended_at);
@@ -239,9 +246,10 @@
       </div>
     {:else}
       <div class="plan-list stagger-children">
-        {#each dailyPlan as item, i (item.type)}
+        {#each dailyPlan as item (item.type)}
+          {@const isDone = completedTodayTypes.has(item.type)}
           <Card>
-            <div class="plan-item" class:completed={i < todayCompleted}>
+            <div class="plan-item" class:completed={isDone}>
               <div class="plan-info">
                 <span class="plan-icon">
                   <ExerciseIcon meta={item.meta} size={28} />
@@ -255,7 +263,7 @@
                 class="plan-start-btn"
                 onclick={() => startExercise(item.type)}
               >
-                {i < todayCompleted ? '✓' : $t('common.start')}
+                {isDone ? '✓' : $t('common.start')}
               </button>
             </div>
           </Card>
@@ -299,12 +307,15 @@
     <div class="exercise-chips stagger-children">
       {#each EXERCISE_REGISTRY as exercise (exercise.type)}
         {@const ttsRequired = !!exercise.requiresTts && !ttsSupported}
+        {@const isDone = completedTodayTypes.has(exercise.type)}
         <button
           class="exercise-chip"
           class:disabled={ttsRequired}
           onclick={() => startExercise(exercise.type)}
           disabled={ttsRequired}
-          aria-label={$t(`exercises.${exercise.i18nKey}.name`)}
+          aria-label={isDone
+            ? `${$t(`exercises.${exercise.i18nKey}.name`)}, ${$t('dashboard.done_today')}`
+            : $t(`exercises.${exercise.i18nKey}.name`)}
           aria-disabled={ttsRequired ? 'true' : undefined}
         >
           <span class="chip-icon">
@@ -313,6 +324,13 @@
           <span class="chip-label">{$t(`exercises.${exercise.i18nKey}.short_name`)}</span>
           {#if ttsRequired}
             <span class="chip-note">{$t('exercises.listen_choose.needs_tts')}</span>
+          {/if}
+          {#if isDone}
+            <span class="chip-done" aria-hidden="true">
+              <svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M20 6L9 17l-5-5" />
+              </svg>
+            </span>
           {/if}
         </button>
       {/each}
@@ -588,6 +606,25 @@
     transform: none;
   }
 
+  /* Done-today sticker: faint green badge on the bottom-right corner of the chip */
+  .chip-done {
+    position: absolute;
+    bottom: -4px;
+    right: -4px;
+    width: 1.15rem;
+    height: 1.15rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--success);
+    color: #fff;
+    border: 2px solid var(--bg);
+    border-radius: 50%;
+    box-shadow: var(--shadow-sm);
+    z-index: 2;
+    opacity: 0.85;
+  }
+
   .chip-note {
     display: block;
     width: 100%;
@@ -788,6 +825,13 @@
       left: -9px;
     }
 
+    .chip-done {
+      width: 1.4rem;
+      height: 1.4rem;
+      bottom: -5px;
+      right: -5px;
+    }
+
     .exercise-chips {
       gap: 1rem;
     }
@@ -886,6 +930,14 @@
       height: 1.4rem;
       top: -7px;
       left: -7px;
+    }
+
+    .chip-done {
+      width: 1rem;
+      height: 1rem;
+      bottom: -3px;
+      right: -3px;
+      border-width: 1.5px;
     }
   }
 </style>

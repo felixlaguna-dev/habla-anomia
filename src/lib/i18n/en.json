@@ -32,7 +32,8 @@
     "category_practice": "Sort words by category",
     "all_done_today": "All done for today! Great work.",
     "review_failures_title": "You have {count} mistakes today",
-    "review_failures_button": "Review mistakes"
+    "review_failures_button": "Review mistakes",
+    "done_today": "Done today"
   },
   "exercises": {
     "title": "Exercises",

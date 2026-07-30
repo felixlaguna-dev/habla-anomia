@@ -8,6 +8,7 @@ import GenerativeNamingExercise from './GenerativeNamingExercise.svelte';
 import WordMatchingExercise from './WordMatchingExercise.svelte';
 import SentenceCompletionExercise from './SentenceCompletionExercise.svelte';
 import OppositesSynonymsExercise from './OppositesSynonymsExercise.svelte';
+import OddOneOutExercise from './OddOneOutExercise.svelte';
 
 export {
   PictureNamingExercise,
@@ -17,7 +18,8 @@ export {
   GenerativeNamingExercise,
   WordMatchingExercise,
   SentenceCompletionExercise,
-  OppositesSynonymsExercise
+  OppositesSynonymsExercise,
+  OddOneOutExercise
 };
 
 /**
@@ -33,5 +35,6 @@ export const EXERCISE_COMPONENTS: Record<ExerciseType, any> = {
   'generative-naming': GenerativeNamingExercise,
   'word-matching': WordMatchingExercise,
   'sentence-completion': SentenceCompletionExercise,
-  'opposites-synonyms': OppositesSynonymsExercise
+  'opposites-synonyms': OppositesSynonymsExercise,
+  'odd-one-out': OddOneOutExercise
 };

@@ -132,6 +132,15 @@
       "what_means_same": "Zein hitzek esan nahi du gauza bera?",
       "opposites": "Aurkakoak",
       "synonyms": "Sinonimoak"
+    },
+    "odd_one_out": {
+      "name": "Sartzalea",
+      "short_name": "Sartz.",
+      "description": "Aurkitu taldeari ez dagozkion hitza",
+      "prompt": "Zein ez da taldekoa?",
+      "correct": "Oso ondo! {word} da sartzalea",
+      "incorrect_reveal": "Sartzalea {word} zen",
+      "need_more_words": "Gutxienez 2 kategoria desberdinetako hitzak behar dira ariketa honetarako."
     }
   },
   "feedback": {

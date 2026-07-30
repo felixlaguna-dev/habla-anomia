@@ -132,6 +132,15 @@
       "what_means_same": "What word means the same?",
       "opposites": "Opposites",
       "synonyms": "Synonyms"
+    },
+    "odd_one_out": {
+      "name": "Odd One Out",
+      "short_name": "Intruder",
+      "description": "Find the word that doesn't belong",
+      "prompt": "Which one doesn't belong?",
+      "correct": "Correct! {word} is the odd one",
+      "incorrect_reveal": "The odd one was {word}",
+      "need_more_words": "Need words from at least 2 different categories for this exercise."
     }
   },
   "feedback": {

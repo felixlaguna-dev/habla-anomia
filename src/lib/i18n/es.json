@@ -132,6 +132,15 @@
       "what_means_same": "¿Qué palabra significa lo mismo?",
       "opposites": "Opuestos",
       "synonyms": "Sinónimos"
+    },
+    "odd_one_out": {
+      "name": "El intruso",
+      "short_name": "Intruso",
+      "description": "Encuentra la palabra que no pertenece al grupo",
+      "prompt": "¿Cuál no pertenece al grupo?",
+      "correct": "¡Correcto! {word} es el intruso",
+      "incorrect_reveal": "El intruso era {word}",
+      "need_more_words": "Se necesitan palabras de al menos 2 categorías diferentes para este ejercicio."
     }
   },
   "feedback": {

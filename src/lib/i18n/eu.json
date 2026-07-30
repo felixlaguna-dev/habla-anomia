@@ -28,6 +28,8 @@
     "today_exercises": "Gaur osatuta",
     "review_due_words": "{count} hitz berrikusteko",
     "practice_weak_category": "Praktikatu kategoria ahulenak",
+    "review_failures_title": "{count} akats dituzu gaur",
+    "review_failures_button": "Berrikusi akatsak",
     "phonological_practice": "Praktikatu soinu-pistekin",
     "category_practice": "Sailkatu hitzak kategoriaka",
     "all_done_today": "Gaurko guztia osatuta! Lan bikaina."
@@ -271,6 +273,16 @@
     "invalid_category": "Ez da kategoria aurkitu.",
     "back_home": "Hasierara itzuli",
     "scroll_right": "Ikusi kategoria gehiago"
+  },
+  "review": {
+    "title": "Berrikusi gaurko akatsak",
+    "group_progress": "Ariketa {current} / {total}",
+    "cleared": "Gainditutako hitzak: {count}",
+    "remaining": "Falta diren hitzak: {count}",
+    "all_cleared": "Akats guztiak gainditu dituzu! Ongi egina!",
+    "retry_remaining": "Berriz saiatu ({count})",
+    "no_failures": "Ez duzu akatsik gaur. Ondo!",
+    "back_home": "Hasierara itzuli"
   },
   "install_prompt": {
     "title": "Instalatu Habla Anomia",

@@ -30,7 +30,9 @@
     "practice_weak_category": "Practice your weakest categories",
     "phonological_practice": "Practice with sound cues",
     "category_practice": "Sort words by category",
-    "all_done_today": "All done for today! Great work."
+    "all_done_today": "All done for today! Great work.",
+    "review_failures_title": "You have {count} mistakes today",
+    "review_failures_button": "Review mistakes"
   },
   "exercises": {
     "title": "Exercises",
@@ -271,6 +273,16 @@
     "invalid_category": "Category not found.",
     "back_home": "Back to home",
     "scroll_right": "See more categories"
+  },
+  "review": {
+    "title": "Review today's mistakes",
+    "group_progress": "Exercise {current} of {total}",
+    "cleared": "Words cleared: {count}",
+    "remaining": "Words remaining: {count}",
+    "all_cleared": "You've cleared all mistakes! Well done!",
+    "retry_remaining": "Retry remaining ({count})",
+    "no_failures": "No mistakes today. Great job!",
+    "back_home": "Back to home"
   },
   "install_prompt": {
     "title": "Install Habla Anomia",

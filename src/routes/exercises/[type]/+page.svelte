@@ -18,14 +18,7 @@
   import { CATEGORIES } from '$lib/types';
 
   import {
-    PictureNamingExercise,
-    SemanticFeaturesExercise,
-    PhonologicalCueingExercise,
-    CategorySortingExercise,
-    GenerativeNamingExercise,
-    WordMatchingExercise,
-    SentenceCompletionExercise,
-    OppositesSynonymsExercise
+    EXERCISE_COMPONENTS
   } from '$lib/components/exercises';
 
   let exerciseType = $derived($page.params.type as ExerciseType);
@@ -61,19 +54,7 @@
   }
 
   // Resolve component in script block, not template
-  let ExerciseComponent = $derived.by(() => {
-    const map: Record<string, any> = {
-      'picture-naming': PictureNamingExercise,
-      'semantic-features': SemanticFeaturesExercise,
-      'phonological-cueing': PhonologicalCueingExercise,
-      'category-sorting': CategorySortingExercise,
-      'generative-naming': GenerativeNamingExercise,
-      'word-matching': WordMatchingExercise,
-      'sentence-completion': SentenceCompletionExercise,
-      'opposites-synonyms': OppositesSynonymsExercise
-    };
-    return map[exerciseType] || null;
-  });
+  let ExerciseComponent = $derived(EXERCISE_COMPONENTS[exerciseType] ?? null);
 
   let exerciseMeta = $derived(getExerciseMeta(exerciseType));
 

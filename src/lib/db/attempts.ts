@@ -1,5 +1,5 @@
 import { db } from './database';
-import type { Attempt, Language, ExerciseType, Category } from '$lib/types';
+import type { Attempt, Language, ExerciseType, Category, Word } from '$lib/types';
 import { getWordCategories } from '$lib/types';
 
 /**
@@ -213,6 +213,74 @@ export async function getAccuracyOverTime(
   }
 
   return results;
+}
+
+/**
+ * Get today's failed words grouped by exercise type.
+ *
+ * A word is included for a given exercise type if its most recent attempt
+ * today for that type was incorrect. Words that were later answered correctly
+ * (in a retry or a new session) are excluded — only still-failing words
+ * surface so the review card disappears once everything is cleared.
+ *
+ * Resolves word_ids to full Word objects via db.words.bulkGet; orphaned attempts
+ * (word removed from seed) are silently dropped.
+ */
+export async function getTodaysFailures(
+  language: Language
+): Promise<Map<ExerciseType, Word[]>> {
+  const todayStart = new Date();
+  todayStart.setHours(0, 0, 0, 0);
+  const todayEnd = new Date();
+  todayEnd.setHours(23, 59, 59, 999);
+
+  const attempts = await db.attempts
+    .where('language')
+    .equals(language)
+    .filter(a => {
+      const ts = a.timestamp instanceof Date ? a.timestamp : new Date(a.timestamp);
+      return ts >= todayStart && ts <= todayEnd;
+    })
+    .toArray();
+
+  // Track the latest attempt per (word_id, exercise_type). Dexie's filter
+  // result isn't guaranteed sorted by timestamp, so we compare explicitly.
+  // Single map — the key is only for dedup; wordId/exerciseType are read
+  // from the value so we never parse the key string back apart.
+  interface LatestAttempt { ms: number; correct: boolean; wordId: string; exerciseType: ExerciseType; }
+  const latest = new Map<string, LatestAttempt>();
+  for (const a of attempts) {
+    const ts = a.timestamp instanceof Date ? a.timestamp : new Date(a.timestamp);
+    const ms = ts.getTime();
+    const key = `${a.word_id}::${a.exercise_type}`;
+    const prev = latest.get(key);
+    if (!prev || ms > prev.ms) {
+      latest.set(key, { ms, correct: a.correct, wordId: a.word_id, exerciseType: a.exercise_type });
+    }
+  }
+
+  // Group still-failing word_ids by exercise type
+  const failingByType = new Map<ExerciseType, Set<string>>();
+  for (const { correct, wordId, exerciseType } of latest.values()) {
+    if (correct) continue;
+    if (!failingByType.has(exerciseType)) failingByType.set(exerciseType, new Set());
+    failingByType.get(exerciseType)!.add(wordId);
+  }
+
+  // Resolve word_ids to Word objects in a single bulkGet round-trip
+  const allWordIds = [...new Set([...failingByType.values()].flatMap(s => [...s]))];
+  const wordMap = new Map<string, Word>();
+  for (const word of await db.words.bulkGet(allWordIds)) {
+    if (word) wordMap.set(word.id, word);
+  }
+
+  const result = new Map<ExerciseType, Word[]>();
+  for (const [exType, wordIds] of failingByType) {
+    const words = [...wordIds].map(id => wordMap.get(id)).filter((w): w is Word => !!w);
+    if (words.length > 0) result.set(exType, words);
+  }
+
+  return result;
 }
 
 function formatDate(d: Date): string {

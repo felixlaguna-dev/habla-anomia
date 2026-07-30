@@ -30,7 +30,9 @@
     "practice_weak_category": "Practica tus categorías más débiles",
     "phonological_practice": "Practica con pistas de sonido",
     "category_practice": "Clasifica palabras por categoría",
-    "all_done_today": "¡Todo completado por hoy! Gran trabajo."
+    "all_done_today": "¡Todo completado por hoy! Gran trabajo.",
+    "review_failures_title": "Tienes {count} fallos hoy",
+    "review_failures_button": "Repasar fallos"
   },
   "exercises": {
     "title": "Ejercicios",
@@ -271,6 +273,16 @@
     "invalid_category": "Categoría no encontrada.",
     "back_home": "Volver al inicio",
     "scroll_right": "Ver más categorías"
+  },
+  "review": {
+    "title": "Repasar fallos de hoy",
+    "group_progress": "Ejercicio {current} de {total}",
+    "cleared": "Palabras superadas: {count}",
+    "remaining": "Palabras pendientes: {count}",
+    "all_cleared": "¡Has superado todos los fallos! ¡Enhorabuena!",
+    "retry_remaining": "Reintentar pendientes ({count})",
+    "no_failures": "No tienes fallos hoy. ¡Buen trabajo!",
+    "back_home": "Volver al inicio"
   },
   "install_prompt": {
     "title": "Instalar Habla Anomia",

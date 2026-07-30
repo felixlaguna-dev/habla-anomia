@@ -26,6 +26,15 @@
   let todayFailuresCount = $state(0);
   let loading = $state(true);
 
+  // Daily plan recommendations
+  interface PlanItem {
+    type: ExerciseType;
+    meta: ExerciseMeta;
+    reason: string;
+  }
+
+  let dailyPlan = $state<PlanItem[]>([]);
+
   // Exercise types completed today (from sessions with ended_at set today).
   // Drives both the daily-plan checkmark and the chip-grid sticker.
   let completedTodayTypes = $state<Set<ExerciseType>>(new Set());
@@ -47,14 +56,6 @@
     canScrollRight = right;
   }
 
-  // Daily plan recommendations
-  interface PlanItem {
-    type: ExerciseType;
-    meta: ExerciseMeta;
-    reason: string;
-  }
-
-  let dailyPlan = $state<PlanItem[]>([]);
   const ttsSupported = SpeechSynthesisService.isSupported();
 
   function getGreeting(): string {
@@ -313,7 +314,7 @@
           onclick={() => startExercise(exercise.type)}
           disabled={ttsRequired}
           aria-label={isDone
-            ? `${$t(`exercises.${exercise.i18nKey}.name`)} · ${$t('dashboard.done_today')}`
+            ? `${$t(`exercises.${exercise.i18nKey}.name`)}, ${$t('dashboard.done_today')}`
             : $t(`exercises.${exercise.i18nKey}.name`)}
           aria-disabled={ttsRequired ? 'true' : undefined}
         >

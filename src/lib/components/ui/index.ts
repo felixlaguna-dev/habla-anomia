@@ -12,3 +12,4 @@ export { default as Toast } from './Toast.svelte';
 export { default as Timer } from './Timer.svelte';
 export { default as CategoryIcon } from './CategoryIcon.svelte';
 export { default as Spinner } from './Spinner.svelte';
+export { default as AccuracyChart } from './AccuracyChart.svelte';

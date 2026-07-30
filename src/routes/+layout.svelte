@@ -40,7 +40,8 @@
   let hideNav = $derived.by(() => {
     const p = $page.url.pathname;
     return (p.startsWith('/exercises/') && p.split('/').length === 3)
-      || p.includes('/review-failures');
+      || p.endsWith('/review-failures')
+      || p.endsWith('/progress/report');
   });
 
   const navItems = [

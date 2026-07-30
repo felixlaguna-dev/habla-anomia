@@ -198,6 +198,9 @@
   "settings": {
     "title": "Settings",
     "language": "Language",
+    "ui_language": "Language",
+    "confirm_delete": "Sure? Tap again",
+    "words_spanish_only": "Word exercises are available in Spanish only for now.",
     "text_size": "Text size",
     "theme": "Theme",
     "dark": "Dark",
@@ -258,7 +261,9 @@
     "no_words": "No words available for this exercise.",
     "back_to_exercises": "Back to exercises",
     "restart": "Restart exercise",
-    "listen": "Listen"
+    "listen": "Listen",
+    "yes": "Yes",
+    "no": "No"
   },
   "categories": {
     "animals": "Animals",
@@ -307,5 +312,9 @@
     "description": "Add this app to your home screen for quick access",
     "install": "Install",
     "dismiss": "Not now"
+  },
+  "offline": {
+    "offline_mode": "No connection — offline mode",
+    "online": "Online"
   }
 }

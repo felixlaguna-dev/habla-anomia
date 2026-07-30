@@ -2,6 +2,19 @@
 
 export type Language = 'es' | 'ca' | 'eu' | 'en';
 
+/**
+ * Every supported UI language with its endonym (label in its own language).
+ * Single source of truth — import this instead of hardcoding language lists
+ * so they can never drift from the Language union above. Labels are intentionally
+ * NOT i18n keys: a Catalan speaker lost in a Spanish UI must see "Català".
+ */
+export const LANGUAGES: { value: Language; label: string }[] = [
+  { value: 'es', label: 'Español' },
+  { value: 'ca', label: 'Català' },
+  { value: 'eu', label: 'Euskara' },
+  { value: 'en', label: 'English' },
+];
+
 export type ExerciseType =
   | 'picture-naming'
   | 'semantic-features'
@@ -149,7 +162,10 @@ export interface SpacedRepetitionEntry {
 }
 
 export interface AppSettings {
+  /** Content language for word bank / sessions / attempts (pinned to 'es' — only Spanish words exist). */
   language: Language;
+  /** UI locale for chrome / instructions / navigation. Decoupled from content language. */
+  ui_language: Language;
   text_size: 'small' | 'normal' | 'large' | 'xlarge';
   theme: 'dark' | 'light';
   high_contrast: boolean;

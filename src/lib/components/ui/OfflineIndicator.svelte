@@ -1,6 +1,7 @@
 <script lang="ts">
   import { onMount } from 'svelte';
   import { browser } from '$app/environment';
+  import { t } from '$lib/i18n';
 
   let isOffline = $state(false);
   let showOnlineFlash = $state(false);
@@ -36,14 +37,14 @@
 {#if isOffline}
   <div class="offline-banner" role="status" aria-live="polite">
     <span class="offline-dot"></span>
-    Sin conexión — modo offline
+    {$t('offline.offline_mode')}
   </div>
 {/if}
 
 {#if showOnlineFlash}
   <div class="online-banner" role="status" aria-live="polite">
     <span class="online-dot"></span>
-    En línea
+    {$t('offline.online')}
   </div>
 {/if}
 

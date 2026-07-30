@@ -198,6 +198,9 @@
   "settings": {
     "title": "Ajustes",
     "language": "Idioma",
+    "ui_language": "Idioma",
+    "confirm_delete": "¿Seguro? Toca de nuevo",
+    "words_spanish_only": "Los ejercicios de palabras están disponibles solo en español por ahora.",
     "text_size": "Tamaño del texto",
     "theme": "Tema visual",
     "dark": "Oscuro",
@@ -258,7 +261,9 @@
     "no_words": "No hay palabras disponibles para este ejercicio.",
     "back_to_exercises": "Volver a ejercicios",
     "restart": "Repetir ejercicio",
-    "listen": "Escuchar"
+    "listen": "Escuchar",
+    "yes": "Sí",
+    "no": "No"
   },
   "categories": {
     "animals": "Animales",
@@ -307,5 +312,9 @@
     "description": "Añade la app a tu pantalla de inicio para acceso rápido",
     "install": "Instalar",
     "dismiss": "Ahora no"
+  },
+  "offline": {
+    "offline_mode": "Sin conexión — modo offline",
+    "online": "En línea"
   }
 }

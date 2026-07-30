@@ -6,7 +6,7 @@
   import { getAllSettings, getStreakInfo } from '$lib/db';
   import { getCategoriesWithEnoughWords, awaitSeedReady, DRILLABLE_CATEGORY_MIN } from '$lib/db/words';
   import { getSRStats } from '$lib/engine/spaced-repetition';
-  import { getAccuracyByExercise } from '$lib/db/attempts';
+  import { getAccuracyByExercise, getTodaysFailures } from '$lib/db/attempts';
   import { EXERCISE_REGISTRY, EXERCISE_TYPES, getExerciseMeta, type ExerciseMeta } from '$lib/exercises/registry';
   import { scrollAffordance } from '$lib/utils/scroll-affordance';
   import { onMount } from 'svelte';
@@ -23,6 +23,7 @@
   let dueCount = $state(0);
   let language = $state<Language>('es');
   let practiceCategories: Category[] = $state([]);
+  let todayFailuresCount = $state(0);
   let loading = $state(true);
 
   // Category row scroll affordance — fade + arrow
@@ -68,13 +69,15 @@
       // on the very first load instead of staying empty until a route change.
       await awaitSeedReady();
 
-      // Streak, sessions, SR stats and drillable categories are independent —
-      // fan them out instead of serializing four round-trips on the landing page.
-      const [streakInfo, sessions, srStats, cats] = await Promise.all([
+      // Streak, sessions, SR stats, drillable categories and exercise accuracy
+      // are independent — fan them out instead of serializing round-trips.
+      const [streakInfo, sessions, srStats, cats, failures, exerciseAccuracies] = await Promise.all([
         getStreakInfo(),
         getSessions(language, 100),
         getSRStats(language),
-        getCategoriesWithEnoughWords(language, DRILLABLE_CATEGORY_MIN, true)
+        getCategoriesWithEnoughWords(language, DRILLABLE_CATEGORY_MIN, true),
+        getTodaysFailures(language),
+        getAccuracyByExercise(language)
       ]);
 
       streakCurrent = streakInfo.current;
@@ -82,6 +85,7 @@
       totalSessions = sessions.length;
       dueCount = srStats.due;
       practiceCategories = cats;
+      todayFailuresCount = [...failures.values()].reduce((sum, words) => sum + words.length, 0);
 
       // Today's completed sessions (sessions that actually finished)
       const today = new Date().toISOString().split('T')[0];
@@ -98,8 +102,8 @@
         accuracy = Math.round(recent10.reduce((sum, s) => sum + s.accuracy, 0) / recent10.length);
       }
 
-      // Build daily plan
-      await buildDailyPlan();
+      // Build daily plan (pass pre-fetched accuracies to avoid a second IDB round-trip)
+      buildDailyPlan(exerciseAccuracies);
 
     } catch (e) {
       console.warn('Failed to load stats:', e);
@@ -108,11 +112,8 @@
     }
   });
 
-  async function buildDailyPlan() {
+  function buildDailyPlan(exerciseAccuracies: Array<{ exercise_type: ExerciseType; accuracy: number; correct: number; total: number }>) {
     const plan: PlanItem[] = [];
-
-    // Get exercise accuracy data from past attempts
-    const exerciseAccuracies = await getAccuracyByExercise(language);
 
     let selectedTypes: ExerciseType[];
 
@@ -265,6 +266,29 @@
       </div>
     {/if}
   </section>
+
+  <!-- Review today's failures -->
+  {#if !loading && todayFailuresCount > 0}
+    <section class="review-failures-section fade-in">
+      <Card>
+        <button
+          class="review-card"
+          onclick={() => goto(`${base}/review-failures`)}
+          aria-label={$t('dashboard.review_failures_button')}
+        >
+          <span class="review-card-icon" aria-hidden="true">⚠️</span>
+          <div class="review-card-text">
+            <span class="review-card-title">
+              {$t('dashboard.review_failures_title', { count: String(todayFailuresCount) })}
+            </span>
+            <span class="review-card-cta">
+              {$t('dashboard.review_failures_button')} ({todayFailuresCount}) →
+            </span>
+          </div>
+        </button>
+      </Card>
+    </section>
+  {/if}
 
   <!-- All Exercises -->
   <section class="exercises-section">
@@ -760,6 +784,53 @@
       min-height: 68px;
       font-size: 1.15rem;
     }
+  }
+
+  /* Review failures card */
+  .review-failures-section {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .review-card {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    width: 100%;
+    padding: 0;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    font-family: var(--font-family);
+    text-align: left;
+  }
+
+  .review-card-icon {
+    font-size: 1.75rem;
+    line-height: 1;
+    flex-shrink: 0;
+  }
+
+  .review-card-text {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+    flex: 1;
+    min-width: 0;
+  }
+
+  .review-card-title {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--text);
+    overflow-wrap: break-word;
+  }
+
+  .review-card-cta {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--warning);
   }
 
   /* Small mobile */

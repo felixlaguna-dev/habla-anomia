@@ -28,6 +28,8 @@
     "today_exercises": "Avui completats",
     "review_due_words": "{count} paraules per repassar",
     "practice_weak_category": "Practica les categories més febles",
+    "review_failures_title": "Tens {count} errors avui",
+    "review_failures_button": "Repassar errors",
     "phonological_practice": "Practica amb pistes de so",
     "category_practice": "Classifica paraules per categoria",
     "all_done_today": "Tot completat per avui! Bon treball."
@@ -271,6 +273,16 @@
     "invalid_category": "Categoria no trobada.",
     "back_home": "Tornar a l'inici",
     "scroll_right": "Veure més categories"
+  },
+  "review": {
+    "title": "Repassar els errors d'avui",
+    "group_progress": "Exercici {current} de {total}",
+    "cleared": "Paraules superades: {count}",
+    "remaining": "Paraules pendents: {count}",
+    "all_cleared": "Has superat tots els errors! Molt bé!",
+    "retry_remaining": "Reintentar pendents ({count})",
+    "no_failures": "No tens errors avui. Molt bé!",
+    "back_home": "Tornar a l'inici"
   },
   "install_prompt": {
     "title": "Instal·lar Habla Anomia",

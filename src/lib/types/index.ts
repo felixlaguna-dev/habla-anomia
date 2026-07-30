@@ -10,7 +10,8 @@ export type ExerciseType =
   | 'generative-naming'
   | 'word-matching'
   | 'sentence-completion'
-  | 'opposites-synonyms';
+  | 'opposites-synonyms'
+  | 'odd-one-out';
 
 export type DifficultyLevel = 1 | 2 | 3 | 4 | 5;
 

@@ -82,6 +82,13 @@ export const EXERCISE_REGISTRY: ExerciseMeta[] = [
     icon: 'M8 3 4 7l4 4 M4 7h16 M16 21l4-4-4-4 M20 17H4',
     color: 'var(--exercise-opposites-synonyms)',
     imageDependent: false
+  },
+  {
+    type: 'odd-one-out',
+    i18nKey: 'odd_one_out',
+    icon: 'M3 3h6v6H3z M15 3h6v6h-6z M3 15h6v6H3z M13 17a4 4 0 1 0 8 0a4 4 0 1 0 -8 0',
+    color: 'var(--exercise-odd-one-out)',
+    imageDependent: true
   }
 ];
 

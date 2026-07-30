@@ -45,6 +45,7 @@
   --exercise-word-matching: #ef4444;
   --exercise-sentence-completion: #6366f1;
   --exercise-opposites-synonyms: #ec4899;
+  --exercise-odd-one-out: #f97316;
 
   /* Decorative gradient for the streak (🔥) badge — identity colour, theme-invariant */
   --streak-gradient: linear-gradient(135deg, #ff6b35, #f59e0b);

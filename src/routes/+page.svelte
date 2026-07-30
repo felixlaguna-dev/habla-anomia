@@ -146,7 +146,8 @@
       'generative-naming': $t('dashboard.category_practice'),
       'word-matching': $t('dashboard.phonological_practice'),
       'sentence-completion': $t('dashboard.phonological_practice'),
-      'opposites-synonyms': $t('dashboard.practice_weak_category')
+      'opposites-synonyms': $t('dashboard.practice_weak_category'),
+      'odd-one-out': $t('dashboard.category_practice')
     };
 
     for (const type of selectedTypes) {

@@ -132,6 +132,15 @@
       "what_means_same": "Quina paraula significa el mateix?",
       "opposites": "Oposats",
       "synonyms": "Sinònims"
+    },
+    "odd_one_out": {
+      "name": "L'intrús",
+      "short_name": "Intrús",
+      "description": "Troba la paraula que no pertany al grup",
+      "prompt": "Quin no pertany al grup?",
+      "correct": "Correcte! {word} és l'intrús",
+      "incorrect_reveal": "L'intrús era {word}",
+      "need_more_words": "Calen paraules d'almenys 2 categories diferents per a aquest exercici."
     }
   },
   "feedback": {

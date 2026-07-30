@@ -267,7 +267,8 @@
     "sentence_completion_desc": "Osatu esaldiak hitz hauekin",
     "not_available": "Kategoria honek ez ditu nahiko hitz oraindik.",
     "invalid_category": "Ez da kategoria aurkitu.",
-    "back_home": "Hasierara itzuli"
+    "back_home": "Hasierara itzuli",
+    "scroll_right": "Ikusi kategoria gehiago"
   },
   "install_prompt": {
     "title": "Instalatu Habla Anomia",

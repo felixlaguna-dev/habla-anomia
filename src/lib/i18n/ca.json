@@ -267,7 +267,8 @@
     "sentence_completion_desc": "Completa frases amb aquestes paraules",
     "not_available": "Aquesta categoria no té prou paraules encara.",
     "invalid_category": "Categoria no trobada.",
-    "back_home": "Tornar a l'inici"
+    "back_home": "Tornar a l'inici",
+    "scroll_right": "Veure més categories"
   },
   "install_prompt": {
     "title": "Instal·lar Habla Anomia",

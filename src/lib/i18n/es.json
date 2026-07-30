@@ -199,8 +199,6 @@
     "title": "Ajustes",
     "language": "Idioma",
     "ui_language": "Idioma",
-    "yes": "Sí",
-    "no": "No",
     "confirm_delete": "¿Seguro? Toca de nuevo",
     "words_spanish_only": "Los ejercicios de palabras están disponibles solo en español por ahora.",
     "text_size": "Tamaño del texto",
@@ -263,7 +261,9 @@
     "no_words": "No hay palabras disponibles para este ejercicio.",
     "back_to_exercises": "Volver a ejercicios",
     "restart": "Repetir ejercicio",
-    "listen": "Escuchar"
+    "listen": "Escuchar",
+    "yes": "Sí",
+    "no": "No"
   },
   "categories": {
     "animals": "Animales",

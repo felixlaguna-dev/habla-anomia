@@ -199,8 +199,6 @@
     "title": "Settings",
     "language": "Language",
     "ui_language": "Language",
-    "yes": "Yes",
-    "no": "No",
     "confirm_delete": "Sure? Tap again",
     "words_spanish_only": "Word exercises are available in Spanish only for now.",
     "text_size": "Text size",
@@ -263,7 +261,9 @@
     "no_words": "No words available for this exercise.",
     "back_to_exercises": "Back to exercises",
     "restart": "Restart exercise",
-    "listen": "Listen"
+    "listen": "Listen",
+    "yes": "Yes",
+    "no": "No"
   },
   "categories": {
     "animals": "Animals",

@@ -199,8 +199,6 @@
     "title": "Ajustos",
     "language": "Idioma",
     "ui_language": "Idioma",
-    "yes": "Sí",
-    "no": "No",
     "confirm_delete": "Segur? Torna a tocar",
     "words_spanish_only": "Els exercicis de paraules estan disponibles només en espanyol de moment.",
     "text_size": "Mida del text",
@@ -263,7 +261,9 @@
     "no_words": "No hi ha paraules disponibles per a aquest exercici.",
     "back_to_exercises": "Tornar als exercicis",
     "restart": "Repetir exercici",
-    "listen": "Escoltar"
+    "listen": "Escoltar",
+    "yes": "Sí",
+    "no": "No"
   },
   "categories": {
     "animals": "Animals",

@@ -8,6 +8,7 @@
   import { base } from '$app/paths';
   import { browser } from '$app/environment';
   import type { Language, AppSettings } from '$lib/types';
+  import { LANGUAGES } from '$lib/types';
 
   let settings = $state<AppSettings | null>(null);
   let loading = $state(true);
@@ -24,14 +25,6 @@
   const themeOptions = [
     { value: 'dark', labelKey: 'settings.dark' },
     { value: 'light', labelKey: 'settings.light' }
-  ];
-
-  /** Language options — always labeled in their OWN language so users recognize theirs. */
-  const languageOptions: { value: Language; label: string }[] = [
-    { value: 'es', label: 'Español' },
-    { value: 'ca', label: 'Català' },
-    { value: 'eu', label: 'Euskara' },
-    { value: 'en', label: 'English' }
   ];
 
   async function loadSettings() {
@@ -154,7 +147,7 @@
         <h2 class="card-heading">{$t('settings.ui_language')}</h2>
 
         <div class="lang-grid" role="listbox" aria-label={$t('settings.ui_language')}>
-          {#each languageOptions as opt (opt.value)}
+          {#each LANGUAGES as opt (opt.value)}
             <button
               class="lang-btn"
               class:lang-btn-active={settings.ui_language === opt.value}
@@ -167,7 +160,7 @@
           {/each}
         </div>
 
-        {#if settings.ui_language !== 'es'}
+        {#if settings.ui_language !== settings.language}
           <p class="content-lang-note">{$t('settings.words_spanish_only')}</p>
         {/if}
       </div>
@@ -218,7 +211,7 @@
               <span class="toggle-track">
                 <span class="toggle-thumb"></span>
               </span>
-              <span class="toggle-label-text">{settings.high_contrast ? $t('settings.yes') : $t('settings.no')}</span>
+              <span class="toggle-label-text">{settings.high_contrast ? $t('common.yes') : $t('common.no')}</span>
             </button>
           </div>
         </div>
@@ -244,7 +237,7 @@
               <span class="toggle-track">
                 <span class="toggle-thumb"></span>
               </span>
-              <span class="toggle-label-text">{settings.sound_enabled ? $t('settings.yes') : $t('settings.no')}</span>
+              <span class="toggle-label-text">{settings.sound_enabled ? $t('common.yes') : $t('common.no')}</span>
             </button>
           </div>
         </div>
@@ -265,7 +258,7 @@
               <span class="toggle-track">
                 <span class="toggle-thumb"></span>
               </span>
-              <span class="toggle-label-text">{settings.speak_buttons_enabled ? $t('settings.yes') : $t('settings.no')}</span>
+              <span class="toggle-label-text">{settings.speak_buttons_enabled ? $t('common.yes') : $t('common.no')}</span>
             </button>
           </div>
         </div>
@@ -305,7 +298,7 @@
               <span class="toggle-track">
                 <span class="toggle-thumb"></span>
               </span>
-              <span class="toggle-label-text">{settings.haptic_enabled ? $t('settings.yes') : $t('settings.no')}</span>
+              <span class="toggle-label-text">{settings.haptic_enabled ? $t('common.yes') : $t('common.no')}</span>
             </button>
           </div>
         </div>
@@ -326,7 +319,7 @@
               <span class="toggle-track">
                 <span class="toggle-thumb"></span>
               </span>
-              <span class="toggle-label-text">{settings.timer_enabled ? $t('settings.yes') : $t('settings.no')}</span>
+              <span class="toggle-label-text">{settings.timer_enabled ? $t('common.yes') : $t('common.no')}</span>
             </button>
           </div>
         </div>

@@ -71,19 +71,15 @@ export async function initDefaults(): Promise<void> {
     for (const [key, value] of Object.entries(DEFAULTS)) {
       const existing = await db.settings.get(key);
       if (!existing) {
-        const resolved = key === 'theme' && prefersDark ? 'dark' : value;
+        let resolved = value;
+        if (key === 'theme' && prefersDark) resolved = 'dark';
+        // ui_language defaults to the existing content language so upgrading
+        // installs keep their current locale instead of snapping to Spanish.
+        if (key === 'ui_language') {
+          const contentLang = await db.settings.get('language');
+          if (contentLang) resolved = contentLang.value;
+        }
         await db.settings.put({ key, value: resolved });
-      }
-    }
-
-    // Migration: existing installs have `language` but not `ui_language`.
-    // Copy the content language as the UI language default so their chrome
-    // stays in the same language they were already using.
-    const hasUiLanguage = await db.settings.get('ui_language');
-    if (!hasUiLanguage) {
-      const contentLang = await db.settings.get('language');
-      if (contentLang) {
-        await db.settings.put({ key: 'ui_language', value: contentLang.value });
       }
     }
   });

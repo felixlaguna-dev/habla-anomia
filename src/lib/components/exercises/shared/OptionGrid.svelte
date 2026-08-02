@@ -12,7 +12,7 @@
     disabled?: boolean;
     speakEnabled?: boolean;
     isSpeaking?: boolean;
-    /** Render options side-by-side (two columns) at >=768px. */
+    /** Render options in two columns (all screen sizes). */
     twoColumns?: boolean;
     onselect: (index: number) => void;
     onspeak?: (text: string) => void;
@@ -32,7 +32,7 @@
   }: Props = $props();
 </script>
 
-<div class="options-grid" class:tablet-2={twoColumns}>
+<div class="options-grid" class:two-col={twoColumns}>
   {#each options as option, i}
     <OptionCard
       text={option}
@@ -54,9 +54,10 @@
     width: 100%;
   }
 
-  @media (min-width: 768px) {
-    .options-grid.tablet-2 {
-      grid-template-columns: 1fr 1fr;
-    }
+  /* Two-column layout: enabled on all sizes when twoColumns is set.
+     Each column is ~140px on a 375px phone — wide enough for word-length
+     options and halves the vertical space 4 options occupy. */
+  .options-grid.two-col {
+    grid-template-columns: 1fr 1fr;
   }
 </style>

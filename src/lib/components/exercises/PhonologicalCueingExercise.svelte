@@ -112,6 +112,8 @@
   });
 
   let canShowMoreCues = $derived(cuesRevealed < 5);
+  let hintLabel = $derived($t('exercises.hints_used', { used: String(cuesRevealed), total: '5' }));
+  let legendLabel = $derived($t('exercises.hints_legend', { used: String(cuesRevealed), total: '5' }));
 
   function showNextCue() {
     if (!canShowMoreCues) return;
@@ -230,15 +232,17 @@
       {/if}
     </div>
 
-    <!-- Cue level indicators -->
-    <div class="cue-indicators">
-      {#each Array(5) as _, i}
-        <div
-          class="cue-dot"
-          class:revealed={i < cuesRevealed}
-          title={i < cuesRevealed ? $t('exercises.phonological_cueing.revealed') : $t('exercises.phonological_cueing.hint_n', { n: String(i + 1) })}
-        ></div>
-      {/each}
+    <!-- Cue level indicators + legend in one compact row -->
+    <div class="cue-header" role="group" aria-label={legendLabel}>
+      <div class="cue-indicators" aria-hidden="true">
+        {#each Array(5) as _, i}
+          <div
+            class="cue-dot"
+            class:revealed={i < cuesRevealed}
+          ></div>
+        {/each}
+      </div>
+      <span class="hint-counter" aria-hidden="true">{legendLabel}</span>
     </div>
 
     <!-- Revealed cues -->
@@ -257,19 +261,21 @@
     {/if}
 
     <!-- Feedback -->
-    <div class="feedback-slot">
-      {#if feedbackState === 'correct'}
-        <FeedbackBanner
-          state="correct"
-          text={currentWord.word}
-          speakEnabled={speakButtonsEnabled}
-          isSpeaking={tts.isSpeaking}
-          onSpeak={() => speak()}
-        />
-      {:else if feedbackState === 'incorrect'}
-        <FeedbackBanner state="incorrect" icon="🔄" text={$t('feedback.try_again')} />
-      {/if}
-    </div>
+    {#if feedbackState !== 'none'}
+      <div class="feedback-slot">
+        {#if feedbackState === 'correct'}
+          <FeedbackBanner
+            state="correct"
+            text={currentWord.word}
+            speakEnabled={speakButtonsEnabled}
+            isSpeaking={tts.isSpeaking}
+            onSpeak={() => speak()}
+          />
+        {:else if feedbackState === 'incorrect'}
+          <FeedbackBanner state="incorrect" icon="🔄" text={$t('feedback.try_again')} />
+        {/if}
+      </div>
+    {/if}
 
     <!-- Answer input + controls -->
     {#if feedbackState !== 'correct'}
@@ -293,10 +299,9 @@
             class="exercise-action-button"
             onclick={showNextCue}
             disabled={!canShowMoreCues}
-            aria-label={$t('exercises.phonological_cueing.another_hint')}
+            aria-label={`${$t('exercises.phonological_cueing.another_hint')} — ${hintLabel}`}
           >
             💡 {$t('exercises.phonological_cueing.another_hint')}
-            <span class="cue-count">({cuesRevealed}/5)</span>
           </button>
 
           <button type="button" class="exercise-skip-button" onclick={skipWord} aria-label={$t('common.skip')}>
@@ -309,16 +314,26 @@
 {/if}
 
 <style>
+  /* Cue header: indicators + legend in one compact row */
+  .cue-header {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm, 8px);
+    width: 100%;
+    max-width: 450px;
+    justify-content: center;
+  }
+
   /* Cue indicators */
   .cue-indicators {
     display: flex;
-    gap: var(--space-sm, 8px);
+    gap: var(--space-xs, 4px);
     align-items: center;
   }
 
   .cue-dot {
-    width: 16px;
-    height: 16px;
+    width: 12px;
+    height: 12px;
     border-radius: 50%;
     background: var(--surface-2, #e5e7eb);
     border: 2px solid var(--border, #d1d5db);
@@ -374,11 +389,6 @@
     animation: pulse 1.5s ease-in-out infinite;
   }
 
-  .cue-count {
-    font-size: var(--font-size-sm, 14px);
-    color: var(--text-muted, #6b7280);
-  }
-
   @keyframes pulse {
     0%, 100% { opacity: 1; }
     50% { opacity: 0.5; }
@@ -394,7 +404,7 @@
       align-self: start;
     }
 
-    .cue-indicators,
+    .cue-header,
     .cues-area,
     .feedback-slot,
     .exercise-answer-area {

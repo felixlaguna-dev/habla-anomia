@@ -124,7 +124,8 @@
         "starts_with": "Starts with: {value}",
         "ends_with": "Ends with: {value}",
         "answer": "The answer is: {value}"
-      }
+      },
+      "hint": "Hint"
     },
     "opposites_synonyms": {
       "name": "Opposites and synonyms",
@@ -167,7 +168,9 @@
       "statement_function": "Its function is: {value}",
       "correction_true": "Yes — {text}",
       "correction_false": "No — {text}"
-    }
+    },
+    "hints_used": "{used} of {total} used",
+    "hints_legend": "Hints used: {used} of {total}"
   },
   "feedback": {
     "correct": "Correct!",

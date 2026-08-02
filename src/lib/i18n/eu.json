@@ -124,7 +124,8 @@
         "starts_with": "Honekin hasten da: {value}",
         "ends_with": "Honekin amaitzen da: {value}",
         "answer": "Erantzuna da: {value}"
-      }
+      },
+      "hint": "Laguntza"
     },
     "opposites_synonyms": {
       "name": "Aurkakoak eta sinonimoak",
@@ -167,7 +168,9 @@
       "statement_function": "Bere funtzioa da: {value}",
       "correction_true": "Bai — {text}",
       "correction_false": "Ez — {text}"
-    }
+    },
+    "hints_used": "{used} / {total} erabilita",
+    "hints_legend": "Erabilitako laguntzak: {used} / {total}"
   },
   "feedback": {
     "correct": "Zuzena!",

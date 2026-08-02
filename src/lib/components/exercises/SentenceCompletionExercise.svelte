@@ -112,6 +112,7 @@
   });
 
   let canShowMoreHints = $derived(hintsUsed < 4);
+  let hintLabel = $derived($t('exercises.hints_used', { used: String(hintsUsed), total: '4' }));
 
   function showHint() {
     if (canShowMoreHints) hintsUsed++;
@@ -233,19 +234,21 @@
     </div>
 
     <!-- Feedback -->
-    <div class="feedback-slot">
-      {#if feedbackState === 'correct'}
-        <FeedbackBanner
-          state="correct"
-          text={currentWord.word}
-          speakEnabled={speakButtonsEnabled}
-          isSpeaking={tts.isSpeaking}
-          onSpeak={() => speak()}
-        />
-      {:else if feedbackState === 'incorrect'}
-        <FeedbackBanner state="incorrect" icon="🔄" text={$t('feedback.try_again')} />
-      {/if}
-    </div>
+    {#if feedbackState !== 'none'}
+      <div class="feedback-slot">
+        {#if feedbackState === 'correct'}
+          <FeedbackBanner
+            state="correct"
+            text={currentWord.word}
+            speakEnabled={speakButtonsEnabled}
+            isSpeaking={tts.isSpeaking}
+            onSpeak={() => speak()}
+          />
+        {:else if feedbackState === 'incorrect'}
+          <FeedbackBanner state="incorrect" icon="🔄" text={$t('feedback.try_again')} />
+        {/if}
+      </div>
+    {/if}
 
     <!-- Hints -->
     {#if revealedHints.length > 0}
@@ -293,15 +296,16 @@
             class="exercise-action-button"
             onclick={showHint}
             disabled={!canShowMoreHints}
-            aria-label={$t('exercises.picture_naming.hint')}
+            aria-label={`${$t('exercises.sentence_completion.hint')} — ${hintLabel}`}
           >
-            💡 {$t('exercises.picture_naming.hint')} ({4 - hintsUsed} {$t('exercises.sentence_completion.remaining')})
+            💡 {$t('exercises.sentence_completion.hint')}
           </button>
 
           <button type="button" class="exercise-skip-button" onclick={skipWord} aria-label={$t('common.skip')}>
             ⏭️ {$t('common.skip')}
           </button>
         </div>
+        <span class="hint-counter" aria-hidden="true">{hintLabel}</span>
       </div>
     {/if}
   </ExerciseShell>
@@ -319,7 +323,7 @@
   /* Sentence area */
   .sentence-area {
     width: 100%;
-    padding: var(--space-lg, 24px);
+    padding: var(--space-sm, 8px) var(--space-md, 16px);
     background: var(--surface, #f9fafb);
     border-radius: var(--radius-lg, 16px);
     border: 2px solid var(--border, #e5e7eb);
@@ -406,6 +410,10 @@
 
   /* Tablet: sentence left, options right (grid provided by ExerciseShell) */
   @media (min-width: 768px) {
+    .sentence-area {
+      padding: var(--space-lg, 24px);
+    }
+
     .section-title,
     .feedback-slot,
     .exercise-hints,

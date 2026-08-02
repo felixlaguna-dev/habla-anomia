@@ -2,17 +2,35 @@
   import { t, locale } from '$lib/i18n';
   import { onMount } from 'svelte';
   import { getAllSettings, setSetting, initDefaults } from '$lib/db';
-  import { Card, Button, ChipGroup } from '$lib/components/ui';
+  import { Card, Button, ChipGroup, Modal, Toast } from '$lib/components/ui';
   import { applyAppearance } from '$lib/utils/appearance';
   import { goto } from '$app/navigation';
   import { base } from '$app/paths';
   import { browser } from '$app/environment';
   import { LANGUAGES, type Language, type AppSettings } from '$lib/types';
+  import { SpeechSynthesisService } from '$lib/speech/speech-synthesis';
+  import { speechLangFor } from '$lib/utils/tts.svelte';
 
   let settings = $state<AppSettings | null>(null);
   let loading = $state(true);
-  let deleteConfirming = $state(false);
-  let deleteConfirmTimer: ReturnType<typeof setTimeout> | null = null;
+  let showDeleteModal = $state(false);
+
+  // Toast state
+  interface ToastItem { id: number; message: string; type: 'success' | 'error' | 'info'; }
+  let toasts = $state<ToastItem[]>([]);
+
+  function showToast(message: string, type: 'success' | 'error' | 'info' = 'success') {
+    // Replace any existing toasts so they never overlap at the same position
+    const id = Date.now() + Math.random();
+    toasts = [{ id, message, type }];
+  }
+  function dismissToast(id: number) {
+    toasts = toasts.filter(t => t.id !== id);
+  }
+
+  // TTS preview
+  let previewSynthesis: SpeechSynthesisService | null = $state(null);
+  let isPreviewing = $state(false);
 
   const textSizeOptions = [
     { value: 'small', labelKey: 'settings.small' },
@@ -32,7 +50,13 @@
     loading = false;
   }
 
-  onMount(loadSettings);
+  onMount(() => {
+    loadSettings();
+    if (SpeechSynthesisService.isSupported()) {
+      previewSynthesis = new SpeechSynthesisService();
+    }
+    return () => previewSynthesis?.destroy();
+  });
 
   async function updateSetting<K extends keyof AppSettings>(key: K, value: AppSettings[K]) {
     if (!settings) return;
@@ -54,21 +78,27 @@
 
   async function handleExport() {
     if (!browser) return;
-    const { db } = await import('$lib/db/database');
-    const data = {
-      attempts: await db.attempts.toArray(),
-      sessions: await db.sessions.toArray(),
-      spacedRepetition: await db.spacedRepetition.toArray(),
-      settings: await db.settings.toArray(),
-      exportedAt: new Date().toISOString()
-    };
-    const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = `habla-anomia-export-${new Date().toISOString().split('T')[0]}.json`;
-    a.click();
-    URL.revokeObjectURL(url);
+    try {
+      const { db } = await import('$lib/db/database');
+      const data = {
+        attempts: await db.attempts.toArray(),
+        sessions: await db.sessions.toArray(),
+        spacedRepetition: await db.spacedRepetition.toArray(),
+        settings: await db.settings.toArray(),
+        exportedAt: new Date().toISOString()
+      };
+      const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `habla-anomia-export-${new Date().toISOString().split('T')[0]}.json`;
+      a.click();
+      URL.revokeObjectURL(url);
+      showToast($t('settings.export_success'));
+    } catch (e) {
+      console.error('Export failed:', e);
+      showToast($t('settings.export_error'), 'error');
+    }
   }
 
   async function handleImport() {
@@ -82,47 +112,65 @@
       try {
         const text = await file.text();
         const data = JSON.parse(text);
+
+        // Validate that the file has expected keys with correct types
+        if (!Array.isArray(data.attempts) || !Array.isArray(data.sessions) || !Array.isArray(data.spacedRepetition)) {
+          showToast($t('settings.import_invalid'), 'error');
+          return;
+        }
+
         const { db } = await import('$lib/db/database');
-        if (data.settings) {
+
+        if (Array.isArray(data.settings)) {
           for (const s of data.settings) {
             await db.settings.put(s);
           }
         }
+        await db.attempts.bulkPut(data.attempts);
+        await db.sessions.bulkPut(data.sessions);
+        await db.spacedRepetition.bulkPut(data.spacedRepetition);
+
         // Re-run defaults so any new settings (e.g. ui_language) missing from
         // the imported file get seeded — the resolver copies content language
         // as the UI language default for backward compatibility.
         await initDefaults();
         await loadSettings();
+
+        showToast($t('settings.import_success', { count: data.sessions.length }));
       } catch (e) {
         console.error('Import failed:', e);
+        showToast($t('settings.import_error'), 'error');
       }
     };
     input.click();
   }
 
   async function handleClearAll() {
+    showDeleteModal = true;
+  }
+
+  async function confirmDelete() {
     if (!browser) return;
-
-    if (!deleteConfirming) {
-      // First tap: enter confirmation mode
-      deleteConfirming = true;
-      if (deleteConfirmTimer) clearTimeout(deleteConfirmTimer);
-      deleteConfirmTimer = setTimeout(() => {
-        deleteConfirming = false;
-      }, 3000);
-      return;
+    showDeleteModal = false;
+    try {
+      const { db } = await import('$lib/db/database');
+      await db.attempts.clear();
+      await db.sessions.clear();
+      await db.spacedRepetition.clear();
+      showToast($t('settings.data_deleted'));
+    } catch (e) {
+      console.error('Delete failed:', e);
+      showToast($t('settings.delete_error'), 'error');
     }
+  }
 
-    // Second tap within 3 seconds: actually delete
-    deleteConfirming = false;
-    if (deleteConfirmTimer) {
-      clearTimeout(deleteConfirmTimer);
-      deleteConfirmTimer = null;
-    }
-    const { db } = await import('$lib/db/database');
-    await db.attempts.clear();
-    await db.sessions.clear();
-    await db.spacedRepetition.clear();
+  function previewSpeech() {
+    if (!previewSynthesis || !settings) return;
+    previewSynthesis.setRate(settings.speech_rate);
+    isPreviewing = true;
+    previewSynthesis.speak($t('settings.voice_sample'), speechLangFor(settings.ui_language)).finally(() => {
+      isPreviewing = false;
+    });
   }
 </script>
 
@@ -221,10 +269,10 @@
       </div>
     </Card>
 
-    <!-- Card 2: Audio & vibration -->
+    <!-- Card 2: Audio & voice -->
     <Card>
       <div class="card-section">
-        <h2 class="card-heading">{$t('settings.audio_vibration')}</h2>
+        <h2 class="card-heading">{$t('settings.audio_voice')}</h2>
 
         <div class="setting-row">
           <span class="setting-name">{$t('settings.sound_effects')}</span>
@@ -283,6 +331,14 @@
             />
             <span class="slider-value" aria-atomic="true">{settings.speech_rate.toFixed(1)}x</span>
           </div>
+          <button
+            class="preview-btn"
+            onclick={previewSpeech}
+            disabled={isPreviewing || !previewSynthesis}
+            aria-label={$t('settings.preview_voice')}
+          >
+            {isPreviewing ? $t('settings.playing') : $t('settings.preview_voice')}
+          </button>
         </div>
 
         <div class="setting-divider"></div>
@@ -343,16 +399,18 @@
           </Button>
           <button
             class="delete-data-btn"
-            class:confirming={deleteConfirming}
             onclick={handleClearAll}
-            aria-label={deleteConfirming ? $t('settings.confirm_delete') : $t('progress.clear_data')}
+            aria-label={$t('progress.clear_data')}
           >
-            {deleteConfirming ? '⚠️ ' + $t('settings.confirm_delete') : $t('progress.clear_data')}
+            {$t('progress.clear_data')}
           </button>
         </div>
+      </div>
+    </Card>
 
-        <div class="setting-divider"></div>
-
+    <!-- Card 4: About -->
+    <Card>
+      <div class="card-section">
         <button class="about-link" onclick={() => goto(`${base}/about`)} aria-label={$t('settings.about')}>
           <span>{$t('settings.about')}</span>
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
@@ -364,6 +422,26 @@
     </div>
   </section>
 {/if}
+
+<!-- Delete confirmation modal -->
+<Modal open={showDeleteModal} title={$t('settings.delete_title')} onclose={() => { showDeleteModal = false; }}>
+  <div class="modal-body">
+    <p class="modal-message">{$t('settings.delete_body')}</p>
+    <div class="modal-buttons">
+      <Button variant="secondary" size="md" onclick={() => { showDeleteModal = false; }}>
+        {$t('common.cancel')}
+      </Button>
+      <Button variant="danger" size="md" onclick={confirmDelete}>
+        {$t('settings.delete_confirm')}
+      </Button>
+    </div>
+  </div>
+</Modal>
+
+<!-- Toasts -->
+{#each toasts as toast (toast.id)}
+  <Toast message={toast.message} type={toast.type} ondismiss={() => dismissToast(toast.id)} />
+{/each}
 
 <style>
   .loading-container {
@@ -614,6 +692,36 @@
     text-align: right;
   }
 
+  /* Speech preview button */
+  .preview-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: var(--touch-min);
+    padding: var(--space-xs) var(--space-lg);
+    background: var(--primary);
+    color: #ffffff;
+    border: none;
+    border-radius: var(--radius-full);
+    font-size: var(--font-size-base);
+    font-weight: 600;
+    font-family: var(--font-family);
+    cursor: pointer;
+    align-self: flex-start;
+    transition: opacity var(--transition-fast);
+    touch-action: manipulation;
+  }
+
+  .preview-btn:disabled {
+    opacity: 0.6;
+    cursor: default;
+  }
+
+  .preview-btn:focus-visible {
+    outline: 3px solid var(--primary-light);
+    outline-offset: 2px;
+  }
+
   /* About link */
   .about-link {
     display: flex;
@@ -638,7 +746,7 @@
     padding: 0 var(--space-xs);
   }
 
-  /* Delete data button with double-tap confirm */
+  /* Delete data button */
   .delete-data-btn {
     display: inline-flex;
     align-items: center;
@@ -662,16 +770,32 @@
     opacity: 0.8;
   }
 
-  .delete-data-btn.confirming {
-    animation: flashRed 0.5s ease-in-out infinite alternate;
-    /* Holds the dimmed end-state when prefers-reduced-motion stops the animation. */
-    filter: brightness(0.82);
-    font-weight: 800;
+  .delete-data-btn:focus-visible {
+    outline: 3px solid var(--primary-light);
+    outline-offset: 2px;
   }
 
-  @keyframes flashRed {
-    0% { filter: brightness(1); }
-    100% { filter: brightness(0.82); transform: scale(1.02); }
+  /* Modal */
+  .modal-body {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-lg);
+  }
+
+  .modal-message {
+    font-size: var(--font-size-base);
+    color: var(--text-dim);
+    line-height: 1.5;
+    margin: 0;
+  }
+
+  .modal-buttons {
+    display: flex;
+    gap: var(--space-sm);
+  }
+
+  .modal-buttons > :global(*) {
+    flex: 1;
   }
 
   /* Tablet: bigger targets, wider toggles */
@@ -725,6 +849,10 @@
       font-size: var(--font-size-xl);
     }
 
+    .preview-btn {
+      font-size: var(--font-size-lg);
+    }
+
     .about-link {
       font-size: var(--font-size-lg);
     }
@@ -741,7 +869,7 @@
 
     /* Language and data sections span full width */
     .settings-cards > :first-child,
-    .settings-cards > :last-child {
+    .settings-cards > :nth-last-child(2) {
       grid-column: 1 / -1;
     }
   }

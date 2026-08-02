@@ -14,7 +14,7 @@
   import ProgressBar from '$lib/components/ui/ProgressBar.svelte';
   import { keyboardNav } from '$lib/utils/keyboard-nav';
   import type { KeyboardNavParams } from '$lib/utils/keyboard-nav';
-  import { refreshSoundSetting } from '$lib/utils/sounds';
+  import { refreshFeedbackSettings } from '$lib/utils/feedback';
 
   type Props = {
     current: number;
@@ -42,7 +42,7 @@
   let label = $derived(`${current + 1} ${$t('common.of')} ${total}`);
 
   onMount(() => {
-    refreshSoundSetting();
+    refreshFeedbackSettings();
     // Focus the region so keyboard shortcuts work immediately. preventScroll
     // avoids the page jumping past the exercise header on mount.
     el?.focus({ preventScroll: true });

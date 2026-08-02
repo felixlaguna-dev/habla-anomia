@@ -1,4 +1,6 @@
 <script lang="ts">
+  import { t } from '$lib/i18n';
+
   type Props = {
     message: string;
     type?: 'success' | 'error' | 'info';
@@ -34,7 +36,6 @@
   });
 </script>
 
-{#if visible !== undefined}
   <div
     role="status"
     aria-live="polite"
@@ -55,7 +56,7 @@
     <span style="flex:1;">{message}</span>
     <button
       onclick={() => { visible = false; setTimeout(() => ondismiss?.(), 300); }}
-      aria-label="Dismiss notification"
+      aria-label="{$t('common.close')}"
       style="
         background:transparent;border:none;color:inherit;
         font-size:var(--font-size-xl);cursor:pointer;
@@ -65,4 +66,3 @@
       ✕
     </button>
   </div>
-{/if}

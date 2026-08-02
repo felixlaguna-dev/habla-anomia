@@ -10,7 +10,7 @@
   import { generateSession } from '$lib/engine/session-generator';
   import { DifficultyTracker, updateDifficultyAfterSession, getDifficultyLevel } from '$lib/engine/adaptive-difficulty';
   import { browser } from '$app/environment';
-  import { playCompleteSound } from '$lib/utils/sounds';
+  import { playCompleteFeedback } from '$lib/utils/feedback';
   import { SpeechSynthesisService } from '$lib/speech/speech-synthesis';
   import { ExerciseIcon, Spinner, Modal, Button } from '$lib/components/ui';
   import { getExerciseMeta } from '$lib/exercises/registry';
@@ -135,7 +135,7 @@
     showResults = true;
 
     // Play completion sound
-    playCompleteSound();
+    playCompleteFeedback();
 
     // Confetti for high scores
     if (accuracy >= 80) {

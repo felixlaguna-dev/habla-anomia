@@ -303,7 +303,11 @@
     "restart": "Repetir exercici",
     "listen": "Escoltar",
     "yes": "Sí",
-    "no": "No"
+    "no": "No",
+    "exit_exercise_title": "Sortir de l'exercici?",
+    "exit_exercise_body": "Perdràs el progrés d'aquest exercici.",
+    "exit_exercise_confirm": "Sortir",
+    "exit_exercise_cancel": "Continuar"
   },
   "categories": {
     "animals": "Animals",

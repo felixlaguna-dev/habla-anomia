@@ -8,7 +8,7 @@
   import { cleanupAbandonedSessions } from '$lib/db/sessions';
   import { seedWords, resolveSeedReady } from '$lib/db/words';
   import { WORDS_ES, WORDS_ES_VERSION } from '$lib/data/words-es';
-  import { manifestUrl } from '$lib/utils/paths';
+  import { manifestUrl, stripBase } from '$lib/utils/paths';
   import { applyAppearance } from '$lib/utils/appearance';
   import BottomNav from '$lib/components/ui/BottomNav.svelte';
   import InstallPrompt from '$lib/components/ui/InstallPrompt.svelte';
@@ -38,10 +38,12 @@
   });
 
   let hideNav = $derived.by(() => {
-    const p = $page.url.pathname;
-    return (p.startsWith('/exercises/') && p.split('/').length === 3)
-      || p.endsWith('/review-failures')
-      || p.endsWith('/progress/report');
+    // Strip the base prefix so nav hiding works both locally (base = '')
+    // and deployed (base = '/habla-anomia').
+    const path = stripBase($page.url.pathname);
+    return (path.startsWith('/exercises/') && path.split('/').length === 3)
+      || path.endsWith('/review-failures')
+      || path.endsWith('/progress/report');
   });
 
   const navItems = [

@@ -303,7 +303,11 @@
     "restart": "Errepikatu ariketa",
     "listen": "Entzun",
     "yes": "Bai",
-    "no": "Ez"
+    "no": "Ez",
+    "exit_exercise_title": "Ariketa utzi?",
+    "exit_exercise_body": "Ariketa honetako aurrerapena galduko duzu.",
+    "exit_exercise_confirm": "Irten",
+    "exit_exercise_cancel": "Jarraitu"
   },
   "categories": {
     "animals": "Animaliak",

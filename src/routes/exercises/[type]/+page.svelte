@@ -12,7 +12,7 @@
   import { browser } from '$app/environment';
   import { playCompleteSound } from '$lib/utils/sounds';
   import { SpeechSynthesisService } from '$lib/speech/speech-synthesis';
-  import { ExerciseIcon, Spinner } from '$lib/components/ui';
+  import { ExerciseIcon, Spinner, Modal, Button } from '$lib/components/ui';
   import { getExerciseMeta } from '$lib/exercises/registry';
   import type { ExerciseType, Language, Word, AppSettings, Category } from '$lib/types';
   import { CATEGORIES } from '$lib/types';
@@ -37,6 +37,7 @@
   let correctWords = $state<Word[]>([]);
   let incorrectWords = $state<Word[]>([]);
   let showConfetti = $state(false);
+  let showExitConfirm = $state(false);
   let planCategory: string | undefined = $state();
   let allWords = $state<Word[]>([]);
   let difficultyTracker: DifficultyTracker | null = null;
@@ -129,6 +130,7 @@
     const { score: correct, total } = e;
     const accuracy = total > 0 ? Math.round((correct / total) * 100) : 0;
 
+    showExitConfirm = false;
     results = { correct, total, accuracy };
     showResults = true;
 
@@ -179,8 +181,9 @@
   /** Delete the current open session (if any) and clear the id. */
   async function abandonCurrentSession() {
     if (sessionId !== null) {
-      await deleteSession(sessionId);
+      const id = sessionId;
       sessionId = null;
+      await deleteSession(id);
     }
   }
 
@@ -192,10 +195,26 @@
   }
 
   function goBack() {
+    // Show exit confirmation when an exercise is active (loaded, not finished,
+    // words on screen) so an accidental tap can't silently discard progress.
+    if (!loading && !showResults && words.length > 0) {
+      showExitConfirm = true;
+      return;
+    }
+    navigateBack();
+  }
+
+  function navigateBack() {
     // From "Practicar una categoría": return to that category's chooser rather
     // than bouncing through /exercises → home.
     if (routeCategory) goto(`${base}/practice/${routeCategory}`);
-    else goto(`${base}/exercises`);
+    else goto(`${base}/`); // direct to home — /exercises is a 302 redirect
+  }
+
+  async function confirmExit() {
+    showExitConfirm = false;
+    await abandonCurrentSession();
+    navigateBack();
   }
 
   function handleCloseResults() {
@@ -305,7 +324,7 @@
     <div class="error-container">
       <span class="error-icon" aria-hidden="true">😕</span>
       <p class="error-message">{$t('common.no_words')}</p>
-      <button class="retry-btn" onclick={() => goto(`${base}/exercises`)}>
+      <button class="retry-btn" onclick={() => goto(`${base}/`)}>
         ↩ {$t('common.back')}
       </button>
     </div>
@@ -407,6 +426,18 @@
     </div>
   </div>
 {/if}
+
+<Modal open={showExitConfirm} title={$t('common.exit_exercise_title')} onclose={() => (showExitConfirm = false)}>
+  <p class="exit-dialog-body">{$t('common.exit_exercise_body')}</p>
+  <div class="exit-dialog-actions">
+    <Button variant="primary" fullWidth onclick={() => (showExitConfirm = false)}>
+      {$t('common.exit_exercise_cancel')}
+    </Button>
+    <Button variant="secondary" fullWidth onclick={confirmExit}>
+      {$t('common.exit_exercise_confirm')}
+    </Button>
+  </div>
+</Modal>
 
 <style>
   .exercise-page {
@@ -781,5 +812,19 @@
       transform: translateY(100vh) rotate(720deg) scale(0.3);
       opacity: 0;
     }
+  }
+
+  /* Exit confirmation dialog */
+  .exit-dialog-body {
+    font-size: var(--font-size-lg);
+    color: var(--text-dim);
+    line-height: 1.5;
+    margin-bottom: var(--space-lg);
+  }
+
+  .exit-dialog-actions {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm);
   }
 </style>

@@ -17,6 +17,12 @@ export function resolveUrl(path: string): string {
   return path;
 }
 
+/** Strip the deployment base from an absolute pathname. Inverse of resolveUrl. */
+export function stripBase(pathname: string): string {
+  if (base && pathname.startsWith(base)) return pathname.slice(base.length);
+  return pathname;
+}
+
 /** Shorthand specifically for word images — most common call site. */
 export function resolveImageUrl(url: string): string {
   return resolveUrl(url);

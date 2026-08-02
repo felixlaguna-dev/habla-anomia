@@ -1,7 +1,7 @@
 import { db } from './database';
 import type { AppSettings, Language } from '$lib/types';
 
-const DEFAULTS: AppSettings = {
+export const DEFAULTS: AppSettings = {
   language: 'es' as Language,
   ui_language: 'es' as Language,
   text_size: 'normal',

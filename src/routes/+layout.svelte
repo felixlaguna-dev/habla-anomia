@@ -2,6 +2,8 @@
   import '../app.css';
   import { page } from '$app/stores';
   import { base } from '$app/paths';
+  import { goto } from '$app/navigation';
+  import { browser } from '$app/environment';
   import { t, locale } from '$lib/i18n';
   import { onMount } from 'svelte';
   import { getAllSettings, initDefaults } from '$lib/db/settings';
@@ -13,18 +15,17 @@
   import BottomNav from '$lib/components/ui/BottomNav.svelte';
   import InstallPrompt from '$lib/components/ui/InstallPrompt.svelte';
   import OfflineIndicator from '$lib/components/ui/OfflineIndicator.svelte';
+  import { Spinner } from '$lib/components/ui';
 
   let { children } = $props();
 
-  onMount(async () => {
-    await initDefaults();
-    const settings = await getAllSettings();
+  // Gates rendering until settings load and the onboarding redirect check
+  // completes — prevents flashing the dashboard before redirecting first-run
+  // users to the wizard.
+  let ready = $state(false);
 
-    // Appearance classes live on <html> (see applyAppearance) so the
-    // text-size setting actually scales the rem-based UI.
-    applyAppearance(settings);
-
-    locale.set(settings.ui_language);
+  /** Seed the word bank and sweep orphaned sessions. Safe to fire-and-forget. */
+  async function runSeeding() {
     try {
       await seedWords(WORDS_ES, WORDS_ES_VERSION);
     } catch (err) {
@@ -35,6 +36,43 @@
       await cleanupAbandonedSessions().catch(() => {});
       resolveSeedReady();
     }
+  }
+
+  onMount(async () => {
+    let settings;
+    try {
+      await initDefaults();
+      settings = await getAllSettings();
+    } catch (err) {
+      console.error('Settings load failed; continuing with defaults.', err);
+      ready = true;
+      runSeeding();
+      return;
+    }
+
+    // Appearance classes live on <html> (see applyAppearance) so the
+    // text-size setting actually scales the rem-based UI.
+    applyAppearance(settings);
+
+    locale.set(settings.ui_language);
+
+    // First-run onboarding redirect: if onboarding is incomplete and the user
+    // is not already on /onboarding (or on the exempt /admin route), send them
+    // through the wizard. Seeding still runs in the background so it's ready
+    // by the time they finish. The ready gate stays closed until the redirect
+    // completes, preventing a flash of the dashboard.
+    if (browser && !settings.onboarding_complete) {
+      const path = stripBase($page.url.pathname);
+      if (path !== '/onboarding' && !path.startsWith('/admin')) {
+        runSeeding();
+        await goto(`${base}/onboarding`, { replaceState: true });
+        ready = true;
+        return;
+      }
+    }
+
+    ready = true;
+    await runSeeding();
   });
 
   let hideNav = $derived.by(() => {
@@ -43,7 +81,8 @@
     const path = stripBase($page.url.pathname);
     return (path.startsWith('/exercises/') && path.split('/').length === 3)
       || path.endsWith('/review-failures')
-      || path.endsWith('/progress/report');
+      || path.endsWith('/progress/report')
+      || path === '/onboarding';
   });
 
   const navItems = [
@@ -72,10 +111,14 @@
 
 <div class="app-shell">
   <main id="main-content" class="main-content" class:no-bottom-nav={hideNav}>
-    {@render children()}
+    {#if ready}
+      {@render children()}
+    {:else}
+      <Spinner />
+    {/if}
   </main>
 
-  {#if !hideNav}
+  {#if ready && !hideNav}
     <BottomNav {navItems} {isActive} />
   {/if}
 </div>

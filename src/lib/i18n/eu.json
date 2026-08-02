@@ -282,8 +282,10 @@
     "welcome_message": "Aplikazio honek hizkuntza praktikatzen lagunduko dizu ariketa sinple eta dibertigarriekin. Elkarrekin konfiguratzen dugu.",
     "choose_language": "Aukeratu zure hizkuntza",
     "choose_text_size": "Aukeratu testuaren tamaina",
+    "choose_theme": "Aukeratu itxura",
     "lets_start": "Has gaitezen!",
-    "step": "{total}. urratsetik {current}. urratsa"
+    "step": "{total}. urratsetik {current}. urratsa",
+    "restart": "Ikusi sarrera berriro"
   },
   "about": {
     "title": "Habla Anomiari buruz",

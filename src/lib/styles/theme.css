@@ -114,6 +114,20 @@
   /* Clearance for fixed overlays anchored just above the bottom nav */
   --above-bottom-nav: calc(var(--bottom-nav-height) + var(--safe-bottom) + var(--space-sm));
 
+  /* Onboarding theme-preview tokens — fixed colours that always show the
+     same preview regardless of the active theme. Defined here so all hex
+     values live in one place per the color-token rule at the top. */
+  --preview-light-bg: #f8fafc;
+  --preview-light-surface: #e2e8f0;
+  --preview-light-border: #cbd5e1;
+  --preview-light-text: #0f172a;
+  --preview-light-accent: #2563eb;
+  --preview-dark-bg: #1e293b;
+  --preview-dark-surface: #334155;
+  --preview-dark-border: #475569;
+  --preview-dark-text: #f1f5f9;
+  --preview-dark-accent: #3b82f6;
+
   /* Responsive breakpoints (informational — used in media queries below) */
   --breakpoint-tablet: 768px;
 }

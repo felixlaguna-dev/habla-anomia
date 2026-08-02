@@ -11,7 +11,7 @@ const DEFAULTS: AppSettings = {
   sound_enabled: true,
   haptic_enabled: true,
   speak_buttons_enabled: true,
-  timer_enabled: true,
+  timer_enabled: false,
   onboarding_complete: false
 };
 

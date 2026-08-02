@@ -222,7 +222,7 @@
           language={settings?.language || 'es'}
           category={currentGroup.category}
           speechRate={settings?.speech_rate ?? 0.8}
-          timerEnabled={settings?.timer_enabled ?? true}
+          timerEnabled={settings?.timer_enabled ?? false}
           speakButtonsEnabled={settings?.speak_buttons_enabled ?? true}
           oncomplete={handleExerciseComplete}
           onrestart={() => {}}

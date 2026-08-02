@@ -91,16 +91,18 @@
     "generative_naming": {
       "name": "Nombrar por categoría",
       "short_name": "Categoría",
-      "description": "Nombra todas las palabras de una categoría",
-      "name_all": "Nombra todo lo que puedas de: {category}",
+      "description": "Toca todas las palabras que pertenecen a la categoría",
       "time_left": "Tiempo restante",
       "seconds": "segundos",
-      "words_found": "Palabras encontradas",
-      "add_word": "Añadir palabra",
       "results_title": "Resultados",
       "you_found": "Has encontrado {count} palabras",
       "well_done": "¡Muy bien!",
-      "already_said": "Esa palabra ya la dijiste"
+      "find_all": "Encuentra todas las palabras de: {category}",
+      "words_found_count": "Encontradas: {found} de {total}",
+      "challenge_mode": "Modo desafío",
+      "challenge_mode_desc": "60 segundos",
+      "distractor_note": "{word} es de: {category}",
+      "finish": "Terminar"
     },
     "word_matching": {
       "name": "Relacionar palabras",
@@ -249,7 +251,7 @@
     "speech_rate": "Velocidad de voz",
     "sound_effects": "Efectos de sonido",
     "haptic_feedback": "Vibración",
-    "timer_enabled": "Temporizador",
+    "timer_enabled": "Modo desafío con tiempo (Nombrar por categoría)",
     "speak_buttons": "Botones de voz",
     "small": "Pequeño",
     "normal": "Normal",

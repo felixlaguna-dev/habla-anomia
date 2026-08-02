@@ -91,16 +91,18 @@
     "generative_naming": {
       "name": "Generative naming",
       "short_name": "Generate",
-      "description": "Name as many words as you can from a category",
-      "name_all": "Name all you can from: {category}",
+      "description": "Tap all the words that belong to the category",
       "time_left": "Time left",
       "seconds": "seconds",
-      "words_found": "Words found",
-      "add_word": "Add word",
       "results_title": "Results",
       "you_found": "You found {count} words",
       "well_done": "Well done!",
-      "already_said": "You already said that word"
+      "find_all": "Find all the words from: {category}",
+      "words_found_count": "Found: {found} of {total}",
+      "challenge_mode": "Challenge mode",
+      "challenge_mode_desc": "60 seconds",
+      "distractor_note": "{word} belongs to: {category}",
+      "finish": "Finish"
     },
     "word_matching": {
       "name": "Word matching",
@@ -249,7 +251,7 @@
     "speech_rate": "Speech rate",
     "sound_effects": "Sound effects",
     "haptic_feedback": "Vibration",
-    "timer_enabled": "Timer",
+    "timer_enabled": "Timed challenge mode (Generative naming)",
     "speak_buttons": "Voice buttons",
     "small": "Small",
     "normal": "Normal",

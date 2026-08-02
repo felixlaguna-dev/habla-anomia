@@ -484,7 +484,7 @@
      users (see onMount focus call). Since tabindex="-1" means it can never
      receive keyboard Tab focus, suppress the browser's default focus ring
      to avoid a visual flash on every exercise load. */
-  .exercise-title:focus {
+  .exercise-title:focus:not(:focus-visible) {
     outline: none;
   }
 

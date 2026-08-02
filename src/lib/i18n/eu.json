@@ -124,7 +124,8 @@
         "starts_with": "Honekin hasten da: {value}",
         "ends_with": "Honekin amaitzen da: {value}",
         "answer": "Erantzuna da: {value}"
-      }
+      },
+      "hint": "Laguntza"
     },
     "opposites_synonyms": {
       "name": "Aurkakoak eta sinonimoak",

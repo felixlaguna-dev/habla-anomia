@@ -124,7 +124,8 @@
         "starts_with": "Empieza con: {value}",
         "ends_with": "Termina con: {value}",
         "answer": "La respuesta es: {value}"
-      }
+      },
+      "hint": "Pista"
     },
     "opposites_synonyms": {
       "name": "Opuestos y sinónimos",

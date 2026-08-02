@@ -296,9 +296,9 @@
             class="exercise-action-button"
             onclick={showHint}
             disabled={!canShowMoreHints}
-            aria-label={`${$t('exercises.picture_naming.hint')} — ${hintLabel}`}
+            aria-label={`${$t('exercises.sentence_completion.hint')} — ${hintLabel}`}
           >
-            💡 {$t('exercises.picture_naming.hint')}
+            💡 {$t('exercises.sentence_completion.hint')}
           </button>
 
           <button type="button" class="exercise-skip-button" onclick={skipWord} aria-label={$t('common.skip')}>

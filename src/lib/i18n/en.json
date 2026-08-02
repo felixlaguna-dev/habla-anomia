@@ -124,7 +124,8 @@
         "starts_with": "Starts with: {value}",
         "ends_with": "Ends with: {value}",
         "answer": "The answer is: {value}"
-      }
+      },
+      "hint": "Hint"
     },
     "opposites_synonyms": {
       "name": "Opposites and synonyms",

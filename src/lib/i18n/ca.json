@@ -124,7 +124,8 @@
         "starts_with": "Comença amb: {value}",
         "ends_with": "Acaba amb: {value}",
         "answer": "La resposta és: {value}"
-      }
+      },
+      "hint": "Pista"
     },
     "opposites_synonyms": {
       "name": "Oposats i sinònims",

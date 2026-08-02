@@ -234,13 +234,11 @@
 
     <!-- Cue level indicators + legend in one compact row -->
     <div class="cue-header" role="group" aria-label={legendLabel}>
-      <div class="cue-indicators">
+      <div class="cue-indicators" aria-hidden="true">
         {#each Array(5) as _, i}
           <div
             class="cue-dot"
             class:revealed={i < cuesRevealed}
-            role="img"
-            aria-label={i < cuesRevealed ? $t('exercises.phonological_cueing.revealed') : $t('exercises.phonological_cueing.hint_n', { n: String(i + 1) })}
           ></div>
         {/each}
       </div>
@@ -310,7 +308,6 @@
             ⏭️ {$t('common.skip')}
           </button>
         </div>
-        <span class="hint-counter" aria-hidden="true">{hintLabel}</span>
       </div>
     {/if}
   </ExerciseShell>

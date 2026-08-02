@@ -29,8 +29,9 @@ test.describe('Dashboard', () => {
 
   test('shows stats area', async ({ page }) => {
     const statsText = await page.locator('body').textContent();
-    const hasStats = statsText?.match(/sesión|palabra|practicado|racha/i);
-    expect(hasStats, 'No stats section visible').toBeTruthy();
+    // Stats grid shows for returning users; empty-state invitation shows for new users
+    const hasStats = statsText?.match(/sesión|sesiones|palabra|practicado|práctica|racha/i);
+    expect(hasStats, 'No stats section or empty-state invitation visible').toBeTruthy();
   });
 
   test('shows daily plan section', async ({ page }) => {

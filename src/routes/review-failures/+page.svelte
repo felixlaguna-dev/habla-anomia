@@ -11,7 +11,7 @@
   import { EXERCISE_REGISTRY, type ExerciseMeta } from '$lib/exercises/registry';
   import { EXERCISE_COMPONENTS } from '$lib/components/exercises';
   import { ExerciseIcon, Spinner } from '$lib/components/ui';
-  import { playCompleteSound } from '$lib/utils/sounds';
+  import { playCompleteFeedback } from '$lib/utils/feedback';
   import { browser } from '$app/environment';
 
   // --- Types ---
@@ -144,7 +144,7 @@
 
     const nextIndex = currentGroupIndex + 1;
     if (nextIndex >= groups.length) {
-      playCompleteSound();
+      playCompleteFeedback();
       phase = 'summary';
     } else {
       currentGroupIndex = nextIndex;

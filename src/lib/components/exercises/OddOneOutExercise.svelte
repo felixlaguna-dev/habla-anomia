@@ -7,7 +7,7 @@
   import { useTts, speechLangFor } from '$lib/utils/tts.svelte';
   import { recordTrial } from '$lib/utils/record-trial';
   import { createCancellableTimer } from '$lib/utils/timer';
-  import { playCorrectSound, playIncorrectSound } from '$lib/utils/sounds';
+  import { playFeedback } from '$lib/utils/feedback';
   import { ExerciseShell, FeedbackBanner, SpeakButton, FEEDBACK_TIMINGS } from './shared';
   import './shared/exercise-common.css';
   import type { KeyboardNavParams } from '$lib/utils/keyboard-nav';
@@ -241,8 +241,7 @@
     const correct = index === currentRound.intruderIndex;
 
     feedbackState = correct ? 'correct' : 'incorrect';
-    if (correct) playCorrectSound();
-    else playIncorrectSound();
+    playFeedback(correct);
 
     recordCurrentTrial(correct);
 

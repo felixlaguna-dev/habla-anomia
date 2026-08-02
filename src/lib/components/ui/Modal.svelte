@@ -1,4 +1,6 @@
 <script lang="ts">
+  import { t } from '$lib/i18n';
+
   type Props = {
     open?: boolean;
     title?: string;
@@ -93,7 +95,7 @@
         {/if}
         <button
           onclick={onclose}
-          aria-label="Close dialog"
+          aria-label={$t('common.close')}
           style="
             display:flex;align-items:center;justify-content:center;
             min-width:48px;min-height:48px;

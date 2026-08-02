@@ -7,6 +7,7 @@
   import { getCategoriesWithEnoughWords, awaitSeedReady, DRILLABLE_CATEGORY_MIN } from '$lib/db/words';
   import { getSRStats } from '$lib/engine/spaced-repetition';
   import { getAccuracyByExercise, getTodaysFailures } from '$lib/db/attempts';
+  import { getWeakCategories } from '$lib/engine/session-generator';
   import { EXERCISE_REGISTRY, EXERCISE_TYPES, getExerciseMeta, TTS_REQUIRED_EXERCISES, type ExerciseMeta } from '$lib/exercises/registry';
   import { SpeechSynthesisService } from '$lib/speech/speech-synthesis';
   import { scrollAffordance } from '$lib/utils/scroll-affordance';
@@ -15,16 +16,18 @@
   import { base } from '$app/paths';
   import type { Language, Category, ExerciseType } from '$lib/types';
 
-  let totalSessions = $state(0);
-  let todayGoal = $state(4);
   let accuracy = $state(0);
   let streakCurrent = $state(0);
-  let streakLongest = $state(0);
   let dueCount = $state(0);
   let language = $state<Language>('es');
   let practiceCategories: Category[] = $state([]);
   let todayFailuresCount = $state(0);
   let loading = $state(true);
+  let loadError = $state(false);
+  let hasAnyCompletedSession = $state(false);
+
+  // Weakest category label for computed plan reasons
+  let weakestCategory = $state<Category | null>(null);
 
   // Daily plan recommendations
   interface PlanItem {
@@ -36,17 +39,19 @@
   let dailyPlan = $state<PlanItem[]>([]);
 
   // Exercise types completed today (from sessions with ended_at set today).
-  // Drives both the daily-plan checkmark and the chip-grid sticker.
   let completedTodayTypes = $state<Set<ExerciseType>>(new Set());
 
-  // How many of today's plan items are done — derived from the plan + types,
-  // not a raw session count, so the stat tracks the plan rather than arbitrary
-  // sessions of unrelated types.
+  // How many of today's plan items are done — derived from the plan + types.
   let todayCompleted = $derived(
     dailyPlan.filter(item => completedTodayTypes.has(item.type)).length
   );
 
-  // Category row scroll affordance — fade + arrow
+  // Next uncompleted plan item — the hero CTA target.
+  let nextPlanItem = $derived(
+    dailyPlan.find(item => !completedTodayTypes.has(item.type))
+  );
+
+  // Category row scroll affordance
   let categoryRowEl = $state<HTMLElement | null>(null);
   let canScrollLeft = $state(false);
   let canScrollRight = $state(false);
@@ -77,88 +82,83 @@
       const settings = await getAllSettings();
       language = settings.language;
 
-      // The word-bank query below reads the words table, which is seeded by
-      // +layout.svelte on cold starts — wait for it so the category row renders
-      // on the very first load instead of staying empty until a route change.
       await awaitSeedReady();
 
-      // Streak, sessions, SR stats, drillable categories and exercise accuracy
-      // are independent — fan them out instead of serializing round-trips.
-      const [streakInfo, sessions, srStats, cats, failures, exerciseAccuracies] = await Promise.all([
+      const [streakInfo, sessions, srStats, cats, failures, exerciseAccuracies, weakCats] = await Promise.all([
         getStreakInfo(),
         getSessions(language, 100),
         getSRStats(language),
         getCategoriesWithEnoughWords(language, DRILLABLE_CATEGORY_MIN, true),
         getTodaysFailures(language),
-        getAccuracyByExercise(language)
+        getAccuracyByExercise(language),
+        getWeakCategories(language, 1)
       ]);
 
       streakCurrent = streakInfo.current;
-      streakLongest = streakInfo.longest;
-      totalSessions = sessions.length;
       dueCount = srStats.due;
       practiceCategories = cats;
       todayFailuresCount = [...failures.values()].reduce((sum, words) => sum + words.length, 0);
 
-      // Today's completed exercise types — pure transform on the sessions we
-      // already fetched, so no extra IDB round-trip.
       completedTodayTypes = completedTypesToday(sessions);
 
-      // Accuracy from recent sessions
       const completed = sessions.filter(s => s.ended_at);
+      hasAnyCompletedSession = completed.length > 0;
       if (completed.length > 0) {
         const recent10 = completed.slice(0, 10);
         accuracy = Math.round(recent10.reduce((sum, s) => sum + s.accuracy, 0) / recent10.length);
       }
 
-      // Build daily plan (pass pre-fetched accuracies to avoid a second IDB round-trip)
+      // Weakest category from getWeakCategories (sorted ascending with tie-breaking)
+      if (weakCats.length > 0) {
+        weakestCategory = weakCats[0];
+      }
+
       buildDailyPlan(exerciseAccuracies);
 
     } catch (e) {
       console.warn('Failed to load stats:', e);
+      loadError = true;
     } finally {
       loading = false;
     }
   });
 
+  /**
+   * Compute a truthful reason for recommending an exercise, based on real data:
+   * - Never tried → "Nuevo para ti"
+   * - SR words due → "N palabras para repasar"
+   * - Otherwise → "Refuerza: <weakest category>" (or "Seguir practicando" fallback)
+   */
+  function computeReason(type: ExerciseType, hasAttempts: boolean): string {
+    if (!hasAttempts) return $t('dashboard.new_for_you');
+    if (dueCount > 0) return $t('dashboard.review_due_words', { count: String(dueCount) });
+    if (weakestCategory) return $t('dashboard.reinforce_category', { category: $t(`categories.${weakestCategory}`) });
+    return $t('dashboard.keep_practicing');
+  }
+
   function buildDailyPlan(exerciseAccuracies: Array<{ exercise_type: ExerciseType; accuracy: number; correct: number; total: number }>) {
     const plan: PlanItem[] = [];
 
-    let selectedTypes: ExerciseType[];
-
-    // Exclude TTS-required exercises when TTS is unavailable.
     const availableTypes = ttsSupported
       ? EXERCISE_TYPES
       : EXERCISE_TYPES.filter((t) => !TTS_REQUIRED_EXERCISES.includes(t));
 
+    const triedTypes = new Set(exerciseAccuracies.map(ea => ea.exercise_type));
+
+    let selectedTypes: ExerciseType[];
+
     if (exerciseAccuracies.length === 0) {
       selectedTypes = availableTypes.slice(0, 3);
     } else {
-      const accMap = new Map<string, number>();
-      for (const ea of exerciseAccuracies) {
-        accMap.set(ea.exercise_type, ea.accuracy);
-      }
-      selectedTypes = [...availableTypes]
-        .sort((a, b) => (accMap.get(a) ?? 0) - (accMap.get(b) ?? 0))
-        .slice(0, 3);
-    }
+      // Prioritise untried types first, then weakest among tried
+      const untried = availableTypes.filter(t => !triedTypes.has(t));
+      const triedSorted = [...exerciseAccuracies]
+        .filter(ea => availableTypes.includes(ea.exercise_type))
+        .sort((a, b) => a.accuracy - b.accuracy)
+        .map(ea => ea.exercise_type);
 
-    // Build reason strings for each selected type
-    const reasonMap: Record<ExerciseType, string> = {
-      'picture-naming': dueCount > 0
-        ? $t('dashboard.review_due_words', { count: String(dueCount) })
-        : $t('dashboard.phonological_practice'),
-      'semantic-features': $t('dashboard.practice_weak_category'),
-      'phonological-cueing': $t('dashboard.phonological_practice'),
-      'category-sorting': $t('dashboard.category_practice'),
-      'generative-naming': $t('dashboard.category_practice'),
-      'word-matching': $t('dashboard.phonological_practice'),
-      'sentence-completion': $t('dashboard.phonological_practice'),
-      'opposites-synonyms': $t('dashboard.practice_weak_category'),
-      'odd-one-out': $t('dashboard.category_practice'),
-      'listen-choose': $t('dashboard.phonological_practice'),
-      'yes-no': $t('dashboard.category_practice')
-    };
+      selectedTypes = [...untried, ...triedSorted].slice(0, 3);
+    }
 
     for (const type of selectedTypes) {
       const meta = getExerciseMeta(type);
@@ -166,12 +166,11 @@
       plan.push({
         type,
         meta,
-        reason: reasonMap[type] || $t('dashboard.phonological_practice')
+        reason: computeReason(type, triedTypes.has(type))
       });
     }
 
     dailyPlan = plan;
-    todayGoal = plan.length;
   }
 
   function startExercise(type: string) {
@@ -187,20 +186,63 @@
 </script>
 
 <div class="dashboard">
-  <!-- Welcome header -->
-  <header class="dashboard-header fade-in">
-    <p class="welcome-text">{getGreetingEmoji()} {getGreeting()}!</p>
-    <h1 class="app-title">{$t('app.name')}</h1>
-    <p class="app-subtitle">{$t('app.tagline')}</p>
-    {#if streakCurrent > 0}
-      <div class="streak-badge glow">
-        🔥 {$t('dashboard.streak')}: {streakCurrent} {$t('dashboard.days')}
-      </div>
-    {/if}
+  <!-- Greeting: one modest line -->
+  <header class="dashboard-greeting fade-in">
+    <p>{getGreetingEmoji()} {getGreeting()}</p>
   </header>
 
   {#if loading}
-    <!-- Skeleton loading for stats -->
+    <div class="hero-skeleton skeleton"></div>
+  {:else if loadError}
+    <div class="fade-in">
+      <Card padding="lg">
+        <p class="empty-stats-text">{$t('dashboard.no_sessions_yet')}</p>
+      </Card>
+    </div>
+  {:else if nextPlanItem}
+    <!-- Hero card: primary CTA -->
+    <div class="hero-card fade-in">
+      <Card padding="lg">
+        <div class="hero-content">
+          <div class="hero-info">
+            <span class="hero-icon">
+              <ExerciseIcon meta={nextPlanItem.meta} size={32} />
+            </span>
+            <div class="hero-text">
+              <span class="hero-label">{$t('dashboard.continue_with')}</span>
+              <span class="hero-exercise">{$t(`exercises.${nextPlanItem.meta.i18nKey}.name`)}</span>
+              <span class="hero-reason">{nextPlanItem.reason}</span>
+            </div>
+          </div>
+          <button
+            class="hero-btn"
+            onclick={() => startExercise(nextPlanItem.type)}
+            aria-label="{$t('common.start')}: {$t(`exercises.${nextPlanItem.meta.i18nKey}.name`)}"
+          >
+            {$t('common.start')}
+          </button>
+        </div>
+      </Card>
+    </div>
+  {:else}
+    <!-- All plan items done -->
+    <div class="hero-card hero-done fade-in">
+      <Card padding="lg">
+        <div class="hero-done-content">
+          <span class="hero-done-text">{$t('dashboard.all_done_hero')}</span>
+          <button
+            class="hero-btn-secondary"
+            onclick={() => startExercise(dailyPlan[0]?.type ?? EXERCISE_TYPES[0])}
+          >
+            {$t('dashboard.keep_practicing')}
+          </button>
+        </div>
+      </Card>
+    </div>
+  {/if}
+
+  <!-- Stats row -->
+  {#if loading}
     <section class="stats-grid">
       {#each { length: 3 } as _}
         <div class="skeleton-card">
@@ -209,19 +251,23 @@
         </div>
       {/each}
     </section>
+  {:else if !hasAnyCompletedSession}
+    <!-- Empty/new-user state -->
+    <section class="empty-stats fade-in">
+      <p class="empty-stats-text">{$t('dashboard.no_sessions_yet')}</p>
+    </section>
   {:else}
-    <!-- Stats grid -->
     <section class="stats-grid fade-in">
       <Card>
         <div class="stat">
-          <span class="stat-number">{todayCompleted}/{todayGoal}</span>
+          <span class="stat-number">{todayCompleted}/{dailyPlan.length}</span>
           <span class="stat-label">{$t('dashboard.today_exercises')}</span>
         </div>
       </Card>
       <Card>
         <div class="stat">
-          <span class="stat-number">{totalSessions}</span>
-          <span class="stat-label">{$t('dashboard.words_practiced')}</span>
+          <span class="stat-number">{streakCurrent}</span>
+          <span class="stat-label">{$t('dashboard.streak')}</span>
         </div>
       </Card>
       <Card>
@@ -263,6 +309,9 @@
               <button
                 class="plan-start-btn"
                 onclick={() => startExercise(item.type)}
+                aria-label={isDone
+                  ? `${$t(`exercises.${item.meta.i18nKey}.name`)}, ${$t('dashboard.done_today')}`
+                  : `${$t('common.start')}: ${$t(`exercises.${item.meta.i18nKey}.name`)}`}
               >
                 {isDone ? '✓' : $t('common.start')}
               </button>
@@ -272,7 +321,7 @@
       </div>
     {/if}
 
-    {#if !loading && todayCompleted >= todayGoal && todayGoal > 0}
+    {#if !loading && todayCompleted >= dailyPlan.length && dailyPlan.length > 0}
       <div class="plan-complete scale-in">
         🎉 {$t('dashboard.all_done_today')}
       </div>
@@ -320,7 +369,7 @@
           aria-disabled={ttsRequired ? 'true' : undefined}
         >
           <span class="chip-icon">
-            <ExerciseIcon meta={exercise} size={15} variant="solid" />
+            <ExerciseIcon meta={exercise} size={24} variant="solid" />
           </span>
           <span class="chip-label">{$t(`exercises.${exercise.i18nKey}.short_name`)}</span>
           {#if ttsRequired}
@@ -328,7 +377,7 @@
           {/if}
           {#if isDone}
             <span class="chip-done" aria-hidden="true">
-              <svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round">
+              <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M20 6L9 17l-5-5" />
               </svg>
             </span>
@@ -381,42 +430,137 @@
     gap: 1.5rem;
   }
 
-  .dashboard-header {
-    text-align: center;
-    padding: 1rem 0;
+  /* Greeting — one modest line */
+  .dashboard-greeting {
+    padding: 0.5rem 0 0;
   }
 
-  .welcome-text {
+  .dashboard-greeting p {
     font-size: var(--font-size-lg);
     font-weight: 600;
     color: var(--text-dim);
-    margin: 0 0 0.25rem;
-  }
-
-  .app-title {
-    font-size: 2rem;
-    font-weight: 800;
-    color: var(--accent);
     margin: 0;
   }
 
-  .app-subtitle {
-    font-size: 1rem;
+  /* ─── Hero card ──────────────────────────────────────────────────── */
+  .hero-skeleton {
+    height: 140px;
+    border-radius: var(--radius-lg);
+    background: var(--surface);
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow-sm);
+  }
+
+  .hero-card {
+    border-left: 4px solid var(--primary);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+  }
+
+  .hero-content {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .hero-info {
+    display: flex;
+    align-items: center;
+    gap: 0.875rem;
+  }
+
+  .hero-icon {
+    width: 3rem;
+    height: 3rem;
+    border-radius: 0.75rem;
+    flex-shrink: 0;
+  }
+
+  .hero-text {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
+  }
+
+  .hero-label {
+    font-size: 0.8rem;
+    font-weight: 500;
     color: var(--text-dim);
-    margin: 0.25rem 0 0;
   }
 
-  .streak-badge {
-    display: inline-block;
-    margin-top: 0.5rem;
-    padding: 0.25rem 0.75rem;
-    background: var(--streak-gradient);
-    color: white;
-    border-radius: 2rem;
+  .hero-exercise {
+    font-size: 1.2rem;
     font-weight: 700;
-    font-size: 0.9rem;
+    color: var(--text);
+    overflow-wrap: break-word;
   }
 
+  .hero-reason {
+    font-size: 0.8rem;
+    color: var(--text-dim);
+    overflow-wrap: break-word;
+  }
+
+  .hero-btn {
+    width: 100%;
+    min-height: 72px;
+    background: var(--primary);
+    color: white;
+    border: none;
+    border-radius: var(--radius-md);
+    font-family: var(--font-family);
+    font-size: 1.25rem;
+    font-weight: 700;
+    cursor: pointer;
+    touch-action: manipulation;
+    transition: transform var(--transition-fast), opacity var(--transition-fast);
+  }
+
+  .hero-btn:active {
+    opacity: 0.85;
+    transform: scale(0.97);
+  }
+
+  /* All-done hero */
+  .hero-done {
+    border-left-color: var(--success);
+  }
+
+  .hero-done-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .hero-done-text {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--success);
+    text-align: center;
+  }
+
+  .hero-btn-secondary {
+    width: 100%;
+    min-height: 56px;
+    background: var(--surface-2);
+    color: var(--text);
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius-md);
+    font-family: var(--font-family);
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    touch-action: manipulation;
+    transition: transform var(--transition-fast);
+  }
+
+  .hero-btn-secondary:active {
+    transform: scale(0.97);
+  }
+
+  /* ─── Stats row ──────────────────────────────────────────────────── */
   .stats-grid {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -442,13 +586,26 @@
     overflow-wrap: break-word;
   }
 
+  /* Empty/new-user state */
+  .empty-stats {
+    text-align: center;
+    padding: 0.5rem 0;
+  }
+
+  .empty-stats-text {
+    font-size: 1rem;
+    color: var(--text-dim);
+    margin: 0;
+  }
+
+  /* ─── Section titles ─────────────────────────────────────────────── */
   .section-title {
     font-size: 1.25rem;
     font-weight: 600;
     margin: 0;
   }
 
-  /* Plan section */
+  /* ─── Plan section ───────────────────────────────────────────────── */
   .plan-section {
     display: flex;
     flex-direction: column;
@@ -543,7 +700,7 @@
     color: var(--success);
   }
 
-  /* Exercise chips */
+  /* ─── Exercise chips ─────────────────────────────────────────────── */
   .exercises-section {
     display: flex;
     flex-direction: column;
@@ -561,7 +718,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 0.75rem 1rem 0.75rem 1.25rem;
+    padding: 0.75rem 1rem 0.75rem 1.5rem;
     background: var(--surface-2);
     border: 1.5px solid var(--border);
     border-radius: 2rem;
@@ -584,10 +741,10 @@
 
   .chip-icon {
     position: absolute;
-    top: -8px;
-    left: -8px;
-    width: 1.6rem;
-    height: 1.6rem;
+    top: -10px;
+    left: -10px;
+    width: 2.5rem;
+    height: 2.5rem;
     border-radius: 50%;
     box-shadow: var(--shadow-sm);
     z-index: 1;
@@ -607,13 +764,13 @@
     transform: none;
   }
 
-  /* Done-today sticker: faint green badge on the bottom-right corner of the chip */
+  /* Done-today sticker */
   .chip-done {
     position: absolute;
     bottom: -4px;
     right: -4px;
-    width: 1.15rem;
-    height: 1.15rem;
+    width: 1.25rem;
+    height: 1.25rem;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -637,7 +794,7 @@
     text-align: center;
   }
 
-  /* Category tiles ("Practicar una categoría") */
+  /* ─── Category tiles ─────────────────────────────────────────────── */
   .category-section {
     display: flex;
     flex-direction: column;
@@ -652,12 +809,11 @@
     display: flex;
     gap: 0.75rem;
     overflow-x: auto;
-    padding: 0.5rem 0.25rem 0.75rem; /* room for the focus ring + scroll bar */
+    padding: 0.5rem 0.25rem 0.75rem;
     scroll-snap-type: x mandatory;
     -webkit-overflow-scrolling: touch;
   }
 
-  /* Scroll affordances: edge fade + arrow button */
   .scroll-fade {
     position: absolute;
     top: 0;
@@ -745,7 +901,6 @@
     text-align: center;
     line-height: 1.2;
     overflow-wrap: break-word;
-    /* Clamp to 2 lines so tall labels stay tidy inside a fixed-width tile. */
     display: -webkit-box;
     -webkit-line-clamp: 2;
     line-clamp: 2;
@@ -753,115 +908,7 @@
     overflow: hidden;
   }
 
-  /* Tablet+: bigger tiles, more visible per row */
-  @media (min-width: 768px) {
-    .category-tile {
-      min-width: 8rem;
-      padding: 1rem 0.75rem;
-    }
-
-    .category-tile-label {
-      font-size: 1rem;
-    }
-
-    .scroll-fade {
-      width: 2rem;
-    }
-  }
-
-  /* Tablet+: 4 columns */
-  @media (min-width: 640px) {
-    .exercise-chips {
-      grid-template-columns: repeat(4, 1fr);
-      gap: 0.75rem;
-    }
-    .exercise-chip {
-      padding: 0.6rem 0.75rem 0.6rem 1rem;
-    }
-  }
-
-  /* Tablet (768px+): bigger everything — fills available width */
-  @media (min-width: 768px) {
-    .app-title {
-      font-size: 2.5rem;
-    }
-
-    .stat-number {
-      font-size: 2rem;
-    }
-
-    .stat-label {
-      font-size: 0.9rem;
-    }
-
-    .section-title {
-      font-size: 1.5rem;
-    }
-
-    .plan-icon {
-      width: 3rem;
-      height: 3rem;
-    }
-
-    .plan-label {
-      font-size: 1.15rem;
-    }
-
-    .plan-start-btn {
-      min-height: 56px;
-      font-size: 1rem;
-    }
-
-    .exercise-chip {
-      min-height: 64px;
-      font-size: 1.1rem;
-      padding: 1rem 1.5rem;
-      border-radius: 2.5rem;
-    }
-
-    .chip-icon {
-      width: 1.8rem;
-      height: 1.8rem;
-      top: -9px;
-      left: -9px;
-    }
-
-    .chip-done {
-      width: 1.4rem;
-      height: 1.4rem;
-      bottom: -5px;
-      right: -5px;
-    }
-
-    .exercise-chips {
-      gap: 1rem;
-    }
-  }
-
-  /* Landscape tablet: 2-column plan, wider exercise grid */
-  @media (min-width: 768px) and (orientation: landscape) {
-    .plan-list {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 1rem;
-    }
-
-    .plan-item {
-      padding: 1rem;
-    }
-
-    .exercise-chips {
-      grid-template-columns: repeat(4, 1fr);
-      gap: 1.25rem;
-    }
-
-    .exercise-chip {
-      min-height: 68px;
-      font-size: 1.15rem;
-    }
-  }
-
-  /* Review failures card */
+  /* ─── Review failures card ───────────────────────────────────────── */
   .review-failures-section {
     display: flex;
     flex-direction: column;
@@ -908,12 +955,126 @@
     color: var(--warning);
   }
 
+  /* ─── Responsive ─────────────────────────────────────────────────── */
+
+  /* Tablet+: bigger category tiles */
+  @media (min-width: 768px) {
+    .category-tile {
+      min-width: 8rem;
+      padding: 1rem 0.75rem;
+    }
+
+    .category-tile-label {
+      font-size: 1rem;
+    }
+
+    .scroll-fade {
+      width: 2rem;
+    }
+  }
+
+  /* 640px+: 4-column exercise grid */
+  @media (min-width: 640px) {
+    .exercise-chips {
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0.75rem;
+    }
+    .exercise-chip {
+      padding: 0.6rem 0.75rem 0.6rem 1.25rem;
+    }
+  }
+
+  /* Tablet (768px+): bigger everything */
+  @media (min-width: 768px) {
+    .hero-exercise {
+      font-size: 1.5rem;
+    }
+
+    .hero-icon {
+      width: 3.5rem;
+      height: 3.5rem;
+    }
+
+    .stat-number {
+      font-size: 2rem;
+    }
+
+    .stat-label {
+      font-size: 0.9rem;
+    }
+
+    .section-title {
+      font-size: 1.5rem;
+    }
+
+    .plan-icon {
+      width: 3rem;
+      height: 3rem;
+    }
+
+    .plan-label {
+      font-size: 1.15rem;
+    }
+
+    .plan-start-btn {
+      min-height: 56px;
+      font-size: 1rem;
+    }
+
+    .exercise-chip {
+      min-height: 64px;
+      font-size: 1.1rem;
+      padding: 1rem 1.5rem;
+      border-radius: 2.5rem;
+    }
+
+    .chip-icon {
+      width: 2.75rem;
+      height: 2.75rem;
+      top: -12px;
+      left: -12px;
+    }
+
+    .chip-done {
+      width: 1.5rem;
+      height: 1.5rem;
+      bottom: -6px;
+      right: -6px;
+    }
+
+    .exercise-chips {
+      gap: 1rem;
+    }
+  }
+
+  /* Landscape tablet: 2-column plan, wider grid */
+  @media (min-width: 768px) and (orientation: landscape) {
+    .plan-list {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1rem;
+    }
+
+    .plan-item {
+      padding: 1rem;
+    }
+
+    .exercise-chips {
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1.25rem;
+    }
+
+    .exercise-chip {
+      min-height: 68px;
+      font-size: 1.15rem;
+    }
+  }
+
   /* Small mobile */
   @media (max-width: 399px) {
     .stats-grid {
       gap: 0.5rem;
       grid-template-columns: repeat(3, minmax(0, 1fr));
-      /* Tighten Card padding so stat labels have room to wrap readably */
       --card-pad: var(--space-sm) var(--space-xs);
     }
     .stat-number {
@@ -923,19 +1084,19 @@
       gap: 0.6rem;
     }
     .exercise-chip {
-      padding: 0.6rem 0.75rem 0.6rem 1rem;
+      padding: 0.6rem 0.75rem 0.6rem 1.25rem;
       font-size: var(--font-size-sm);
     }
     .chip-icon {
-      width: 1.4rem;
-      height: 1.4rem;
-      top: -7px;
-      left: -7px;
+      width: 2.25rem;
+      height: 2.25rem;
+      top: -8px;
+      left: -8px;
     }
 
     .chip-done {
-      width: 1rem;
-      height: 1rem;
+      width: 1.1rem;
+      height: 1.1rem;
       bottom: -3px;
       right: -3px;
       border-width: 1.5px;

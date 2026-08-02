@@ -91,16 +91,18 @@
     "generative_naming": {
       "name": "Anomenar per categoria",
       "short_name": "Categoria",
-      "description": "Anomena totes les paraules que puguis d'una categoria",
-      "name_all": "Anomena tot el que puguis de: {category}",
+      "description": "Toca totes les paraules que pertanyen a la categoria",
       "time_left": "Temps restant",
       "seconds": "segons",
-      "words_found": "Paraules trobades",
-      "add_word": "Afegir paraula",
       "results_title": "Resultats",
       "you_found": "Has trobat {count} paraules",
       "well_done": "Molt bé!",
-      "already_said": "Ja has dit aquesta paraula"
+      "find_all": "Troba totes les paraules de: {category}",
+      "words_found_count": "Trobades: {found} de {total}",
+      "challenge_mode": "Mode repte",
+      "challenge_mode_desc": "60 segons",
+      "distractor_note": "{word} és de: {category}",
+      "finish": "Acabar"
     },
     "word_matching": {
       "name": "Relacionar paraules",
@@ -249,7 +251,7 @@
     "speech_rate": "Velocitat de veu",
     "sound_effects": "Efectes de so",
     "haptic_feedback": "Vibració",
-    "timer_enabled": "Temporitzador",
+    "timer_enabled": "Mode repte amb temps (Anomenar per categoria)",
     "speak_buttons": "Botons de veu",
     "small": "Petit",
     "normal": "Normal",

@@ -1,4 +1,6 @@
 <script lang="ts">
+  import { untrack } from 'svelte';
+
   type Props = {
     seconds: number;
     running?: boolean;
@@ -15,41 +17,33 @@
   let displayMinutes = $derived(Math.floor(remaining / 60));
   let displaySeconds = $derived(String(remaining % 60).padStart(2, '0'));
 
-  let intervalId: ReturnType<typeof setInterval> | null = null;
-
   // Reset when seconds prop changes
   $effect(() => {
     remaining = seconds;
   });
 
+  // Create the interval once per running-state change, not every tick.
+  // Reading remaining via untrack() keeps this effect from re-running each
+  // second; the local count variable drives the interval, and we push
+  // reactive updates to remaining purely for display.
   $effect(() => {
-    // Clean up any existing interval
-    if (intervalId !== null) {
-      clearInterval(intervalId);
-      intervalId = null;
-    }
+    if (!running) return;
 
-    if (running && remaining > 0) {
-      intervalId = setInterval(() => {
-        if (remaining <= 1) {
-          remaining = 0;
-          if (intervalId !== null) {
-            clearInterval(intervalId);
-            intervalId = null;
-          }
-          ontimeout?.();
-        } else {
-          remaining--;
-        }
-      }, 1000);
-    }
+    let count = untrack(() => remaining);
+    if (count <= 0) return;
 
-    return () => {
-      if (intervalId !== null) {
-        clearInterval(intervalId);
-        intervalId = null;
+    const id = setInterval(() => {
+      count--;
+      if (count <= 0) {
+        remaining = 0;
+        clearInterval(id);
+        ontimeout?.();
+      } else {
+        remaining = count;
       }
-    };
+    }, 1000);
+
+    return () => clearInterval(id);
   });
 </script>
 

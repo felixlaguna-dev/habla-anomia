@@ -91,16 +91,18 @@
     "generative_naming": {
       "name": "Kategoriaka izendatu",
       "short_name": "Kategoria",
-      "description": "Izendatu kategoria bateko hitz ahalik eta gehien",
-      "name_all": "Izendatu ahal duzun guztia hemendik: {category}",
+      "description": "Sakatu kategoriari dagazkion hitz guztiak",
       "time_left": "Geratzen den denbora",
       "seconds": "segundo",
-      "words_found": "Aurkitutako hitzak",
-      "add_word": "Gehitu hitza",
       "results_title": "Emaitzak",
       "you_found": "{count} hitz aurkitu dituzu",
       "well_done": "Oso ondo!",
-      "already_said": "Hitz hori esan duzu jada"
+      "find_all": "Aurkitu hitz guztiak hemendik: {category}",
+      "words_found_count": "Aurkituta: {found} / {total}",
+      "challenge_mode": "Errelika-modua",
+      "challenge_mode_desc": "60 segundo",
+      "distractor_note": "{word} hemendik da: {category}",
+      "finish": "Amaitu"
     },
     "word_matching": {
       "name": "Hitzak lotu",
@@ -249,7 +251,7 @@
     "speech_rate": "Ahots-abiadura",
     "sound_effects": "Soinu-efektuak",
     "haptic_feedback": "Bibrazioa",
-    "timer_enabled": "Tenporizadorea",
+    "timer_enabled": "Denbora-errelika (Kategoriaka izendatu)",
     "speak_buttons": "Ahots-botoiak",
     "small": "Txikia",
     "normal": "Normala",

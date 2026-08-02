@@ -212,6 +212,9 @@
 
   async function handleRetryMistakes() {
     if (incorrectWords.length > 0) {
+      // Reload settings so the challenge-mode toggle reflects any change
+      // the user made in the exercise's start screen during the prior run.
+      settings = await getAllSettings();
       // Start the new session before swapping words so sessionId is set
       // before the remounted ExerciseComponent can fire oncomplete.
       // settings is guaranteed non-null — handleRetryMistakes is only
@@ -291,7 +294,7 @@
           language={settings?.language || 'es'}
           category={planCategory}
           speechRate={settings?.speech_rate ?? 0.8}
-          timerEnabled={settings?.timer_enabled ?? true}
+          timerEnabled={settings?.timer_enabled ?? false}
           speakButtonsEnabled={settings?.speak_buttons_enabled ?? true}
           oncomplete={handleComplete}
           onrestart={handleRestart}

@@ -6,11 +6,18 @@
   import { shuffleArray } from '$lib/utils/exercise-helpers';
   import { useTts, speechLangFor } from '$lib/utils/tts.svelte';
   import { recordTrial } from '$lib/utils/record-trial';
+  import { setSetting } from '$lib/db/settings';
   import Timer from '$lib/components/ui/Timer.svelte';
   import { ProgressBar } from '$lib/components/ui';
   import { keyboardNav } from '$lib/utils/keyboard-nav';
   import type { KeyboardNavParams } from '$lib/utils/keyboard-nav';
   import OptionCard from './shared/OptionCard.svelte';
+
+  interface PoolItem {
+    word: string;
+    isValid: boolean;
+    categoryKey?: string;
+  }
 
   type Props = {
     words: Word[];
@@ -36,7 +43,7 @@
     language = 'es' as Language,
     speechRate = 0.8,
     speakButtonsEnabled = true,
-    timerEnabled = true,
+    timerEnabled = false,
     category,
     durationSeconds = 60,
     oncomplete,
@@ -50,6 +57,10 @@
   let started = $state(false);
   let finished = $state(false);
   let selectedWords = $state<Set<string>>(new Set());
+  let challengeMode = $state(timerEnabled);
+  let distractorNote = $state<{ word: string; categoryKey: string } | null>(null);
+  let startTime = $state(0);
+  let finalized = false;
 
   // --- TTS ---
   const tts = useTts();
@@ -76,9 +87,10 @@
     return set;
   });
 
-  // Word pool: mix valid words with cross-category distractors
+  // Word pool: mix valid words with cross-category distractors.
+  // Distractors carry their real category key for teaching feedback.
   let wordPool = $derived.by(() => {
-    const pool: Array<{ word: string; isValid: boolean }> = [];
+    const pool: PoolItem[] = [];
     for (const w of words) pool.push({ word: w.word, isValid: true });
 
     const targetCats = new Set(words.flatMap((w) => getWordCategories(w)));
@@ -87,18 +99,30 @@
     );
     const distractorCount = Math.max(4, 8 - words.length);
     const shuffled = shuffleArray([...otherCategoryWords]).slice(0, distractorCount);
-    for (const d of shuffled) pool.push({ word: d.word, isValid: false });
+    for (const d of shuffled) {
+      const cat = getWordCategories(d)[0];
+      pool.push({ word: d.word, isValid: false, categoryKey: cat });
+    }
 
     return shuffleArray(pool);
   });
 
   let validWordsFound = $derived([...selectedWords].filter((w) => validWordSet.has(w.toLowerCase())));
-  let score = $derived(validWordsFound.length);
   let progressPercent = $derived(started && !finished ? (validWordsFound.length / Math.max(words.length, 1)) * 100 : 0);
+
+  // Auto-clear distractor teaching note after 3 seconds
+  $effect(() => {
+    if (!distractorNote) return;
+    const timer = setTimeout(() => {
+      distractorNote = null;
+    }, 3000);
+    return () => clearTimeout(timer);
+  });
 
   function startExercise() {
     started = true;
     running = true;
+    startTime = Date.now();
   }
 
   function handleTimeout() {
@@ -107,44 +131,78 @@
     finalize();
   }
 
-  function toggleWord(word: string) {
+  function handleSelectWord(item: PoolItem) {
     if (!running) return;
-    const cleaned = word.trim().toLowerCase();
-    const next = new Set(selectedWords);
-    if (next.has(cleaned)) next.delete(cleaned);
-    else next.add(cleaned);
-    selectedWords = next;
+    const cleaned = item.word.trim().toLowerCase();
+
+    if (validWordSet.has(cleaned)) {
+      const next = new Set(selectedWords);
+      if (next.has(cleaned)) {
+        next.delete(cleaned);
+      } else {
+        next.add(cleaned);
+      }
+      selectedWords = next;
+
+      // Auto-complete when all valid words are found
+      if (next.size === validWordSet.size) {
+        running = false;
+        finished = true;
+        finalize();
+      }
+    } else {
+      // Distractor: show teaching feedback instead of a bare red X
+      distractorNote = { word: item.word, categoryKey: item.categoryKey ?? '' };
+    }
   }
 
   function wordState(word: string): 'default' | 'correct' | 'incorrect' {
     const cleaned = word.trim().toLowerCase();
-    if (!selectedWords.has(cleaned)) return 'default';
-    return validWordSet.has(cleaned) ? 'correct' : 'incorrect';
+    if (selectedWords.has(cleaned)) {
+      return validWordSet.has(cleaned) ? 'correct' : 'incorrect';
+    }
+    // Flash incorrect for the distractor being shown in the teaching note
+    if (distractorNote && distractorNote.word.trim().toLowerCase() === cleaned) {
+      return 'incorrect';
+    }
+    return 'default';
   }
 
   function finishEarly() {
+    if (finished) return;
     running = false;
     finished = true;
     finalize();
   }
 
+  async function toggleChallengeMode() {
+    challengeMode = !challengeMode;
+    // Persist choice via the repurposed timer_enabled setting
+    await setSetting('timer_enabled', challengeMode);
+  }
+
   function finalize() {
-    // Record one trial per word: correct if found, incorrect if missed.
+    if (finalized) return;
+    finalized = true;
+    const elapsedMs = Date.now() - startTime;
+    const foundSet = new Set(validWordsFound);
+
+    // Record one trial per target word: correct if found, incorrect if missed
     for (const w of words) {
-      const found = validWordsFound.includes(w.word.trim().toLowerCase());
+      const found = foundSet.has(w.word.trim().toLowerCase());
       recordTrial({
         wordId: w.id,
         exerciseType: EXERCISE_TYPE,
         language,
         correct: found,
         response: found ? w.word : '',
-        responseTimeMs: durationSeconds * 1000,
+        responseTimeMs: elapsedMs,
       });
     }
 
     const details = words.map((w) => ({
       word: w,
-      correct: validWordsFound.includes(w.word.trim().toLowerCase()),
+      correct: foundSet.has(w.word.trim().toLowerCase()),
     }));
 
     oncomplete?.({
@@ -157,9 +215,9 @@
 
   let keyboardNavParams = $derived<KeyboardNavParams>({
     getFeedbackState: () => 'none',
-    optionCount: Math.min(wordPool.length, 4),
+    optionCount: Math.min(wordPool.length, 9),
     onSelectOption: (index) => {
-      if (wordPool[index]) toggleWord(wordPool[index].word);
+      if (wordPool[index]) handleSelectWord(wordPool[index]);
     },
     onConfirm: finishEarly,
     onSkip: finishEarly,
@@ -171,6 +229,17 @@
     const translated = $t(key);
     return translated && translated !== key ? translated.toUpperCase() : categoryName.toUpperCase();
   });
+
+  let distractorFeedbackText = $derived.by(() => {
+    if (!distractorNote) return '';
+    const catKey = `categories.${distractorNote.categoryKey}`;
+    const translated = $t(catKey);
+    const catLabel = translated && translated !== catKey ? translated : distractorNote.categoryKey;
+    return $t('exercises.generative_naming.distractor_note', {
+      word: distractorNote.word,
+      category: catLabel,
+    });
+  });
 </script>
 
 {#if words.length === 0}
@@ -179,42 +248,78 @@
   </div>
 {:else if !started}
   <!-- Start screen -->
-  <div class="exercise-container" role="region" aria-label={$t('exercises.generative_naming.name_all', { category: categoryLabel })}>
+  <div
+    class="exercise-container"
+    role="region"
+    aria-label={$t('exercises.generative_naming.find_all', { category: categoryLabel })}
+  >
     <div class="start-icon" aria-hidden="true">🏷️</div>
     <h2 class="category-title">
-      {$t('exercises.generative_naming.name_all', { category: categoryLabel })}
+      {$t('exercises.generative_naming.find_all', { category: categoryLabel })}
     </h2>
     <p class="description">{$t('exercises.generative_naming.description')}</p>
 
-    {#if timerEnabled}
+    <!-- Challenge mode toggle -->
+    <button
+      type="button"
+      class="challenge-toggle"
+      class:toggle-on={challengeMode}
+      onclick={toggleChallengeMode}
+      role="switch"
+      aria-checked={challengeMode}
+      aria-label={$t('exercises.generative_naming.challenge_mode')}
+    >
+      <span class="toggle-track">
+        <span class="toggle-thumb"></span>
+      </span>
+      <span class="toggle-text">
+        <span class="toggle-label">{$t('exercises.generative_naming.challenge_mode')}</span>
+        <span class="toggle-desc">{$t('exercises.generative_naming.challenge_mode_desc')}</span>
+      </span>
+    </button>
+
+    {#if challengeMode}
       <div class="timer-preview">
         <Timer seconds={durationSeconds} running={false} showProgress={true} />
       </div>
     {/if}
 
-    <button type="button" class="start-btn" onclick={startExercise} aria-label={$t('common.start')}>
+    <button
+      type="button"
+      class="start-btn"
+      onclick={startExercise}
+      aria-label={$t('common.start')}
+    >
       {$t('common.start')}
     </button>
   </div>
 {:else if !finished}
   <!-- Active exercise: tap-to-select word pool -->
   <div class="exercise-container" use:keyboardNav={keyboardNavParams}>
-    <ProgressBar value={progressPercent} label={`${validWordsFound.length} / ${words.length}`} showPercentage />
+    <ProgressBar
+      value={progressPercent}
+      label={$t('exercises.generative_naming.words_found_count', {
+        found: String(validWordsFound.length),
+        total: String(words.length),
+      })}
+      showPercentage
+    />
 
     <h2 class="category-title">
-      {$t('exercises.generative_naming.name_all', { category: categoryLabel })}
+      {$t('exercises.generative_naming.find_all', { category: categoryLabel })}
     </h2>
 
-    {#if timerEnabled}
+    {#if challengeMode}
       <Timer seconds={durationSeconds} {running} ontimeout={handleTimeout} showProgress={true} />
     {/if}
 
-    <div class="word-count">
-      <span class="count-label">{$t('exercises.generative_naming.words_found')}:</span>
-      <span class="count-value">{validWordsFound.length}</span>
-    </div>
+    {#if distractorFeedbackText}
+      <div class="distractor-feedback shake" role="alert">
+        {distractorFeedbackText}
+      </div>
+    {/if}
 
-    <!-- Word pool: OptionCard per item (fixes keyboard handler + nested button issues) -->
+    <!-- Word pool -->
     <div class="word-pool">
       {#each wordPool as item}
         <OptionCard
@@ -222,14 +327,19 @@
           state={wordState(item.word)}
           speakEnabled={speakButtonsEnabled}
           isSpeaking={tts.isSpeaking}
-          onselect={() => toggleWord(item.word)}
+          onselect={() => handleSelectWord(item)}
           onspeak={speak}
         />
       {/each}
     </div>
 
-    <button type="button" class="finish-btn" onclick={finishEarly} aria-label={$t('common.next')}>
-      {$t('common.next')} →
+    <button
+      type="button"
+      class="finish-btn"
+      onclick={finishEarly}
+      aria-label={$t('exercises.generative_naming.finish')}
+    >
+      {$t('exercises.generative_naming.finish')}
     </button>
   </div>
 {/if}
@@ -277,6 +387,72 @@
     margin: 0;
   }
 
+  /* Challenge mode toggle */
+  .challenge-toggle {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm, 8px);
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: var(--space-sm, 8px);
+    min-height: 56px;
+    touch-action: manipulation;
+    font-family: var(--font-family, sans-serif);
+  }
+
+  .challenge-toggle:focus-visible {
+    outline: 3px solid var(--primary-light, #93c5fd);
+    outline-offset: 2px;
+    border-radius: var(--radius-sm, 8px);
+  }
+
+  .toggle-track {
+    display: inline-flex;
+    align-items: center;
+    width: 52px;
+    height: 30px;
+    border-radius: 15px;
+    background: var(--border, #e5e7eb);
+    transition: background var(--transition-fast, 0.15s);
+    flex-shrink: 0;
+  }
+
+  .challenge-toggle.toggle-on .toggle-track {
+    background: var(--primary, #3b82f6);
+  }
+
+  .toggle-thumb {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: #fff;
+    margin-left: 3px;
+    transition: transform var(--transition-fast, 0.15s);
+    box-shadow: var(--shadow-sm);
+  }
+
+  .challenge-toggle.toggle-on .toggle-thumb {
+    transform: translateX(22px);
+  }
+
+  .toggle-text {
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+  }
+
+  .toggle-label {
+    font-size: var(--font-size-base, 16px);
+    font-weight: 700;
+    color: var(--text, #1f2937);
+  }
+
+  .toggle-desc {
+    font-size: var(--font-size-sm, 14px);
+    color: var(--text-muted, #6b7280);
+  }
+
   .timer-preview {
     padding: var(--space-md, 16px) 0;
   }
@@ -314,22 +490,15 @@
     outline-offset: 2px;
   }
 
-  /* Word count */
-  .word-count {
-    display: flex;
-    align-items: center;
-    gap: var(--space-sm, 8px);
-  }
-
-  .count-label {
-    font-size: var(--font-size-lg, 20px);
-    color: var(--text-muted, #6b7280);
-  }
-
-  .count-value {
-    font-size: var(--font-size-2xl, 28px);
-    font-weight: 800;
-    color: var(--primary, #3b82f6);
+  /* Distractor teaching note — uses global .shake animation from theme.css */
+  .distractor-feedback {
+    background: rgba(239, 68, 68, 0.1);
+    border: 2px solid var(--error, #ef4444);
+    border-radius: var(--radius-md, 12px);
+    padding: var(--space-sm, 8px) var(--space-md, 16px);
+    font-size: var(--font-size-base, 16px);
+    color: var(--text, #1f2937);
+    text-align: center;
   }
 
   /* Word pool grid */

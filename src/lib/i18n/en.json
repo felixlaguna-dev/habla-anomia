@@ -303,7 +303,11 @@
     "restart": "Restart exercise",
     "listen": "Listen",
     "yes": "Yes",
-    "no": "No"
+    "no": "No",
+    "exit_exercise_title": "Leave exercise?",
+    "exit_exercise_body": "You will lose your progress in this exercise.",
+    "exit_exercise_confirm": "Leave",
+    "exit_exercise_cancel": "Continue"
   },
   "categories": {
     "animals": "Animals",

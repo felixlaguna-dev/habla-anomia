@@ -59,7 +59,7 @@
     display: flex;
     align-items: stretch;
     gap: var(--space-xs, 4px);
-    min-height: 72px;
+    min-height: 56px;
     padding: var(--space-xs, 4px);
     background: var(--surface, #f9fafb);
     border: 3px solid var(--border, #e5e7eb);
@@ -73,7 +73,7 @@
     align-items: center;
     justify-content: center;
     min-height: 56px;
-    padding: var(--space-md, 16px) var(--space-lg, 24px);
+    padding: var(--space-xs, 4px) var(--space-md, 16px);
     font-size: var(--font-size-lg, 20px);
     font-weight: 600;
     font-family: var(--font-family, sans-serif);
@@ -130,6 +130,23 @@
   .option-button:focus-visible {
     outline: 3px solid var(--primary-light, #93c5fd);
     outline-offset: 2px;
+  }
+
+  /* Tablet: taller option buttons with comfortable padding */
+  @media (min-width: 768px) {
+    .option-card {
+      min-height: 72px;
+    }
+
+    .option-button {
+      min-height: 64px;
+      padding: var(--space-md, 16px) var(--space-lg, 24px);
+      font-size: var(--font-size-xl, 24px);
+    }
+
+    .option-text {
+      font-size: var(--font-size-xl, 24px);
+    }
   }
 
   @keyframes correctPulse {

@@ -30,6 +30,10 @@
 .exercise-image-area {
   width: 100%;
   max-width: 300px;
+  /* Constrain by viewport height so options stay above the fold on phones.
+     On a 667px screen, 28vh ≈ 187px — enough to recognize the image while
+     leaving room for the question, 4 options, and the hint/skip row. */
+  max-height: 28vh;
   aspect-ratio: 1;
   border-radius: var(--radius-lg, 16px);
   overflow: hidden;
@@ -38,6 +42,10 @@
   align-items: center;
   justify-content: center;
   transition: box-shadow 0.3s ease;
+  /* Image flexes: grows when there's space, shrinks when options need room.
+     Min-height ensures the image stays recognizable even when compressed. */
+  flex: 0 1 auto;
+  min-height: 100px;
 }
 
 .exercise-image-area .stimulus-image {
@@ -80,25 +88,32 @@
   animation: exercise-shake 0.5s ease-in-out;
 }
 
-/* Skip button */
+/* Skip button — shares the secondary style with .exercise-action-button
+   so Pista and Saltar look like a matched pair in both themes. */
 .exercise-skip-button {
   min-height: 56px;
   padding: var(--space-sm, 8px) var(--space-md, 16px);
-  font-size: var(--font-size-md, 16px);
+  font-size: var(--font-size-base, 16px);
   font-weight: 600;
   font-family: var(--font-family, sans-serif);
-  background: transparent;
+  background: var(--surface-2, #f3f4f6);
   color: var(--text-muted, #6b7280);
   border: 2px solid var(--border, #e5e7eb);
   border-radius: var(--radius-md, 12px);
   cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
   touch-action: manipulation;
   user-select: none;
-  transition: background var(--transition-fast, 0.15s);
+  transition:
+    background var(--transition-fast, 0.15s),
+    border-color var(--transition-fast, 0.15s);
 }
 
 .exercise-skip-button:hover:not(:disabled) {
-  background: var(--surface-2, #f3f4f6);
+  background: var(--surface-3, #e5e7eb);
+  border-color: var(--border-light, #d1d5db);
 }
 
 .exercise-skip-button:focus-visible {
@@ -114,11 +129,12 @@
   flex-wrap: wrap;
 }
 
-/* Secondary action button (hint, cue, etc.) */
+/* Secondary action button (hint, cue, etc.) — unified with .exercise-skip-button
+   so both use the same neutral secondary style across light and dark themes. */
 .exercise-action-button {
   min-height: 56px;
   min-width: 56px;
-  padding: 12px 24px;
+  padding: var(--space-xs, 4px) var(--space-md, 16px);
   font-size: var(--font-size-base, 16px);
   font-weight: 600;
   font-family: var(--font-family, sans-serif);
@@ -134,12 +150,13 @@
   user-select: none;
   transition:
     background var(--transition-fast, 0.15s),
+    border-color var(--transition-fast, 0.15s),
     transform var(--transition-fast, 0.15s);
 }
 
 .exercise-action-button:hover:not(:disabled) {
-  background: var(--primary-light, #eff6ff);
-  border-color: var(--primary, #3b82f6);
+  background: var(--surface-3, #e5e7eb);
+  border-color: var(--border-light, #d1d5db);
 }
 
 .exercise-action-button:disabled {
@@ -150,6 +167,15 @@
 .exercise-action-button:focus-visible {
   outline: 3px solid var(--primary-light, #93c5fd);
   outline-offset: 2px;
+}
+
+/* Hint counter — displayed below the button row as small muted text.
+   Shows hint usage consistently across exercises (e.g., "0 de 5 usadas"). */
+.hint-counter {
+  font-size: var(--font-size-sm, 14px);
+  color: var(--text-muted, #6b7280);
+  font-weight: 500;
+  text-align: center;
 }
 
 /* Hint chips (shared by picture-naming, phonological-cueing, sentence-completion) */
@@ -336,6 +362,19 @@
 
   .card-label {
     font-size: var(--font-size-lg, 20px);
+  }
+
+  /* Scale up the image area and option buttons on tablet — no dead half-screen */
+  .exercise-image-area {
+    max-height: 45vh;
+    max-width: 450px;
+  }
+
+  .exercise-action-button,
+  .exercise-skip-button {
+    min-height: 72px;
+    font-size: var(--font-size-lg, 20px);
+    padding: 12px 24px;
   }
 }
 

@@ -167,7 +167,9 @@
       "statement_function": "Bere funtzioa da: {value}",
       "correction_true": "Bai — {text}",
       "correction_false": "Ez — {text}"
-    }
+    },
+    "hints_used": "{used} / {total} erabilita",
+    "hints_legend": "Erabilitako laguntzak: {used} / {total}"
   },
   "feedback": {
     "correct": "Zuzena!",

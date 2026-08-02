@@ -167,7 +167,9 @@
       "statement_function": "Su función es: {value}",
       "correction_true": "Sí — {text}",
       "correction_false": "No — {text}"
-    }
+    },
+    "hints_used": "{used} de {total} usadas",
+    "hints_legend": "Pistas usadas: {used} de {total}"
   },
   "feedback": {
     "correct": "¡Correcto!",

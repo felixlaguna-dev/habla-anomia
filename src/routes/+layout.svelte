@@ -63,11 +63,13 @@
 
 <a href="#main-content" class="skip-to-content">{$t('a11y.skip_to_content')}</a>
 
-<InstallPrompt />
+{#if !hideNav}
+  <InstallPrompt />
+{/if}
 <OfflineIndicator />
 
 <div class="app-shell">
-  <main id="main-content" class="main-content">
+  <main id="main-content" class="main-content" class:no-bottom-nav={hideNav}>
     {@render children()}
   </main>
 
@@ -114,5 +116,12 @@
       padding: 1.25rem 2rem;
       padding-bottom: calc(var(--bottom-nav-height) + var(--safe-bottom, 0px) + 1.5rem);
     }
+  }
+
+  /* Exercise pages hide the bottom nav — reclaim its clearance so the
+     exercise fills the viewport instead of leaving a dead band at the
+     bottom. Keep only safe-area for home indicators. */
+  .main-content.no-bottom-nav {
+    padding-bottom: var(--safe-bottom, 0px);
   }
 </style>

@@ -410,14 +410,24 @@
 
 <style>
   .exercise-page {
-    padding-bottom: var(--space-xl);
+    display: flex;
+    flex-direction: column;
+    /* Fill the viewport: main-content has top padding only on exercise
+      pages (bottom nav hidden). This makes the exercise fill the screen. */
+    min-height: calc(100dvh - 1rem - var(--safe-bottom, 0px));
+  }
+
+  @media (min-width: 768px) {
+    .exercise-page {
+      min-height: calc(100dvh - 1.25rem - var(--safe-bottom, 0px));
+    }
   }
 
   .exercise-header {
     display: flex;
     align-items: center;
     gap: var(--space-sm);
-    margin-bottom: var(--space-lg);
+    margin-bottom: var(--space-sm);
   }
 
   .back-btn {
@@ -468,6 +478,14 @@
     line-clamp: 2;
     -webkit-box-orient: vertical;
     overflow: hidden;
+  }
+
+  /* The heading receives programmatic focus on page load for screen-reader
+     users (see onMount focus call). Since tabindex="-1" means it can never
+     receive keyboard Tab focus, suppress the browser's default focus ring
+     to avoid a visual flash on every exercise load. */
+  .exercise-title:focus {
+    outline: none;
   }
 
   .header-spacer {
@@ -522,7 +540,10 @@
   }
 
   .exercise-content {
-    margin-top: var(--space-md);
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    margin-top: 0;
   }
 
   /* Results overlay */

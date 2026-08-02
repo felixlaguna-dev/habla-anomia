@@ -66,26 +66,40 @@
   .exercise-shell {
     display: flex;
     flex-direction: column;
-    gap: var(--space-md, 16px);
-    padding: var(--space-md, 16px);
+    /* Compact on phone so everything fits; expanded on tablet (below). */
+    gap: var(--space-sm, 8px);
+    padding: var(--space-sm, 8px);
     max-width: 600px;
     margin: 0 auto;
     width: 100%;
     box-sizing: border-box;
     overflow-x: hidden;
+    /* Fill the parent so the exercise body can distribute vertical space. */
+    flex: 1;
+    min-height: 0;
   }
 
   .exercise-body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: var(--space-md, 16px);
+    gap: var(--space-sm, 8px);
     width: 100%;
+    /* Fill remaining vertical space so options anchor at a comfortable
+       position rather than collapsing to the top. */
+    flex: 1;
+    min-height: 0;
   }
 
   @media (min-width: 768px) {
     .exercise-shell {
       max-width: none;
+      gap: var(--space-md, 16px);
+      padding: var(--space-md, 16px);
+    }
+
+    .exercise-body {
+      gap: var(--space-md, 16px);
     }
 
     .exercise-body.tablet-grid {
@@ -93,6 +107,9 @@
       grid-template-columns: var(--tablet-columns);
       grid-auto-flow: dense;
       align-items: start;
+      /* On tablet, the grid distributes its own content; remove the
+         flex-grow so it doesn't fight with the grid layout. */
+      flex: initial;
     }
   }
 

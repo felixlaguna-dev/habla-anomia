@@ -363,6 +363,9 @@
     width: 100%;
     box-sizing: border-box;
     overflow-x: hidden;
+    /* Fill the parent (.exercise-content) so the word pool can grow */
+    flex: 1;
+    min-height: 0;
   }
 
   /* Start screen */
@@ -508,6 +511,9 @@
     gap: var(--space-sm, 8px);
     width: 100%;
     max-width: 500px;
+    /* Expand to fill available space in the flex container */
+    flex: 1;
+    align-content: start;
   }
 
   /* Finish button */

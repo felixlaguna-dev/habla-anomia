@@ -167,7 +167,9 @@
       "statement_function": "La seva funció és: {value}",
       "correction_true": "Sí — {text}",
       "correction_false": "No — {text}"
-    }
+    },
+    "hints_used": "{used} de {total} usades",
+    "hints_legend": "Pistes usades: {used} de {total}"
   },
   "feedback": {
     "correct": "Correcte!",

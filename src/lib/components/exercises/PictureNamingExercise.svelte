@@ -108,6 +108,7 @@
   });
 
   let canShowMoreHints = $derived(hintsUsed < 5);
+  let hintLabel = $derived($t('exercises.hints_used', { used: String(hintsUsed), total: '5' }));
 
   function showHint() {
     if (canShowMoreHints) hintsUsed++;
@@ -226,19 +227,21 @@
     <p class="prompt">{$t('exercises.picture_naming.what_is_this')}</p>
 
     <!-- Feedback -->
-    <div class="feedback-slot">
-      {#if feedbackState === 'correct'}
-        <FeedbackBanner
-          state="correct"
-          text={currentWord.word}
-          speakEnabled={speakButtonsEnabled}
-          isSpeaking={tts.isSpeaking}
-          onSpeak={() => speak()}
-        />
-      {:else if feedbackState === 'incorrect'}
-        <FeedbackBanner state="incorrect" icon="🔄" text={$t('feedback.try_again')} />
-      {/if}
-    </div>
+    {#if feedbackState !== 'none'}
+      <div class="feedback-slot">
+        {#if feedbackState === 'correct'}
+          <FeedbackBanner
+            state="correct"
+            text={currentWord.word}
+            speakEnabled={speakButtonsEnabled}
+            isSpeaking={tts.isSpeaking}
+            onSpeak={() => speak()}
+          />
+        {:else if feedbackState === 'incorrect'}
+          <FeedbackBanner state="incorrect" icon="🔄" text={$t('feedback.try_again')} />
+        {/if}
+      </div>
+    {/if}
 
     <!-- Hints -->
     {#if revealedHints.length > 0}
@@ -273,15 +276,16 @@
             class="exercise-action-button"
             onclick={showHint}
             disabled={!canShowMoreHints}
-            aria-label={$t('exercises.picture_naming.hint')}
+            aria-label={`${$t('exercises.picture_naming.hint')} — ${hintLabel}`}
           >
-            💡 {$t('exercises.picture_naming.hint')} ({5 - hintsUsed} {$t('common.of')} 5)
+            💡 {$t('exercises.picture_naming.hint')}
           </button>
 
           <button type="button" class="exercise-skip-button" onclick={skipWord} aria-label={$t('common.skip')}>
             ⏭️ {$t('common.skip')}
           </button>
         </div>
+        <span class="hint-counter" aria-hidden="true">{hintLabel}</span>
       </div>
     {/if}
   </ExerciseShell>

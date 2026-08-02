@@ -6,10 +6,26 @@ import { expect, type Page } from '@playwright/test';
 /**
  * Navigate to a page and wait for the app to hydrate.
  * Uses './' relative paths so baseURL sub-path works on GitHub Pages.
+ * If the first-run onboarding wizard intercepts the navigation, it is
+ * automatically skipped so tests proceed to the intended page.
  */
 export async function gotoWithHydration(page: Page, path: string = './') {
   await page.goto(path, { waitUntil: 'domcontentloaded' });
   await page.waitForTimeout(2000);
+
+  // First-run onboarding redirect: skip the wizard so tests reach the target page
+  if (page.url().includes('/onboarding')) {
+    const skipBtn = page.locator('button.skip-btn');
+    if (await skipBtn.isVisible({ timeout: 5000 }).catch(() => false)) {
+      await skipBtn.click();
+      await page.waitForTimeout(3000);
+    }
+    // Navigate to the original target (skip lands on home)
+    if (path !== './' && !page.url().includes(path.replace('./', ''))) {
+      await page.goto(path, { waitUntil: 'domcontentloaded' });
+      await page.waitForTimeout(2000);
+    }
+  }
 }
 
 /**
@@ -65,9 +81,8 @@ export async function checkNoOverflow(page: Page): Promise<boolean> {
  * Navigate to an exercise page and wait for it to fully load.
  */
 export async function gotoExercise(page: Page, type: string): Promise<void> {
-  // Go home first to seed DB
-  await page.goto('./', { waitUntil: 'domcontentloaded' });
-  await page.waitForTimeout(2000);
+  // Go home first to seed DB and complete onboarding if needed
+  await gotoWithHydration(page, './');
   await waitForDBSeed(page);
   // Navigate to exercise using relative path
   await page.goto(`./exercises/${type}`, { waitUntil: 'domcontentloaded' });

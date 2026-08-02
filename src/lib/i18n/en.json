@@ -282,8 +282,10 @@
     "welcome_message": "This app will help you practice language with simple and fun exercises. Let's set it up together.",
     "choose_language": "Choose your language",
     "choose_text_size": "Choose text size",
+    "choose_theme": "Choose a theme",
     "lets_start": "Let's get started!",
-    "step": "Step {current} of {total}"
+    "step": "Step {current} of {total}",
+    "restart": "View introduction again"
   },
   "about": {
     "title": "About Habla Anomia",

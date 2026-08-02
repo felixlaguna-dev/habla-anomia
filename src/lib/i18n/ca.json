@@ -282,8 +282,10 @@
     "welcome_message": "Aquesta aplicació t'ajudarà a practicar el llenguatge amb exercicis senzills i divertits. Anem a configurar-la junts.",
     "choose_language": "Tria el teu idioma",
     "choose_text_size": "Tria la mida del text",
+    "choose_theme": "Tria el tema visual",
     "lets_start": "Comencem!",
-    "step": "Pas {current} de {total}"
+    "step": "Pas {current} de {total}",
+    "restart": "Veure la introducció de nou"
   },
   "about": {
     "title": "Quant a Habla Anomia",

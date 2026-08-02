@@ -282,8 +282,10 @@
     "welcome_message": "Esta aplicación te ayudará a practicar el lenguaje con ejercicios sencillos y divertidos. Vamos a configurarla juntos.",
     "choose_language": "Elige tu idioma",
     "choose_text_size": "Elige el tamaño del texto",
+    "choose_theme": "Elige el tema visual",
     "lets_start": "¡Empecemos!",
-    "step": "Paso {current} de {total}"
+    "step": "Paso {current} de {total}",
+    "restart": "Ver introducción de nuevo"
   },
   "about": {
     "title": "Acerca de Habla Anomia",

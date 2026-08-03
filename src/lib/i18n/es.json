@@ -271,6 +271,11 @@
     "large": "Grande",
     "extra_large": "Muy grande",
     "high_contrast": "Alto contraste",
+    "exercises": "Ejercicios",
+    "session_length": "Palabras por sesión",
+    "session_length_short": "Corto",
+    "session_length_normal": "Normal",
+    "session_length_long": "Largo",
     "about": "Acerca de"
   },
   "a11y": {

@@ -44,6 +44,12 @@
     { value: 'light', labelKey: 'settings.light' }
   ];
 
+  const sessionLengthOptions = [
+    { value: 5, labelKey: 'settings.session_length_short' },
+    { value: 10, labelKey: 'settings.session_length_normal' },
+    { value: 15, labelKey: 'settings.session_length_long' }
+  ] as const;
+
   async function loadSettings() {
     if (!browser) return;
     settings = await getAllSettings();
@@ -390,7 +396,25 @@
       </div>
     </Card>
 
-    <!-- Card 3: Data -->
+    <!-- Card 3: Exercises -->
+    <Card>
+      <div class="card-section">
+        <h2 class="card-heading">{$t('settings.exercises')}</h2>
+
+        <div class="setting-row">
+          <span class="setting-name">{$t('settings.session_length')}</span>
+          <div class="setting-control">
+            <ChipGroup
+              options={sessionLengthOptions.map(o => ({ value: String(o.value), label: `${o.value} · ${$t(o.labelKey)}` }))}
+              selectedValue={String(settings.session_length)}
+              onchange={(value: string) => updateSetting('session_length', Number(value) as AppSettings['session_length'])}
+            />
+          </div>
+        </div>
+      </div>
+    </Card>
+
+    <!-- Card 4: Data -->
     <Card>
       <div class="card-section">
         <h2 class="card-heading">{$t('settings.data')}</h2>
@@ -413,7 +437,7 @@
       </div>
     </Card>
 
-    <!-- Card 4: About -->
+    <!-- Card 5: About -->
     <Card>
       <div class="card-section">
         <button class="about-link" onclick={() => goto(`${base}/about`)} aria-label={$t('settings.about')}>

@@ -12,7 +12,8 @@ export const DEFAULTS: AppSettings = {
   haptic_enabled: true,
   speak_buttons_enabled: true,
   timer_enabled: false,
-  onboarding_complete: false
+  onboarding_complete: false,
+  session_length: 10
 };
 
 /**
@@ -48,7 +49,8 @@ export async function getAllSettings(): Promise<AppSettings> {
     haptic_enabled: settingsMap.get('haptic_enabled') ?? DEFAULTS.haptic_enabled,
     speak_buttons_enabled: settingsMap.get('speak_buttons_enabled') ?? DEFAULTS.speak_buttons_enabled,
     timer_enabled: settingsMap.get('timer_enabled') ?? DEFAULTS.timer_enabled,
-    onboarding_complete: settingsMap.get('onboarding_complete') ?? DEFAULTS.onboarding_complete
+    onboarding_complete: settingsMap.get('onboarding_complete') ?? DEFAULTS.onboarding_complete,
+    session_length: settingsMap.get('session_length') ?? DEFAULTS.session_length
   };
 }
 

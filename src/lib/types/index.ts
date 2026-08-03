@@ -176,6 +176,8 @@ export interface AppSettings {
   speak_buttons_enabled: boolean;
   timer_enabled: boolean;
   onboarding_complete: boolean;
+  /** Number of words per exercise session (5 | 10 | 15). */
+  session_length: 5 | 10 | 15;
 }
 
 export interface ExerciseConfig {

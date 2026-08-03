@@ -271,6 +271,11 @@
     "large": "Handia",
     "extra_large": "Oso handia",
     "high_contrast": "Kontraste handia",
+    "exercises": "Ariketak",
+    "session_length": "Hitzak saioeko",
+    "session_length_short": "Laburra",
+    "session_length_normal": "Normala",
+    "session_length_long": "Luzea",
     "about": "Honi buruz"
   },
   "a11y": {

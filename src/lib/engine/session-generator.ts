@@ -81,7 +81,11 @@ export async function generateSession(
   // A single forced category can't populate ≥ 2 bins, so this exercise ignores
   // `options.category` (the practice chooser never offers it with one anyway).
   if (exerciseType === 'category-sorting') {
-    const categories = await pickCategories(language, Math.min(4, wordCount), needsImage);
+    // Scale category count with session length so the final slice never empties
+    // a bin. At wordCount=5 → 3 cats (perCat=2, pool=6, drop 1 — safe); at 10 → 4
+    // cats (perCat=3, pool=12, drop 2); at 15 → 4 cats (perCat=4, pool=16, drop 1).
+    const categoryCount = Math.min(Math.max(2, Math.ceil(wordCount / 2)), 4);
+    const categories = await pickCategories(language, categoryCount, needsImage);
     if (categories.length < 2) {
       return { exerciseType, words: [], difficultyLevel };
     }

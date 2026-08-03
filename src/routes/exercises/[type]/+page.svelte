@@ -76,7 +76,7 @@
     const plan = await generateSession(
       s.language,
       exerciseType,
-      10,
+      s.session_length,
       routeCategory ? { category: routeCategory } : {}
     );
     words = plan.words;
@@ -387,7 +387,7 @@
         <div class="word-breakdown">
           <h3 class="breakdown-title correct-title">✅ {$t('feedback.correct')} ({correctWords.length})</h3>
           <div class="word-chips">
-            {#each correctWords.slice(0, 10) as word}
+            {#each correctWords as word}
               <button class="word-chip correct-chip" class:speaking={speakingWord === word.word} onclick={() => speakWord(word.word, settings?.language ?? 'es')}>
                 {word.word}{#if settings?.speak_buttons_enabled ?? true} 🔊{/if}
               </button>
@@ -400,7 +400,7 @@
         <div class="word-breakdown">
           <h3 class="breakdown-title incorrect-title">❌ {$t('feedback.incorrect')} ({incorrectWords.length})</h3>
           <div class="word-chips">
-            {#each incorrectWords.slice(0, 10) as word}
+            {#each incorrectWords as word}
               <button class="word-chip incorrect-chip" class:speaking={speakingWord === word.word} onclick={() => speakWord(word.word, settings?.language ?? 'es')}>
                 {word.word}{#if settings?.speak_buttons_enabled ?? true} 🔊{/if}
               </button>

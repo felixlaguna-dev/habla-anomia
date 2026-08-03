@@ -24,6 +24,7 @@
     allWords?: Word[];
     language?: Language;
     speechRate?: number;
+    ttsVoiceUri?: string | null;
     speakButtonsEnabled?: boolean;
     oncomplete?: (results: {
       score: number;
@@ -38,6 +39,7 @@
     allWords = [],
     language = 'es' as Language,
     speechRate = 0.8,
+    ttsVoiceUri = null,
     speakButtonsEnabled = true,
     oncomplete,
     onrestart,
@@ -72,6 +74,7 @@
     };
   });
   $effect(() => tts.setRate(speechRate));
+  $effect(() => tts.setVoiceUri(ttsVoiceUri));
 
   // --- Options ---
   let optionWords = $state<Word[]>([]);

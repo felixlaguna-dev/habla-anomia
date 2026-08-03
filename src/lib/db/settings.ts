@@ -13,7 +13,8 @@ export const DEFAULTS: AppSettings = {
   speak_buttons_enabled: true,
   timer_enabled: false,
   onboarding_complete: false,
-  session_length: 10
+  session_length: 10,
+  tts_voice_uri: null
 };
 
 /**
@@ -50,7 +51,8 @@ export async function getAllSettings(): Promise<AppSettings> {
     speak_buttons_enabled: settingsMap.get('speak_buttons_enabled') ?? DEFAULTS.speak_buttons_enabled,
     timer_enabled: settingsMap.get('timer_enabled') ?? DEFAULTS.timer_enabled,
     onboarding_complete: settingsMap.get('onboarding_complete') ?? DEFAULTS.onboarding_complete,
-    session_length: settingsMap.get('session_length') ?? DEFAULTS.session_length
+    session_length: settingsMap.get('session_length') ?? DEFAULTS.session_length,
+    tts_voice_uri: settingsMap.get('tts_voice_uri') ?? DEFAULTS.tts_voice_uri
   };
 }
 

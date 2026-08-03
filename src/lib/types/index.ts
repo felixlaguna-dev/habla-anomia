@@ -178,6 +178,8 @@ export interface AppSettings {
   onboarding_complete: boolean;
   /** Number of words per exercise session (5 | 10 | 15). */
   session_length: 5 | 10 | 15;
+  /** Preferred TTS voice (voiceURI). Null = automatic selection. */
+  tts_voice_uri: string | null;
 }
 
 export interface ExerciseConfig {

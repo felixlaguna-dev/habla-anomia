@@ -49,6 +49,7 @@
   function speakWord(word: string, lang: Language) {
     if (!resultSynthesis) return;
     speakingWord = word;
+    resultSynthesis.setVoiceUri(settings?.tts_voice_uri ?? null);
     resultSynthesis.speak(word, lang);
     // Clear after estimated duration
     setTimeout(() => { speakingWord = null; }, 1500);
@@ -313,6 +314,7 @@
           language={settings?.language || 'es'}
           category={planCategory}
           speechRate={settings?.speech_rate ?? 0.8}
+          ttsVoiceUri={settings?.tts_voice_uri ?? null}
           timerEnabled={settings?.timer_enabled ?? false}
           speakButtonsEnabled={settings?.speak_buttons_enabled ?? true}
           oncomplete={handleComplete}

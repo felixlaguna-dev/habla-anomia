@@ -19,6 +19,7 @@
     language?: Language;
     mode?: ExerciseMode;
     speechRate?: number;
+    ttsVoiceUri?: string | null;
     speakButtonsEnabled?: boolean;
     oncomplete?: (results: { score: number; total: number; details: Array<{ word: Word; correct: boolean }> }) => void;
     onrestart?: () => void;
@@ -30,6 +31,7 @@
     language = 'es' as Language,
     mode: modeProp = 'opposites' as ExerciseMode,
     speechRate = 0.8,
+    ttsVoiceUri = null,
     speakButtonsEnabled = true,
     oncomplete,
     onrestart,
@@ -73,6 +75,7 @@
     };
   });
   $effect(() => tts.setRate(speechRate));
+  $effect(() => tts.setVoiceUri(ttsVoiceUri));
 
   function speak(text?: string) {
     tts.speak(text ?? currentWord?.word, speechLang);

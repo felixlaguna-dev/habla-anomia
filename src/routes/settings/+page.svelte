@@ -32,6 +32,11 @@
   let previewSynthesis: SpeechSynthesisService | null = $state(null);
   let isPreviewing = $state(false);
 
+  // Voice picker state
+  let contentVoices = $state<SpeechSynthesisVoice[]>([]);
+  let voicesLoading = $state(true);
+  let voicesUnsub: (() => void) | null = null;
+
   const textSizeOptions = [
     { value: 'small', labelKey: 'settings.small' },
     { value: 'normal', labelKey: 'settings.normal' },
@@ -60,9 +65,29 @@
     loadSettings();
     if (SpeechSynthesisService.isSupported()) {
       previewSynthesis = new SpeechSynthesisService();
+      // Load voices for the picker (content language is always 'es')
+      loadVoiceList();
+    } else {
+      voicesLoading = false;
     }
-    return () => previewSynthesis?.destroy();
+    return () => {
+      voicesUnsub?.();
+      previewSynthesis?.destroy();
+    };
   });
+
+  /** Load the voice list for the content language and react to changes. */
+  function loadVoiceList() {
+    if (!previewSynthesis) return;
+    const contentLang = speechLangFor(settings?.language ?? 'es');
+    const refresh = () => {
+      contentVoices = previewSynthesis!.getVoices(contentLang);
+      voicesLoading = false;
+    };
+    refresh();
+    // Subscribe to async voice loading (voiceschanged event)
+    voicesUnsub = previewSynthesis.onVoicesChanged(refresh);
+  }
 
   async function updateSetting<K extends keyof AppSettings>(key: K, value: AppSettings[K]) {
     if (!settings) return;
@@ -174,9 +199,24 @@
     if (!previewSynthesis || !settings) return;
     previewSynthesis.setRate(settings.speech_rate);
     isPreviewing = true;
-    previewSynthesis.speak($t('settings.voice_sample'), speechLangFor(settings.ui_language)).finally(() => {
+    previewSynthesis.speak($t('settings.voice_sample'), speechLangFor(settings.ui_language), settings.tts_voice_uri).finally(() => {
       isPreviewing = false;
     });
+  }
+
+  /** Play a sample with a specific voice (for the per-voice preview buttons). */
+  function previewVoice(voice: SpeechSynthesisVoice) {
+    if (!previewSynthesis || !settings) return;
+    previewSynthesis.stop();
+    previewSynthesis.setRate(settings.speech_rate);
+    // The $t() sample text is UI-language-localized — match the lang tag to it.
+    // The voiceOverride ensures the correct voice is used regardless of the lang tag.
+    previewSynthesis.speak($t('settings.voice_sample'), speechLangFor(settings.ui_language), voice.voiceURI);
+  }
+
+  /** Select or unselect a voice. Selecting "automatic" clears the setting. */
+  async function selectVoice(uri: string | null) {
+    await updateSetting('tts_voice_uri', uri);
   }
 
   async function restartOnboarding() {
@@ -350,6 +390,56 @@
           >
             {isPreviewing ? $t('settings.playing') : $t('settings.preview_voice')}
           </button>
+        </div>
+
+        <div class="setting-divider"></div>
+
+        <!-- Voice picker -->
+        <div class="setting-row">
+          <span class="setting-name">{$t('settings.voice')}</span>
+          {#if voicesLoading}
+            <p class="voice-loading-text">{$t('settings.voice_loading')}</p>
+          {:else if contentVoices.length === 0}
+            <div class="voice-warning" role="alert">
+              <span class="voice-warning-icon" aria-hidden="true">⚠️</span>
+              <span class="voice-warning-text">{$t('settings.voice_no_warning')}</span>
+            </div>
+          {:else}
+            <div class="voice-list" role="listbox" aria-label={$t('settings.voice')}>
+              <button
+                class="voice-option"
+                class:voice-option-active={!settings.tts_voice_uri || !contentVoices.some(v => v.voiceURI === settings!.tts_voice_uri)}
+                role="option"
+                aria-selected={!settings.tts_voice_uri}
+                onclick={() => selectVoice(null)}
+              >
+                <span class="voice-name">{$t('settings.voice_automatic')}</span>
+              </button>
+              {#each contentVoices as voice (voice.voiceURI)}
+                <div class="voice-option-row" class:voice-option-active={settings.tts_voice_uri === voice.voiceURI}>
+                  <button
+                    class="voice-option voice-option-flex"
+                    role="option"
+                    aria-selected={settings.tts_voice_uri === voice.voiceURI}
+                    onclick={() => selectVoice(voice.voiceURI)}
+                  >
+                    <span class="voice-name">{voice.name}</span>
+                    <span class="voice-lang">{voice.lang}</span>
+                  </button>
+                  <button
+                    class="voice-preview-btn"
+                    onclick={() => previewVoice(voice)}
+                    aria-label={`${$t('settings.preview_voice')} — ${voice.name}`}
+                  >
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                      <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
+                      <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/>
+                    </svg>
+                  </button>
+                </div>
+              {/each}
+            </div>
+          {/if}
         </div>
 
         <div class="setting-divider"></div>
@@ -760,6 +850,142 @@
     outline-offset: 2px;
   }
 
+  /* Voice picker */
+  .voice-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xs);
+  }
+
+  .voice-option {
+    display: flex;
+    align-items: center;
+    min-height: var(--touch-min);
+    padding: var(--space-sm) var(--space-md);
+    background: var(--surface-2);
+    border: 2px solid var(--border);
+    border-radius: var(--radius-md);
+    font-size: var(--font-size-base);
+    font-weight: 600;
+    color: var(--text);
+    cursor: pointer;
+    font-family: var(--font-family);
+    transition: border-color var(--transition-fast), background var(--transition-fast);
+    touch-action: manipulation;
+    width: 100%;
+    text-align: left;
+  }
+
+  .voice-option-flex {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 2px;
+    flex: 1;
+    min-width: 0;
+  }
+
+  .voice-option-row {
+    display: flex;
+    align-items: stretch;
+    gap: var(--space-xs);
+    border: 2px solid var(--border);
+    border-radius: var(--radius-md);
+    background: var(--surface-2);
+    overflow: hidden;
+  }
+
+  .voice-option-row .voice-option {
+    border: none;
+    border-radius: 0;
+    background: transparent;
+    flex: 1;
+  }
+
+  .voice-option-active,
+  .voice-option-row.voice-option-active {
+    border-color: var(--primary);
+    background: var(--primary);
+    color: #ffffff;
+  }
+
+  .voice-name {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 100%;
+  }
+
+  .voice-lang {
+    font-size: var(--font-size-sm);
+    font-weight: 400;
+    opacity: 0.8;
+  }
+
+  .voice-preview-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: var(--touch-min);
+    min-height: var(--touch-min);
+    background: var(--surface-3);
+    border: none;
+    border-left: 2px solid var(--border);
+    color: var(--text-dim);
+    cursor: pointer;
+    flex-shrink: 0;
+    transition: background var(--transition-fast);
+    touch-action: manipulation;
+  }
+
+  .voice-preview-btn:active {
+    background: var(--surface-2);
+  }
+
+  .voice-option-row.voice-option-active .voice-preview-btn {
+    border-left-color: var(--primary);
+    color: #ffffff;
+    background: rgba(255, 255, 255, 0.15);
+  }
+
+  .voice-preview-btn:focus-visible {
+    outline: 3px solid var(--primary-light);
+    outline-offset: -3px;
+  }
+
+  .voice-option:focus-visible {
+    outline: 3px solid var(--primary-light);
+    outline-offset: 2px;
+  }
+
+  .voice-loading-text {
+    color: var(--text-dim);
+    font-size: var(--font-size-sm);
+    padding: var(--space-xs) 0;
+  }
+
+  .voice-warning {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-sm);
+    padding: var(--space-sm);
+    background: var(--warning-bg, rgba(245, 158, 11, 0.12));
+    border-radius: var(--radius-sm);
+    margin-bottom: var(--space-sm);
+  }
+
+  .voice-warning-icon {
+    font-size: var(--font-size-lg);
+    line-height: 1.2;
+    flex-shrink: 0;
+  }
+
+  .voice-warning-text {
+    font-size: var(--font-size-sm);
+    color: var(--text-dim);
+    line-height: 1.4;
+  }
+
   /* About link */
   .about-link {
     display: flex;
@@ -893,6 +1119,18 @@
 
     .about-link {
       font-size: var(--font-size-lg);
+    }
+
+    .voice-option {
+      font-size: var(--font-size-lg);
+    }
+
+    .voice-lang {
+      font-size: var(--font-size-base);
+    }
+
+    .voice-preview-btn {
+      min-width: 56px;
     }
   }
 

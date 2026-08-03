@@ -62,6 +62,10 @@ export function useTts() {
     synthesis?.setRate(rate);
   }
 
+  function setVoiceUri(uri: string | null): void {
+    synthesis?.setVoiceUri(uri);
+  }
+
   async function speak(text: string | undefined, lang: string): Promise<void> {
     if (!synthesis || isSpeaking || !text) return;
     isSpeaking = true;
@@ -80,6 +84,7 @@ export function useTts() {
     destroy,
     cancel,
     setRate,
+    setVoiceUri,
     speak,
     get isSpeaking(): boolean {
       return isSpeaking;

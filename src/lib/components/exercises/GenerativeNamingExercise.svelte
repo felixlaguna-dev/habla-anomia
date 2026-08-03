@@ -23,6 +23,7 @@
     words: Word[];
     allWords?: Word[];
     speechRate?: number;
+    ttsVoiceUri?: string | null;
     speakButtonsEnabled?: boolean;
     timerEnabled?: boolean;
     language?: Language;
@@ -42,6 +43,7 @@
     allWords = [],
     language = 'es' as Language,
     speechRate = 0.8,
+    ttsVoiceUri = null,
     speakButtonsEnabled = true,
     timerEnabled = false,
     category,
@@ -70,6 +72,7 @@
     return () => tts.destroy();
   });
   $effect(() => tts.setRate(speechRate));
+  $effect(() => tts.setVoiceUri(ttsVoiceUri));
 
   function speak(text?: string) {
     tts.speak(text, speechLang);
